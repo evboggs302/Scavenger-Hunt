@@ -1,4 +1,3 @@
-import React from "react";
 import logo from "./logo.svg";
 import Container from "./Container.js";
 import "./App.css";

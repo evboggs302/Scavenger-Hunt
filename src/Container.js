@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 
@@ -18,19 +18,18 @@ function Information() {
       setFormat(false);
     }
   };
-
-  const sendTxt = () => {
-    console.log({ recipient: tele, sms_msg: txt });
+  const sendTxt = (num) => {
     axios
-      .post("/api/sendtxt", { recipient: tele, sms_msg: txt })
+      .post("/api/sendtxt", { recipient: num, sms_msg: txt })
       .then((res) => {
         console.log("res data", res.data);
         if (res.status === 200) {
-          setSent(true);
           setVerificaiton(res.data);
         }
       });
   };
+
+  
 
   useEffect(() => {
     testValues();
@@ -48,13 +47,13 @@ function Information() {
 
   return (
     <span className="container">
-      <div>
+      {/* <div>
         <input
           placeholder="PHONE NUMBER"
           value={tele}
           onChange={(e) => setTele(e.target.value)}
         />
-      </div>
+      </div> */}
       <div>
         <textarea value={txt} onChange={(e) => setTxt(e.target.value)} />
       </div>
@@ -68,9 +67,7 @@ function Information() {
             <div>SID: {verification.sid}</div>
           </span>
         ) : (
-          <button disabled={!format} onClick={sendTxt}>
-            SEND
-          </button>
+          <button onClick={sendTxt}>SEND</button>
         )}
       </div>
     </span>
