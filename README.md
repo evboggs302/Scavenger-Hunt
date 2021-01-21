@@ -1,17 +1,11 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Scavenger Hunt
 
-## Available Scripts
+- This repo will eventually hold a scavenger hunt app that will utilize the Twilio texting service.
 
-In the project directory, you can run:
+### _Available Scripts_
 
-### `npm start`
+- `npm start` Runs the app in the development mode.<br />
+  _Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+  The page will reload with edits. You will also see any lint errors in the console._
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `nodemon`
-
-Launches the server file for all the fun to start
+- `npm run serve` // `nodemon` Launches the server file.
