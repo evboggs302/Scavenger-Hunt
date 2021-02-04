@@ -10,3 +10,13 @@
 
 - `npm run serve` // `nodemon` Launches the server file.
 - `npm test` starts the test suit; runs all test in the `__tests__` directory
+
+### .ENV example content
+
+```txt
+ACCT_SID= <provided by Twilio>
+AUTH_TOKEN= <provided by Twilio>
+TWILIO_NUMBER=<provided by Twilio>
+MONGO_CONNECTION=<provided by MongoDB>
+PORT=<pick a number>
+```

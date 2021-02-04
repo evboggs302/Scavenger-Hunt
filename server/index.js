@@ -1,12 +1,34 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const port = 22306;
-const { ACCT_SID, AUTH_TOKEN, TWILIO_NUMBER } = process.env;
+const mongoose = require("mongoose");
+const {
+  ACCT_SID,
+  AUTH_TOKEN,
+  TWILIO_NUMBER,
+  MONGO_CONNECTION,
+  PORT,
+} = process.env;
 const client = require("twilio")(ACCT_SID, AUTH_TOKEN);
 
 app.use(express.json());
 
+// MONGODB Connection
+mongoose
+  .connect(MONGO_CONNECTION, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Mongo connected"))
+  .catch(() => console.log("Mongo failed"));
+
+// TEST ENDPOINTS
+app.get("/api/get_test", (req, res) => {
+  console.log(req.body);
+  res.send("SERVER WAS HIT!!");
+});
+
+// TWILIO END POINTS
 app.post("/api/sendtxt", (req, res) => {
   let { recipient, sms_msg } = req.body;
   client.messages
@@ -20,4 +42,4 @@ app.post("/api/sendtxt", (req, res) => {
     });
 });
 
-app.listen(port, () => console.log(`SERVER on 💩 port: ${port}`));
+app.listen(PORT, () => console.log(`SERVER on 💩 PORT: ${PORT}`));
