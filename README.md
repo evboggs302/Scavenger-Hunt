@@ -9,3 +9,4 @@
   The page will reload with edits. You will also see any lint errors in the console._
 
 - `npm run serve` // `nodemon` Launches the server file.
+- `npm test` starts the test suit; runs all test in the `__tests__` directory
