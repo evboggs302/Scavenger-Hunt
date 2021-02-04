@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "./App.css";
+import "../App.css";
 
 function Information() {
   const [tele, setTele] = useState("");
@@ -13,23 +13,19 @@ function Information() {
     let telVals = tele.length === 10;
     let txtVals = txt.trim().length;
     if (telVals && txtVals) {
-      setFormat(true);
+      return setFormat(true);
     } else {
-      setFormat(false);
+      return setFormat(false);
     }
   };
   const sendTxt = (num) => {
-    axios
-      .post("/api/sendtxt", { recipient: num, sms_msg: txt })
-      .then((res) => {
-        console.log("res data", res.data);
-        if (res.status === 200) {
-          setVerificaiton(res.data);
-        }
-      });
+    axios.post("/api/sendtxt", { recipient: num, sms_msg: txt }).then((res) => {
+      console.log("res data", res.data);
+      if (res.status === 200) {
+        setVerificaiton(res.data);
+      }
+    });
   };
-
-  
 
   useEffect(() => {
     testValues();
