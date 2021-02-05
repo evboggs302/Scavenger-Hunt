@@ -14,9 +14,9 @@
 ### .ENV example content
 
 ```txt
-ACCT_SID= <provided by Twilio>
-AUTH_TOKEN= <provided by Twilio>
-TWILIO_NUMBER=<provided by Twilio>
-MONGO_CONNECTION=<provided by MongoDB>
-PORT=<pick a number>
+ACCT_SID=< provided by Twilio >
+AUTH_TOKEN=< provided by Twilio >
+TWILIO_NUMBER=< provided by Twilio >
+MONGO_CONNECTION=< provided by MongoDB >
+SERVER_PORT=< pick a number >
 ```

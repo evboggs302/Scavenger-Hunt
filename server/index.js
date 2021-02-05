@@ -9,8 +9,15 @@ const {
   MONGO_CONNECTION,
   SERVER_PORT,
 } = process.env;
-const client = require("twilio")(ACCT_SID, AUTH_TOKEN);
-
+const {
+  getAllUsers,
+  getSingleUser,
+  addUser,
+} = require("./controllers/userController");
+// const {} = require("./controllers/teamController");
+// const {} = require("./controllers/eventController");
+// const {} = require("./controllers/clueController");
+// const {} = require("./controllers/responseController");
 app.use(express.json());
 
 // MONGODB Connection
@@ -19,16 +26,16 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("Mongo connected"))
+  .then(() => console.log("Connected to Database"))
   .catch(() => console.log("Mongo failed"));
 
-// TEST ENDPOINTS
-app.get("/api/get_test", (req, res) => {
-  console.log(req.body);
-  res.send("SERVER WAS HIT!!");
-});
+// USER ENDPOINTS
+app.get("/api/getAllUsers", getAllUsers); // PostMan Confirmed
+app.get("/api/getUser", getSingleUser); // PostMan Confirmed
+app.post("/api/addUser", addUser); // PostMan Confirmed
 
-// TWILIO END POINTS
+// TWILIO ENDPOINTS
+const client = require("twilio")(ACCT_SID, AUTH_TOKEN);
 app.post("/api/sendtxt", (req, res) => {
   let { recipient, sms_msg } = req.body;
   client.messages
