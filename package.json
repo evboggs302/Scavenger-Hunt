@@ -1,7 +1,7 @@
 {
-  "name": "sms-app",
+  "name": "scavenger-hunt",
   "version": "0.1.0",
-  "main": "server/index.js",
+  "main": "server/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -24,8 +24,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "serve": "nodemon server/index.js"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"

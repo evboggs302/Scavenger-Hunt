@@ -7,7 +7,7 @@ const {
   AUTH_TOKEN,
   TWILIO_NUMBER,
   MONGO_CONNECTION,
-  PORT,
+  SERVER_PORT,
 } = process.env;
 const client = require("twilio")(ACCT_SID, AUTH_TOKEN);
 
@@ -42,4 +42,4 @@ app.post("/api/sendtxt", (req, res) => {
     });
 });
 
-app.listen(PORT, () => console.log(`SERVER on 💩 PORT: ${PORT}`));
+app.listen(SERVER_PORT, () => console.log(`SERVER on 💩 port: ${SERVER_PORT}`));

@@ -1,9 +1,16 @@
+import { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import Container from "./comps/Container.js";
+import axios from "axios";
 import "./App.css";
 
 function App(props) {
+  useEffect(() => {
+    axios
+      .get("/api/get_test")
+      .then((res) => console.log("server response", res.data));
+  }, []);
   return (
     <div className="App">
       <header className="App-header">
