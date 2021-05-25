@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const server = require("http").Server(app);
-const io = require("socket.io")(server);
+// const io = require("socket.io")(server);
 const mongoose = require("mongoose");
 const {
   ACCT_SID,
@@ -10,7 +10,6 @@ const {
   TWILIO_NUMBER,
   MONGO_CONNECTION,
   SESSION_SECRET,
-  SERVER_PORT,
 } = process.env;
 const {
   getAllUsers,
@@ -20,8 +19,13 @@ const {
   login,
   logout,
 } = require("./controllers/userController");
-// const {} = require("./controllers/teamController");
-// const {} = require("./controllers/eventController");
+const {
+  getSingleHunt,
+  createHunt,
+  updateHunt,
+  deleteHunt,
+} = require("./controllers/huntsController");
+// const {} = require("./controllers/teamsController");
 // const {} = require("./controllers/clueController");
 // const {} = require("./controllers/responseController");
 
@@ -48,15 +52,30 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("Connected to Database"))
-  .catch(() => console.log("Mongo failed"));
+  .then(() => console.log(`✅ Connected to Database`))
+  .catch(() => console.log(`🚫 Mongo failed`));
 
 // USER & AUTH ENDPOINTS
+app.get("/api/get_test", (req, res) => {
+  res.send("congrats on getting info");
+}); // PostMan Confirmed
 app.get("/api/getAllUsers", getAllUsers); // PostMan Confirmed
 app.get("/api/getUser", getSingleUser); // PostMan Confirmed
 app.post("/api/addUser", getSingleUserByUserName, addUser); // PostMan Confirmed
 app.post("/api/login", login); // PostMan Confirmed
 app.get("/api/logout", logout);
+
+// HUNT ENDPOINTS
+app.get("/api/getHunt", getSingleHunt); // PostMan Confirmed
+app.put("/api/updateHunt");
+app.post("/api/createHunt", createHunt);
+app.delete("/api/createHunt");
+
+// TEAMS ENDPOINTS
+
+// RESPONSES ENDPOINTS
+
+// CLUE ENDPOINTS
 
 // SOCKET.IO EVENT ENDPOINTS
 // io.on("connection", (socket) => {
@@ -93,6 +112,4 @@ app.post("/api/sendtxt", (req, res) => {
 //   res.sendFile(path.join(__dirname, "/../build/index.html"));
 // });
 
-server.listen(SERVER_PORT, () =>
-  console.log(`SERVER on 💩 port: ${SERVER_PORT}`)
-);
+server.listen(22306, () => console.log(`SERVER on 💩 port: ${22306}`));

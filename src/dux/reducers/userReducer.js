@@ -1,43 +1,58 @@
-const initialState = {
+import { createSlice } from "@reduxjs/toolkit";
+
+export const initialState = {
   user: null,
   following: null,
   otherPerson: [],
 };
 
-const SET_USER = "SET_USER";
-const SET_FOLLOWING = "SET_FOLLOWING";
-const SET_OTHER_PERSON = "SET_OTHER_PERSON";
+const userSlice = createSlice({
+  name: "user",
+  initialState,
+  reducers: {
+    setUser(state, action) {
+      return action.payload;
+    },
+  },
+});
 
-export default function userReducer(state = initialState, action) {
-  switch (action.type) {
-    case SET_USER:
-      return { ...state, user: action.payload };
-    case SET_FOLLOWING:
-      return { ...state, following: action.payload };
-    case SET_OTHER_PERSON:
-      return { ...state, otherPerson: action.payload };
-    default:
-      return state;
-  }
-}
+export const { setUser } = userSlice.actions;
+export default userSlice.reducer;
 
-export function setUser(user) {
-  return {
-    type: SET_USER,
-    payload: user,
-  };
-}
+// const SET_USER = "SET_USER";
+// const SET_FOLLOWING = "SET_FOLLOWING";
+// const SET_OTHER_PERSON = "SET_OTHER_PERSON";
 
-export function setFollowing(following) {
-  return {
-    type: SET_FOLLOWING,
-    payload: following,
-  };
-}
+// export default function userReducer(state = initialState, action) {
+//   switch (action.type) {
+//     case SET_USER:
+//       return { ...state, user: action.payload };
+//     case SET_FOLLOWING:
+//       return { ...state, following: action.payload };
+//     case SET_OTHER_PERSON:
+//       return { ...state, otherPerson: action.payload };
+//     default:
+//       return state;
+//   }
+// }
 
-export function setOtherPerson(info) {
-  return {
-    type: SET_OTHER_PERSON,
-    payload: info,
-  };
-}
+// export function setUser(user) {
+//   return {
+//     type: SET_USER,
+//     payload: user,
+//   };
+// }
+
+// export function setFollowing(following) {
+//   return {
+//     type: SET_FOLLOWING,
+//     payload: following,
+//   };
+// }
+
+// export function setOtherPerson(info) {
+//   return {
+//     type: SET_OTHER_PERSON,
+//     payload: info,
+//   };
+// }

@@ -1,4 +1,4 @@
-// import the User Model/Schema mongoose created
+// import the Model/Schema mongoose created
 const User = require("./models/users");
 const mongoose = require("mongoose");
 const Bcrypt = require("bcryptjs");

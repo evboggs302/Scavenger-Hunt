@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  events: {
+  hunts: {
     type: [String],
     required: true,
   },
@@ -22,5 +22,5 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
 });
-
+module.exports = userSchema;
 module.exports = mongoose.model("User", userSchema, "users"); // modelName, schemaName, collectionName

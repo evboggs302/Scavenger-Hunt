@@ -1,5 +1,5 @@
 // import the Model/Schema mongoose created
-const Hunts = require("./models/responses");
+const Teams = require("./models/teams");
 const mongoose = require("mongoose");
 
 module.exports = {

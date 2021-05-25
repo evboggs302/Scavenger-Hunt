@@ -1,44 +1,23 @@
 import { useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
-import { connect } from "react-redux";
-import Container from "./comps/Container.js";
-import axios from "axios";
+import { BrowserRouter } from "react-router-dom";
+import { get_test } from "./utils/get.js";
+import Header from "./ui/Header/Header.js";
+import Routes from "./utils/routes";
 import "./App.css";
 
 function App(props) {
   useEffect(() => {
-    axios
-      .get("/api/get_test")
-      .then((res) => console.log("server response", res.data));
+    get_test();
   }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <Switch>
-          <Route exact path="/" component={Container} />
-          <Route />
-          <Route />
-          <Route />
-          <Route />
-          <Route
-            path="*"
-            render={() => {
-              return <div> 404 file not found</div>;
-            }}
-          />
-        </Switch>
-      </header>
+      <BrowserRouter>
+        <Header />
+        <br />
+        <Routes />
+      </BrowserRouter>
     </div>
   );
 }
-const mapPropsToState = (reduxState) => {
-  return reduxState;
-};
 
-const mappedDispatchToProps = {
-  // enter functions needed to impact redux state
-};
-
-const myConnect = connect(mapPropsToState, mappedDispatchToProps);
-
-export default myConnect(App);
+export default App;
