@@ -15,12 +15,18 @@ module.exports = {
       });
   },
   createHunt: (req, res, next) => {
-    const { clues } = req.body;
+    // req.body needs a "clues" props that takes an empty array or array of strings
+    const clues = req.body.clues.map((e) => {
+      return new Clue({
+        _id: new mongoose.Types.ObjectId(),
+        description: e.length ? e : ["CREATE CLUES TO ENJOY THIS HUNT!"],
+      });
+    });
     console.log(clues);
     const hunt = new Hunt({
       _id: new mongoose.Types.ObjectId(),
       date: new Date(),
-      clues: clues.length ? clues : ["CREATE CLUES TO ENJOY THIS HUNT!"],
+      clues: clues,
     });
     hunt.save((err) => {
       if (err) {

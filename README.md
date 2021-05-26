@@ -11,6 +11,15 @@
 - `npm run serve` // `nodemon` Launches the server file.
 - `npm test` starts the test suit; runs all test in the `__tests__` directory
 
+### NGROK
+
+- this tool is used to have your node server exposed to the outside world, and namely for Twilio purposes.
+- open a terminal, in the root dir run the below command.
+
+```bash
+./ngrok http 22306
+```
+
 ### .ENV example content
 
 ```txt
