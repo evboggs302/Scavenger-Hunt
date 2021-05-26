@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { responseSchema } = require("./responses.js");
 
 const teamSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
@@ -13,10 +12,6 @@ const teamSchema = new mongoose.Schema({
   },
   device_number: {
     type: String,
-    required: true,
-  },
-  responses: {
-    type: [responseSchema],
     required: true,
   },
 });

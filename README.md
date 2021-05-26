@@ -14,11 +14,16 @@
 ### NGROK
 
 - this tool is used to have your node server exposed to the outside world, and namely for Twilio purposes.
+- install ngrok from their website (free version works fine)
 - open a terminal, in the root dir run the below command.
 
 ```bash
 ./ngrok http 22306
 ```
+
+- copy the provided url `http://<some_number>.ngrok.io/`
+- copy/paste that into the webhook field on the Twilio dashboard
+  - it can also be used with PostMan by adding the `/api/...` suffix for your endpoints
 
 ### .ENV example content
 

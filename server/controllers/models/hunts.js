@@ -7,10 +7,6 @@ const huntSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  clues: {
-    type: [clueSchema],
-    required: true,
-  },
 });
 module.exports = huntSchema;
 module.exports = mongoose.model("Hunt", huntSchema, "hunts"); // modelName, schemaName, collectionName

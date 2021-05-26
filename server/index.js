@@ -66,10 +66,10 @@ app.post("/api/login", login); // PostMan Confirmed
 app.get("/api/logout", logout);
 
 // HUNT ENDPOINTS
-app.get("/api/getHunt", getSingleHunt); // PostMan Confirmed
-app.put("/api/updateHunt");
-app.post("/api/createHunt", createHunt);
-app.delete("/api/createHunt");
+app.get("/api/getHunt", getSingleHunt); // PostMan Confirmed... needs to be refined
+app.put("/api/updateHunt", updateHunt);
+app.post("/api/createHunt", createHunt, getSingleHunt); // in testing...
+app.delete("/api/createHunt", deleteHunt);
 
 // TEAMS ENDPOINTS
 

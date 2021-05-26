@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 const responseSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
+  team_id: {
+    type: String,
+    required: true,
+  },
   clue_id: {
     type: String,
     required: true,
@@ -19,5 +23,4 @@ const responseSchema = new mongoose.Schema({
   },
 });
 
-module.exports = responseSchema;
 module.exports = mongoose.model("Response", responseSchema, "responses"); // modelName, schemaName, collectionName
