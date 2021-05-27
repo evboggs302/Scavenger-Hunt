@@ -2,15 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const server = require("http").Server(app);
-// const io = require("socket.io")(server);
 const mongoose = require("mongoose");
-const {
-  ACCT_SID,
-  AUTH_TOKEN,
-  TWILIO_NUMBER,
-  MONGO_CONNECTION,
-  SESSION_SECRET,
-} = process.env;
+const { MONGO_CONNECTION, SESSION_SECRET } = process.env;
 const {
   getAllUsers,
   getSingleUser,
@@ -20,7 +13,8 @@ const {
   logout,
 } = require("./controllers/userController");
 const {
-  getSingleHunt,
+  getHuntData,
+  getUserHunts,
   createHunt,
   updateHunt,
   deleteHunt,
@@ -28,6 +22,7 @@ const {
 // const {} = require("./controllers/teamsController");
 // const {} = require("./controllers/clueController");
 // const {} = require("./controllers/responseController");
+const { sendText } = require("./controllers/twilioController");
 
 // SERVER INIT
 app.use(express.json());
@@ -58,17 +53,18 @@ mongoose
 // USER & AUTH ENDPOINTS
 app.get("/api/get_test", (req, res) => {
   res.send("congrats on getting info");
-}); // PostMan Confirmed
-app.get("/api/getAllUsers", getAllUsers); // PostMan Confirmed
-app.get("/api/getUser", getSingleUser); // PostMan Confirmed
-app.post("/api/addUser", getSingleUserByUserName, addUser); // PostMan Confirmed
-app.post("/api/login", login); // PostMan Confirmed
-app.get("/api/logout", logout);
+}); // PostMan Confirmed ✅
+app.get("/api/getAllUsers", getAllUsers); // PostMan Confirmed ✅
+app.get("/api/getUser", getSingleUser); // PostMan Confirmed ✅
+app.post("/api/addUser", getSingleUserByUserName, addUser); // PostMan Confirmed ✅
+app.post("/api/login", login); // PostMan Confirmed ✅
+app.get("/api/logout", logout); // test when the UI facilitates 🚨
 
 // HUNT ENDPOINTS
-app.get("/api/getHunt", getSingleHunt); // PostMan Confirmed... needs to be refined
+app.post("/api/createHunt", createHunt, getHuntData); // PostMan Confirmed ✅
+app.get("/api/getUserHunts", getUserHunts); // PostMan Confirmed ✅
+app.get("/api/getHunt", getHuntData); // PostMan Confirmed ✅
 app.put("/api/updateHunt", updateHunt);
-app.post("/api/createHunt", createHunt, getSingleHunt); // in testing...
 app.delete("/api/createHunt", deleteHunt);
 
 // TEAMS ENDPOINTS
@@ -77,34 +73,8 @@ app.delete("/api/createHunt", deleteHunt);
 
 // CLUE ENDPOINTS
 
-// SOCKET.IO EVENT ENDPOINTS
-// io.on("connection", (socket) => {
-//   console.log("socket hit");
-//   socket.on("get responses", () => {
-//     const db = app.get("db");
-//     db.shared_community().then((data) => {
-//       io.emit("allUnAnswered", data);
-//     });
-//   });
-//   socket.on("disconnect", () => {
-//     console.log("DISCONNECTED");
-//   });
-// });
-
 // TWILIO ENDPOINTS
-const client = require("twilio")(ACCT_SID, AUTH_TOKEN);
-app.post("/api/sendtxt", (req, res) => {
-  let { recipient, sms_msg } = req.body;
-  client.messages
-    .create({
-      body: sms_msg,
-      from: `${TWILIO_NUMBER}`,
-      to: `+1${recipient}`,
-    })
-    .then((message) => {
-      res.status(200).send(message);
-    });
-});
+app.post("/api/sendtxt", sendText);
 
 // Becasue of browser router, you need the below lines.
 // const path = require("path");

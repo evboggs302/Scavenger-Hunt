@@ -3,6 +3,19 @@ const Hunts = require("./models/cluess");
 const mongoose = require("mongoose");
 
 module.exports = {
-  getSingleHunt: (req, res, next) => {},
-  createHunt: (req, res, next) => {},
+  getCluesByHunt: (req, res, next) => {
+    /**
+    req.body = {
+      hunt_id
+    }
+    */
+  },
+  updateSingleClue: (req, res, next) => {
+    /**
+    req.body = {
+      hunt_id,
+      clue_id
+    }
+    */
+  },
 };

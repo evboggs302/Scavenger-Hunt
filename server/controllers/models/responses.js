@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 const responseSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   team_id: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
   clue_id: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
   given_response: {

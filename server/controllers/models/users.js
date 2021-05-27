@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   hunts: {
-    type: [String],
+    type: [mongoose.Schema.Types.ObjectId],
     required: true,
   },
   password: {
@@ -22,5 +22,5 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
 });
-module.exports = userSchema;
+
 module.exports = mongoose.model("User", userSchema, "users"); // modelName, schemaName, collectionName

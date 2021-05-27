@@ -15,6 +15,9 @@ module.exports = {
       .exec()
       .then((user) => {
         res.status(200).send(user);
+      })
+      .catch((err) => {
+        res.status(404).send(err);
       });
   },
   getSingleUserByUserName: (req, res, next) => {
@@ -24,7 +27,7 @@ module.exports = {
       .then((found) => {
         return found.length > 0
           ? res.status(500).send({ message: "Username already exists." })
-          : next();
+          : next(); // addUser()
       });
   },
   addUser: (req, res, next) => {
@@ -45,29 +48,31 @@ module.exports = {
       User.find(user._id)
         .exec()
         .then((user) => {
-          // res.status(200).send(user); // for PostMan
+          res.status(200).send(user); // for PostMan
           const { userName, _id, events, firstName, lastName } = user;
           req.session.user = { userName, _id, events, firstName, lastName };
-          res.status(200).send(req.session.user);
+          // res.status(200).send(req.session.user);
         });
     });
   },
   login: async (req, res, next) => {
-    const { username, password } = req.body;
+    const { userName, password } = req.body;
     console.log("login sess: ", req.session);
     try {
       var user = await User.findOne({
-        username: username,
+        userName: userName,
       }).exec();
       if (!user) {
-        return res.status(400).send({ message: "The username does not exist" });
+        return res.status(400).send({ message: "The userName does not exist" });
       } else if (!Bcrypt.compareSync(password, user.password)) {
         return res.status(400).send({ message: "The password is invalid" });
       } else {
         // res.status(200).send(user); // for PostMan
-        const { userName, _id, events, firstName, lastName } = user;
+        const { userName, _id, events, firstName, lastName, hunts } = user;
         req.session.user = { userName, _id, events, firstName, lastName };
-        res.status(200).send(req.session.user);
+        res
+          .status(200)
+          .send({ userName, _id, events, firstName, lastName, hunts });
       }
     } catch (error) {
       res.status(500).send(error);
