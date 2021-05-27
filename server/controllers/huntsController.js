@@ -2,16 +2,17 @@
 const Hunt = require("./models/hunts");
 const User = require("./models/users");
 const Clue = require("./models/clues");
+const Team = require("./models/teams");
+const Response = require("./models/responses");
 const mongoose = require("mongoose");
 
 module.exports = {
   getHuntData: (req, res, next) => {
     const { hunt_id } = req.body;
-    const id = mongoose.Types.ObjectId(hunt_id);
     Hunt.aggregate([
       {
         $match: {
-          _id: id,
+          _id: mongoose.Types.ObjectId(hunt_id),
         },
       },
       {
@@ -48,11 +49,10 @@ module.exports = {
   },
   getUserHunts: (req, res, next) => {
     const { user_id } = req.body;
-    const id = mongoose.Types.ObjectId(user_id);
     User.aggregate([
       {
         $match: {
-          _id: id,
+          _id: mongoose.Types.ObjectId(user_id),
         },
       },
       {
@@ -97,22 +97,29 @@ module.exports = {
       date: new Date(),
     });
     hunt.save(async (err) => {
-      if (err) {
-        res.status(400).send({ "Error saving hunt": err });
-      }
-      await createClues(clues, hunt._id, res);
-      await addHuntToUser(user_id, hunt._id);
+      if (err) res.status(400).send({ "Error saving hunt": err });
       req.body.hunt_id = hunt._id;
+      await createClues(clues, hunt._id, res);
+      await addHuntToUser(user_id, hunt._id, res);
       return next(); // getHuntData()
     });
   },
   updateHunt: (req, res, next) => {
-    const { hunt_id } = req.body;
+    // const { hunt_id } = req.body;
     res.status(200).send("updateHunt not yet created");
   },
   deleteHunt: (req, res, next) => {
     const { hunt_id } = req.body;
-    res.status(200).send("deleteHunt not yet created");
+    const models = [Hunt, Clue, Team, Response];
+    User.updateOne({}, { $pull: { hunts: hunt_id } })
+      .exec()
+      .then((err) => {
+        if (err) res.status(500).send(err);
+        models.forEach(async (e) => {
+          await e.deleteMany();
+        });
+      });
+    // res.status(200).send("deleteHunt not yet created");
   },
 };
 
@@ -122,23 +129,25 @@ const createClues = async (arr, id, res) => {
   }
   const mappedClues = arr.map((e) => {
     return {
-      _id: new mongoose.Types.ObjectId(),
+      clue_id: new mongoose.Types.ObjectId(),
       hunt_id: mongoose.Types.ObjectId(id),
       description: e,
     };
   });
-  return Clue.insertMany(mappedClues).then((docs, err) => {
+  return Clue.insertMany(mappedClues).then((data, err) => {
     if (err) {
-      res.status(400).send({ error: err });
-    } else {
-      console.log(docs);
+      res.status(400).send({ clueError: err });
     }
   });
 };
 
-const addHuntToUser = async (user_id, hunt_id) => {
+const addHuntToUser = async (user_id, hunt_id, res) => {
   return User.updateOne(
-    { _id: user_id },
+    { _id: mongoose.Types.ObjectId(user_id) },
     { $addToSet: { hunts: [mongoose.Types.ObjectId(hunt_id)] } }
-  ).exec();
+  )
+    .exec()
+    .then((data, err) => {
+      if (err) res.status(400).send({ addHuntToUser: err });
+    });
 };

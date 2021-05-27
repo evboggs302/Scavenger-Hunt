@@ -14,13 +14,14 @@ module.exports = {
     User.findById(id)
       .exec()
       .then((user) => {
-        res.status(200).send(user);
+        const { userName, _id, hunts, firstName, lastName } = user;
+        res.status(200).send({ userName, _id, hunts, firstName, lastName });
       })
       .catch((err) => {
         res.status(404).send(err);
       });
   },
-  getSingleUserByUserName: (req, res, next) => {
+  userNameValidation: (req, res, next) => {
     const { userName } = req.body;
     User.find({ userName: userName })
       .exec()
@@ -42,22 +43,13 @@ module.exports = {
       events: [],
     });
     user.save((err) => {
-      if (err) {
-        res.status(400).send({ error: err });
-      }
-      User.find(user._id)
-        .exec()
-        .then((user) => {
-          res.status(200).send(user); // for PostMan
-          const { userName, _id, events, firstName, lastName } = user;
-          req.session.user = { userName, _id, events, firstName, lastName };
-          // res.status(200).send(req.session.user);
-        });
+      if (err) res.status(400).send({ error: err });
+      req.body.id = user._id;
+      next();
     });
   },
   login: async (req, res, next) => {
     const { userName, password } = req.body;
-    console.log("login sess: ", req.session);
     try {
       var user = await User.findOne({
         userName: userName,

@@ -7,7 +7,7 @@ const { MONGO_CONNECTION, SESSION_SECRET } = process.env;
 const {
   getAllUsers,
   getSingleUser,
-  getSingleUserByUserName,
+  userNameValidation,
   addUser,
   login,
   logout,
@@ -56,7 +56,7 @@ app.get("/api/get_test", (req, res) => {
 }); // PostMan Confirmed ✅
 app.get("/api/getAllUsers", getAllUsers); // PostMan Confirmed ✅
 app.get("/api/getUser", getSingleUser); // PostMan Confirmed ✅
-app.post("/api/addUser", getSingleUserByUserName, addUser); // PostMan Confirmed ✅
+app.post("/api/addUser", userNameValidation, addUser, getSingleUser); // PostMan Confirmed ✅
 app.post("/api/login", login); // PostMan Confirmed ✅
 app.get("/api/logout", logout); // test when the UI facilitates 🚨
 
@@ -65,15 +65,13 @@ app.post("/api/createHunt", createHunt, getHuntData); // PostMan Confirmed ✅
 app.get("/api/getUserHunts", getUserHunts); // PostMan Confirmed ✅
 app.get("/api/getHunt", getHuntData); // PostMan Confirmed ✅
 app.put("/api/updateHunt", updateHunt);
-app.delete("/api/createHunt", deleteHunt);
+app.delete("/api/deleteHunt", deleteHunt);
 
 // TEAMS ENDPOINTS
 
-// RESPONSES ENDPOINTS
-
 // CLUE ENDPOINTS
 
-// TWILIO ENDPOINTS
+// TWILIO & RESPONSES ENDPOINTS --> Twilio for texts, GridFS for images
 app.post("/api/sendtxt", sendText);
 
 // Becasue of browser router, you need the below lines.
