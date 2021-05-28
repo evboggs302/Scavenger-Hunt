@@ -19,7 +19,13 @@ const {
   updateHunt,
   deleteHunt,
 } = require("./controllers/huntsController");
-// const {} = require("./controllers/teamsController");
+const {
+  phoneValidation,
+  createTeams,
+  getTeamsByHunt,
+  updateTeam,
+  deleteTeam,
+} = require("./controllers/teamsController");
 // const {} = require("./controllers/clueController");
 // const {} = require("./controllers/responseController");
 const { sendText } = require("./controllers/twilioController");
@@ -63,13 +69,19 @@ app.get("/api/logout", logout); // test when the UI facilitates 🚨
 // HUNT ENDPOINTS
 app.post("/api/createHunt", createHunt, getHuntData); // PostMan Confirmed ✅
 app.get("/api/getUserHunts", getUserHunts); // PostMan Confirmed ✅
-app.get("/api/getHunt", getHuntData); // PostMan Confirmed ✅
+app.get("/api/getHuntData", getHuntData); // PostMan Confirmed ✅
 app.put("/api/updateHunt", updateHunt, getHuntData); // PostMan Confirmed ✅
 app.delete("/api/deleteHunt", deleteHunt); // PostMan Confirmed ✅
 
 // TEAMS ENDPOINTS
+app.post("/api/createTeams", phoneValidation, createTeams, getHuntData); // PostMan Confirmed ✅
+app.get("/api/getTeamsByHunt", getTeamsByHunt);
+app.put("/api/updateTeam", updateTeam);
+app.delete("/api/deleteTeam", deleteTeam);
 
 // CLUE ENDPOINTS
+app.post("/api/createClues");
+app.get("/api/getCluessByHunt");
 
 // TWILIO & RESPONSES ENDPOINTS --> Twilio for texts, GridFS for images
 app.post("/api/sendtxt", sendText);

@@ -3,6 +3,7 @@ const Hunts = require("./models/cluess");
 const mongoose = require("mongoose");
 
 module.exports = {
+  addClue: (req, res, next) => {},
   getCluesByHunt: (req, res, next) => {
     /**
     req.body = {
@@ -13,9 +14,9 @@ module.exports = {
   updateSingleClue: (req, res, next) => {
     /**
     req.body = {
-      hunt_id,
       clue_id
     }
     */
   },
+  deleteClue: (req, res, next) => {},
 };
