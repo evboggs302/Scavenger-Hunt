@@ -65,7 +65,7 @@ app.post("/api/createHunt", createHunt, getHuntData); // PostMan Confirmed ✅
 app.get("/api/getUserHunts", getUserHunts); // PostMan Confirmed ✅
 app.get("/api/getHunt", getHuntData); // PostMan Confirmed ✅
 app.put("/api/updateHunt", updateHunt);
-app.delete("/api/deleteHunt", deleteHunt);
+app.delete("/api/deleteHunt", deleteHunt); // PostMan Confirmed ✅
 
 // TEAMS ENDPOINTS
 

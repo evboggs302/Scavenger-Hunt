@@ -43,7 +43,7 @@ module.exports = {
       .allowDiskUse(true)
       .exec()
       .then((data, err) => {
-        if (err) res.status(500).send(err);
+        if (err) res.status(500).send({ getHuntDataErr: err });
         res.status(200).send(data);
       });
   },
@@ -108,18 +108,43 @@ module.exports = {
     // const { hunt_id } = req.body;
     res.status(200).send("updateHunt not yet created");
   },
-  deleteHunt: (req, res, next) => {
-    const { hunt_id } = req.body;
-    const models = [Hunt, Clue, Team, Response];
-    User.updateOne({}, { $pull: { hunts: hunt_id } })
+  deleteHunt: async (req, res, next) => {
+    const { user_id, hunt_id } = req.body;
+    const h_id = mongoose.Types.ObjectId(hunt_id);
+    const u_id = mongoose.Types.ObjectId(user_id);
+    let errors = [];
+    // need to add Twilio images
+    await User.updateOne({ _id: u_id }, { $pull: { hunts: h_id } })
       .exec()
-      .then((err) => {
-        if (err) res.status(500).send(err);
-        models.forEach(async (e) => {
-          await e.deleteMany();
-        });
+      .then((data, err) => {
+        if (err) errors.push(err);
       });
-    // res.status(200).send("deleteHunt not yet created");
+    await Hunt.deleteOne({ _id: h_id })
+      .exec()
+      .then((data, err) => {
+        if (err) errors.push(err);
+      });
+    await Team.deleteMany({ hunt_id: h_id })
+      .exec()
+      .then((data, err) => {
+        if (err) errors.push(err);
+      });
+    await Clue.deleteMany({ hunt_id: h_id })
+      .exec()
+      .then((data, err) => {
+        if (err) errors.push(err);
+      });
+    await Response.deleteMany({ hunt_id: h_id })
+      .exec()
+      .then((data, err) => {
+        if (err) errors.push(err);
+      });
+    return errors.length < 1
+      ? res.status(200).send({
+          status: 200,
+          message: "Hunt has been removed successfully.",
+        })
+      : res.status(500).send({ deleteERRORS: errors });
   },
 };
 
