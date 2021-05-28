@@ -56,7 +56,11 @@ module.exports = {
       {
         $set: {
           members: {
-            $cond: [{ $eq: [members, "$members"] }, "$members", members],
+            $cond: [
+              { $and: [members, { $ne: [members, "$members"] }] },
+              members,
+              "$members",
+            ],
           },
         },
       },
