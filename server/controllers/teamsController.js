@@ -45,19 +45,27 @@ module.exports = {
       });
   },
   updateTeam: (req, res, next) => {
-    //   const { hunt_id, newName, newDate } = req.body;
-    //   const id = mongoose.Types.ObjectId(hunt_id);
-    //   const formattedDate = new Date(newDate);
-    //   Hunt.updateOne({ _id: id }, [
-    //     { $set: { name: { $cond: [newName, newName, "$name"] } } },
-    //     { $set: { date: { $cond: [newDate, formattedDate, "$date"] } } },
-    //   ])
-    //     .exec()
-    //     .then((complete, err) => {
-    //       if (err) res.status(500).send({ huntUpdateErr: err });
-    //       next();
-    //     });
-    res.send("update team by hunt 🤪");
+    const { team_id, newPhone, members } = req.body;
+    const t_id = mongoose.Types.ObjectId(team_id);
+    Team.updateOne({ _id: t_id }, [
+      {
+        $set: {
+          device_number: { $cond: [newPhone, newPhone, "$device_number"] },
+        },
+      },
+      {
+        $set: {
+          members: {
+            $cond: [{ $eq: [members, "$members"] }, "$members", members],
+          },
+        },
+      },
+    ])
+      .exec()
+      .then((complete, err) => {
+        if (err) return res.status(500).send({ huntUpdateErr: err });
+        return next();
+      });
   },
   deleteSingleTeam: (req, res, next) => {
     res.send("delete single team by hunt 🤪");

@@ -87,7 +87,7 @@ app.delete(
 // TEAMS ENDPOINTS
 app.post("/api/createTeams", phoneValidation, createTeams, getHuntData); // PostMan Confirmed ✅
 app.get("/api/getTeamsByHunt", getTeamsByHunt); // PostMan Confirmed ✅
-app.put("/api/updateTeam", updateTeam);
+app.put("/api/updateTeam", updateTeam, getTeamsByHunt); // PostMan Confirmed ✅
 app.delete("/api/deleteTeam", deleteSingleTeam);
 
 // CLUE ENDPOINTS
