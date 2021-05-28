@@ -11,5 +11,5 @@ const huntSchema = new mongoose.Schema({
     required: true,
   },
 });
-module.exports = huntSchema;
+
 module.exports = mongoose.model("Hunt", huntSchema, "hunts"); // modelName, schemaName, collectionName

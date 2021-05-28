@@ -105,8 +105,18 @@ module.exports = {
     });
   },
   updateHunt: (req, res, next) => {
-    // const { hunt_id } = req.body;
-    res.status(200).send("updateHunt not yet created");
+    const { hunt_id, newName, newDate } = req.body;
+    const id = mongoose.Types.ObjectId(hunt_id);
+    const formattedDate = new Date(newDate);
+    Hunt.updateOne({ _id: id }, [
+      { $set: { name: { $cond: [newName, newName, "$name"] } } },
+      { $set: { date: { $cond: [newDate, formattedDate, "$date"] } } },
+    ])
+      .exec()
+      .then((complete, err) => {
+        if (err) res.status(500).send({ huntUpdateErr: err });
+        next();
+      });
   },
   deleteHunt: async (req, res, next) => {
     const { user_id, hunt_id } = req.body;

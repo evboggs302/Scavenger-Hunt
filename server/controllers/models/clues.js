@@ -12,5 +12,4 @@ const clueSchema = new mongoose.Schema({
   },
 });
 
-module.exports = clueSchema;
 module.exports = mongoose.model("Clue", clueSchema, "clues"); // modelName, schemaName, collectionName
