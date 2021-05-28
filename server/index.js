@@ -9,6 +9,7 @@ const {
   getSingleUser,
   userNameValidation,
   addUser,
+  removeHuntFromUser,
   login,
   logout,
 } = require("./controllers/userController");
@@ -24,10 +25,13 @@ const {
   createTeams,
   getTeamsByHunt,
   updateTeam,
-  deleteTeam,
+  deleteSingleTeam,
+  deleteAllTeamsByHunt,
 } = require("./controllers/teamsController");
-// const {} = require("./controllers/clueController");
-// const {} = require("./controllers/responseController");
+const { deleteAllCluesByHunt } = require("./controllers/clueController");
+const {
+  deleteAllResponsesByHunt,
+} = require("./controllers/responseController");
 const { sendText } = require("./controllers/twilioController");
 
 // SERVER INIT
@@ -71,13 +75,20 @@ app.post("/api/createHunt", createHunt, getHuntData); // PostMan Confirmed ✅
 app.get("/api/getUserHunts", getUserHunts); // PostMan Confirmed ✅
 app.get("/api/getHuntData", getHuntData); // PostMan Confirmed ✅
 app.put("/api/updateHunt", updateHunt, getHuntData); // PostMan Confirmed ✅
-app.delete("/api/deleteHunt", deleteHunt); // PostMan Confirmed ✅
+app.delete(
+  "/api/deleteHunt",
+  removeHuntFromUser,
+  deleteAllTeamsByHunt,
+  deleteAllCluesByHunt,
+  deleteAllResponsesByHunt,
+  deleteHunt
+); // PostMan Confirmed ✅
 
 // TEAMS ENDPOINTS
 app.post("/api/createTeams", phoneValidation, createTeams, getHuntData); // PostMan Confirmed ✅
-app.get("/api/getTeamsByHunt", getTeamsByHunt);
+app.get("/api/getTeamsByHunt", getTeamsByHunt); // PostMan Confirmed ✅
 app.put("/api/updateTeam", updateTeam);
-app.delete("/api/deleteTeam", deleteTeam);
+app.delete("/api/deleteTeam", deleteSingleTeam);
 
 // CLUE ENDPOINTS
 app.post("/api/createClues");

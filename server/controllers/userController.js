@@ -48,6 +48,17 @@ module.exports = {
       next();
     });
   },
+  removeHuntFromUser: (req, res, next) => {
+    const { user_id, hunt_id } = req.body;
+    const h_id = mongoose.Types.ObjectId(hunt_id);
+    const u_id = mongoose.Types.ObjectId(user_id);
+    User.updateOne({ _id: u_id }, { $pull: { hunts: h_id } })
+      .exec()
+      .then((data, err) => {
+        if (err) return res.status(418).send({ ErrRemovingHuntFromUser: err });
+        return next();
+      });
+  },
   login: async (req, res, next) => {
     const { userName, password } = req.body;
     try {

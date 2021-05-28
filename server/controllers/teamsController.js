@@ -35,7 +35,14 @@ module.exports = {
     });
   },
   getTeamsByHunt: (req, res, next) => {
-    res.send("get teams by hunt :)");
+    const { hunt_id } = req.body;
+    const id = mongoose.Types.ObjectId(hunt_id);
+    Team.find({ hunt_id: id })
+      .exec()
+      .then((teams, err) => {
+        if (err) return res.status(418).send({ ErrFindingTeamsByHunt: err });
+        return res.status(200).send(teams);
+      });
   },
   updateTeam: (req, res, next) => {
     //   const { hunt_id, newName, newDate } = req.body;
@@ -50,6 +57,19 @@ module.exports = {
     //       if (err) res.status(500).send({ huntUpdateErr: err });
     //       next();
     //     });
+    res.send("update team by hunt 🤪");
   },
-  deleteTeam: (req, res, next) => {},
+  deleteSingleTeam: (req, res, next) => {
+    res.send("delete single team by hunt 🤪");
+  },
+  deleteAllTeamsByHunt: (req, res, next) => {
+    const { hunt_id } = req.body;
+    const h_id = mongoose.Types.ObjectId(hunt_id);
+    Team.deleteMany({ hunt_id: h_id })
+      .exec()
+      .then((data, err) => {
+        if (err) return res.status(418).send({ ErrDelettingAllTeams: err });
+        return next();
+      });
+  },
 };

@@ -2,8 +2,6 @@
 const Hunt = require("./models/hunts");
 const User = require("./models/users");
 const Clue = require("./models/clues");
-const Team = require("./models/teams");
-const Response = require("./models/responses");
 const mongoose = require("mongoose");
 
 module.exports = {
@@ -118,43 +116,17 @@ module.exports = {
         next();
       });
   },
-  deleteHunt: async (req, res, next) => {
-    const { user_id, hunt_id } = req.body;
+  deleteHunt: (req, res, next) => {
+    const { hunt_id } = req.body;
     const h_id = mongoose.Types.ObjectId(hunt_id);
-    const u_id = mongoose.Types.ObjectId(user_id);
-    let errors = [];
-    // need to add Twilio images
-    await User.updateOne({ _id: u_id }, { $pull: { hunts: h_id } })
+    Hunt.deleteOne({ _id: h_id })
       .exec()
       .then((data, err) => {
-        if (err) errors.push(err);
+        if (err) return res.status(418).send({ ErrDeleteHunt: err });
+        return res
+          .status(200)
+          .send({ message: "Hunt has been removed successfully." });
       });
-    await Hunt.deleteOne({ _id: h_id })
-      .exec()
-      .then((data, err) => {
-        if (err) errors.push(err);
-      });
-    await Team.deleteMany({ hunt_id: h_id })
-      .exec()
-      .then((data, err) => {
-        if (err) errors.push(err);
-      });
-    await Clue.deleteMany({ hunt_id: h_id })
-      .exec()
-      .then((data, err) => {
-        if (err) errors.push(err);
-      });
-    await Response.deleteMany({ hunt_id: h_id })
-      .exec()
-      .then((data, err) => {
-        if (err) errors.push(err);
-      });
-    return errors.length < 1
-      ? res.status(200).send({
-          status: 200,
-          message: "Hunt has been removed successfully.",
-        })
-      : res.status(500).send({ deleteERRORS: errors });
   },
 };
 
