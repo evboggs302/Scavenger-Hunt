@@ -1,7 +1,6 @@
 // import the Model/Schema mongoose created
 const Hunt = require("./models/hunts");
 const User = require("./models/users");
-const Clue = require("./models/clues");
 const mongoose = require("mongoose");
 
 module.exports = {
@@ -87,8 +86,7 @@ module.exports = {
       });
   },
   createHunt: (req, res, next) => {
-    // req.body needs "clues" props that takes an empty array or array of strings
-    const { clues, user_id, name } = req.body;
+    const { name } = req.body;
     const hunt = new Hunt({
       _id: new mongoose.Types.ObjectId(),
       name: name,
@@ -97,10 +95,20 @@ module.exports = {
     hunt.save(async (err) => {
       if (err) res.status(400).send({ "Error saving hunt": err });
       req.body.hunt_id = hunt._id;
-      await createClues(clues, hunt._id, res);
-      await addHuntToUser(user_id, hunt._id, res);
-      return next(); // getHuntData()
+      return next(); // addHuntToUser(), getHuntData()
     });
+  },
+  addHuntToUser: async (req, res, next) => {
+    const { user_id, hunt_id } = req.body;
+    User.updateOne(
+      { _id: mongoose.Types.ObjectId(user_id) },
+      { $addToSet: { hunts: [mongoose.Types.ObjectId(hunt_id)] } }
+    )
+      .exec()
+      .then((data, err) => {
+        if (err) return res.status(400).send({ addHuntToUser: err });
+        return next();
+      });
   },
   updateHunt: (req, res, next) => {
     const { hunt_id, newName, newDate } = req.body;
@@ -128,33 +136,4 @@ module.exports = {
           .send({ message: "Hunt has been removed successfully." });
       });
   },
-};
-
-const createClues = async (arr, id, res) => {
-  if (arr.length === 0) {
-    arr.push("CREATE CLUES TO ENJOY THIS HUNT");
-  }
-  const mappedClues = arr.map((e) => {
-    return {
-      clue_id: new mongoose.Types.ObjectId(),
-      hunt_id: mongoose.Types.ObjectId(id),
-      description: e,
-    };
-  });
-  return Clue.insertMany(mappedClues).then((data, err) => {
-    if (err) {
-      res.status(400).send({ clueError: err });
-    }
-  });
-};
-
-const addHuntToUser = async (user_id, hunt_id, res) => {
-  return User.updateOne(
-    { _id: mongoose.Types.ObjectId(user_id) },
-    { $addToSet: { hunts: [mongoose.Types.ObjectId(hunt_id)] } }
-  )
-    .exec()
-    .then((data, err) => {
-      if (err) res.status(400).send({ addHuntToUser: err });
-    });
 };

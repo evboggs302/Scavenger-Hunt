@@ -72,7 +72,14 @@ module.exports = {
       });
   },
   deleteSingleTeam: (req, res, next) => {
-    res.send("delete single team by hunt 🤪");
+    const { team_id } = req.body;
+    const t_id = mongoose.Types.ObjectId(team_id);
+    Team.deleteOne({ _id: t_id })
+      .exec()
+      .then((data, err) => {
+        if (err) return res.status(418).send({ ErrDeleteHunt: err });
+        return next();
+      });
   },
   deleteAllTeamsByHunt: (req, res, next) => {
     const { hunt_id } = req.body;
