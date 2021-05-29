@@ -67,8 +67,8 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log(`✅ Connected to Database`))
-  .catch(() => console.log(`🚫 Mongo failed`));
+  .then(() => console.log(`✅ Connected to Database\n`))
+  .catch(() => console.log(`🚫 Mongo failed\n`));
 
 // USER & AUTH ENDPOINTS
 app.get("/api/get_test", (req, res) => {
