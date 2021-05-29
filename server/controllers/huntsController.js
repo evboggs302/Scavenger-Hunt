@@ -34,14 +34,21 @@ module.exports = {
           localField: "teams",
           foreignField: "team_id",
           as: "responses",
+          // pipeline: [
+          //   {
+          //     $group: {
+          //       _id: "team_id",
+          //     },
+          //   },
+          // ],
         },
       },
     ])
       .allowDiskUse(true)
       .exec()
       .then((data, err) => {
-        if (err) res.status(500).send({ getHuntDataErr: err });
-        res.status(200).send(data);
+        if (err) return res.status(500).send({ getHuntDataErr: err });
+        return res.status(200).send(data);
       });
   },
   getUserHunts: (req, res, next) => {
@@ -81,8 +88,8 @@ module.exports = {
       .allowDiskUse(true)
       .exec()
       .then((info, err) => {
-        if (err) res.status(500).send({ error: err });
-        res.status(200).send(info);
+        if (err) return res.status(500).send({ error: err });
+        return res.status(200).send(info);
       });
   },
   createHunt: (req, res, next) => {
@@ -93,7 +100,7 @@ module.exports = {
       date: new Date(),
     });
     hunt.save(async (err) => {
-      if (err) res.status(400).send({ "Error saving hunt": err });
+      if (err) return res.status(400).send({ "Error saving hunt": err });
       req.body.hunt_id = hunt._id;
       return next(); // addHuntToUser(), getHuntData()
     });
@@ -124,17 +131,48 @@ module.exports = {
       });
   },
   updateHunt: (req, res, next) => {
-    const { hunt_id, newName, newDate, nextIsActive } = req.body;
+    const { hunt_id, newName, newDate } = req.body;
     const id = mongoose.Types.ObjectId(hunt_id);
     const formattedDate = new Date(newDate);
     Hunt.updateOne({ _id: id }, [
-      { $set: { name: { $cond: [newName, newName, "$name"] } } },
-      { $set: { date: { $cond: [newDate, formattedDate, "$date"] } } },
+      {
+        $set: {
+          name: {
+            $cond: [
+              { $and: [newName, { $ne: [newName, "$name"] }] },
+              newName,
+              "$name",
+            ],
+          },
+        },
+      },
+      {
+        $set: {
+          date: {
+            $cond: [
+              { $and: [newDate, { $ne: [formattedDate, "$date"] }] },
+              formattedDate,
+              "$date",
+            ],
+          },
+        },
+      },
+    ])
+      .exec()
+      .then((complete, err) => {
+        if (err) return res.status(500).send({ huntUpdateErr: err });
+        return next();
+      });
+  },
+  activateHunt: (req, res, next) => {
+    const { hunt_id, nextIsActive } = req.body;
+    const id = mongoose.Types.ObjectId(hunt_id);
+    Hunt.updateOne({ _id: id }, [
       {
         $set: {
           isActive: {
             $cond: [
-              { $ne: [nextIsActive, "$members"] },
+              { $ne: [nextIsActive, "$isActive"] },
               nextIsActive,
               "$isActive",
             ],
@@ -144,8 +182,8 @@ module.exports = {
     ])
       .exec()
       .then((complete, err) => {
-        if (err) res.status(500).send({ huntUpdateErr: err });
-        next();
+        if (err) return res.status(500).send({ huntUpdateErr: err });
+        return next();
       });
   },
   deleteHunt: (req, res, next) => {

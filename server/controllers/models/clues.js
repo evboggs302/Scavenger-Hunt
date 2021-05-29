@@ -6,10 +6,6 @@ const clueSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
-  order_number: {
-    type: Number,
-    required: true,
-  },
   description: {
     type: String,
     required: true,

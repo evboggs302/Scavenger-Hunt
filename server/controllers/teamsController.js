@@ -31,7 +31,7 @@ module.exports = {
     });
     Team.insertMany(mappedTeams).then((data, err) => {
       if (err) return res.status(500).send({ insertingTeamsErr: err });
-      next();
+      return next();
     });
   },
   getTeamsByHunt: (req, res, next) => {
