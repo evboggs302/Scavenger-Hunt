@@ -46,7 +46,6 @@ module.exports = {
       .exec()
       .then((clue, err) => {
         if (err) return res.status(500).send({ clueUpdateErr: err });
-        console.log(clue);
         return next();
       });
   },
