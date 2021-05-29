@@ -39,10 +39,10 @@ const {
   deleteAllCluesByHunt,
 } = require("./controllers/clueController");
 const {
+  sendText,
   // deleteAllResponsesByTeam,
   deleteAllResponsesByHunt,
 } = require("./controllers/responseController");
-const { sendText } = require("./controllers/twilioController");
 
 // SERVER INIT
 app.use(express.json());
@@ -107,14 +107,14 @@ app.delete(
   getTeamsByHunt
 ); // PostMan Confirmed ✅
 
-// CLUE ENDPOINTS
+// CLUES ENDPOINTS
 app.post("/api/clues/create", createClues, getCluesByHunt); // PostMan Confirmed ✅
 app.get("/api/clues/byHunt", getCluesByHunt); // PostMan Confirmed ✅
 app.put("/api/clues/updateOne", updateSingleClue, getCluesByHunt); // PostMan Confirmed ✅
 app.delete("/api/clues/deleteOne", deleteSingleClue, getCluesByHunt); // PostMan Confirmed ✅
 app.delete("/api/clues/deleteAll", deleteAllCluesByHunt, getCluesByHunt); // PostMan Confirmed ✅
 
-// TWILIO & RESPONSES ENDPOINTS --> Twilio for texts, GridFS for images
+// RESPONSES ENDPOINTS --> Twilio for texts, GridFS for images
 app.post("/api/sendtxt", sendText);
 
 // Becasue of browser router, you need the below lines.
