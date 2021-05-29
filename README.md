@@ -11,9 +11,9 @@
 - `npm run serve` // `nodemon` Launches the server file.
 - `npm test` starts the test suit; runs all test in the `__tests__` directory
 
-### NGROK
+### NGROK & POSTMAN
 
-- this tool is used to have your node server exposed to the outside world, and namely for Twilio purposes.
+- Ngrok is a tool used to expose your local node server to the outside world, namely for Twilio webhooks and Postman testing.
 - install ngrok from their website (free version works fine)
 - open a terminal, in the root dir run the below command.
 
@@ -21,9 +21,10 @@
 ./ngrok http 22306
 ```
 
-- copy the provided url `http://<some_number>.ngrok.io/`
-- copy/paste that into the webhook field on the Twilio dashboard
-  - it can also be used with PostMan by adding the `/api/...` suffix for your endpoints
+- copy the provided url `http://<some_random_string>.ngrok.io/`
+- paste that into 2 places:
+  - the webhook field on the Twilio dashboard for your selected phone number
+  - saved to a variable in your PostMan environment
 
 ### .ENV example content
 
