@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 const { ACCT_SID, AUTH_TOKEN, TWILIO_NUMBER } = process.env;
 const client = require("twilio")(ACCT_SID, AUTH_TOKEN);
 

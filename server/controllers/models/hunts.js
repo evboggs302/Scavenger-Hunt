@@ -10,6 +10,10 @@ const huntSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  isActive: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Hunt", huntSchema, "hunts"); // modelName, schemaName, collectionName

@@ -18,6 +18,8 @@ const {
   getUserHunts,
   createHunt,
   addHuntToUser,
+  validateActiveHunts,
+  activateHunt,
   updateHunt,
   deleteHunt,
 } = require("./controllers/huntsController");
@@ -75,6 +77,7 @@ app.get("/api/logout", logout); // test when the UI facilitates 🚨
 app.post("/api/createHunt", createHunt, addHuntToUser, getHuntData); // PostMan Confirmed ✅
 app.get("/api/getUserHunts", getUserHunts); // PostMan Confirmed ✅
 app.get("/api/getHuntData", getHuntData); // PostMan Confirmed ✅
+app.put("/api/activateHunt", validateActiveHunts, updateHunt, getHuntData); // PostMan Confirmed ✅
 app.put("/api/updateHunt", updateHunt, getHuntData); // PostMan Confirmed ✅
 app.delete(
   "/api/deleteHunt",

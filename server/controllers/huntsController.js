@@ -98,7 +98,7 @@ module.exports = {
       return next(); // addHuntToUser(), getHuntData()
     });
   },
-  addHuntToUser: async (req, res, next) => {
+  addHuntToUser: (req, res, next) => {
     const { user_id, hunt_id } = req.body;
     User.updateOne(
       { _id: mongoose.Types.ObjectId(user_id) },
@@ -110,13 +110,37 @@ module.exports = {
         return next();
       });
   },
+  validateActiveHunts: (req, res, next) => {
+    const { hunt_id } = req.body;
+    Hunt.find({ isActive: true })
+      .exec()
+      .then((found) => {
+        return found.length > 0 && found[0]._id.toString() !== hunt_id
+          ? res.status(500).send({
+              message:
+                "A hunt is already active. Please end your other hunt before starting another.",
+            })
+          : next(); // activateHunt()
+      });
+  },
   updateHunt: (req, res, next) => {
-    const { hunt_id, newName, newDate } = req.body;
+    const { hunt_id, newName, newDate, nextIsActive } = req.body;
     const id = mongoose.Types.ObjectId(hunt_id);
     const formattedDate = new Date(newDate);
     Hunt.updateOne({ _id: id }, [
       { $set: { name: { $cond: [newName, newName, "$name"] } } },
       { $set: { date: { $cond: [newDate, formattedDate, "$date"] } } },
+      {
+        $set: {
+          isActive: {
+            $cond: [
+              { $ne: [nextIsActive, "$members"] },
+              nextIsActive,
+              "$isActive",
+            ],
+          },
+        },
+      },
     ])
       .exec()
       .then((complete, err) => {

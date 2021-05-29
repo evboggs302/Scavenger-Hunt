@@ -3,7 +3,7 @@ const Clue = require("./models/clues");
 const mongoose = require("mongoose");
 
 module.exports = {
-  addClue: (req, res, next) => {},
+  createClues: (req, res, next) => {},
   getCluesByHunt: (req, res, next) => {
     /**
     req.body = {

@@ -3,8 +3,6 @@ const Response = require("./models/responses");
 const mongoose = require("mongoose");
 
 module.exports = {
-  getSingleHunt: (req, res, next) => {},
-  createHunt: (req, res, next) => {},
   deleteAllResponsesByHunt: (req, res, next) => {
     const { hunt_id } = req.body;
     const h_id = mongoose.Types.ObjectId(hunt_id);
