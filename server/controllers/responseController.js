@@ -1,9 +1,11 @@
 // import the Model/Schema mongoose created
 const { ACCT_SID, AUTH_TOKEN, TWILIO_NUMBER } = process.env;
 const mongoose = require("mongoose");
+const client = require("twilio")(ACCT_SID, AUTH_TOKEN);
+var gridfs = require("gridfs-stream");
+var fs = require("fs");
 const Response = require("./models/responses");
 const Team = require("./models/teams");
-const client = require("twilio")(ACCT_SID, AUTH_TOKEN);
 
 module.exports = {
   findActiveTeamByDevice: (req, res, next) => {
@@ -53,6 +55,7 @@ module.exports = {
     const timeStamp = new Date(time_received);
     res.send({ MMS: req.body });
   },
+  makeResCorrect: () => {},
   sendClue: (req, res, next) => {
     let { clue_id, team_id, recipient, clueDesc } = req.body;
     client.messages
