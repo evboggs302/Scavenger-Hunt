@@ -14,6 +14,9 @@ const teamSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  lastClue_sent: {
+    type: mongoose.Schema.Types.ObjectId,
+  },
 });
 
 module.exports = mongoose.model("Team", teamSchema, "teams"); // modelName, schemaName, collectionName

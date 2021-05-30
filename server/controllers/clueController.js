@@ -6,9 +6,10 @@ module.exports = {
   createClues: (req, res, next) => {
     const { hunt_id, cluesList } = req.body;
     const h_id = mongoose.Types.ObjectId(hunt_id);
-    const mappedClues = cluesList.map((item) => {
+    const mappedClues = cluesList.map((item, index) => {
       return {
         hunt_id: h_id,
+        order_number: index + 1,
         description: item,
       };
     });
@@ -20,12 +21,15 @@ module.exports = {
   getCluesByHunt: (req, res, next) => {
     const { hunt_id } = req.body;
     const h_id = mongoose.Types.ObjectId(hunt_id);
-    Clue.find({ hunt_id: h_id })
-      .exec()
-      .then((clues, err) => {
-        if (err) return res.status(418).send({ ErrFindingCluesByHunt: err });
-        return res.status(200).send(clues);
-      });
+    Clue.aggregate([
+      {
+        $match: { hunt_id: h_id },
+      },
+      { $sort: { order_number: 1 } },
+    ]).then((clues, err) => {
+      if (err) return res.status(418).send({ ErrFindingCluesByHunt: err });
+      return res.status(200).send(clues);
+    });
   },
   updateSingleClue: (req, res, next) => {
     const { clue_id, newDesc } = req.body;
@@ -49,6 +53,7 @@ module.exports = {
         return next();
       });
   },
+  updateClueOrder: () => {},
   deleteSingleClue: (req, res, next) => {
     const { clue_id } = req.body;
     const cl_id = mongoose.Types.ObjectId(clue_id);

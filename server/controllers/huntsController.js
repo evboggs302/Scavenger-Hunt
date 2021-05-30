@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 
 module.exports = {
   getHuntData: (req, res, next) => {
+    console.log(req.body);
     const { hunt_id } = req.body;
     Hunt.aggregate([
       {
@@ -23,24 +24,12 @@ module.exports = {
       {
         $lookup: {
           from: "clues",
-          localField: "_id",
-          foreignField: "hunt_id",
+          let: { h_id: "$_id" },
+          pipeline: [
+            { $match: { $expr: { hunt_id: "$$h_id" } } },
+            { $sort: { order_number: 1 } },
+          ],
           as: "clues",
-        },
-      },
-      {
-        $lookup: {
-          from: "responses",
-          localField: "teams",
-          foreignField: "team_id",
-          as: "responses",
-          // pipeline: [
-          //   {
-          //     $group: {
-          //       _id: "team_id",
-          //     },
-          //   },
-          // ],
         },
       },
     ])

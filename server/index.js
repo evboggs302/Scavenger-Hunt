@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const server = require("http").Server(app);
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 const { MONGO_CONNECTION, SESSION_SECRET } = process.env;
 const {
   getAllUsers,
@@ -35,17 +36,22 @@ const {
   createClues,
   getCluesByHunt,
   updateSingleClue,
+  updateClueOrder,
   deleteSingleClue,
   deleteAllCluesByHunt,
 } = require("./controllers/clueController");
 const {
-  sendText,
+  findActiveTeamByDevice,
+  saveSMS,
+  saveMMS,
+  sendClue,
   // deleteAllResponsesByTeam,
   deleteAllResponsesByHunt,
 } = require("./controllers/responseController");
 
 // SERVER INIT
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // SESSIONS
 const session = require("express-session");
@@ -111,11 +117,14 @@ app.delete(
 app.post("/api/clues/create", createClues, getCluesByHunt); // PostMan Confirmed ✅
 app.get("/api/clues/byHunt", getCluesByHunt); // PostMan Confirmed ✅
 app.put("/api/clues/updateOne", updateSingleClue, getCluesByHunt); // PostMan Confirmed ✅
+app.put("/api/clues/updateOrder", updateClueOrder, getCluesByHunt); // 🚨 Not implemented yet 🚨
 app.delete("/api/clues/deleteOne", deleteSingleClue, getCluesByHunt); // PostMan Confirmed ✅
 app.delete("/api/clues/deleteAll", deleteAllCluesByHunt, getCluesByHunt); // PostMan Confirmed ✅
 
 // RESPONSES ENDPOINTS --> Twilio for texts, GridFS for images
-app.post("/api/sendtxt", sendText);
+// app.post("/sms", findActiveTeamByDevice); // Confirmed with sending test SMS and MMS messages
+app.post("/api/test/findActiveTeam", findActiveTeamByDevice, saveSMS, saveMMS);
+app.post("/api/twilio/sendClue", sendClue); // 🚨 Not implemented yet 🚨
 
 // Becasue of browser router, you need the below lines.
 // const path = require("path");
