@@ -121,9 +121,9 @@ app.put("/api/clues/updateOrder", updateClueOrder, getCluesByHunt); // 🚨 Not 
 app.delete("/api/clues/deleteOne", deleteSingleClue, getCluesByHunt); // PostMan Confirmed ✅
 app.delete("/api/clues/deleteAll", deleteAllCluesByHunt, getCluesByHunt); // PostMan Confirmed ✅
 
-// RESPONSES ENDPOINTS --> Twilio for texts, GridFS for images
-// app.post("/sms", findActiveTeamByDevice); // Confirmed with sending test SMS and MMS messages
-app.post("/api/test/findActiveTeam", findActiveTeamByDevice, saveSMS, saveMMS);
+// RESPONSES ENDPOINTS --> Twilio for responses, GridFS for images
+// app.post("/sms", findActiveTeamByDevice,, saveSMS, saveMMS); // Confirmed with sending test SMS and MMS messages
+app.post("/api/test/findActiveTeam", findActiveTeamByDevice, saveSMS, saveMMS); // 🚧 Currently in development 🚧
 app.post("/api/twilio/sendClue", sendClue); // 🚨 Not implemented yet 🚨
 
 // Becasue of browser router, you need the below lines.
