@@ -40,11 +40,17 @@ module.exports = {
   saveSMS: (req, res, next) => {
     if (+req.body.NumMedia >= 1) return next();
     const { team_id, clue_id, time_received, Body } = req.body;
+    const t_id = mongoose.Types.ObjectId(team_id);
+    const c_id = mongoose.Types.ObjectId(clue_id);
+    const timeStamp = new Date(time_received);
     res.send({ SMS: req.body });
   },
   saveMMS: (req, res, next) => {
     if (+req.body.NumMedia < 1) return next();
     const { team_id, clue_id, time_received, Body } = req.body;
+    const t_id = mongoose.Types.ObjectId(team_id);
+    const c_id = mongoose.Types.ObjectId(clue_id);
+    const timeStamp = new Date(time_received);
     res.send({ MMS: req.body });
   },
   sendClue: (req, res, next) => {
