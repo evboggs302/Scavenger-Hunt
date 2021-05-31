@@ -2,9 +2,8 @@
 const { ACCT_SID, AUTH_TOKEN, TWILIO_NUMBER } = process.env;
 const mongoose = require("mongoose");
 const client = require("twilio")(ACCT_SID, AUTH_TOKEN);
-var gridfs = require("gridfs-stream");
-var fs = require("fs");
 const Response = require("./models/responses");
+const { logErr } = require("./event_logController");
 const Team = require("./models/teams");
 
 module.exports = {
@@ -27,9 +26,11 @@ module.exports = {
         },
       },
     ]).then((team, err) => {
-      if (err) return res.status(418).send({ ErrGettingTeamByDevice: err });
+      if (err) {
+        logErr("findActiveTeamByDevice", err);
+        return res.status(500).send("Please Check Error Logs.");
+      }
       try {
-        console.log(team);
         req.body.time_received = new Date();
         req.body.team_id = team[0]._id;
         req.body.clue_id = team[0].lastClue_sent;
@@ -39,24 +40,67 @@ module.exports = {
       }
     });
   },
-  saveSMS: (req, res, next) => {
+  saveSMS: async (req, res, next) => {
     if (+req.body.NumMedia >= 1) return next();
     const { team_id, clue_id, time_received, Body } = req.body;
     const t_id = mongoose.Types.ObjectId(team_id);
     const c_id = mongoose.Types.ObjectId(clue_id);
-    const timeStamp = new Date(time_received);
-    res.send({ SMS: req.body });
+    let timeStamp = new Date(time_received);
+
+    const newRes = new Response({
+      _id: new mongoose.Types.ObjectId(),
+      clue_id: c_id,
+      team_id: t_id,
+      response_txt: Body.length ? Body : " ",
+      time_received: timeStamp,
+      correct: false,
+    });
+    newRes.save((err) => {
+      if (err) {
+        logErr("saveSMS", err);
+        return res.status(500).send("Please Check Error Logs.");
+      }
+    });
+    res.status(200).send("Response Saved!");
   },
   saveMMS: (req, res, next) => {
-    if (+req.body.NumMedia < 1) return next();
     const { team_id, clue_id, time_received, Body } = req.body;
     const t_id = mongoose.Types.ObjectId(team_id);
     const c_id = mongoose.Types.ObjectId(clue_id);
     const timeStamp = new Date(time_received);
-    res.send({ MMS: req.body });
+    let media;
+    if (+req.body.NumMedia === 1) {
+      media = req.body.MediaUrl0;
+    } else {
+      const keys = Object.keys(req.body).filter(
+        (k) => k.search("MediaUrl") > -1
+      );
+      media = keys.map((k) => {
+        return req.body[k];
+      });
+    }
+    const newRes = new Response({
+      _id: new mongoose.Types.ObjectId(),
+      team_id: t_id,
+      clue_id: c_id,
+      response_txt: Body.length ? Body : " ",
+      response_img: media,
+      time_received: timeStamp,
+      correct: false,
+    });
+    newRes.save((err) => {
+      if (err) {
+        logErr("saveSMS", err);
+        return res.status(500).send("Please Check Error Logs.");
+      }
+      res.status(200).send("Response Saved!");
+    });
   },
-  makeResCorrect: () => {},
+  markResCorrect: () => {
+    // NEEDS TO BE IMPLEMENTED
+  },
   sendClue: (req, res, next) => {
+    // NEEDS TO BE BUILT OUT MORE
     let { clue_id, team_id, recipient, clueDesc } = req.body;
     client.messages
       .create({
@@ -71,7 +115,9 @@ module.exports = {
         res.status(200).send(message);
       });
   },
-  // deleteAllResponsesByTeam: () => {},
+  deleteAllResponsesByTeam: () => {
+    // NEEDS TO BE IMPLEMENTED
+  },
   deleteAllResponsesByHunt: (req, res, next) => {
     const { hunt_id } = req.body;
     const h_id = mongoose.Types.ObjectId(hunt_id);

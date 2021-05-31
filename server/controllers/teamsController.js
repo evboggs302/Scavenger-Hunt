@@ -1,5 +1,6 @@
 // import the Model/Schema mongoose created
 const Team = require("./models/teams");
+const { logErr, logData } = require("./event_logController");
 const mongoose = require("mongoose");
 
 module.exports = {

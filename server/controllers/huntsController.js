@@ -1,6 +1,7 @@
 // import the Model/Schema mongoose created
 const Hunt = require("./models/hunts");
 const User = require("./models/users");
+const { logErr, logData } = require("./event_logController");
 const mongoose = require("mongoose");
 
 module.exports = {
@@ -88,7 +89,7 @@ module.exports = {
       name: name,
       date: new Date(),
     });
-    hunt.save(async (err) => {
+    hunt.save((err) => {
       if (err) return res.status(400).send({ "Error saving hunt": err });
       req.body.hunt_id = hunt._id;
       return next(); // addHuntToUser(), getHuntData()
