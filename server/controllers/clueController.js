@@ -1,5 +1,6 @@
 // import the Model/Schema mongoose created
 const Clue = require("./models/clues");
+const { logErr, logData } = require("./event_logController");
 const mongoose = require("mongoose");
 
 module.exports = {
@@ -53,7 +54,9 @@ module.exports = {
         return next();
       });
   },
-  updateClueOrder: () => {},
+  updateClueOrder: () => {
+    // NEEDS IMPLEMENTATION
+  },
   deleteSingleClue: (req, res, next) => {
     const { clue_id } = req.body;
     const cl_id = mongoose.Types.ObjectId(clue_id);

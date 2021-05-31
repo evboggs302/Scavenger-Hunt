@@ -72,8 +72,10 @@ mongoose
   .connect(MONGO_CONNECTION, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
   })
   .then(() => console.log(`✅ Connected to Database\n`))
+  // .then((str) => console.log(str))
   .catch(() => console.log(`🚫 Mongo failed\n`));
 
 // USER & AUTH ENDPOINTS
@@ -122,7 +124,7 @@ app.delete("/api/clues/deleteOne", deleteSingleClue, getCluesByHunt); // PostMan
 app.delete("/api/clues/deleteAll", deleteAllCluesByHunt, getCluesByHunt); // PostMan Confirmed ✅
 
 // RESPONSES ENDPOINTS --> Twilio for responses, GridFS for images
-// app.post("/sms", findActiveTeamByDevice,, saveSMS, saveMMS); // Confirmed with sending test SMS and MMS messages
+// app.post("/sms", findActiveTeamByDevice, saveSMS, saveMMS); // Confirmed with sending test SMS and MMS messages
 app.post("/api/test/findActiveTeam", findActiveTeamByDevice, saveSMS, saveMMS); // 🚧 Currently in development 🚧
 app.post("/api/twilio/sendClue", sendClue); // 🚨 Not implemented yet 🚨
 

@@ -1,5 +1,6 @@
 // import the Model/Schema mongoose created
 const User = require("./models/users");
+const { logErr, logData } = require("./event_logController");
 const mongoose = require("mongoose");
 const Bcrypt = require("bcryptjs");
 
