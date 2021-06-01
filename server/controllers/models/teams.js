@@ -16,7 +16,7 @@ const teamSchema = new mongoose.Schema(
       required: true,
     },
     lastClue_sent: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Number,
     },
   },
   { versionKey: false }

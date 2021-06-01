@@ -35,6 +35,7 @@ const {
 const {
   createClues,
   getAllCluesByHunt,
+
   updateDesc,
   updateClueOrder,
   deleteSingleClue,
@@ -44,8 +45,11 @@ const {
   findActiveTeamByDevice,
   saveSMS,
   saveMMS,
+  getAllResponsesByHunt,
+  markResCorrect,
+  getNextClue,
   sendClue,
-  // deleteAllResponsesByTeam,
+  deleteAllResponsesByTeam,
   deleteAllResponsesByHunt,
 } = require("./controllers/responseController");
 
@@ -96,11 +100,11 @@ app.put("/api/hunt/activate", validateActiveHunts, activateHunt, getHuntData); /
 app.put("/api/hunt/updateOne", updateHunt, getHuntData); // PostMan Confirmed ✅
 app.delete(
   "/api/hunt/delete",
-  removeHuntFromUser,
+  deleteAllResponsesByHunt,
   deleteAllTeamsByHunt,
   deleteAllCluesByHunt,
-  deleteAllResponsesByHunt,
-  deleteHunt
+  deleteHunt,
+  removeHuntFromUser
 ); // PostMan Confirmed ✅
 
 // TEAMS ENDPOINTS
@@ -111,7 +115,7 @@ app.delete("/api/teams/deleteOne", deleteSingleTeam, getTeamsByHunt); // PostMan
 app.delete(
   "/api/teams/deleteAll",
   deleteAllTeamsByHunt,
-  // deleteAllResponsesByTeam,
+  deleteAllResponsesByTeam,
   getTeamsByHunt
 ); // PostMan Confirmed ✅
 
@@ -124,9 +128,10 @@ app.delete("/api/clues/deleteOne", deleteSingleClue, getAllCluesByHunt); // Post
 app.delete("/api/clues/deleteAll", deleteAllCluesByHunt, getAllCluesByHunt); // PostMan Confirmed ✅
 
 // RESPONSES ENDPOINTS --> Twilio for responses
-// app.post("/sms", findActiveTeamByDevice, saveSMS, saveMMS); // Confirmed with sending test SMS and MMS messages
-app.post("/api/test/findActiveTeam", findActiveTeamByDevice, saveSMS, saveMMS); // PostMan Confirmed ✅
+app.post("/sms", findActiveTeamByDevice, saveSMS, saveMMS); // PostMan Confirmed ✅
 app.post("/api/twilio/sendClue", sendClue); // 🚧 Currently in development 🚧
+app.put("/api/response/markCorrect", markResCorrect, getNextClue, sendClue); // 🚧 Currently in development... getNextClue completed 🚧
+app.get("/api/response/allByHunt", getAllResponsesByHunt); // PostMan Confirmed ✅
 /**
  *  UP NEXT...
  * mark response as correct upon approval
