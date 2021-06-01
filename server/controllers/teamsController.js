@@ -1,6 +1,6 @@
 // import the Model/Schema mongoose created
 const Team = require("./models/teams");
-const { logErr, logData } = require("./event_logController");
+const { logErr } = require("./event_logController");
 const mongoose = require("mongoose");
 
 module.exports = {
@@ -11,13 +11,20 @@ module.exports = {
     Team.find({ device_number: { $in: mappedPhoneNums }, hunt_id: id })
       .exec()
       .then((found, err) => {
-        const exists = found.map((fd) => fd.device_number);
-        return found.length > 0
-          ? res.status(418).send({
-              message: "Phone number(s) already in use by another team.",
-              phoneNumbers: exists,
-            })
-          : next();
+        try {
+          const exists = found.map((fd) => fd.device_number);
+          return found.length > 0
+            ? res.status(418).send({
+                message: "Phone number(s) already in use by another team.",
+                phoneNumbers: exists,
+              })
+            : next();
+        } catch {
+          logErr("phoneValidation", err);
+          return res
+            .status(500)
+            .send("Error Reported. Please check error logs for more details.");
+        }
       });
   },
   createTeams: (req, res, next) => {
@@ -31,7 +38,12 @@ module.exports = {
       };
     });
     Team.insertMany(mappedTeams).then((data, err) => {
-      if (err) return res.status(500).send({ insertingTeamsErr: err });
+      if (err) {
+        logErr("createTeams", err);
+        return res
+          .status(500)
+          .send("Error Reported. Please check error logs for more details.");
+      }
       return next();
     });
   },
@@ -41,7 +53,12 @@ module.exports = {
     Team.find({ hunt_id: id })
       .exec()
       .then((teams, err) => {
-        if (err) return res.status(418).send({ ErrFindingTeamsByHunt: err });
+        if (err) {
+          logErr("getTeamsByHunt", err);
+          return res
+            .status(500)
+            .send("Error Reported. Please check error logs for more details.");
+        }
         return res.status(200).send(teams);
       });
   },
@@ -68,7 +85,12 @@ module.exports = {
     ])
       .exec()
       .then((complete, err) => {
-        if (err) return res.status(500).send({ huntUpdateErr: err });
+        if (err) {
+          logErr("updateTeam", err);
+          return res
+            .status(500)
+            .send("Error Reported. Please check error logs for more details.");
+        }
         return next();
       });
   },
@@ -78,7 +100,12 @@ module.exports = {
     Team.deleteOne({ _id: t_id })
       .exec()
       .then((data, err) => {
-        if (err) return res.status(418).send({ ErrDeleteHunt: err });
+        if (err) {
+          logErr("deleteSingleTeam", err);
+          return res
+            .status(500)
+            .send("Error Reported. Please check error logs for more details.");
+        }
         return next();
       });
   },
@@ -88,7 +115,12 @@ module.exports = {
     Team.deleteMany({ hunt_id: h_id })
       .exec()
       .then((data, err) => {
-        if (err) return res.status(418).send({ ErrDelettingAllTeams: err });
+        if (err) {
+          logErr("deleteAllTeamsByHunt", err);
+          return res
+            .status(500)
+            .send("Error Reported. Please check error logs for more details.");
+        }
         return next();
       });
   },

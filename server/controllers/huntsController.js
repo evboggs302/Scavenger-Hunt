@@ -1,7 +1,7 @@
 // import the Model/Schema mongoose created
 const Hunt = require("./models/hunts");
 const User = require("./models/users");
-const { logErr, logData } = require("./event_logController");
+const { logErr } = require("./event_logController");
 const mongoose = require("mongoose");
 
 module.exports = {
@@ -37,7 +37,12 @@ module.exports = {
       .allowDiskUse(true)
       .exec()
       .then((data, err) => {
-        if (err) return res.status(500).send({ getHuntDataErr: err });
+        if (err) {
+          logErr("getHuntData", err);
+          return res
+            .status(500)
+            .send("Error Reported. Please check error logs for more details.");
+        }
         return res.status(200).send(data);
       });
   },
@@ -78,7 +83,12 @@ module.exports = {
       .allowDiskUse(true)
       .exec()
       .then((info, err) => {
-        if (err) return res.status(500).send({ error: err });
+        if (err) {
+          logErr("getUserHunts", err);
+          return res
+            .status(500)
+            .send("Error Reported. Please check error logs for more details.");
+        }
         return res.status(200).send(info);
       });
   },
@@ -90,7 +100,12 @@ module.exports = {
       date: new Date(),
     });
     hunt.save((err) => {
-      if (err) return res.status(400).send({ "Error saving hunt": err });
+      if (err) {
+        logErr("createHunt", err);
+        return res
+          .status(500)
+          .send("Error Reported. Please check error logs for more details.");
+      }
       req.body.hunt_id = hunt._id;
       return next(); // addHuntToUser(), getHuntData()
     });
@@ -150,7 +165,12 @@ module.exports = {
     ])
       .exec()
       .then((complete, err) => {
-        if (err) return res.status(500).send({ huntUpdateErr: err });
+        if (err) {
+          logErr("updateHunt", err);
+          return res
+            .status(500)
+            .send("Error Reported. Please check error logs for more details.");
+        }
         return next();
       });
   },
@@ -172,7 +192,12 @@ module.exports = {
     ])
       .exec()
       .then((complete, err) => {
-        if (err) return res.status(500).send({ huntUpdateErr: err });
+        if (err) {
+          logErr("activateHunt", err);
+          return res
+            .status(500)
+            .send("Error Reported. Please check error logs for more details.");
+        }
         return next();
       });
   },
@@ -182,7 +207,12 @@ module.exports = {
     Hunt.deleteOne({ _id: h_id })
       .exec()
       .then((data, err) => {
-        if (err) return res.status(418).send({ ErrDeleteHunt: err });
+        if (err) {
+          logErr("deleteHunt", err);
+          return res
+            .status(500)
+            .send("Error Reported. Please check error logs for more details.");
+        }
         return res
           .status(200)
           .send({ message: "Hunt has been removed successfully." });

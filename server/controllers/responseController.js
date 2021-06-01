@@ -28,7 +28,9 @@ module.exports = {
     ]).then((team, err) => {
       if (err) {
         logErr("findActiveTeamByDevice", err);
-        return res.status(500).send("Please Check Error Logs.");
+        return res
+          .status(500)
+          .send("Error Reported. Please check error logs for more details.");
       }
       try {
         req.body.time_received = new Date();
@@ -55,30 +57,30 @@ module.exports = {
       time_received: timeStamp,
       correct: false,
     });
-    newRes.save((err) => {
+    return newRes.save((err) => {
       if (err) {
         logErr("saveSMS", err);
-        return res.status(500).send("Please Check Error Logs.");
+        return res
+          .status(500)
+          .send("Error Reported. Please check error logs for more details.");
       }
+      res.status(200).send("Response Saved!");
     });
-    res.status(200).send("Response Saved!");
   },
   saveMMS: (req, res, next) => {
     const { team_id, clue_id, time_received, Body } = req.body;
     const t_id = mongoose.Types.ObjectId(team_id);
     const c_id = mongoose.Types.ObjectId(clue_id);
     const timeStamp = new Date(time_received);
-    let media;
-    if (+req.body.NumMedia === 1) {
-      media = req.body.MediaUrl0;
-    } else {
-      const keys = Object.keys(req.body).filter(
-        (k) => k.search("MediaUrl") > -1
-      );
-      media = keys.map((k) => {
-        return req.body[k];
-      });
-    }
+    const media =
+      +req.body.NumMedia === 1
+        ? req.body.MediaUrl0
+        : Object.keys(req.body)
+            .filter((k) => k.search("MediaUrl") > -1)
+            .map((k) => {
+              return req.body[k];
+            });
+
     const newRes = new Response({
       _id: new mongoose.Types.ObjectId(),
       team_id: t_id,
@@ -91,7 +93,9 @@ module.exports = {
     newRes.save((err) => {
       if (err) {
         logErr("saveSMS", err);
-        return res.status(500).send("Please Check Error Logs.");
+        return res
+          .status(500)
+          .send("Error Reported. Please check error logs for more details.");
       }
       res.status(200).send("Response Saved!");
     });
@@ -124,7 +128,12 @@ module.exports = {
     Response.deleteMany({ hunt_id: h_id })
       .exec()
       .then((data, err) => {
-        if (err) return res.status(418).send({ ErrDelettingAllResponses: err });
+        if (err) {
+          logErr("deleteAllResponsesByHunt", err);
+          return res
+            .status(418)
+            .send("Error Reported. Please check error logs for more details.");
+        }
         return next();
       });
   },

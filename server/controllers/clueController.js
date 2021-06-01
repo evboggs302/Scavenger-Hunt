@@ -1,6 +1,6 @@
 // import the Model/Schema mongoose created
 const Clue = require("./models/clues");
-const { logErr, logData } = require("./event_logController");
+const { logErr } = require("./event_logController");
 const mongoose = require("mongoose");
 
 module.exports = {
@@ -15,11 +15,16 @@ module.exports = {
       };
     });
     Clue.insertMany(mappedClues, { ordered: true }).then((data, err) => {
-      if (err) return res.status(500).send({ insertingCluesErr: err });
+      if (err) {
+        logErr("createClues", err);
+        return res
+          .status(500)
+          .send("Error Reported. Please check error logs for more details.");
+      }
       return next();
     });
   },
-  getCluesByHunt: (req, res, next) => {
+  getAllCluesByHunt: (req, res, next) => {
     const { hunt_id } = req.body;
     const h_id = mongoose.Types.ObjectId(hunt_id);
     Clue.aggregate([
@@ -28,11 +33,16 @@ module.exports = {
       },
       { $sort: { order_number: 1 } },
     ]).then((clues, err) => {
-      if (err) return res.status(418).send({ ErrFindingCluesByHunt: err });
+      if (err) {
+        logErr("getAllCluesByHunt", err);
+        return res
+          .status(500)
+          .send("Error Reported. Please check error logs for more details.");
+      }
       return res.status(200).send(clues);
     });
   },
-  updateSingleClue: (req, res, next) => {
+  updateDesc: (req, res, next) => {
     const { clue_id, newDesc } = req.body;
     const cl_id = mongoose.Types.ObjectId(clue_id);
     Clue.updateOne({ _id: cl_id }, [
@@ -50,12 +60,42 @@ module.exports = {
     ])
       .exec()
       .then((clue, err) => {
-        if (err) return res.status(500).send({ clueUpdateErr: err });
+        if (err) {
+          logErr("getAllCluesByHunt", err);
+          return res
+            .status(500)
+            .send("Error Reported. Please check error logs for more details.");
+        }
         return next();
       });
   },
-  updateClueOrder: () => {
-    // NEEDS IMPLEMENTATION
+  updateClueOrder: (req, res, next) => {
+    // takes in newOrder = [clue_id's]
+    const { newOrder } = req.body;
+    const bulkWriteArr = newOrder.map((id, index) => {
+      return {
+        updateOne: {
+          filter: { _id: id },
+          update: { $set: { order_number: index + 1 } },
+        },
+      };
+    });
+    try {
+      Clue.bulkWrite(bulkWriteArr, { ordered: false }).then((data, err) => {
+        if (err) {
+          logErr("updateClueOrder", err);
+          return res
+            .status(500)
+            .send("Error Reported. Please check error logs for more details.");
+        }
+        return next();
+      });
+    } catch (err) {
+      logErr("updateClueOrder at bulkWrite", err);
+      return res
+        .status(500)
+        .send("Error Reported. Please check error logs for more details.");
+    }
   },
   deleteSingleClue: (req, res, next) => {
     const { clue_id } = req.body;
@@ -63,7 +103,12 @@ module.exports = {
     Clue.deleteOne({ _id: cl_id })
       .exec()
       .then((data, err) => {
-        if (err) return res.status(418).send({ ErrDeleteClue: err });
+        if (err) {
+          logErr("deleteSingleClue", err);
+          return res
+            .status(500)
+            .send("Error Reported. Please check error logs for more details.");
+        }
         return next();
       });
   },
@@ -73,7 +118,12 @@ module.exports = {
     Clue.deleteMany({ hunt_id: h_id })
       .exec()
       .then((data, err) => {
-        if (err) return res.status(418).send({ ErrDelettingAllClues: err });
+        if (err) {
+          logErr("deleteAllCluesByHunt", err);
+          return res
+            .status(500)
+            .send("Error Reported. Please check error logs for more details.");
+        }
         return next();
       });
   },
