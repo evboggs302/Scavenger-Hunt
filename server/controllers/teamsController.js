@@ -47,19 +47,26 @@ module.exports = {
       return next();
     });
   },
-  getTeamsByHunt: (req, res, next) => {
+  activateTeams: (req, res, next) => {
     const { hunt_id } = req.body;
-    const id = mongoose.Types.ObjectId(hunt_id);
-    Team.find({ hunt_id: id })
+    const h_id = mongoose.Types.ObjectId(hunt_id);
+    Team.find({ hunt_id: h_id })
       .exec()
       .then((teams, err) => {
         if (err) {
-          logErr("getTeamsByHunt", err);
+          logErr("activateTeams", err);
           return res
             .status(500)
             .send("Error Reported. Please check error logs for more details.");
         }
-        return res.status(200).send(teams);
+        req.body.device_numbers = teams.map((t) => {
+          return t.device_number;
+        });
+        Team.updateMany({ hunt_id: h_id }, { lastClue_sent: 1 }).then(
+          (success, err) => {
+            next();
+          }
+        );
       });
   },
   updateTeam: (req, res, next) => {

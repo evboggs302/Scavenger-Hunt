@@ -17,6 +17,11 @@ const teamSchema = new mongoose.Schema(
     },
     lastClue_sent: {
       type: Number,
+      default: 0,
+    },
+    recall_sent: {
+      type: Boolean,
+      default: false,
     },
   },
   { versionKey: false }

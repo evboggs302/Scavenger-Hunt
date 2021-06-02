@@ -15,6 +15,10 @@ const huntSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    recallMessage: {
+      type: String,
+      default: "Congrats! You've completed your hunt.",
+    },
   },
   { versionKey: false }
 );

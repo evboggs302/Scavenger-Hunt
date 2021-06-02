@@ -4,14 +4,13 @@ const mongoose = require("mongoose");
 const client = require("twilio")(ACCT_SID, AUTH_TOKEN);
 const Response = require("./models/responses");
 const Team = require("./models/teams");
-const Hunt = require("./models/hunts");
 const { logErr } = require("./event_logController");
 
 module.exports = {
   findActiveTeamByDevice: (req, res, next) => {
     const { From } = req.body;
     Team.aggregate([
-      { $match: { device_number: From } },
+      { $match: { device_number: From, recall_sent: false } },
       {
         $lookup: {
           from: "hunts",
@@ -124,6 +123,7 @@ module.exports = {
         },
       },
       { $unwind: "$responses" },
+      { $sort: { "responses.time_received": 1 } },
       {
         $group: {
           _id: "$hunt_id",
@@ -161,7 +161,6 @@ module.exports = {
     });
   },
   getNextClue: (req, res, next) => {
-    // NEEDS TO BE IMPLEMENTED
     const { team_id } = req.body;
     const t_id = mongoose.Types.ObjectId(team_id);
     Team.aggregate([
@@ -185,28 +184,98 @@ module.exports = {
           as: "nextClue",
         },
       },
+      {
+        $lookup: {
+          from: "hunts",
+          localField: "hunt_id",
+          foreignField: "_id",
+          as: "hunt_data",
+        },
+      },
     ]).then((data, err) => {
+      req.body.device_number = data[0].device_number;
       req.body.hunt_id = data[0].hunt_id;
       req.body.nextClue = data[0].nextClue[0];
-      console.log(req.body);
+      req.body.recall_sent = data[0].recall_sent;
+      req.body.recallMessage = data[0].hunt_data[0].recallMessage;
       next();
     });
   },
   sendClue: (req, res, next) => {
-    // let { clue_id, team_id, recipient, clueDesc } = req.body;
-    // client.messages
-    //   .create({
-    //     body: clueDesc,
-    //     from: `${TWILIO_NUMBER}`,
-    //     // mediaUrl: [
-    //     //   "https://c1.staticflickr.com/3/2899/14341091933_1e92e62d12_b.jpg",
-    //     // ],
-    //     to: `${recipient}`,
-    //   })
-    //   .then((message) => {
-    //     res.status(200).send(message);
-    //   });
-    res.send("sendClue hit!");
+    let { team_id, nextClue, recall_sent, device_number, recallMessage } =
+      req.body;
+    const t_id = mongoose.Types.ObjectId(team_id);
+
+    if (nextClue) {
+      Team.updateOne(
+        { _id: t_id },
+        { lastClue_sent: nextClue.order_number }
+      ).then((complete, err) => {
+        if (err) {
+          return;
+        }
+        client.messages
+          .create({
+            body: `CLUE: ${nextClue.description}`,
+            from: `${TWILIO_NUMBER}`,
+            to: device_number,
+          })
+          .then((message) => {
+            res.status(200).send(message);
+          });
+      });
+    } else if (!recall_sent) {
+      Team.updateOne({ _id: t_id }, { recall_sent: true }).then(
+        (complete, err) => {
+          if (err) {
+            return;
+          }
+          client.messages
+            .create({
+              body: `CONGRATS! ${recallMessage}`,
+              from: `${TWILIO_NUMBER}`,
+              to: device_number,
+            })
+            .then((message) => {
+              res.status(200).send(message);
+            });
+        }
+      );
+    } else {
+      // res.send({
+      //   message: "No Next clue, and recall already sent",
+      //   body: req.body,
+      // });
+      res.sendStatus(200);
+    }
+  },
+  sendFirstClue: (req, res, next) => {
+    const { device_numbers, firstClue } = req.body;
+    let statusCode = 200;
+    for (let i = 0; i < device_numbers.length; i++) {
+      client.messages.create({
+        body: `CLUE: ${firstClue.description}`,
+        from: `${TWILIO_NUMBER}`,
+        to: device_numbers[i],
+      });
+    }
+    res.sendStatus(statusCode);
+  },
+  sendHint: (req, res, next) => {
+    let { team_id, hint_body } = req.body;
+    const t_id = mongoose.Types.ObjectId(team_id);
+
+    Team.findOne({ _id: t_id }).then((team, err) => {
+      client.messages
+        .create({
+          body: `HINT: ${hint_body}`,
+          from: `${TWILIO_NUMBER}`,
+          to: team.device_number,
+        })
+        .then((message) => {
+          res.status(200).send(message);
+        });
+    });
   },
   deleteAllResponsesByTeam: (req, res, next) => {
     const { team_id } = req.body;

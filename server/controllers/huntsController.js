@@ -175,25 +175,28 @@ module.exports = {
       });
   },
   activateHunt: (req, res, next) => {
-    const { hunt_id, nextIsActive } = req.body;
+    const { hunt_id } = req.body;
     const id = mongoose.Types.ObjectId(hunt_id);
-    Hunt.updateOne({ _id: id }, [
-      {
-        $set: {
-          isActive: {
-            $cond: [
-              { $ne: [nextIsActive, "$isActive"] },
-              nextIsActive,
-              "$isActive",
-            ],
-          },
-        },
-      },
-    ])
+    Hunt.updateOne({ _id: id }, { isActive: true })
       .exec()
       .then((complete, err) => {
         if (err) {
           logErr("activateHunt", err);
+          return res
+            .status(500)
+            .send("Error Reported. Please check error logs for more details.");
+        }
+        return next();
+      });
+  },
+  deactivateHunt: (req, res, next) => {
+    const { hunt_id } = req.body;
+    const id = mongoose.Types.ObjectId(hunt_id);
+    Hunt.updateOne({ _id: id }, { isActive: false })
+      .exec()
+      .then((complete, err) => {
+        if (err) {
+          logErr("deactivateHunt", err);
           return res
             .status(500)
             .send("Error Reported. Please check error logs for more details.");

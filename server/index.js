@@ -22,12 +22,13 @@ const {
   validateActiveHunts,
   updateHunt,
   activateHunt,
+  deactivateHunt,
   deleteHunt,
 } = require("./controllers/huntsController");
 const {
   phoneValidation,
   createTeams,
-  getTeamsByHunt,
+  activateTeams,
   updateTeam,
   deleteSingleTeam,
   deleteAllTeamsByHunt,
@@ -35,7 +36,7 @@ const {
 const {
   createClues,
   getAllCluesByHunt,
-
+  getFirstClue,
   updateDesc,
   updateClueOrder,
   deleteSingleClue,
@@ -49,6 +50,8 @@ const {
   markResCorrect,
   getNextClue,
   sendClue,
+  sendFirstClue,
+  sendHint,
   deleteAllResponsesByTeam,
   deleteAllResponsesByHunt,
 } = require("./controllers/responseController");
@@ -96,7 +99,15 @@ app.get("/api/user/logout", logout); // 🚨 test when the UI facilitates 🚨
 app.post("/api/hunt/create", createHunt, addHuntToUser, getHuntData); // PostMan Confirmed ✅
 app.get("/api/hunt/byUser", getUserHunts); // PostMan Confirmed ✅
 app.get("/api/hunt/data", getHuntData); // PostMan Confirmed ✅
-app.put("/api/hunt/activate", validateActiveHunts, activateHunt, getHuntData); // PostMan Confirmed ✅
+app.put(
+  "/api/hunt/activate",
+  // validateActiveHunts,
+  activateHunt,
+  activateTeams,
+  getFirstClue,
+  sendFirstClue
+); // PostMan Confirmed ✅
+app.put("/api/hunt/deactivate", deactivateHunt, getHuntData); // PostMan Confirmed ✅
 app.put("/api/hunt/updateOne", updateHunt, getHuntData); // PostMan Confirmed ✅
 app.delete(
   "/api/hunt/delete",
@@ -109,14 +120,14 @@ app.delete(
 
 // TEAMS ENDPOINTS
 app.post("/api/teams/create", phoneValidation, createTeams, getHuntData); // PostMan Confirmed ✅
-app.get("/api/teams/byHunt", getTeamsByHunt); // PostMan Confirmed ✅
-app.put("/api/teams/updateOne", updateTeam, getTeamsByHunt); // PostMan Confirmed ✅
-app.delete("/api/teams/deleteOne", deleteSingleTeam, getTeamsByHunt); // PostMan Confirmed ✅
+app.get("/api/teams/byHunt", getHuntData); // PostMan Confirmed ✅
+app.put("/api/teams/updateOne", updateTeam, getHuntData); // PostMan Confirmed ✅
+app.delete("/api/teams/deleteOne", deleteSingleTeam, getHuntData); // PostMan Confirmed ✅
 app.delete(
   "/api/teams/deleteAll",
   deleteAllTeamsByHunt,
   deleteAllResponsesByTeam,
-  getTeamsByHunt
+  getHuntData
 ); // PostMan Confirmed ✅
 
 // CLUES ENDPOINTS
@@ -129,8 +140,8 @@ app.delete("/api/clues/deleteAll", deleteAllCluesByHunt, getAllCluesByHunt); // 
 
 // RESPONSES ENDPOINTS --> Twilio for responses
 app.post("/sms", findActiveTeamByDevice, saveSMS, saveMMS); // PostMan Confirmed ✅
-app.post("/api/twilio/sendClue", sendClue); // 🚧 Currently in development 🚧
 app.put("/api/response/markCorrect", markResCorrect, getNextClue, sendClue); // 🚧 Currently in development... getNextClue completed 🚧
+app.post("/api/response/sendHint", sendHint); // 🚧 Currently in development 🚧
 app.get("/api/response/allByHunt", getAllResponsesByHunt); // PostMan Confirmed ✅
 /**
  *  UP NEXT...

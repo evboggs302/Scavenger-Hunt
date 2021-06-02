@@ -42,6 +42,15 @@ module.exports = {
       return res.status(200).send(clues);
     });
   },
+  getFirstClue: (req, res, next) => {
+    const { hunt_id } = req.body;
+    const h_id = mongoose.Types.ObjectId(hunt_id);
+    Clue.findOne({ hunt_id: h_id, order_number: 1 }).then((firstClue, err) => {
+      if (err) return;
+      req.body.firstClue = firstClue;
+      next();
+    });
+  },
   updateDesc: (req, res, next) => {
     const { clue_id, newDesc } = req.body;
     const cl_id = mongoose.Types.ObjectId(clue_id);
