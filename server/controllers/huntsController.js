@@ -6,7 +6,6 @@ const mongoose = require("mongoose");
 
 module.exports = {
   getHuntData: (req, res, next) => {
-    console.log(req.body);
     const { hunt_id } = req.body;
     Hunt.aggregate([
       {
@@ -118,7 +117,12 @@ module.exports = {
     )
       .exec()
       .then((data, err) => {
-        if (err) return res.status(400).send({ addHuntToUser: err });
+        if (err) {
+          logErr("addHuntToUser", err);
+          return res
+            .status(500)
+            .send("Error Reported. Please check error logs for more details.");
+        }
         return next();
       });
   },
@@ -136,7 +140,7 @@ module.exports = {
       });
   },
   updateHunt: (req, res, next) => {
-    const { hunt_id, newName, newDate } = req.body;
+    const { hunt_id, newName, newDate, newRecall } = req.body;
     const id = mongoose.Types.ObjectId(hunt_id);
     const formattedDate = new Date(newDate);
     Hunt.updateOne({ _id: id }, [
@@ -158,6 +162,17 @@ module.exports = {
               { $and: [newDate, { $ne: [formattedDate, "$date"] }] },
               formattedDate,
               "$date",
+            ],
+          },
+        },
+      },
+      {
+        $set: {
+          recallMessage: {
+            $cond: [
+              { $and: [newRecall, { $ne: [newRecall, "$recallMessage"] }] },
+              newRecall,
+              "$recallMessage",
             ],
           },
         },

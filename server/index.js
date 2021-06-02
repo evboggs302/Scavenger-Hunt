@@ -101,7 +101,7 @@ app.get("/api/hunt/byUser", getUserHunts); // PostMan Confirmed ✅
 app.get("/api/hunt/data", getHuntData); // PostMan Confirmed ✅
 app.put(
   "/api/hunt/activate",
-  // validateActiveHunts,
+  validateActiveHunts,
   activateHunt,
   activateTeams,
   getFirstClue,
@@ -140,16 +140,9 @@ app.delete("/api/clues/deleteAll", deleteAllCluesByHunt, getAllCluesByHunt); // 
 
 // RESPONSES ENDPOINTS --> Twilio for responses
 app.post("/sms", findActiveTeamByDevice, saveSMS, saveMMS); // PostMan Confirmed ✅
-app.put("/api/response/markCorrect", markResCorrect, getNextClue, sendClue); // 🚧 Currently in development... getNextClue completed 🚧
-app.post("/api/response/sendHint", sendHint); // 🚧 Currently in development 🚧
+app.put("/api/response/markCorrect", markResCorrect, getNextClue, sendClue); // PostMan Confirmed ✅
+app.post("/api/response/sendHint", sendHint); // PostMan Confirmed ✅
 app.get("/api/response/allByHunt", getAllResponsesByHunt); // PostMan Confirmed ✅
-/**
- *  UP NEXT...
- * mark response as correct upon approval
- * get next clue
- * grab clue_id and save it to team
- * send out next clue, or final response
- **/
 
 // Becasue of browser router, you need the below lines.
 // const path = require("path");

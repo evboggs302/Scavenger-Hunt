@@ -144,11 +144,17 @@ module.exports = {
     const { response_id } = req.body;
     const res_id = mongoose.Types.ObjectId(response_id);
     Response.findOne({ _id: res_id }).then((response, err) => {
+      if (err) {
+        logErr("markResCorrect at find", err);
+        return res
+          .status(500)
+          .send("Error Reported. Please check error logs for more details.");
+      }
       req.body.team_id = response.team_id;
       Response.updateOne({ _id: res_id }, { correct: true }).then(
         (data, err) => {
           if (err) {
-            logErr("markResCorrect", err);
+            logErr("markResCorrect at update", err);
             return res
               .status(500)
               .send(
@@ -193,6 +199,10 @@ module.exports = {
         },
       },
     ]).then((data, err) => {
+      if (err) {
+        logErr("getNextClue", err);
+        return;
+      }
       req.body.device_number = data[0].device_number;
       req.body.hunt_id = data[0].hunt_id;
       req.body.nextClue = data[0].nextClue[0];
@@ -212,46 +222,35 @@ module.exports = {
         { lastClue_sent: nextClue.order_number }
       ).then((complete, err) => {
         if (err) {
+          logErr("sendClue at update #1", err);
           return;
         }
-        client.messages
-          .create({
-            body: `CLUE: ${nextClue.description}`,
-            from: `${TWILIO_NUMBER}`,
-            to: device_number,
-          })
-          .then((message) => {
-            res.status(200).send(message);
-          });
+        client.messages.create({
+          body: `CLUE: ${nextClue.description}`,
+          from: `${TWILIO_NUMBER}`,
+          to: device_number,
+        });
       });
     } else if (!recall_sent) {
       Team.updateOne({ _id: t_id }, { recall_sent: true }).then(
         (complete, err) => {
           if (err) {
+            logErr("sendClue at update #2", err);
             return;
           }
-          client.messages
-            .create({
-              body: `CONGRATS! ${recallMessage}`,
-              from: `${TWILIO_NUMBER}`,
-              to: device_number,
-            })
-            .then((message) => {
-              res.status(200).send(message);
-            });
+          client.messages.create({
+            body: `CONGRATS! ${recallMessage}`,
+            from: `${TWILIO_NUMBER}`,
+            to: device_number,
+          });
         }
       );
     } else {
-      // res.send({
-      //   message: "No Next clue, and recall already sent",
-      //   body: req.body,
-      // });
       res.sendStatus(200);
     }
   },
   sendFirstClue: (req, res, next) => {
     const { device_numbers, firstClue } = req.body;
-    let statusCode = 200;
     for (let i = 0; i < device_numbers.length; i++) {
       client.messages.create({
         body: `CLUE: ${firstClue.description}`,
@@ -259,22 +258,18 @@ module.exports = {
         to: device_numbers[i],
       });
     }
-    res.sendStatus(statusCode);
+    res.sendStatus(200);
   },
   sendHint: (req, res, next) => {
     let { team_id, hint_body } = req.body;
     const t_id = mongoose.Types.ObjectId(team_id);
 
     Team.findOne({ _id: t_id }).then((team, err) => {
-      client.messages
-        .create({
-          body: `HINT: ${hint_body}`,
-          from: `${TWILIO_NUMBER}`,
-          to: team.device_number,
-        })
-        .then((message) => {
-          res.status(200).send(message);
-        });
+      client.messages.create({
+        body: `HINT: ${hint_body}`,
+        from: `${TWILIO_NUMBER}`,
+        to: team.device_number,
+      });
     });
   },
   deleteAllResponsesByTeam: (req, res, next) => {

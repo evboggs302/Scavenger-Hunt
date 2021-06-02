@@ -13,11 +13,11 @@ const huntSchema = new mongoose.Schema(
     },
     isActive: {
       type: Boolean,
-      required: true,
+      default: false,
     },
     recallMessage: {
       type: String,
-      default: "Congrats! You've completed your hunt.",
+      default: "You've completed your hunt.",
     },
   },
   { versionKey: false }

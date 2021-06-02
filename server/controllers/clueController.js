@@ -46,7 +46,12 @@ module.exports = {
     const { hunt_id } = req.body;
     const h_id = mongoose.Types.ObjectId(hunt_id);
     Clue.findOne({ hunt_id: h_id, order_number: 1 }).then((firstClue, err) => {
-      if (err) return;
+      if (err) {
+        logErr("getFirstClue", err);
+        return res
+          .status(500)
+          .send("Error Reported. Please check error logs for more details.");
+      }
       req.body.firstClue = firstClue;
       next();
     });
@@ -70,7 +75,7 @@ module.exports = {
       .exec()
       .then((clue, err) => {
         if (err) {
-          logErr("getAllCluesByHunt", err);
+          logErr("updateDesc", err);
           return res
             .status(500)
             .send("Error Reported. Please check error logs for more details.");
@@ -92,7 +97,7 @@ module.exports = {
     try {
       Clue.bulkWrite(bulkWriteArr, { ordered: false }).then((data, err) => {
         if (err) {
-          logErr("updateClueOrder", err);
+          logErr("updateClueOrder at bulkWrite", err);
           return res
             .status(500)
             .send("Error Reported. Please check error logs for more details.");
@@ -100,7 +105,7 @@ module.exports = {
         return next();
       });
     } catch (err) {
-      logErr("updateClueOrder at bulkWrite", err);
+      logErr("updateClueOrder", err);
       return res
         .status(500)
         .send("Error Reported. Please check error logs for more details.");

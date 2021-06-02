@@ -53,7 +53,7 @@ module.exports = {
       body: user,
     });
     newLog.save((err) => {
-      if (err) console.log("LOG SING OUT ERR:", err);
+      if (err) console.log("LOG SIgn OUT ERR:", err);
     });
   },
 };

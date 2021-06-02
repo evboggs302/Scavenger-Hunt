@@ -1,6 +1,6 @@
 // import the Model/Schema mongoose created
 const User = require("./models/users");
-const { logErr, logData } = require("./event_logController");
+const { logErr, logSignIn, logSignOut } = require("./event_logController");
 const mongoose = require("mongoose");
 const Bcrypt = require("bcryptjs");
 
@@ -44,7 +44,12 @@ module.exports = {
       events: [],
     });
     user.save((err) => {
-      if (err) res.status(400).send({ error: err });
+      if (err) {
+        logErr("addUser", err);
+        return res
+          .status(418)
+          .send("Error Reported. Please check error logs for more details.");
+      }
       req.body.id = user._id;
       next();
     });
@@ -56,7 +61,12 @@ module.exports = {
     User.updateOne({ _id: u_id }, { $pull: { hunts: h_id } })
       .exec()
       .then((data, err) => {
-        if (err) return res.status(418).send({ ErrRemovingHuntFromUser: err });
+        if (err) {
+          logErr("removeHuntFromUser", err);
+          return res
+            .status(500)
+            .send("Error Reported. Please check error logs for more details.");
+        }
         return next();
       });
   },
@@ -72,17 +82,17 @@ module.exports = {
         return res.status(400).send({ message: "The password is invalid" });
       } else {
         // res.status(200).send(user); // for PostMan
-        const { userName, _id, events, firstName, lastName, hunts } = user;
-        req.session.user = { userName, _id, events, firstName, lastName };
-        res
-          .status(200)
-          .send({ userName, _id, events, firstName, lastName, hunts });
+        const { userName, _id, firstName, lastName, hunts } = user;
+        req.session.user = { userName, _id, hunts, firstName, lastName };
+        logSignIn(req.session.user);
+        res.status(200).send({ userName, _id, firstName, lastName, hunts });
       }
     } catch (error) {
       res.status(500).send(error);
     }
   },
   logout: (req, res, next) => {
+    logSignOut(req.session.user);
     req.session.destroy();
     res.status(200).send("logged out dude!");
   },
