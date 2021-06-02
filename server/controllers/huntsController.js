@@ -139,6 +139,24 @@ module.exports = {
           : next(); // activateHunt()
       });
   },
+  validateHuntNotActive: (req, res, next) => {
+    /**
+     *
+     * SHOULDNT BE ABLE TO UPDATE A HUNT, ITS TEAMS, NOR ITS CLUES WHILE ACTIVE
+     *
+     **/
+    // const { hunt_id } = req.body;
+    // Hunt.find({ isActive: true })
+    //   .exec()
+    //   .then((found) => {
+    //     return found.length > 0 && found[0]._id.toString() !== hunt_id
+    //       ? res.status(500).send({
+    //           message:
+    //             "A hunt is already active. Please end your other hunt before starting another.",
+    //         })
+    //       : next(); // activateHunt()
+    //   });
+  },
   updateHunt: (req, res, next) => {
     const { hunt_id, newName, newDate, newRecall } = req.body;
     const id = mongoose.Types.ObjectId(hunt_id);
@@ -205,6 +223,12 @@ module.exports = {
       });
   },
   deactivateHunt: (req, res, next) => {
+    /**
+     *
+     * all teams for that hunt shoud have values for `lastSent_clue` and `recall_sent` reset back to defaults
+     *
+     **/
+
     const { hunt_id } = req.body;
     const id = mongoose.Types.ObjectId(hunt_id);
     Hunt.updateOne({ _id: id }, { isActive: false })
