@@ -1,6 +1,7 @@
 // import the Model/Schema mongoose created
-const Hunt = require("./models/hunts");
 const User = require("./models/users");
+const Hunt = require("./models/hunts");
+const Team = require("./models/teams");
 const { logErr } = require("./event_logController");
 const mongoose = require("mongoose");
 
@@ -126,23 +127,81 @@ module.exports = {
         return next();
       });
   },
-  validateActiveHunts: (req, res, next) => {
+  validateHuntActivation: (req, res, next) => {
     const { hunt_id } = req.body;
-    Hunt.find({ isActive: true })
+    const h_id = mongoose.Types.ObjectId(hunt_id);
+    let myHuntNums, activeHuntNums;
+    Team.aggregate([
+      {
+        $match: {
+          hunt_id: h_id,
+        },
+      },
+      {
+        $group: {
+          _id: "$hunt_id",
+          deviceNumbers: {
+            $push: "$device_number",
+          },
+        },
+      },
+    ])
       .exec()
-      .then((found) => {
-        return found.length > 0 && found[0]._id.toString() !== hunt_id
-          ? res.status(500).send({
-              message:
-                "A hunt is already active. Please end your other hunt before starting another.",
-            })
-          : next(); // activateHunt()
+      .then((tm) => {
+        myHuntNums = tm[0].deviceNumbers;
+        Hunt.aggregate([
+          {
+            $match: {
+              isActive: true,
+            },
+          },
+          {
+            $lookup: {
+              from: "teams",
+              localField: "_id",
+              foreignField: "hunt_id",
+              as: "teams",
+            },
+          },
+          {
+            $unwind: {
+              path: "$teams",
+              preserveNullAndEmptyArrays: false,
+            },
+          },
+          {
+            $group: {
+              _id: "$isActive",
+              activeHunt_devices: {
+                $push: "$teams.device_number",
+              },
+            },
+          },
+        ])
+          .exec()
+          .then((found) => {
+            activeHuntNums = found[0].activeHunt_devices;
+            let allClear = true;
+            let activeNum;
+            for (let i = 0; i < activeHuntNums.length; i++) {
+              if (myHuntNums.includes(activeHuntNums[i])) {
+                allClear = false;
+                activeNum = activeHuntNums[i];
+                break;
+              }
+            }
+            return !allClear
+              ? res.status(500).send({
+                  message: `The number ${activeNum} is already in an active hunt. Either wait for their hunt to finish, or change that team's device number.`,
+                })
+              : next(); // activateHunt()
+          });
       });
   },
   validateHuntNotActive: (req, res, next) => {
     /**
      *
-     * SHOULDNT BE ABLE TO UPDATE A HUNT, ITS TEAMS, NOR ITS CLUES WHILE ACTIVE
+     * SHOULD NOT BE ABLE TO UPDATE A HUNT, ITS TEAMS, NOR ITS CLUES WHILE ACTIVE
      *
      **/
     // const { hunt_id } = req.body;

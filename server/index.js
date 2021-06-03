@@ -19,7 +19,7 @@ const {
   getUserHunts,
   createHunt,
   addHuntToUser,
-  validateActiveHunts,
+  validateHuntActivation,
   updateHunt,
   activateHunt,
   deactivateHunt,
@@ -93,7 +93,7 @@ app.get("/api/user/getAll", getAllUsers); // PostMan Confirmed ✅
 app.get("/api/user/getOne", getSingleUser); // PostMan Confirmed ✅
 app.post("/api/user/create", userNameValidation, addUser, getSingleUser); // PostMan Confirmed ✅
 app.post("/api/user/login", login); // PostMan Confirmed ✅
-app.get("/api/user/logout", logout); // 🚨 test when the UI facilitates 🚨
+app.get("/api/user/logout", logout); // test when the UI facilitates
 
 // HUNT ENDPOINTS
 app.post("/api/hunt/create", createHunt, addHuntToUser, getHuntData); // PostMan Confirmed ✅
@@ -101,7 +101,7 @@ app.get("/api/hunt/byUser", getUserHunts); // PostMan Confirmed ✅
 app.get("/api/hunt/data", getHuntData); // PostMan Confirmed ✅
 app.put(
   "/api/hunt/activate",
-  validateActiveHunts,
+  validateHuntActivation,
   activateHunt,
   activateTeams,
   getFirstClue,
