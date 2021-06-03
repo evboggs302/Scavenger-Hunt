@@ -7,7 +7,15 @@ const huntSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    date: {
+    created_date: {
+      type: Date,
+      default: new Date(),
+    },
+    start_date: {
+      type: Date,
+      required: true,
+    },
+    end_date: {
       type: Date,
       required: true,
     },

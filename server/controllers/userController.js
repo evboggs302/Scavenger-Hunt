@@ -67,7 +67,9 @@ module.exports = {
             .status(500)
             .send("Error Reported. Please check error logs for more details.");
         }
-        return next();
+        return res
+          .status(200)
+          .send({ message: "Hunt has been removed successfully." });
       });
   },
   login: async (req, res, next) => {

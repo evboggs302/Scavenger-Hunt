@@ -54,6 +54,7 @@ module.exports = {
       }
       req.body.firstClue = firstClue;
       next();
+      // res.sendStatus(418); // for tests
     });
   },
   updateDesc: (req, res, next) => {

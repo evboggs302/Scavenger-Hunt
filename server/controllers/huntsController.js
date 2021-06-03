@@ -27,7 +27,7 @@ module.exports = {
           from: "clues",
           let: { h_id: "$_id" },
           pipeline: [
-            { $match: { $expr: { hunt_id: "$$h_id" } } },
+            { $match: { $expr: { $eq: ["$hunt_id", "$$h_id"] } } },
             { $sort: { order_number: 1 } },
           ],
           as: "clues",
@@ -93,11 +93,14 @@ module.exports = {
       });
   },
   createHunt: (req, res, next) => {
-    const { name } = req.body;
+    const { name, startDate, endDate } = req.body;
+    // depending on TYPE of date string/object passed
+    const today = new Date();
     const hunt = new Hunt({
       _id: new mongoose.Types.ObjectId(),
       name: name,
-      date: new Date(),
+      start_date: startDate ? startDate : today,
+      end_date: endDate ? endDate : today,
     });
     hunt.save((err) => {
       if (err) {
@@ -146,6 +149,7 @@ module.exports = {
         },
       },
     ])
+      .allowDiskUse(true)
       .exec()
       .then((tm) => {
         myHuntNums = tm[0].deviceNumbers;
@@ -199,27 +203,23 @@ module.exports = {
       });
   },
   validateHuntNotActive: (req, res, next) => {
-    /**
-     *
-     * SHOULD NOT BE ABLE TO UPDATE A HUNT, ITS TEAMS, NOR ITS CLUES WHILE ACTIVE
-     *
-     **/
-    // const { hunt_id } = req.body;
-    // Hunt.find({ isActive: true })
-    //   .exec()
-    //   .then((found) => {
-    //     return found.length > 0 && found[0]._id.toString() !== hunt_id
-    //       ? res.status(500).send({
-    //           message:
-    //             "A hunt is already active. Please end your other hunt before starting another.",
-    //         })
-    //       : next(); // activateHunt()
-    //   });
+    const { hunt_id } = req.body;
+    const h_id = mongoose.Types.ObjectId(hunt_id);
+    Hunt.findOne({ _id: h_id })
+      .exec()
+      .then((found) => {
+        return found.isActive
+          ? res.status(500).send({
+              message: "Unable to update or delete active hunts.",
+            })
+          : next();
+      });
   },
   updateHunt: (req, res, next) => {
-    const { hunt_id, newName, newDate, newRecall } = req.body;
+    const { hunt_id, newName, newStart, newEnd, newRecall } = req.body;
     const id = mongoose.Types.ObjectId(hunt_id);
-    const formattedDate = new Date(newDate);
+    const formattedStart = new Date(newStart);
+    const formattedEnd = new Date(newEnd);
     Hunt.updateOne({ _id: id }, [
       {
         $set: {
@@ -234,11 +234,22 @@ module.exports = {
       },
       {
         $set: {
-          date: {
+          start_date: {
             $cond: [
-              { $and: [newDate, { $ne: [formattedDate, "$date"] }] },
-              formattedDate,
-              "$date",
+              { $and: [newStart, { $ne: [formattedStart, "$start_date"] }] },
+              formattedStart,
+              "$start_date",
+            ],
+          },
+        },
+      },
+      {
+        $set: {
+          end_date: {
+            $cond: [
+              { $and: [newEnd, { $ne: [formattedEnd, "$end_date"] }] },
+              formattedEnd,
+              "$end_date",
             ],
           },
         },
@@ -282,24 +293,33 @@ module.exports = {
       });
   },
   deactivateHunt: (req, res, next) => {
-    /**
-     *
-     * all teams for that hunt shoud have values for `lastSent_clue` and `recall_sent` reset back to defaults
-     *
-     **/
-
     const { hunt_id } = req.body;
-    const id = mongoose.Types.ObjectId(hunt_id);
-    Hunt.updateOne({ _id: id }, { isActive: false })
+    const h_id = mongoose.Types.ObjectId(hunt_id);
+    Hunt.updateOne({ _id: h_id }, { isActive: false })
       .exec()
       .then((complete, err) => {
         if (err) {
-          logErr("deactivateHunt", err);
+          logErr("deactivateHunt at updateOne", err);
           return res
             .status(500)
             .send("Error Reported. Please check error logs for more details.");
         }
-        return next();
+        Team.updateMany(
+          { hunt_id: h_id },
+          { lastClue_sent: 0, recall_Sent: false }
+        )
+          .exec()
+          .then((complete2, err2) => {
+            if (err2) {
+              logErr("deactivateHunt at updateMany", err2);
+              return res
+                .status(500)
+                .send(
+                  "Error Reported. Please check error logs for more details."
+                );
+            }
+            return next();
+          });
       });
   },
   deleteHunt: (req, res, next) => {
@@ -314,9 +334,7 @@ module.exports = {
             .status(500)
             .send("Error Reported. Please check error logs for more details.");
         }
-        return res
-          .status(200)
-          .send({ message: "Hunt has been removed successfully." });
+        next();
       });
   },
 };

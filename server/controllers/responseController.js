@@ -130,15 +130,18 @@ module.exports = {
           allResponses: { $push: "$responses" },
         },
       },
-    ]).then((clues, err) => {
-      if (err) {
-        logErr("getAllCluesByHunt", err);
-        return res
-          .status(500)
-          .send("Error Reported. Please check error logs for more details.");
-      }
-      return res.status(200).send(clues);
-    });
+    ])
+      .allowDiskUse(true)
+      .exec()
+      .then((clues, err) => {
+        if (err) {
+          logErr("getAllCluesByHunt", err);
+          return res
+            .status(500)
+            .send("Error Reported. Please check error logs for more details.");
+        }
+        return res.status(200).send(clues);
+      });
   },
   markResCorrect: (req, res, next) => {
     const { response_id } = req.body;
@@ -198,18 +201,21 @@ module.exports = {
           as: "hunt_data",
         },
       },
-    ]).then((data, err) => {
-      if (err) {
-        logErr("getNextClue", err);
-        return;
-      }
-      req.body.device_number = data[0].device_number;
-      req.body.hunt_id = data[0].hunt_id;
-      req.body.nextClue = data[0].nextClue[0];
-      req.body.recall_sent = data[0].recall_sent;
-      req.body.recallMessage = data[0].hunt_data[0].recallMessage;
-      next();
-    });
+    ])
+      .allowDiskUse(true)
+      .exec()
+      .then((data, err) => {
+        if (err) {
+          logErr("getNextClue", err);
+          return;
+        }
+        req.body.device_number = data[0].device_number;
+        req.body.hunt_id = data[0].hunt_id;
+        req.body.nextClue = data[0].nextClue[0];
+        req.body.recall_sent = data[0].recall_sent;
+        req.body.recallMessage = data[0].hunt_data[0].recallMessage;
+        next();
+      });
   },
   sendClue: (req, res, next) => {
     let { team_id, nextClue, recall_sent, device_number, recallMessage } =
@@ -297,35 +303,38 @@ module.exports = {
           _id: 1,
         },
       },
-    ]).then((data, err) => {
-      if (err) {
-        logErr("deleteAllResponsesByHunt before bulkWrite", err);
-        return res
-          .status(418)
-          .send("Error Reported. Please check error logs for more details.");
-      } else {
-        console.log(data);
-        const bulkTeamIds = data.map((team) => {
-          return {
-            deleteMany: {
-              filter: { team_id: team._id },
-            },
-          };
-        });
-        Response.bulkWrite(bulkTeamIds, { ordered: false }).then(
-          (data, err) => {
-            if (err) {
-              logErr("deleteAllResponsesByHunt after bulkWrite", err);
-              return res
-                .status(500)
-                .send(
-                  "Error Reported. Please check error logs for more details."
-                );
+    ])
+      .allowDiskUse(true)
+      .exec()
+      .then((data, err) => {
+        if (err) {
+          logErr("deleteAllResponsesByHunt before bulkWrite", err);
+          return res
+            .status(418)
+            .send("Error Reported. Please check error logs for more details.");
+        } else {
+          console.log(data);
+          const bulkTeamIds = data.map((team) => {
+            return {
+              deleteMany: {
+                filter: { team_id: team._id },
+              },
+            };
+          });
+          Response.bulkWrite(bulkTeamIds, { ordered: false }).then(
+            (data, err) => {
+              if (err) {
+                logErr("deleteAllResponsesByHunt after bulkWrite", err);
+                return res
+                  .status(500)
+                  .send(
+                    "Error Reported. Please check error logs for more details."
+                  );
+              }
+              return next();
             }
-            return next();
-          }
-        );
-      }
-    });
+          );
+        }
+      });
   },
 };

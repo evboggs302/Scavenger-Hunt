@@ -4,8 +4,7 @@ const mongoose = require("mongoose");
 
 module.exports = {
   logErr: (funcName, err) => {
-    let timeStamp = new Date();
-    timeStamp.setFullYear(timeStamp.getFullYear() + 1);
+    const timeStamp = new Date();
     const newLog = new Log({
       _id: new mongoose.Types.ObjectId(),
       type: "ERROR",
@@ -18,11 +17,11 @@ module.exports = {
     });
   },
   logData: (data) => {
-    let timeStamp = new Date();
-    timeStamp.setFullYear(timeStamp.getFullYear() + 1);
+    const timeStamp = new Date();
     const newLog = new Log({
       _id: new mongoose.Types.ObjectId(),
       type: "DATA",
+      where: " ",
       time_stamp: timeStamp,
       body: data,
     });
@@ -31,11 +30,11 @@ module.exports = {
     });
   },
   logSignIn: (user) => {
-    let timeStamp = new Date();
-    timeStamp.setFullYear(timeStamp.getFullYear() + 1);
+    const timeStamp = new Date();
     const newLog = new Log({
       _id: new mongoose.Types.ObjectId(),
       type: "SIGN_IN",
+      where: "login",
       time_stamp: timeStamp,
       body: user,
     });
@@ -44,16 +43,16 @@ module.exports = {
     });
   },
   logSignOut: (user) => {
-    let timeStamp = new Date();
-    timeStamp.setFullYear(timeStamp.getFullYear() + 1);
+    const timeStamp = new Date();
     const newLog = new Log({
       _id: new mongoose.Types.ObjectId(),
       type: "SIGN_OUT",
+      where: "logout",
       time_stamp: timeStamp,
       body: user,
     });
     newLog.save((err) => {
-      if (err) console.log("LOG SIgn OUT ERR:", err);
+      if (err) console.log("LOG SIGN OUT ERR:", err);
     });
   },
 };
