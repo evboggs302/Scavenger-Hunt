@@ -1,11 +1,12 @@
 import { Switch, Route } from "react-router-dom";
-import Container from "../ui/Container/Container.js";
+import LandingPage from "../ui/content/LandingPage";
+import HuntsPage from "../ui/content/HuntsPage";
 
 export default function Routes() {
   return (
     <Switch>
-      <Route exact path="/" component={Container} />
-      <Route />
+      <Route exact path="/" component={LandingPage} />
+      <Route path="/hunts" component={HuntsPage} />
       <Route />
       <Route />
       <Route />
