@@ -1,6 +1,6 @@
 # Scavenger Hunt
 
-- This repo will eventually hold a scavenger hunt app that will utilize the Twilio texting service.
+For those who have ever created a scavenger hunt, they know how time consuming it can be not only think up the clues, but to also sort out the logistics of the entire hunt. This app aims to lighten the logisitcal burden of planning their next hunt.
 
 ## _AVAILABLE SCRIPTS_
 

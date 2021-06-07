@@ -15,9 +15,10 @@ import {
   HeaderSideNavItems,
 } from "carbon-components-react";
 import {
-  AppSwitcher20,
-  Notification20,
-  UserAvatar20,
+  AppSwitcher24,
+  Notification24,
+  UserAvatar24,
+  Logout24,
 } from "@carbon/icons-react";
 
 const AppHeader = () => {
@@ -46,20 +47,23 @@ const AppHeader = () => {
             <SideNavItems>
               <HeaderSideNavItems>
                 <HeaderMenuItem element={Link} to="/hunts">
-                  Repositories
+                  Hunts
                 </HeaderMenuItem>
               </HeaderSideNavItems>
             </SideNavItems>
           </SideNav>
           <HeaderGlobalBar>
             <HeaderGlobalAction aria-label="Notifications">
-              <Notification20 />
+              <Notification24 />
             </HeaderGlobalAction>
             <HeaderGlobalAction aria-label="User Avatar">
-              <UserAvatar20 />
+              <UserAvatar24 />
+            </HeaderGlobalAction>
+            <HeaderGlobalAction aria-label="Logout">
+              <Logout24 />
             </HeaderGlobalAction>
             <HeaderGlobalAction aria-label="App Switcher">
-              <AppSwitcher20 />
+              <AppSwitcher24 />
             </HeaderGlobalAction>
           </HeaderGlobalBar>
         </Header>
