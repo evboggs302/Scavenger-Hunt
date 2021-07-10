@@ -1,6 +1,6 @@
 import { Switch, Route } from "react-router-dom";
-import LandingPage from "../ui/content/LandingPage";
-import HuntsPage from "../ui/content/HuntsPage";
+import LandingPage from "../ui/pages/landing/LandingPage";
+import HuntsPage from "../ui/pages/hunts/HuntsPage";
 
 export default function Routes() {
   return (

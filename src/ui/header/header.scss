@@ -1,0 +1,11 @@
+@use '../../utils/sassUtils' as *;
+
+.app-header {
+  @include flex();
+  background-color: fetchBackColor(main);
+  height: 20px;
+}
+
+.app-header > span {
+  color: white;
+}

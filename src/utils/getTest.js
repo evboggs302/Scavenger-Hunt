@@ -5,5 +5,5 @@ import axios from "axios";
 
 export const get_test = () =>
   axios
-    .get("/api/get_test")
+    .get("/api/user/getAll")
     .then((res) => console.log("server response", res.data));

@@ -1,0 +1,25 @@
+// VARIABLES & SASS-MAPS
+$backg-colors: (
+  main: rgb(2, 2, 59),
+  secondary: black,
+  terciary: rgb(180, 161, 135),
+);
+
+// MIXINS
+@mixin flex(
+  $content: "flex-start",
+  $items: "flex-start",
+  $direction: "row",
+  $flow: "row nowrap"
+) {
+  display: flex;
+  justify-content: $content;
+  align-items: $items;
+  flex-direction: $direction;
+  flex-flow: $flow;
+}
+
+// FUNCTIONS
+@function fetchBackColor($name) {
+  @return map-get($backg-colors, $name);
+}
