@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const { MONGO_CONNECTION, SESSION_SECRET } = process.env;
 const {
   getAllUsers,
+  getActiveUser,
   getSingleUser,
   userNameValidation,
   addUser,
@@ -88,6 +89,7 @@ mongoose
 
 // USER & AUTH ENDPOINTS
 app.get("/api/user/getAll", getAllUsers); // Postman Confirmed ✅
+app.get("/api/user/active", getActiveUser); // Postman Confirmed ✅
 app.get("/api/user/getOne", getSingleUser); // Postman Confirmed ✅
 app.post("/api/user/create", userNameValidation, addUser, getSingleUser); // Postman Confirmed ✅
 app.post("/api/user/login", login); // Postman Confirmed ✅

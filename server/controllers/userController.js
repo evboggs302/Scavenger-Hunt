@@ -93,6 +93,14 @@ module.exports = {
       res.status(500).send(error);
     }
   },
+  getActiveUser: (req, res, next) => {
+    const user = req.session?.user?._id;
+    if (user) {
+      res.status(200).send(user);
+    } else {
+      res.sendStatus(500);
+    }
+  },
   logout: (req, res, next) => {
     logSignOut(req.session.user);
     req.session.destroy();

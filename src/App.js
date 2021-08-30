@@ -1,18 +1,32 @@
-// import { BrowserRouter } from "react-router-dom";
-import Header from "./ui/header/AppHeader.js";
-import Login from "./ui/pages/login/LoginPage.js";
-// import Routes from "./utils/routes.js";
+// import { useState } from "react";
+import { useQuery, QueryClient, QueryClientProvider } from "react-query";
+import { useHistory } from "react-router-dom";
+import Routes from "./utils/routes.js";
+import { fetchActiveUser } from "./utils/apiUtils";
 import "./App.css";
+
+const queryClient = new QueryClient();
+
+const AppWrapper = () => {
+  const user = useQuery("user", fetchActiveUser);
+  let history = useHistory();
+
+  if (!user.data) {
+    history.push("/");
+  }
+
+  return (
+    <div className="App">
+      <Routes />
+    </div>
+  );
+};
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <Login />
-      {/* <BrowserRouter>
-        <Routes />
-      </BrowserRouter> */}
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <AppWrapper />
+    </QueryClientProvider>
   );
 }
 

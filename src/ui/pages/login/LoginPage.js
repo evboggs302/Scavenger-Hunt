@@ -1,3 +1,5 @@
+import { useRef, useState } from "react";
+import { useQuery } from "react-query";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,13 +13,14 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { sendLogin, fetchActiveUser } from "../../../utils/apiUtils";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/">
-        "Scavenger Hunts" By Evan Boggs
+        "Scavenger Hunts" by Evan Boggs
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -47,6 +50,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  const [username, setName] = useState("");
+  const [password, setPW] = useState("");
+  const [wrongCreds, setWrongCreds] = useState(false);
+
+  const handleSubmit = async () => {
+    const data = await sendLogin(username, password);
+    console.log(data);
+  };
+
+  // Queries
+  // const query = useQuery("allUsers", fetchActiveUser);
+  // console.log(query);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -58,8 +73,10 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
+            error={wrongCreds}
+            helperText={wrongCreds ? "Incorrect Credentials." : ""}
             variant="outlined"
             margin="normal"
             required
@@ -69,8 +86,11 @@ export default function SignIn() {
             name="username"
             autoComplete="username"
             autoFocus
+            onChange={(e) => setName(e.target.value)}
           />
           <TextField
+            error={wrongCreds}
+            helperText={wrongCreds ? "Incorrect Credentials." : ""}
             variant="outlined"
             margin="normal"
             required
@@ -80,6 +100,7 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={(e) => setPW(e.target.value)}
           />
           <Button
             type="submit"
@@ -89,18 +110,6 @@ export default function SignIn() {
             className={classes.submit}>
             Sign In
           </Button>
-          {/* <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid> */}
         </form>
       </div>
       <Box mt={8}>
