@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useQuery } from "react-query";
+import { useSelector, useDispatch } from "react-redux";
 
 const TempMain = () => {
+  const count = useSelector((state) => state.counter.value);
+  const dispatch = useDispatch();
   useEffect(() => {}, []);
 
   return (
