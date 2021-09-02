@@ -6,6 +6,7 @@ import { createClues } from "../../../utils/apiUtils.ts";
 
 const CluesPage = () => {
   const state = useSelector((state) => state);
+  const [cluesExist, setCluesExist] = useState(false);
   const [cluesLength, setLength] = useState(0);
   const [clues, setTempClues] = useState([]);
   const draft = useRef(null);
@@ -15,6 +16,9 @@ const CluesPage = () => {
   useEffect(() => {
     if (!state.hunt._id) {
       history.push("/hunt");
+    }
+    if (state.clues.length > 0) {
+      setCluesExist(true);
     }
     draft.current = [];
   }, []);
@@ -41,22 +45,36 @@ const CluesPage = () => {
     );
   });
 
+  const mappedClues = state.clues.map((el) => {
+    return <li key={el._id}>{el.description}</li>;
+  });
+
   const saveClues = async () => {
     const { data } = await createClues(state.hunt._id, draft.current);
-    return dispatch(setClues(data));
+    dispatch(setClues(data));
+    setCluesExist(true);
+    return;
   };
 
   return (
     <div>
-      <section>Create your clues below.</section>
+      {!cluesExist ? (
+        <>
+          <section>Create your clues below.</section>
+          <br />
+          <span>
+            <div>How many clues?</div>
+            <input type="number" onChange={(e) => setLength(+e.target.value)} />
+          </span>
+        </>
+      ) : null}
       <br />
-      <span>
-        <div>How many clues?</div>
-        <input type="number" onChange={(e) => setLength(+e.target.value)} />
-      </span>
-      <br />
-      <span>{mappedClueTemplates}</span>
-      <button onClick={saveClues}>Save Clues</button>
+      {!cluesExist ? (
+        <span>{mappedClueTemplates}</span>
+      ) : (
+        <ol>{mappedClues}</ol>
+      )}
+      {!cluesExist && <button onClick={saveClues}>Save Clues</button>}
     </div>
   );
 };
