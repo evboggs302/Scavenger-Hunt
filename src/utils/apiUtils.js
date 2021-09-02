@@ -10,9 +10,9 @@ export const fetchActiveUser = async () => {
     .then((res) => console.log(res.data));
 };
 
-export const createHunt = async (user_id, name) => {
+export const createHunt = async (name) => {
   return await axios
-    .post("/api/hunt/create", { user_id, name })
+    .post("/api/hunt/create", { user_id: "6130042d8552f46dd1251951", name })
     .then((res) => console.log(res.data));
 };
 
