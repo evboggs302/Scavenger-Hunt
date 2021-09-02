@@ -64,9 +64,10 @@ exports.fetchActiveUser = fetchActiveUser;
 var createHunt = function (name) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, axios_1.default
-                    .post("/api/hunt/create", { user_id: "6130042d8552f46dd1251951", name: name })
-                    .then(function (res) { return console.log(res.data); })];
+            case 0: return [4 /*yield*/, axios_1.default.post("/api/hunt/create", {
+                    user_id: "6130042d8552f46dd1251951",
+                    name: name,
+                })];
             case 1: return [2 /*return*/, _a.sent()];
         }
     });
@@ -75,9 +76,7 @@ exports.createHunt = createHunt;
 var createTeams = function (hunt_id, teams) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, axios_1.default
-                    .post("/api/teams/create", { hunt_id: hunt_id, teams: teams })
-                    .then(function (res) { return console.log(res.data); })];
+            case 0: return [4 /*yield*/, axios_1.default.post("/api/teams/create", { hunt_id: hunt_id, teams: teams })];
             case 1: return [2 /*return*/, _a.sent()];
         }
     });

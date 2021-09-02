@@ -11,15 +11,16 @@ export const fetchActiveUser = async () => {
 };
 
 export const createHunt = async (name: string) => {
-  return await axios
-    .post("/api/hunt/create", { user_id: "6130042d8552f46dd1251951", name })
-    .then((res) => console.log(res.data));
+  return await axios.post("/api/hunt/create", {
+    user_id: "6130042d8552f46dd1251951",
+    name,
+  });
+  // .then((res) => console.log(res.data));
 };
 
 export const createTeams = async (hunt_id: string, teams: string[]) => {
-  return await axios
-    .post("/api/teams/create", { hunt_id, teams })
-    .then((res) => console.log(res.data));
+  return await axios.post("/api/teams/create", { hunt_id, teams });
+  // .then((res) => console.log(res.data));
 };
 
 export const createClues = async (hunt_id: string, clues: string[]) => {

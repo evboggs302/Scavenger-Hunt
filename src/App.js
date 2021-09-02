@@ -1,40 +1,38 @@
 // import { useState } from "react";
-import { useQuery, QueryClient, QueryClientProvider } from "react-query";
-import { Link, useHistory } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { Link } from "react-router-dom";
 import Routes from "./utils/routes.js";
-import { fetchActiveUser } from "./utils/apiUtils.ts";
+// import { fetchActiveUser } from "./utils/apiUtils.ts";
 import "./App.css";
 
 const queryClient = new QueryClient();
 
 const AppWrapper = () => {
-  const user = useQuery("user", fetchActiveUser);
-  let history = useHistory();
+  // const user = useQuery("user", fetchActiveUser);
+  // let history = useHistory();
 
-  if (!user.data) {
-    history.push("/");
-  }
+  // if (!user.data) {
+  //   history.push("/");
+  // }
 
   return (
     <div className="App">
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/hunt">Hunt Info</Link>
-          </li>
-          <li>
-            <Link to="/clues">Clues</Link>
-          </li>
-          <li>
-            <Link to="/teams">Teams</Link>
-          </li>
-          <li>
-            <Link to="/responses">Responses</Link>
-          </li>
-        </ul>
+      <nav className="app-navigation">
+        <h3>
+          <Link to="/">Home</Link>
+        </h3>
+        <h3>
+          <Link to="/hunt">Hunt Info</Link>
+        </h3>
+        <h3>
+          <Link to="/clues">Clues</Link>
+        </h3>
+        <h3>
+          <Link to="/teams">Teams</Link>
+        </h3>
+        <h3>
+          <Link to="/responses">Responses</Link>
+        </h3>
       </nav>
       <br />
       <Routes />

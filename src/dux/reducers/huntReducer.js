@@ -1,20 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const initialState = {
-  user: null,
-  following: null,
-  otherPerson: [],
-};
+export const initialState = {};
 
-const userSlice = createSlice({
-  name: "user",
+const huntSlice = createSlice({
+  name: "hunt",
   initialState,
   reducers: {
-    setUser(state, action) {
+    setHunt(state, action) {
       return action.payload;
     },
   },
 });
 
-export const { setUser } = userSlice.actions;
-export default userSlice.reducer;
+export const { setHunt } = huntSlice.actions;
+export default huntSlice.reducer;
