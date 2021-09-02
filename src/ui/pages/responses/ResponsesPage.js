@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { fetchResponses } from "../../../utils/apiUtils";
+import { fetchResponses } from "../../../utils/apiUtils.ts";
 
 const ResponsesPage = ({ hunt_id }) => {
   const responses = useQuery("responses", () => {

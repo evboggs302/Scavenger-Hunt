@@ -2,7 +2,7 @@
 import { useQuery, QueryClient, QueryClientProvider } from "react-query";
 import { Link, useHistory } from "react-router-dom";
 import Routes from "./utils/routes.js";
-import { fetchActiveUser } from "./utils/apiUtils";
+import { fetchActiveUser } from "./utils/apiUtils.ts";
 import "./App.css";
 
 const queryClient = new QueryClient();
