@@ -1,18 +1,21 @@
 import { Switch, Route } from "react-router-dom";
 // import LandingPage from "../ui/pages/landing/LandingPage";
 // import Login from "../ui/pages/login/LoginPage";
-import TemporaryMain from '../ui/tempMain/temporaryMain'
+import TempLandingPage from "../ui/pages/landing/tempLandingPage";
 import HuntsPage from "../ui/pages/hunts/HuntsPage";
+import CluesPage from "../ui/pages/clues/CluesPage";
+import TeamsPage from "../ui/pages/teams/TeamsPage";
+import ResponsesPage from "../ui/pages/responses/ResponsesPage";
 
 export default function Routes() {
   return (
     <Switch>
       {/* <Route exact path="/" component={Login} /> */}
-      <Route exact path="/" component={TemporaryMain} />
+      <Route exact path="/" component={TempLandingPage} />
       <Route path="/hunt" component={HuntsPage} />
-      <Route path="/clues" component={HuntsPage} />
-      <Route path="/teams" component={HuntsPage} />
-      <Route path="/responses" component={HuntsPage} />
+      <Route path="/clues" component={CluesPage} />
+      <Route path="/teams" component={TeamsPage} />
+      <Route path="/responses" component={ResponsesPage} />
       <Route
         path="*"
         render={() => {

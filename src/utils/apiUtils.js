@@ -39,7 +39,5 @@ export const fetchHuntData = async (hunt_id) => {
 };
 
 export const fetchResponses = async (hunt_id) => {
-  return await axios
-    .get("/api/response/allByHunt", { hunt_id })
-    .then((res) => console.log(res.data));
+  return await axios.get("/api/response/allByHunt", { hunt_id });
 };
