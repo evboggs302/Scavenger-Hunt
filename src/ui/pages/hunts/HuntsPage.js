@@ -1,6 +1,10 @@
 import "./huntspage.scss";
 
 const HuntsPage = () => {
-  return <div>HUNTS PAGE</div>;
+  return (
+    <div>
+      <input type="text" placeholder="Hunt Name" />
+    </div>
+  );
 };
 export default HuntsPage;
