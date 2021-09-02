@@ -1,20 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const initialState = {
-  user: null,
-  following: null,
-  otherPerson: [],
-};
-
-const userSlice = createSlice({
-  name: "user",
+export const initialState = [];
+const cluesSlice = createSlice({
+  name: "clues",
   initialState,
   reducers: {
-    setUser(state, action) {
+    setClues(state, action) {
       return action.payload;
     },
   },
 });
 
-export const { setUser } = userSlice.actions;
-export default userSlice.reducer;
+export const { setClues } = cluesSlice.actions;
+export default cluesSlice.reducer;

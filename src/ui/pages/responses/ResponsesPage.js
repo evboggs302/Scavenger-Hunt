@@ -1,9 +1,24 @@
+import { useEffect } from "react";
 import { useQuery } from "react-query";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { fetchResponses } from "../../../utils/apiUtils.ts";
+// import { setHunt } from "../../../dux/reducers/huntReducer";
+// import { createHunt } from "../../../utils/apiUtils.ts";
 
-const ResponsesPage = ({ hunt_id }) => {
-  const responses = useQuery("responses", () => {
-    const { data } = fetchResponses(hunt_id);
+const ResponsesPage = () => {
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
+  let history = useHistory();
+
+  useEffect(() => {
+    if (!state.hunt._id) {
+      history.push("/hunt");
+    }
+  }, []);
+
+  const responses = useQuery("responses", async () => {
+    const { data } = await fetchResponses(state.hunt._id);
     return data[0].allResponses;
   });
   return (

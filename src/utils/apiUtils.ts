@@ -23,10 +23,9 @@ export const createTeams = async (hunt_id: string, teams: string[]) => {
   // .then((res) => console.log(res.data));
 };
 
-export const createClues = async (hunt_id: string, clues: string[]) => {
-  return await axios
-    .post("/api/clues/create", { hunt_id, clues })
-    .then((res) => console.log(res.data));
+export const createClues = async (hunt_id: string, cluesList: string[]) => {
+  return await axios.post("/api/clues/create", { hunt_id, cluesList });
+  // .then((res) => console.log(res.data));
 };
 
 export const activateHunt = async (hunt_id: string) => {
@@ -34,9 +33,13 @@ export const activateHunt = async (hunt_id: string) => {
 };
 
 export const fetchHuntData = async (hunt_id: string) => {
-  return await axios
-    .get("/api/hunt/data", { data: { hunt_id } })
-    .then((res) => console.log(res.data));
+  return await axios.get("/api/hunt/data", { data: { hunt_id } });
+  // .then((res) => console.log(res.data));
+};
+
+export const fetchUserHunts = async (user_id: string) => {
+  return await axios.get("/api/hunt/byUser", { data: { user_id } });
+  // .then((res) => console.log(res.data));
 };
 
 export const fetchResponses = async (hunt_id: string) => {

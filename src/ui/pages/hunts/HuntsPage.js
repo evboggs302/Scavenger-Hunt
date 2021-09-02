@@ -7,7 +7,6 @@ import "./huntspage.scss";
 const HuntsPage = () => {
   const hunt = useSelector((state) => state.hunt);
   const dispatch = useDispatch();
-  // const [showName, setBool] = useState(false);
   const huntName = useRef("");
 
   const buttonClick = async () => {
@@ -30,12 +29,12 @@ const HuntsPage = () => {
       ) : (
         <>
           <br />
-          <paragraph>
+          <span>
             HUNT NAME:{"  "}
             <strong>
               <em>{hunt.name}</em>
             </strong>
-          </paragraph>
+          </span>
         </>
       )}
     </div>
