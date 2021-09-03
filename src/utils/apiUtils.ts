@@ -29,7 +29,8 @@ export const createClues = async (hunt_id: string, cluesList: string[]) => {
 };
 
 export const activateHunt = async (hunt_id: string) => {
-  return await axios.put("/api/hunt/activate", { hunt_id });
+  const { data } = await axios.put("/api/hunt/activate", { hunt_id });
+  return data;
 };
 
 export const fetchHuntData = async (hunt_id: string) => {
@@ -52,7 +53,12 @@ export const fetchResponses = async (hunt_id: string) => {
   return data;
 };
 
-export const markResponseCorrect = async () => {};
+export const markResponseCorrect = async (response_id: string) => {
+  const { data } = await axios.put(`/api/response/markCorrect`, {
+    response_id,
+  });
+  return data;
+};
 
 export const sendHint = async (
   response_id: string,

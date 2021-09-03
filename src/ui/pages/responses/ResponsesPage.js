@@ -30,12 +30,13 @@ const ResponsesPage = () => {
     refetchInterval: 1000,
   });
 
-  const markCorrect = (response_id) => {};
+  const markCorrect = (response_id) => {
+    return markResponseCorrect(response_id);
+  };
   const sendHintInstead = async (response_id, team_id, hint) => {
     return sendHint(response_id, team_id, hint);
   };
 
-  console.log(responses);
   return (
     <div>
       <h3>Responses PAGE</h3>

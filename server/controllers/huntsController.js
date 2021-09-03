@@ -184,21 +184,25 @@ module.exports = {
         ])
           .exec()
           .then((found) => {
-            activeHuntNums = found[0].activeHunt_devices;
-            let allClear = true;
-            let activeNum;
-            for (let i = 0; i < activeHuntNums.length; i++) {
-              if (myHuntNums.includes(activeHuntNums[i])) {
-                allClear = false;
-                activeNum = activeHuntNums[i];
-                break;
+            if (found.length > 0) {
+              activeHuntNums = found[0]?.activeHunt_devices;
+              let allClear = true;
+              let activeNum;
+              for (let i = 0; i < activeHuntNums.length; i++) {
+                if (myHuntNums.includes(activeHuntNums[i])) {
+                  allClear = false;
+                  activeNum = activeHuntNums[i];
+                  break;
+                }
               }
+              return !allClear
+                ? res.status(500).send({
+                    message: `The number ${activeNum} is already in an active hunt. Either wait for their hunt to finish, or change that team's device number.`,
+                  })
+                : next(); // activateHunt()
+            } else {
+              next();
             }
-            return !allClear
-              ? res.status(500).send({
-                  message: `The number ${activeNum} is already in an active hunt. Either wait for their hunt to finish, or change that team's device number.`,
-                })
-              : next(); // activateHunt()
           });
       });
   },

@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import "./Resp.scss";
 
 const ResponseTile = ({ response, index, markCorrect, sendHint }) => {
+  const { clues } = useSelector((state) => state);
+  //   const clue = clues.filter((cl) => cl._id === response.clue_id);
   let date = new Date(response.time_received);
-  console.log(response);
   return (
     <section className="respTile">
       {response.response_img ? (
@@ -13,7 +15,8 @@ const ResponseTile = ({ response, index, markCorrect, sendHint }) => {
       ) : (
         <p>{response.response_txt}</p>
       )}
-      {/* .toLocalTimeString("en-us") */}
+      <br />
+      {/* <p>CLUE: </p> */}
       <p>
         Time Received:{" "}
         {new Intl.DateTimeFormat("default", {
