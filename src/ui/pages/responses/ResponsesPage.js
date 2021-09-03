@@ -3,7 +3,12 @@ import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import ResponseTile from "./ResponseTile";
-import { fetchResponses } from "../../../utils/apiUtils.ts";
+import {
+  fetchResponses,
+  markResponseCorrect,
+  sendHint,
+} from "../../../utils/apiUtils.ts";
+import "./Resp.scss";
 
 const ResponsesPage = () => {
   const state = useSelector((state) => state);
@@ -11,17 +16,24 @@ const ResponsesPage = () => {
 
   useEffect(() => {
     if (!state.hunt._id) {
-      history.push("/hunt");
+      history.push("/");
     }
   }, []);
 
-  const responses = useQuery("responses", async () => {
-    const data = await fetchResponses(state.hunt._id);
-    console.log(data);
-    return data[0].allResponses;
+  const responses = useQuery({
+    queryKey: "responses",
+    queryFn: async () => {
+      const data = await fetchResponses(state.hunt._id);
+      console.log(data);
+      return data[0].allResponses;
+    },
+    refetchInterval: 1000,
   });
 
   const markCorrect = (response_id) => {};
+  const sendHintInstead = async (response_id, team_id, hint) => {
+    return sendHint(response_id, team_id, hint);
+  };
 
   console.log(responses);
   return (
@@ -32,14 +44,15 @@ const ResponsesPage = () => {
       <div className="responseContainer">
         {responses.status === "success" &&
           responses.data.map((resp, dex) => {
-            return (
+            return !resp.correct && !resp.hintSent ? (
               <ResponseTile
                 key={resp._id}
                 response={resp}
                 index={dex}
                 markCorrect={markCorrect}
+                sendHint={sendHintInstead}
               />
-            );
+            ) : null;
           })}
       </div>
     </div>

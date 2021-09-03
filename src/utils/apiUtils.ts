@@ -53,4 +53,16 @@ export const fetchResponses = async (hunt_id: string) => {
 };
 
 export const markResponseCorrect = async () => {};
-export const sendHint = async () => {};
+
+export const sendHint = async (
+  response_id: string,
+  team_id: string,
+  hint: string
+) => {
+  const { data } = await axios.post(`/api/response/sendHint`, {
+    response_id,
+    team_id,
+    hint_body: hint,
+  });
+  return data;
+};

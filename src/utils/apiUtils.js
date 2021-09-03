@@ -149,7 +149,19 @@ var markResponseCorrect = function () { return __awaiter(void 0, void 0, void 0,
     return [2 /*return*/];
 }); }); };
 exports.markResponseCorrect = markResponseCorrect;
-var sendHint = function () { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
-    return [2 /*return*/];
-}); }); };
+var sendHint = function (response_id, team_id, hint) { return __awaiter(void 0, void 0, void 0, function () {
+    var data;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, axios_1.default.post("/api/response/allByHunt/", {
+                    response_id: response_id,
+                    team_id: team_id,
+                    hint_body: hint,
+                })];
+            case 1:
+                data = (_a.sent()).data;
+                return [2 /*return*/, data];
+        }
+    });
+}); };
 exports.sendHint = sendHint;

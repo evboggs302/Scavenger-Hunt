@@ -24,6 +24,9 @@ const responseSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    hintSent: {
+      type: Boolean,
+    },
   },
   { versionKey: false }
 );

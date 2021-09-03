@@ -267,14 +267,17 @@ module.exports = {
     res.sendStatus(200);
   },
   sendHint: (req, res, next) => {
-    let { team_id, hint_body } = req.body;
+    let { response_id, team_id, hint_body } = req.body;
     const t_id = mongoose.Types.ObjectId(team_id);
-
-    Team.findOne({ _id: t_id }).then((team, err) => {
-      client.messages.create({
-        body: `HINT: ${hint_body}`,
-        from: `${TWILIO_NUMBER}`,
-        to: team.device_number,
+    const r_id = mongoose.Types.ObjectId(response_id);
+    Response.updateOne({ _id: r_id }, { hintSent: true }).then(() => {
+      Team.findOne({ _id: t_id }).then((team, err) => {
+        client.messages.create({
+          // body: `HINT: ${hint_body}`,
+          body: hint_body,
+          from: `${TWILIO_NUMBER}`,
+          to: team.device_number,
+        });
       });
     });
   },

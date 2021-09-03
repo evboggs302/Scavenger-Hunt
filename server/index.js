@@ -51,9 +51,9 @@ const {
   getAllResponsesByHunt,
   markResCorrect,
   getNextClue,
-  // sendClue,
-  // sendFirstClue,
-  // sendHint,
+  sendClue,
+  sendFirstClue,
+  sendHint,
   deleteAllResponsesByTeam,
   deleteAllResponsesByHunt,
 } = require("./controllers/responseController");
@@ -104,8 +104,8 @@ app.put(
   validateHuntActivation,
   activateHunt,
   activateTeams,
-  getFirstClue
-  // sendFirstClue
+  getFirstClue,
+  sendFirstClue
 ); // Postman Confirmed ✅
 app.put("/api/hunt/deactivate", deactivateHunt, getHuntData); // Postman Confirmed ✅
 app.put("/api/hunt/updateOne", validateHuntNotActive, updateHunt, getHuntData); // Postman Confirmed ✅
@@ -173,8 +173,8 @@ app.delete(
 
 // RESPONSES ENDPOINTS --> Twilio for responses
 app.post("/sms", findActiveTeamByDevice, saveSMS, saveMMS); // Postman Confirmed ✅
-app.put("/api/response/markCorrect", markResCorrect, getNextClue /*sendClue*/); // Postman Confirmed ✅
-app.post("/api/response/sendHint" /*sendHint*/); // Postman Confirmed ✅
+app.put("/api/response/markCorrect", markResCorrect, getNextClue, sendClue); // Postman Confirmed ✅
+app.post("/api/response/sendHint", sendHint); // Postman Confirmed ✅
 app.get("/api/response/allByHunt/:id", getAllResponsesByHunt); // Postman Confirmed ✅
 
 // Becasue of browser router, you need the below lines.
