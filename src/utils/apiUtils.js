@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchResponses = exports.fetchTeamsByHunt = exports.fetchUserHunts = exports.fetchHuntData = exports.activateHunt = exports.createClues = exports.createTeams = exports.createHunt = exports.fetchActiveUser = exports.sendLogin = void 0;
+exports.sendHint = exports.markResponseCorrect = exports.fetchResponses = exports.fetchTeamsByHunt = exports.fetchUserHunts = exports.fetchHuntData = exports.activateHunt = exports.createClues = exports.createTeams = exports.createHunt = exports.fetchActiveUser = exports.sendLogin = void 0;
 var axios_1 = __importDefault(require("axios"));
 var sendLogin = function (uname, pw) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
@@ -101,10 +101,13 @@ var activateHunt = function (hunt_id) { return __awaiter(void 0, void 0, void 0,
 }); };
 exports.activateHunt = activateHunt;
 var fetchHuntData = function (hunt_id) { return __awaiter(void 0, void 0, void 0, function () {
+    var data;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, axios_1.default.get("/api/hunt/data", { data: { hunt_id: hunt_id } })];
-            case 1: return [2 /*return*/, _a.sent()];
+            case 0: return [4 /*yield*/, axios_1.default.get("/api/hunt/data/" + hunt_id)];
+            case 1:
+                data = (_a.sent()).data;
+                return [2 /*return*/, data];
         }
     });
 }); };
@@ -131,11 +134,22 @@ var fetchTeamsByHunt = function (hunt_id) { return __awaiter(void 0, void 0, voi
 }); };
 exports.fetchTeamsByHunt = fetchTeamsByHunt;
 var fetchResponses = function (hunt_id) { return __awaiter(void 0, void 0, void 0, function () {
+    var data;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, axios_1.default.get("/api/response/allByHunt/:id", { data: { hunt_id: hunt_id } })];
-            case 1: return [2 /*return*/, _a.sent()];
+            case 0: return [4 /*yield*/, axios_1.default.get("/api/response/allByHunt/" + hunt_id)];
+            case 1:
+                data = (_a.sent()).data;
+                return [2 /*return*/, data];
         }
     });
 }); };
 exports.fetchResponses = fetchResponses;
+var markResponseCorrect = function () { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+    return [2 /*return*/];
+}); }); };
+exports.markResponseCorrect = markResponseCorrect;
+var sendHint = function () { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+    return [2 /*return*/];
+}); }); };
+exports.sendHint = sendHint;

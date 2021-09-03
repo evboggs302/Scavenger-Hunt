@@ -98,7 +98,7 @@ app.get("/api/user/logout", logout); // test when the UI facilitates
 // HUNT ENDPOINTS
 app.post("/api/hunt/create", createHunt, addHuntToUser, getHuntData); // Postman Confirmed ✅
 app.get("/api/hunt/byUser", getUserHunts); // Postman Confirmed ✅
-app.get("/api/hunt/data", getHuntData); // Postman Confirmed ✅
+app.get("/api/hunt/data/:id", getHuntData); // Postman Confirmed ✅
 app.put(
   "/api/hunt/activate",
   validateHuntActivation,

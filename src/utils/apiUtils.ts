@@ -33,8 +33,8 @@ export const activateHunt = async (hunt_id: string) => {
 };
 
 export const fetchHuntData = async (hunt_id: string) => {
-  return await axios.get("/api/hunt/data", { data: { hunt_id } });
-  // .then((res) => console.log(res.data));
+  const { data } = await axios.get(`/api/hunt/data/${hunt_id}`);
+  return data;
 };
 
 export const fetchUserHunts = async (user_id: string) => {
@@ -48,5 +48,9 @@ export const fetchTeamsByHunt = async (hunt_id: string) => {
 };
 
 export const fetchResponses = async (hunt_id: string) => {
-  return await axios.get("/api/response/allByHunt/:id", { data: { hunt_id } });
+  const { data } = await axios.get(`/api/response/allByHunt/${hunt_id}`);
+  return data;
 };
+
+export const markResponseCorrect = async () => {};
+export const sendHint = async () => {};

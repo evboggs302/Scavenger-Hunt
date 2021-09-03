@@ -1,19 +1,9 @@
 import { useEffect, useState, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useQuery, QueryClient, QueryClientProvider } from "react-query";
+import { useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
 import { setTeams } from "../../../dux/reducers/teamsReducer";
 import { createTeams, fetchTeamsByHunt } from "../../../utils/apiUtils.ts";
-
-const queryClient = new QueryClient();
-
-function WrappedTeamsPage() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <TeamsPage />
-    </QueryClientProvider>
-  );
-}
 
 const TeamsPage = () => {
   const state = useSelector((state) => state);
@@ -26,7 +16,7 @@ const TeamsPage = () => {
 
   useEffect(() => {
     if (!state.hunt._id) {
-      history.push("/hunt");
+      history.push("/");
     }
     if (state.teams.length > 0) {
       setTeamsExist(true);
@@ -94,7 +84,6 @@ const TeamsPage = () => {
     const data = await fetchTeamsByHunt(state.hunt._id);
     return data[0].teams;
   });
-  console.log(teamStatus);
 
   const saveTeams = async () => {
     const { data } = await createTeams(state.hunt._id, teams);
@@ -103,6 +92,7 @@ const TeamsPage = () => {
     return;
   };
 
+  console.log(teamStatus);
   return (
     <div>
       {!teamsExist ? (
@@ -123,9 +113,8 @@ const TeamsPage = () => {
         <span>{mappedTeamTemplates}</span>
       ) : (
         <span>
-          {teamStatus.isFetching ? (
-            <p>Loading Teams...</p>
-          ) : (
+          {teamStatus.isLoading && <p>Loading Teams...</p>}
+          {teamStatus.status === "success" &&
             teamStatus.data.map((el) => {
               return (
                 <div key={el._id}>
@@ -140,8 +129,7 @@ const TeamsPage = () => {
                   </p>
                 </div>
               );
-            })
-          )}
+            })}
         </span>
       )}
       {!teamsExist && saveReady && (
@@ -150,4 +138,4 @@ const TeamsPage = () => {
     </div>
   );
 };
-export default WrappedTeamsPage;
+export default TeamsPage;

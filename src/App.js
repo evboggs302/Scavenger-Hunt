@@ -1,8 +1,19 @@
 // import { useState } from "react";
 import { Link } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
 import Routes from "./utils/routes.js";
 // import { fetchActiveUser } from "./utils/apiUtils.ts";
 import "./App.css";
+
+const queryClient = new QueryClient();
+
+function WrappedApp() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+  );
+}
 
 function App() {
   return (
@@ -30,4 +41,4 @@ function App() {
   );
 }
 
-export default App;
+export default WrappedApp;

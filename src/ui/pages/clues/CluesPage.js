@@ -15,7 +15,7 @@ const CluesPage = () => {
 
   useEffect(() => {
     if (!state.hunt._id) {
-      history.push("/hunt");
+      history.push("/");
     }
     if (state.clues.length > 0) {
       setCluesExist(true);

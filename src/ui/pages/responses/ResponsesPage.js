@@ -1,14 +1,12 @@
 import { useEffect } from "react";
 import { useQuery } from "react-query";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import ResponseTile from "./ResponseTile";
 import { fetchResponses } from "../../../utils/apiUtils.ts";
-// import { setHunt } from "../../../dux/reducers/huntReducer";
-// import { createHunt } from "../../../utils/apiUtils.ts";
 
 const ResponsesPage = () => {
   const state = useSelector((state) => state);
-  const dispatch = useDispatch();
   let history = useHistory();
 
   useEffect(() => {
@@ -18,27 +16,32 @@ const ResponsesPage = () => {
   }, []);
 
   const responses = useQuery("responses", async () => {
-    const { data } = await fetchResponses(state.hunt._id);
+    const data = await fetchResponses(state.hunt._id);
+    console.log(data);
     return data[0].allResponses;
   });
 
+  const markCorrect = (response_id) => {};
+
+  console.log(responses);
   return (
     <div>
       <h3>Responses PAGE</h3>
       <br />
-      {responses.length > 0 &&
-        responses.map((resp, index) => {
-          return (
-            <section>
-              {resp.response_img ? (
-                <img src={resp.response_img} alt={resp.response_img} />
-              ) : (
-                <div>{resp.response_txt}</div>
-              )}
-              {resp.time_received}
-            </section>
-          );
-        })}
+      {responses.isLoading && <h5>Fetching Responses...</h5>}
+      <div className="responseContainer">
+        {responses.status === "success" &&
+          responses.data.map((resp, dex) => {
+            return (
+              <ResponseTile
+                key={resp._id}
+                response={resp}
+                index={dex}
+                markCorrect={markCorrect}
+              />
+            );
+          })}
+      </div>
     </div>
   );
 };
