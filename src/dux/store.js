@@ -7,16 +7,16 @@ import teamsReducer, {
 import cluesReducer, {
   initialState as cluesState,
 } from "./reducers/cluesReducer";
-import responsesReducer, {
-  initialState as responsesState,
-} from "./reducers/responsesReducer";
+// import responsesReducer, {
+//   initialState as responsesState,
+// } from "./reducers/responsesReducer";
 
 export const initialState = {
   user: userState,
   hunt: huntState,
   teams: teamsState,
   clues: cluesState,
-  responses: responsesState,
+  // responses: responsesState,
 };
 
 const store = configureStore({
@@ -25,7 +25,7 @@ const store = configureStore({
     hunt: huntReducer,
     teams: teamsReducer,
     clues: cluesReducer,
-    responses: responsesReducer,
+    // responses: responsesReducer,
   },
 });
 

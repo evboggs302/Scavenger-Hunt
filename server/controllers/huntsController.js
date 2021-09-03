@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 
 module.exports = {
   getHuntData: (req, res, next) => {
-    const { hunt_id } = req.body;
+    const hunt_id = req.params.id ? req.params.id : req.body.hunt_id;
     Hunt.aggregate([
       {
         $match: {

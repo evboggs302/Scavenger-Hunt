@@ -101,8 +101,8 @@ module.exports = {
     });
   },
   getAllResponsesByHunt: (req, res, next) => {
-    const { hunt_id } = req.body;
-    const h_id = mongoose.Types.ObjectId(hunt_id);
+    const { id } = req.params;
+    const h_id = mongoose.Types.ObjectId(id);
     Team.aggregate([
       {
         $match: { hunt_id: h_id },

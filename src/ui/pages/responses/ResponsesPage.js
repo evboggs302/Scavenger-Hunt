@@ -21,6 +21,7 @@ const ResponsesPage = () => {
     const { data } = await fetchResponses(state.hunt._id);
     return data[0].allResponses;
   });
+
   return (
     <div>
       <h3>Responses PAGE</h3>

@@ -42,6 +42,11 @@ export const fetchUserHunts = async (user_id: string) => {
   // .then((res) => console.log(res.data));
 };
 
+export const fetchTeamsByHunt = async (hunt_id: string) => {
+  const { data } = await axios.get(`/api/teams/byHunt/${hunt_id}`);
+  return data;
+};
+
 export const fetchResponses = async (hunt_id: string) => {
-  return await axios.get("/api/response/allByHunt", { data: { hunt_id } });
+  return await axios.get("/api/response/allByHunt/:id", { data: { hunt_id } });
 };

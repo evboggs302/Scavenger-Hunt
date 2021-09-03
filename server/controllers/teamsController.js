@@ -34,7 +34,7 @@ module.exports = {
       return {
         hunt_id: id,
         members: team.members,
-        device_number: team.phone,
+        device_number: `1${team.phone}`,
       };
     });
     Team.insertMany(mappedTeams).then((data, err) => {

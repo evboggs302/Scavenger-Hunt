@@ -127,7 +127,7 @@ app.post(
   createTeams,
   getHuntData
 ); // Postman Confirmed ✅
-app.get("/api/teams/byHunt", getHuntData); // Postman Confirmed ✅
+app.get("/api/teams/byHunt/:id", getHuntData); // Postman Confirmed ✅
 app.put("/api/teams/updateOne", validateHuntNotActive, updateTeam, getHuntData); // Postman Confirmed ✅
 app.delete(
   "/api/teams/deleteOne",
@@ -175,7 +175,7 @@ app.delete(
 app.post("/sms", findActiveTeamByDevice, saveSMS, saveMMS); // Postman Confirmed ✅
 app.put("/api/response/markCorrect", markResCorrect, getNextClue /*sendClue*/); // Postman Confirmed ✅
 app.post("/api/response/sendHint" /*sendHint*/); // Postman Confirmed ✅
-app.get("/api/response/allByHunt", getAllResponsesByHunt); // Postman Confirmed ✅
+app.get("/api/response/allByHunt/:id", getAllResponsesByHunt); // Postman Confirmed ✅
 
 // Becasue of browser router, you need the below lines.
 // const path = require("path");
