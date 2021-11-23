@@ -10,7 +10,6 @@
 
 # production
 /build
-.scavenger_key-pair.pem
 
 # misc
 .DS_Store
@@ -20,6 +19,7 @@
 .env.test.local
 .env.production.local
 
+scavenger_key-pair.pem
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
