@@ -1,6 +1,6 @@
 {
   "name": "scavenger",
-  "main": "server/",
+  "proxy": "http://localhost:22306",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
