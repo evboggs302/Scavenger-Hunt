@@ -32,6 +32,7 @@
 ACCT_SID=< provided by Twilio >
 AUTH_TOKEN=< provided by Twilio >
 TWILIO_NUMBER=< provided by Twilio >
-MONGO_CONNECTION=< provided by MongoDB >
+MONGO_URI=< provided by MongoDB >
 SESSION_SECRET=< randomly button smash a long value >
+PORT=< 5 digit number >
 ```

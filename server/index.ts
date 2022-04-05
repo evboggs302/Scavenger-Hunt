@@ -1,10 +1,15 @@
-require("dotenv").config();
-const express = require("express");
+import express from "express";
+import bodyParser from "body-parser";
+import http from "http";
+import path from "path";
+import mongoose from "mongoose";
+import config from "./config";
+
+// const express = require("express");
 const app = express();
-const server = require("http").Server(app);
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const { MONGO_CONNECTION, SESSION_SECRET } = process.env;
+const server = new http.Server(app);
+
+const { MONGO_URI, PORT, SESSION_SECRET } = config;
 const {
   getAllUsers,
   getActiveUser,
@@ -78,7 +83,7 @@ app.use(
 
 // MONGODB Connection
 mongoose
-  .connect(MONGO_CONNECTION, {
+  .connect(MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -178,13 +183,13 @@ app.post("/api/response/sendHint", sendHint); // Postman Confirmed ✅
 app.get("/api/response/allByHunt/:id", getAllResponsesByHunt); // Postman Confirmed ✅
 
 // Becasue of browser router, you need the below lines.
-const path = require("path");
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirname, "/../build/index.html"));
 // });
+
 app.use(express.static(path.join(__dirname, "build")));
-app.get("/", function (req, res) {
+app.get("/", (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-server.listen(22306, () => console.log(`SERVER on 💩 port: ${22306}`));
+server.listen(PORT, () => console.log(`SERVER on 💩 port: ${PORT}`));
