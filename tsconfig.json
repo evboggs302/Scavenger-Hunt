@@ -11,17 +11,17 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "baseUrl": "src", // This must be specified if "paths" is.
+    "baseUrl": "ui",
     "paths": {
       "@dux/*": ["dux/*"],
-      "@features/*": ["ui/features/*"],
-      "@shared/*": ["ui/shared/*"],
+      "@features/*": ["features/*"],
+      "@shared/*": ["shared/*"],
       "@utils/*": ["utils/*"]
     },
     "typeRoots": [
       "node_modules/@types",
       "@testing-library/jest-dom",
-      ".src/types/**/*",
+      ".ui/types/**/*",
       ".server/types/**/*"
     ],
     "forceConsistentCasingInFileNames": true,
@@ -32,6 +32,6 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "server"],
+  "include": ["ui", "server"],
   "exclude": ["node_modules"]
 }
