@@ -1,30 +1,37 @@
 {
-  "include": ["./src/**/*", "./server/**/*"],
   "compilerOptions": {
-    "target": "es5",
-    "jsx": "react-jsx",
-    "module": "esnext",
+    "target": "esnext",
+    "module": "commonjs",
+    "jsx": "react",
+    "moduleResolution": "node",
+    "allowJs": false,
+    "noEmit": false,
+    "strict": true,
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "baseUrl": "src", // This must be specified if "paths" is.
+    "paths": {
+      "@dux/*": ["dux/*"],
+      "@features/*": ["ui/features/*"],
+      "@shared/*": ["ui/shared/*"],
+      "@utils/*": ["utils/*"]
+    },
     "typeRoots": [
       "node_modules/@types",
       "@testing-library/jest-dom",
       ".src/types/**/*",
       ".server/types/**/*"
     ],
-    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true,
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "noEmit": true
-  }
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src", "server"],
+  "exclude": ["node_modules"]
 }
