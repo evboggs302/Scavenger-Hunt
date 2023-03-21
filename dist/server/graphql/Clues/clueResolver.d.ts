@@ -1,7 +1,11 @@
-export declare const clueResolvers: {
+import mongoose from "mongoose";
+declare const clueResolvers: {
     Query: {
-        getCluesByHuntId: (parent: {}, args: {
-            id: string;
-        }, context: {}, info: {}) => any;
+        getCluesByHuntId: ({ args }: {
+            args: {
+                id: string;
+            };
+        }) => mongoose.Aggregate<any[]>;
     };
 };
+export default clueResolvers;

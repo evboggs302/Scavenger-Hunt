@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.clueResolvers = void 0;
+const mongoose_1 = require("mongoose");
 const clues_1 = require("../../models/clues");
-exports.clueResolvers = {
+const clueResolvers = {
     Query: {
-        getCluesByHuntId: (parent, args, context, info) => {
+        getCluesByHuntId: ({ args }) => {
             const { id } = args;
-            const h_id = mongoose.Types.ObjectId(id);
+            const h_id = mongoose_1.default.Types.ObjectId(id);
             return clues_1.default.aggregate([
                 {
                     $match: { hunt_id: h_id },
@@ -45,3 +45,4 @@ exports.clueResolvers = {
     //     deleteAllCluesByHuntId: (parent, args, context, info) => {},
     // },
 };
+exports.default = clueResolvers;

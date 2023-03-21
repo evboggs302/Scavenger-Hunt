@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     userName: {
@@ -22,4 +24,4 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
 }, { versionKey: false });
-module.exports = mongoose.model("User", userSchema, "users"); // modelName, schemaName, collectionName
+exports.default = mongoose.model("User", userSchema, "users"); // modelName, schemaName, collectionName

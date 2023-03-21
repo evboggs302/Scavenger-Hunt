@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose = require("mongoose");
 const huntSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: {
@@ -26,4 +28,4 @@ const huntSchema = new mongoose.Schema({
         default: "You've completed your hunt.",
     },
 }, { versionKey: false });
-module.exports = mongoose.model("Hunt", huntSchema, "hunts"); // modelName, schemaName, collectionName
+exports.default = mongoose.model("Hunt", huntSchema, "hunts"); // modelName, schemaName, collectionName

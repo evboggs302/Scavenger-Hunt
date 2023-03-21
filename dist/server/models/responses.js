@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose = require("mongoose");
 const responseSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     team_id: {
@@ -13,7 +15,7 @@ const responseSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    response_img: mongoose.Mixed,
+    response_img: mongoose.Schema.Types.Mixed,
     time_received: {
         type: Date,
         required: true,
@@ -26,4 +28,4 @@ const responseSchema = new mongoose.Schema({
         type: Boolean,
     },
 }, { versionKey: false });
-module.exports = mongoose.model("Response", responseSchema, "responses"); // modelName, schemaName, collectionName
+exports.default = mongoose.model("Response", responseSchema, "responses"); // modelName, schemaName, collectionName

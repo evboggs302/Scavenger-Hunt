@@ -15,10 +15,10 @@ export type Scalars = {
 };
 
 export type AddUserInput = {
-  firstName?: InputMaybe<Scalars['String']>;
-  lastName?: InputMaybe<Scalars['String']>;
-  password?: InputMaybe<Scalars['String']>;
-  userName?: InputMaybe<Scalars['String']>;
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  password: Scalars['String'];
+  userName: Scalars['String'];
 };
 
 export type Clue = {
@@ -34,11 +34,6 @@ export type CluesListItem = {
   order_number?: InputMaybe<Scalars['Int']>;
 };
 
-export type CreateCluesInput = {
-  cluesList?: InputMaybe<Array<InputMaybe<CluesListItem>>>;
-  hunt_id?: InputMaybe<Scalars['ID']>;
-};
-
 export type Mutation = {
   __typename: 'Mutation';
   addUser?: Maybe<UserResponsePayload>;
@@ -51,12 +46,13 @@ export type Mutation = {
 
 
 export type MutationAddUserArgs = {
-  input?: InputMaybe<AddUserInput>;
+  input: AddUserInput;
 };
 
 
 export type MutationCreateCluesArgs = {
-  input: CreateCluesInput;
+  cluesList?: InputMaybe<Array<InputMaybe<CluesListItem>>>;
+  hunt_id: Scalars['ID'];
 };
 
 
@@ -71,12 +67,13 @@ export type MutationDeleteClueByIdArgs = {
 
 
 export type MutationUpdateClueDescriptionArgs = {
-  input: UpdateClueDescriptionInput;
+  id: Scalars['ID'];
+  newDesc: Scalars['String'];
 };
 
 
 export type MutationUpdateClueOrderArgs = {
-  input: UpdateClueOrderInput;
+  newOrder: Array<InputMaybe<Scalars['ID']>>;
 };
 
 export type Query = {
@@ -85,6 +82,10 @@ export type Query = {
   getAllUsers?: Maybe<Array<Maybe<UserResponsePayload>>>;
   getCluesByHuntId?: Maybe<Array<Maybe<Clue>>>;
   getFirstClueByHuntId?: Maybe<Clue>;
+  getSingleUser?: Maybe<UserResponsePayload>;
+  login?: Maybe<User>;
+  logout?: Maybe<Scalars['Boolean']>;
+  userNameExists?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -97,13 +98,14 @@ export type QueryGetFirstClueByHuntIdArgs = {
   id: Scalars['ID'];
 };
 
-export type UpdateClueDescriptionInput = {
+
+export type QueryGetSingleUserArgs = {
   id: Scalars['ID'];
-  newDesc?: InputMaybe<Scalars['String']>;
 };
 
-export type UpdateClueOrderInput = {
-  newOrder?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+
+export type QueryUserNameExistsArgs = {
+  userName: Scalars['String'];
 };
 
 export type User = {
@@ -205,13 +207,10 @@ export type ResolversTypes = {
   Clue: ResolverTypeWrapper<Clue>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   CluesListItem: CluesListItem;
-  CreateCluesInput: CreateCluesInput;
-  ID: ResolverTypeWrapper<Scalars['ID']>;
   Mutation: ResolverTypeWrapper<{}>;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Query: ResolverTypeWrapper<{}>;
-  UpdateClueDescriptionInput: UpdateClueDescriptionInput;
-  UpdateClueOrderInput: UpdateClueOrderInput;
   User: ResolverTypeWrapper<User>;
   UserResponsePayload: ResolverTypeWrapper<UserResponsePayload>;
   AdditionalEntityFields: AdditionalEntityFields;
@@ -224,13 +223,10 @@ export type ResolversParentTypes = {
   Clue: Clue;
   Int: Scalars['Int'];
   CluesListItem: CluesListItem;
-  CreateCluesInput: CreateCluesInput;
-  ID: Scalars['ID'];
   Mutation: {};
+  ID: Scalars['ID'];
   Boolean: Scalars['Boolean'];
   Query: {};
-  UpdateClueDescriptionInput: UpdateClueDescriptionInput;
-  UpdateClueOrderInput: UpdateClueOrderInput;
   User: User;
   UserResponsePayload: UserResponsePayload;
   AdditionalEntityFields: AdditionalEntityFields;
@@ -292,12 +288,12 @@ export type ClueResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  addUser?: Resolver<Maybe<ResolversTypes['UserResponsePayload']>, ParentType, ContextType, Partial<MutationAddUserArgs>>;
-  createClues?: Resolver<Maybe<Array<Maybe<ResolversTypes['Clue']>>>, ParentType, ContextType, RequireFields<MutationCreateCluesArgs, 'input'>>;
+  addUser?: Resolver<Maybe<ResolversTypes['UserResponsePayload']>, ParentType, ContextType, RequireFields<MutationAddUserArgs, 'input'>>;
+  createClues?: Resolver<Maybe<Array<Maybe<ResolversTypes['Clue']>>>, ParentType, ContextType, RequireFields<MutationCreateCluesArgs, 'hunt_id'>>;
   deleteAllCluesByHuntId?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteAllCluesByHuntIdArgs, 'id'>>;
   deleteClueById?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteClueByIdArgs, 'id'>>;
-  updateClueDescription?: Resolver<Maybe<ResolversTypes['Clue']>, ParentType, ContextType, RequireFields<MutationUpdateClueDescriptionArgs, 'input'>>;
-  updateClueOrder?: Resolver<Maybe<Array<Maybe<ResolversTypes['Clue']>>>, ParentType, ContextType, RequireFields<MutationUpdateClueOrderArgs, 'input'>>;
+  updateClueDescription?: Resolver<Maybe<ResolversTypes['Clue']>, ParentType, ContextType, RequireFields<MutationUpdateClueDescriptionArgs, 'id' | 'newDesc'>>;
+  updateClueOrder?: Resolver<Maybe<Array<Maybe<ResolversTypes['Clue']>>>, ParentType, ContextType, RequireFields<MutationUpdateClueOrderArgs, 'newOrder'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -305,6 +301,10 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getAllUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserResponsePayload']>>>, ParentType, ContextType>;
   getCluesByHuntId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Clue']>>>, ParentType, ContextType, RequireFields<QueryGetCluesByHuntIdArgs, 'id'>>;
   getFirstClueByHuntId?: Resolver<Maybe<ResolversTypes['Clue']>, ParentType, ContextType, RequireFields<QueryGetFirstClueByHuntIdArgs, 'id'>>;
+  getSingleUser?: Resolver<Maybe<ResolversTypes['UserResponsePayload']>, ParentType, ContextType, RequireFields<QueryGetSingleUserArgs, 'id'>>;
+  login?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  logout?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  userNameExists?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<QueryUserNameExistsArgs, 'userName'>>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {

@@ -1,5 +1,5 @@
 {
-  "name": "@eboggs302/scavenger_hunt",
+  "name": "@eboggs302/scavenger_hunt.client",
   "proxy": "http://localhost:22306",
   "version": "0.1.0",
   "private": true,

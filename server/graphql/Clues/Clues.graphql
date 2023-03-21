@@ -15,24 +15,10 @@ input CluesListItem {
   description: String
 }
 
-input CreateCluesInput {
-  hunt_id: ID
-  cluesList: [CluesListItem]
-}
-
-input UpdateClueDescriptionInput {
-  id: ID!
-  newDesc: String
-}
-
-input UpdateClueOrderInput {
-  newOrder: [ID]
-}
-
 type Mutation {
-  createClues(input: CreateCluesInput!): [Clue]
-  updateClueDescription(input: UpdateClueDescriptionInput!): Clue
-  updateClueOrder(input: UpdateClueOrderInput!): [Clue]
+  createClues(hunt_id: ID!, cluesList: [CluesListItem]): [Clue]
+  updateClueDescription(id: ID!, newDesc: String!): Clue
+  updateClueOrder(newOrder: [ID]!): [Clue]
   deleteClueById(id: ID!): Boolean
   deleteAllCluesByHuntId(id: ID!): Boolean
 }

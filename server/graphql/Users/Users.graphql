@@ -1,12 +1,3 @@
-type User {
-  _id: String
-  userName: String
-  firstName: String
-  lastName: String
-  hunts: [String]
-  password: String
-}
-
 type UserResponsePayload {
   _id: String
   userName: String
@@ -18,6 +9,10 @@ type UserResponsePayload {
 type Query {
   getAllUsers: [UserResponsePayload]
   getActiveUser: UserResponsePayload
+  getSingleUser(id: ID!): UserResponsePayload
+  login: User
+  logout: Boolean
+  userNameExists(userName: String!): Boolean
 }
 
 input AddUserInput {

@@ -25,12 +25,6 @@
       ".server/types/**/*",
       ".server/node_modules/@types"
     ]
-    // "forceConsistentCasingInFileNames": true,
-    // "strictNullChecks": true,
-    // "strictFunctionTypes": true,
-    // "strictBindCallApply": true,
-    // "noImplicitReturns": true,
-    // "noFallthroughCasesInSwitch": true
   },
   "include": ["client", "server"],
   "exclude": ["node_modules"]

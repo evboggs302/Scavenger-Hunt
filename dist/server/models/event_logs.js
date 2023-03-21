@@ -1,6 +1,8 @@
 "use strict";
-const logSchema = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = require("mongoose");
+const logSchema = new mongoose_1.default.Schema({
+    _id: mongoose_1.default.Schema.Types.ObjectId,
     type: {
         type: String,
         required: true,
@@ -10,7 +12,7 @@ const logSchema = new mongoose.Schema({
         required: true,
     },
     body: {
-        type: mongoose.Mixed,
+        type: mongoose_1.default.Schema.Types.Mixed,
         required: true,
     },
     time_stamp: {
@@ -19,4 +21,4 @@ const logSchema = new mongoose.Schema({
     },
 }, { versionKey: false });
 logSchema.index({ time_stamp: 1 }, { expires: "1 year" });
-module.exports = mongoose.model("Log", logSchema, "event_logs"); // modelName, schemaName, collectionName
+exports.default = mongoose_1.default.model("Log", logSchema, "event_logs"); // modelName, schemaName, collectionName

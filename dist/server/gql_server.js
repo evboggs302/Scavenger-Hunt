@@ -10,17 +10,15 @@ const config_1 = require("./config");
 const { MONGO_URI, PORT } = config_1.default;
 const app = express();
 const httpServer = (0, http_1.createServer)(app);
-const server = new apollo_server_express_1.ApolloServer({
-    schema: schema_1.default,
-    plugins: [(0, apollo_server_core_1.ApolloServerPluginDrainHttpServer)({ httpServer })],
-});
 async function startServer() {
-    const server = new apollo_server_express_1.ApolloServer({ schema: schema_1.default });
+    const server = new apollo_server_express_1.ApolloServer({
+        schema: schema_1.default,
+        plugins: [(0, apollo_server_core_1.ApolloServerPluginDrainHttpServer)({ httpServer })],
+    });
     await server.start();
     server.applyMiddleware({ app, path: "/graphql" });
 }
 // MONGODB Connection
-console.log(MONGO_URI);
 mongoose
     .connect(MONGO_URI, {
     useNewUrlParser: true,
@@ -28,11 +26,10 @@ mongoose
     useCreateIndex: true,
 })
     .then(() => {
-    console.log(`✅ Connected to Database\n`);
+    console.log(`✅ Connected to Database`);
     startServer();
     return app.listen({ port: PORT }, () => {
         console.log(`Apollo Server on http://localhost:${PORT}/graphql`);
     });
 })
-    // .then((str) => console.log(str))
     .catch((err) => console.log(`🚫 Mongo failed\n`));
