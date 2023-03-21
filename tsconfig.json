@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "commonjs",
+    "module": "CommonJS",
     "jsx": "react",
     "moduleResolution": "node",
+    "outDir": "./dist",
     "allowJs": false,
     "noEmit": false,
     "strict": true,
@@ -11,7 +12,7 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "baseUrl": "ui",
+    "baseUrl": "client",
     "paths": {
       "@dux/*": ["dux/*"],
       "@features/*": ["features/*"],
@@ -19,19 +20,18 @@
       "@utils/*": ["utils/*"]
     },
     "typeRoots": [
-      "node_modules/@types",
-      "@testing-library/jest-dom",
-      ".ui/types/**/*",
-      ".server/types/**/*"
-    ],
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictBindCallApply": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+      ".client/types/**/*",
+      ".client/node_modules/@types",
+      ".server/types/**/*",
+      ".server/node_modules/@types"
+    ]
+    // "forceConsistentCasingInFileNames": true,
+    // "strictNullChecks": true,
+    // "strictFunctionTypes": true,
+    // "strictBindCallApply": true,
+    // "noImplicitReturns": true,
+    // "noFallthroughCasesInSwitch": true
   },
-  "include": ["ui", "server"],
+  "include": ["client", "server"],
   "exclude": ["node_modules"]
 }

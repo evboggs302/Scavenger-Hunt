@@ -3,22 +3,37 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "nodemon index.ts",
-    "tsc-check": "tsc --noEmit"
+    "start": "nodemon rest_server.ts",
+    "gqlstart": "nodemon gql_server.ts",
+    "tsc-check": "tsc --noEmit",
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
+    "apollo-server-express": "^3.12.0",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "express-session": "^1.17.2",
+    "graphql": "^16.6.0",
     "gridfs-stream": "^1.1.1",
+    "http": "^0.0.1-security",
     "http-proxy-middleware": "^2.0.1",
-    "http-server": "^14.1.1",
     "mongoose": "^5.13.2",
     "puppeteer": "^19.7.5",
     "twilio": "^4.8.0",
     "typescript": "^4.4.2"
   },
   "devDependencies": {
-    "bcryptjs": "^2.4.3"
+    "@graphql-codegen/cli": "3.2.2",
+    "@graphql-codegen/fragment-matcher": "^4.0.1",
+    "@graphql-codegen/introspection": "3.0.1",
+    "@graphql-codegen/typescript": "3.0.2",
+    "@graphql-codegen/typescript-mongodb": "2.4.6",
+    "@graphql-codegen/typescript-operations": "^3.0.2",
+    "@graphql-codegen/typescript-resolvers": "3.1.1",
+    "@types/express": "^4.17.17",
+    "@types/graphql": "^14.5.0",
+    "@types/node": "^18.15.5",
+    "bcryptjs": "^2.4.3",
+    "graphql-import-node": "^0.0.5"
   }
 }

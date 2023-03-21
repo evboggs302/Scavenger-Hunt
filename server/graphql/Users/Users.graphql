@@ -1,0 +1,32 @@
+type User {
+  _id: String
+  userName: String
+  firstName: String
+  lastName: String
+  hunts: [String]
+  password: String
+}
+
+type UserResponsePayload {
+  _id: String
+  userName: String
+  firstName: String
+  lastName: String
+  hunts: [String]
+}
+
+type Query {
+  getAllUsers: [UserResponsePayload]
+  getActiveUser: UserResponsePayload
+}
+
+input AddUserInput {
+  firstName: String!
+  lastName: String!
+  userName: String!
+  password: String!
+}
+
+type Mutation {
+  addUser(input: AddUserInput!): UserResponsePayload
+}
