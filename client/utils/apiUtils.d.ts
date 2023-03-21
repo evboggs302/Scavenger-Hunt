@@ -1,0 +1,12 @@
+export declare const sendLogin: (uname: string, pw: string) => Promise<import("axios").AxiosResponse<any>>;
+export declare const fetchActiveUser: () => Promise<void>;
+export declare const createHunt: (name: string) => Promise<import("axios").AxiosResponse<any>>;
+export declare const createTeams: (hunt_id: string, teams: string[]) => Promise<import("axios").AxiosResponse<any>>;
+export declare const createClues: (hunt_id: string, cluesList: string[]) => Promise<import("axios").AxiosResponse<any>>;
+export declare const activateHunt: (hunt_id: string) => Promise<any>;
+export declare const fetchHuntData: (hunt_id: string) => Promise<any>;
+export declare const fetchUserHunts: (user_id: string) => Promise<import("axios").AxiosResponse<any>>;
+export declare const fetchTeamsByHunt: (hunt_id: string) => Promise<any>;
+export declare const fetchResponses: (hunt_id: string) => Promise<any>;
+export declare const markResponseCorrect: (response_id: string) => Promise<any>;
+export declare const sendHint: (response_id: string, team_id: string, hint: string) => Promise<any>;
