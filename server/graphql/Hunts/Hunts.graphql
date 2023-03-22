@@ -1,0 +1,16 @@
+type Hunt {
+  _id: ID
+  created_date: String
+  isActive: Boolean
+  recallMessage: String
+  name: String
+  start_date: String
+  end_date: String
+}
+
+type Query {
+  getCluesByHuntId: [Clue]
+  getFirstClueByHuntId: Clue
+}
+
+# type Mutation {}

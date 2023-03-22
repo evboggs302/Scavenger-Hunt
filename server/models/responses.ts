@@ -2,7 +2,6 @@ import * as mongoose from "mongoose";
 
 const responseSchema = new mongoose.Schema(
   {
-    _id: mongoose.Schema.Types.ObjectId,
     team_id: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

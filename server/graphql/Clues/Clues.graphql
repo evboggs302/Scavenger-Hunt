@@ -5,11 +5,6 @@ type Clue {
   description: String
 }
 
-type Query {
-  getCluesByHuntId(id: ID!): [Clue]
-  getFirstClueByHuntId(id: ID!): Clue
-}
-
 input CluesListItem {
   order_number: Int
   description: String

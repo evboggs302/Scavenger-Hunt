@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 const logSchema = new mongoose.Schema(
   {
-    _id: mongoose.Schema.Types.ObjectId,
     type: {
       type: String,
       required: true,

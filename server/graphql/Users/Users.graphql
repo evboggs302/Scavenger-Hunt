@@ -1,16 +1,15 @@
-type UserResponsePayload {
-  _id: String
+type User {
+  _id: ID
   userName: String
   firstName: String
   lastName: String
-  hunts: [String]
+  hunts: [ID]
 }
 
 type Query {
-  getAllUsers: [UserResponsePayload]
-  getActiveUser: UserResponsePayload
-  getSingleUser(id: ID!): UserResponsePayload
-  login: User
+  getAllUsers: [User]
+  getSingleUser(id: ID!): User
+  login(userName: String!, password: String!): User
   logout: Boolean
   userNameExists(userName: String!): Boolean
 }
@@ -23,5 +22,5 @@ input AddUserInput {
 }
 
 type Mutation {
-  addUser(input: AddUserInput!): UserResponsePayload
+  addUser(input: AddUserInput): User
 }
