@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
     "target": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "module": "CommonJS",
     "jsx": "react",
     "moduleResolution": "node",
-    "outDir": "./dist",
+    "outDir": "../tsdist/client",
     "allowJs": false,
     "noEmit": false,
     "strict": true,
@@ -12,20 +13,15 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "baseUrl": "client",
+    "baseUrl": "./",
     "paths": {
       "@dux/*": ["dux/*"],
       "@features/*": ["features/*"],
       "@shared/*": ["shared/*"],
       "@utils/*": ["utils/*"]
     },
-    "typeRoots": [
-      ".client/types/**/*",
-      ".client/node_modules/@types",
-      ".server/types/**/*",
-      ".server/node_modules/@types"
-    ]
+    "types": ["vite/client", "vite-plugin-svgr/client"],
+    "typeRoots": ["types/**/*", "node_modules/@types"]
   },
-  "include": ["client", "server"],
   "exclude": ["node_modules"]
 }

@@ -1,11 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // import { useState } from "react";
-import React from "react";
+const react_1 = require("react");
 // import { Link } from "react-router-dom";
 // import { QueryClient, QueryClientProvider } from "react-query";
 // import Routes from "@utils/routes";
 // import { fetchActiveUser } from "./utils/apiUtils";
-import "./App.css";
-
+require("./App.css");
 // function App() {
 //   return (
 //     <div className="App">
@@ -31,16 +32,12 @@ import "./App.css";
 //     </div>
 //   );
 // }
-
 // const queryClient = new QueryClient();
-
 function WrappedApp() {
-  return (
+    return (
     // <QueryClientProvider client={queryClient}>
     //   <App />
     // </QueryClientProvider>
-    <h1>HELLO VITE WORLD</h1>
-  );
+    react_1.default.createElement("h1", null, "HELLO VITE WORLD"));
 }
-
-export default WrappedApp;
+exports.default = WrappedApp;

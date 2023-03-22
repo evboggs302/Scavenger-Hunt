@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "outDir": "../tsdist/server",
+    "allowJs": false,
+    "noEmit": false,
+    "strict": true,
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "baseUrl": "./",
+    "paths": {
+      "@models/*": ["models/*"],
+      "@gql/*": ["graphql/*"]
+    },
+    "typeRoots": ["types/**/*", "node_modules/@types"]
+  },
+  "exclude": ["node_modules"]
+}
