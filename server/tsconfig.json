@@ -5,7 +5,7 @@
     "moduleResolution": "node",
     "outDir": "../tsdist/server",
     "allowJs": false,
-    "noEmit": false,
+    "noEmit": true,
     "strict": true,
     "declaration": true,
     "allowSyntheticDefaultImports": true,

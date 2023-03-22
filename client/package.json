@@ -7,19 +7,21 @@
     "start": "vite",
     "build": "vite build",
     "tsc-check": "tsc --noEmit",
+    "codegen": "graphql-codegen --config codegen.ts",
     "generate-barrels": "barrelsby -c barrelsby.json",
     "storybook": "start-storybook -p 6006 -s public"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.10",
     "@material-ui/core": "^4.12.1",
     "@material-ui/icons": "^4.11.2",
     "@reduxjs/toolkit": "^1.6.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
-    "@types/react-dom": "^18.0.11",
     "axios": "^0.21.1",
     "barrelsby": "^2.5.1",
+    "graphql": "^16.6.0",
     "puppeteer": "^19.7.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -37,28 +39,20 @@
     "typescript": "^4.4.2"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "3.2.2",
+    "@graphql-codegen/fragment-matcher": "^4.0.1",
+    "@graphql-codegen/introspection": "3.0.1",
+    "@graphql-codegen/typescript": "3.0.2",
+    "@graphql-codegen/typescript-apollo-client-helpers": "^2.2.6",
+    "@graphql-codegen/typescript-mongodb": "2.4.6",
+    "@graphql-codegen/typescript-operations": "^3.0.2",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.7",
+    "@graphql-codegen/typescript-resolvers": "3.1.1",
+    "@types/react-dom": "^18.0.11",
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^2.0.1",
     "vite": "^3.0.7",
     "vite-plugin-svgr": "^2.4.0",
     "vite-tsconfig-paths": "^4.0.7"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   }
 }
