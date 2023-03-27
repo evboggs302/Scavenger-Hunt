@@ -10,7 +10,9 @@ node_modules/
 /coverage
 
 # production
+tsdist
 /client/build
+
 
 # misc
 .DS_Store

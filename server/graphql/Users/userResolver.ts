@@ -1,50 +1,53 @@
 import { hashSync } from "bcryptjs";
-import { GraphQLResolveInfo } from "graphql";
 import UserModel from "../../models/users";
-import { AddUserInput, User } from "../../generated/graphql";
-import { ContextObj } from "@gql/contextObject";
+import HuntModel from "../../models/hunts";
+import { AddUserInput, User, Hunt, Resolvers } from "../../generated/graphql";
+import { BsonObjectId } from "../../utils/BsonObjectIdCreater";
 
-// (parent, args, context, info) => {},
-
-const userResolver = {
+const userResolver: Resolvers = {
   Query: {
-    getAllUsers: (): [User] => {
-      return UserModel.find({});
+    getAllUsers: async () => {
+      const users: [User] = await UserModel.find({}).exec();
+      return users;
     },
-    // getSingleUser: (parent, args, context, info) => {},
+    getSingleUser: async (_, args: { uid: string }) => {
+      const u_id = BsonObjectId(args.uid);
+      return await UserModel.findOne({ _id: u_id }).exec();
+    },
     // login: (parent, args, context, info) => {},
     // logout: (parent, args, context, info) => {},
-    userNameExists: async (
-      parent: undefined,
-      args: { userName: string },
-      context: ContextObj,
-      info: GraphQLResolveInfo
-    ) => {
+    userNameExists: async (_, args: { userName: string }) => {
       const { userName } = args;
       const matches = await UserModel.find({ userName: userName }).exec();
-      context.existingUsers = matches;
-      console.log(context);
+      // context.existingUsers = matches;
+      // console.log(context);
       return matches.length > 0;
     },
   },
   Mutation: {
-    addUser: async (
-      parent: undefined,
-      args: { input: AddUserInput },
-      context: {},
-      info: GraphQLResolveInfo
-    ) => {
-      const { firstName, lastName, userName, password } = args.input;
+    createUser: async (_, args: { input: AddUserInput }) => {
+      const { first_name, last_name, user_name, password } = args.input;
       let hashedPw = hashSync(password, 15);
-      return await UserModel.create({
-        userName: userName,
+      const u_id = BsonObjectId();
+      const user = new UserModel({
+        _id: u_id,
+        first_name,
+        last_name,
+        user_name,
         password: hashedPw,
-        firstName: firstName,
-        lastName: lastName,
-        hunts: [],
       });
+      await user.save();
+      return await UserModel.findOne({ _id: u_id }).exec();
     },
-    // removeHuntFromUser: (parent, args, context, info) => {},
+  },
+  User: {
+    hunts: async (parent: User) => {
+      const _id = BsonObjectId(parent._id);
+      const hunts: [Hunt] = await HuntModel.find({
+        created_by: _id,
+      }).exec();
+      return hunts;
+    },
   },
 };
 

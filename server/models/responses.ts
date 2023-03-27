@@ -1,6 +1,6 @@
 import * as mongoose from "mongoose";
 
-const responseSchema = new mongoose.Schema(
+export const responseSchema = new mongoose.Schema(
   {
     team_id: {
       type: mongoose.Schema.Types.ObjectId,
@@ -13,6 +13,7 @@ const responseSchema = new mongoose.Schema(
     response_txt: {
       type: String,
       required: true,
+      trim: true,
     },
     response_img: mongoose.Schema.Types.Mixed, // either String or [String]
     time_received: {

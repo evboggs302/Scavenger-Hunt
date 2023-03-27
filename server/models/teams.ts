@@ -14,7 +14,7 @@ const teamSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    lastClue_sent: {
+    last_clue_sent: {
       type: Number,
       default: 0,
     },

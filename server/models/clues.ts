@@ -1,6 +1,6 @@
 import * as mongoose from "mongoose";
 
-const clueSchema = new mongoose.Schema(
+export const clueSchema = new mongoose.Schema(
   {
     hunt_id: {
       type: mongoose.Schema.Types.ObjectId,
@@ -13,6 +13,7 @@ const clueSchema = new mongoose.Schema(
     description: {
       type: String,
       required: true,
+      trim: true,
     },
   },
   { versionKey: false }

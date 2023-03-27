@@ -1,19 +1,34 @@
 type Clue {
-  _id: String
-  hunt_id: String
+  _id: ID!
+  hunt_id: ID!
   order_number: Int
   description: String
+}
+
+type Query {
+  getCluesByHuntId(id: String!): [Clue]
 }
 
 input CluesListItem {
-  order_number: Int
-  description: String
+  order_number: Int!
+  description: String!
+}
+
+input CreateMultipleCluesInput {
+  h_id: String!
+  cluesList: [CluesListItem]!
+}
+
+input CreateSingleClueInput {
+  h_id: String!
+  clueItem: CluesListItem!
 }
 
 type Mutation {
-  createClues(hunt_id: ID!, cluesList: [CluesListItem]): [Clue]
-  updateClueDescription(id: ID!, newDesc: String!): Clue
-  updateClueOrder(newOrder: [ID]!): [Clue]
-  deleteClueById(id: ID!): Boolean
-  deleteAllCluesByHuntId(id: ID!): Boolean
+  createMultipleClues(input: CreateMultipleCluesInput!): [Clue]
+  createSingleClue(input: CreateSingleClueInput!): [Clue]
+  # updateClueDescription(id: ID!, newDesc: String!): Clue
+  # updateClueOrder(newOrder: [ID]!): [Clue]
+  # deleteClueById(id: ID!): Boolean
+  # deleteAllCluesByHuntId(id: ID!): Boolean
 }

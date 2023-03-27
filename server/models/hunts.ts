@@ -1,14 +1,15 @@
 import * as mongoose from "mongoose";
 
-const huntSchema = new mongoose.Schema(
+export const huntSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
+      trim: true,
     },
-    created_date: {
-      type: Date,
-      default: new Date(),
+    created_by: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
     },
     start_date: {
       type: Date,
@@ -18,13 +19,18 @@ const huntSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    isActive: {
+    created_date: {
+      type: Date,
+      default: new Date(),
+    },
+    is_active: {
       type: Boolean,
       default: false,
     },
-    recallMessage: {
+    recall_message: {
       type: String,
       default: "You've completed your hunt.",
+      trim: true,
     },
   },
   { versionKey: false }

@@ -1,26 +1,26 @@
 type User {
-  _id: ID
-  userName: String
-  firstName: String
-  lastName: String
-  hunts: [ID]
+  _id: ID!
+  user_name: String
+  first_name: String
+  last_name: String
+  hunts: [Hunt!]
 }
 
 type Query {
   getAllUsers: [User]
-  getSingleUser(id: ID!): User
+  getSingleUser(uid: ID!): User
   login(userName: String!, password: String!): User
   logout: Boolean
   userNameExists(userName: String!): Boolean
 }
 
 input AddUserInput {
-  firstName: String!
-  lastName: String!
-  userName: String!
+  first_name: String!
+  last_name: String!
+  user_name: String!
   password: String!
 }
 
 type Mutation {
-  addUser(input: AddUserInput): User
+  createUser(input: AddUserInput!): User
 }

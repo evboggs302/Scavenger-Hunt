@@ -1,16 +1,27 @@
 type Hunt {
-  _id: ID
-  created_date: String
-  isActive: Boolean
-  recallMessage: String
+  _id: ID!
+  created_by: ID!
   name: String
+  created_date: String
   start_date: String
   end_date: String
+  is_active: Boolean
+  recall_message: String
+  clues: [Clue!]
+  teams: [Team!]
 }
 
 type Query {
   getCluesByHuntId: [Clue]
-  getFirstClueByHuntId: Clue
 }
 
-# type Mutation {}
+input CreateHuntInput {
+  name: String!
+  created_by: String!
+  start_date: String!
+  end_date: String!
+}
+
+type Mutation {
+  createHunt(input: CreateHuntInput!): Hunt
+}

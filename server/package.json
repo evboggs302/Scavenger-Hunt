@@ -3,23 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "nodemon rest_server.ts",
-    "gqlstart": "nodemon gql_server.ts",
+    "start-rest": "npx nodemon server_rest.ts",
+    "start-gql": "npx nodemon server_gql.ts",
     "tsc-check": "tsc --noEmit",
-    "codegen": "graphql-codegen --config codegen.ts"
+    "codegen": "graphql-codegen --config codegen.ts",
+    "compile": "tsc"
   },
   "dependencies": {
     "@apollo/server": "^4.5.0",
-    "apollo-server-express": "^3.12.0",
-    "body-parser": "^1.20.2",
-    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.18.2",
-    "express-session": "^1.17.2",
+    "express-session": "^1.17.3",
     "graphql": "^16.6.0",
     "gridfs-stream": "^1.1.1",
-    "http": "^0.0.1-security",
-    "http-proxy-middleware": "^2.0.1",
     "mongoose": "^5.13.2",
     "twilio": "^4.8.0",
     "typescript": "^4.4.2"
@@ -33,10 +29,14 @@
     "@graphql-codegen/typescript-operations": "^3.0.2",
     "@graphql-codegen/typescript-resolvers": "3.1.1",
     "@types/bcryptjs": "^2.4.2",
+    "@types/bson": "^4.2.0",
     "@types/express": "^4.17.17",
+    "@types/express-session": "^1.17.7",
     "@types/graphql": "^14.5.0",
     "@types/node": "^18.15.5",
     "bcryptjs": "^2.4.3",
-    "graphql-import-node": "^0.0.5"
+    "graphql-import-node": "^0.0.5",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1"
   }
 }

@@ -1,22 +1,21 @@
 import * as mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema(
+export const userSchema = new mongoose.Schema(
   {
-    userName: {
+    user_name: {
       type: String,
       required: true,
+      trim: true,
     },
-    firstName: {
+    first_name: {
       type: String,
       required: true,
+      trim: true,
     },
-    lastName: {
+    last_name: {
       type: String,
       required: true,
-    },
-    hunts: {
-      type: [mongoose.Schema.Types.ObjectId],
-      required: true,
+      trim: true,
     },
     password: {
       type: String,
