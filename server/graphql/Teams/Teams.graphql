@@ -1,3 +1,12 @@
+type Query {
+  getTeamsByHuntId(h_id: ID!): [Team]
+}
+
+type Mutation {
+  createSingleTeam(input: CreateSingleTeamInput!): [Team]
+  createMultipleTeams(input: CreateMultTeamsInput!): [Team]
+}
+
 type Team {
   _id: ID!
   hunt_id: String!
@@ -5,10 +14,6 @@ type Team {
   last_clue_sent: Int
   members: [String]
   device_number: String
-}
-
-type Query {
-  getTeamsByHuntId(h_id: ID!): [Team]
 }
 
 input SingleTeamInput {
@@ -25,9 +30,4 @@ input CreateSingleTeamInput {
   h_id: String!
   members: [String]!
   device_number: String!
-}
-
-type Mutation {
-  createSingleTeam(input: CreateSingleTeamInput!): [Team]
-  createMultipleTeams(input: CreateMultTeamsInput!): [Team]
 }

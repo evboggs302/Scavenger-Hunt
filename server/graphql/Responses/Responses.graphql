@@ -1,0 +1,12 @@
+# type Query {}
+# type Mutation {}
+
+type ResponsePayload {
+  _id: ID!
+  clue_id: String!
+  team_id: String!
+  time_received: String
+  response_txt: String
+  correct: Boolean
+  hint_sent: Boolean
+}

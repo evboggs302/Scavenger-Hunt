@@ -17,7 +17,7 @@ export const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    password: {
+    hash: {
       type: String,
       required: true,
     },

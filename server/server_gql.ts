@@ -3,15 +3,20 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import schema from "./graphql/schema";
 import config from "./config";
+import context from "./graphql/context";
 
 const { MONGO_URI, PORT } = config;
 
 async function startServer() {
-  const server = new ApolloServer({ schema });
+  const server = new ApolloServer({
+    schema,
+  });
   const { url } = await startStandaloneServer(server, {
+    context,
     listen: { port: PORT },
   });
-  console.log(`🚀  ApolloServer ready at: ${url}`);
+  config.SERVER_URL = url;
+  console.log(`🚀 ApolloServer ready at: ${url}`);
 }
 
 // MONGODB Connection

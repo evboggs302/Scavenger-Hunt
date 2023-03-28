@@ -1,3 +1,11 @@
+type Query {
+  getCluesByHuntId: [Clue]
+}
+
+type Mutation {
+  createHunt(input: CreateHuntInput!): Hunt
+}
+
 type Hunt {
   _id: ID!
   created_by: ID!
@@ -11,9 +19,6 @@ type Hunt {
   teams: [Team!]
 }
 
-type Query {
-  getCluesByHuntId: [Clue]
-}
 
 input CreateHuntInput {
   name: String!
@@ -22,6 +27,3 @@ input CreateHuntInput {
   end_date: String!
 }
 
-type Mutation {
-  createHunt(input: CreateHuntInput!): Hunt
-}

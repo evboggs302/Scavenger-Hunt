@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import * as mongoose from "mongoose";
 
 const logSchema = new mongoose.Schema(
   {
@@ -6,7 +6,7 @@ const logSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    where: {
+    location: {
       type: String,
       required: true,
     },

@@ -4,12 +4,12 @@ import {
   CreateSingleTeamInput,
   Resolvers,
 } from "../../generated/graphql";
-import { BsonObjectId } from "../../utils/BsonObjectIdCreater";
+import { createBsonObjectId } from "../../utils/createBsonObjectId";
 
 const teamResolver: Resolvers = {
   Query: {
     getTeamsByHuntId: (_, args: { h_id: string }) => {
-      const h_id = BsonObjectId(args.h_id);
+      const h_id = createBsonObjectId(args.h_id);
       const teams = TeamModel.find({ hunt_id: h_id }).exec();
       return teams;
     },
@@ -17,7 +17,7 @@ const teamResolver: Resolvers = {
   Mutation: {
     createSingleTeam: async (_, args: { input: CreateSingleTeamInput }) => {
       const { h_id, members, device_number } = args.input;
-      const id = BsonObjectId(h_id);
+      const id = createBsonObjectId(h_id);
       const team = new TeamModel({
         hunt_id: id,
         members,

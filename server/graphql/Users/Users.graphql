@@ -1,17 +1,39 @@
-type User {
+type Query {
+  getAllUsers: [UserPayload]
+  getSingleUser(uid: ID!): UserPayload
+  logout: Boolean
+  userNameExists(user_name: String!): Boolean
+}
+
+type Mutation {
+  createUser(input: AddUserInput!): UserPayload
+  login(user_name: String!, password: String!): Tokens
+}
+
+type FullUser {
   _id: ID!
-  user_name: String
-  first_name: String
-  last_name: String
+  user_name: String!
+  first_name: String!
+  last_name: String!
+  hash: String!
+}
+
+type UserPayload {
+  _id: ID!
+  user_name: String!
+  first_name: String!
+  last_name: String!
   hunts: [Hunt!]
 }
 
-type Query {
-  getAllUsers: [User]
-  getSingleUser(uid: ID!): User
-  login(userName: String!, password: String!): User
-  logout: Boolean
-  userNameExists(userName: String!): Boolean
+type Tokens {
+  """
+  u_id is the id of the associated user
+  """
+  u_id: ID!
+  u_name: String!
+  accessToken: String!
+  refreshToken: String!
 }
 
 input AddUserInput {
@@ -19,8 +41,4 @@ input AddUserInput {
   last_name: String!
   user_name: String!
   password: String!
-}
-
-type Mutation {
-  createUser(input: AddUserInput!): User
 }

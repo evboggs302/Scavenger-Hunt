@@ -1,4 +1,4 @@
-import { BsonObjectId } from "../../utils/BsonObjectIdCreater";
+import { createBsonObjectId } from "../../utils/createBsonObjectId";
 import HuntModel from "../../models/hunts";
 import ClueModel from "../../models/clues";
 import TeamModel from "../../models/teams";
@@ -17,8 +17,8 @@ const huntResolver: Resolvers = {
   Mutation: {
     createHunt: async (_, args: { input: CreateHuntInput }) => {
       const { created_by, name, start_date, end_date } = args.input;
-      const h_id = BsonObjectId();
-      const u_id = BsonObjectId(created_by);
+      const h_id = createBsonObjectId();
+      const u_id = createBsonObjectId(created_by);
       const hunt = new HuntModel({
         _id: h_id,
         created_by: u_id,
@@ -32,14 +32,14 @@ const huntResolver: Resolvers = {
   },
   Hunt: {
     clues: async (parent: Hunt) => {
-      const h_id = BsonObjectId(parent._id);
+      const h_id = createBsonObjectId(parent._id);
       const clues: [Clue] = await ClueModel.find({
         hunt_id: h_id,
       }).exec();
       return clues;
     },
     teams: async (parent: Hunt) => {
-      const h_id = BsonObjectId(parent._id);
+      const h_id = createBsonObjectId(parent._id);
       const teams: [Team] = await TeamModel.find({
         hunt_id: h_id,
       }).exec();

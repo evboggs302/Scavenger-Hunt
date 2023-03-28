@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 
-export const BsonObjectId = (str?: string) => {
+export const createBsonObjectId = (str?: string) => {
   if (str) {
     const objId = Types.ObjectId(str);
     return objId;
