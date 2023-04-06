@@ -4156,7 +4156,7 @@ tslib@~2.4.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.1.tgz#0d0bfbaac2880b91e22df0768e55be9753a5b17e"
   integrity sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==
 
-twilio@^4.8.0:
+twilio@^4.9.0:
   version "4.9.0"
   resolved "https://registry.yarnpkg.com/twilio/-/twilio-4.9.0.tgz#0abff1febf3bf65b3735c672406d98033a161a5a"
   integrity sha512-bP8tQ/DmT9NeOGayhveryG2EppwK7OPIli5Ll7CuU+NXEtmIIAPq4G8jEJy9AJ2BCONmxGiMIZ4vHGxix8WTbQ==
@@ -4183,10 +4183,10 @@ type-is@~1.6.18:
     media-typer "0.3.0"
     mime-types "~2.1.24"
 
-typescript@^4.4.2:
-  version "4.9.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
-  integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
+typescript@^5.0.2:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.0.3.tgz#fe976f0c826a88d0a382007681cbb2da44afdedf"
+  integrity sha512-xv8mOEDnigb/tN9PSMTwSEqAnUvkoXMQlicOb0IUVDBSQCgBSaAAROUZYy2IcUy5qU6XajK5jjjO7TMWqBTKZA==
 
 ua-parser-js@^0.7.30:
   version "0.7.34"

@@ -1,8 +1,7 @@
 {
-    "directory": ["./shared", "./features"],
-    "location": "replace",
-    "exclude": ["test", "stories"],
-    "delete": true,
-    "singleQuotes": true,
-    "verbose": true
+  "directory": ["./shared", "./features", "./dux"],
+  "location": "replace",
+  "exclude": ["test", "stories"],
+  "delete": true,
+  "singleQuotes": true
 }
