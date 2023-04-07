@@ -1,4 +1,5 @@
 import * as dotenv from "dotenv";
+import { Secret } from "jsonwebtoken";
 
 type ENV = {
   TWILIO_ACCT_SID: string | undefined;
@@ -23,10 +24,10 @@ type Config = {
   SESSION_SECRET: string;
   SASS_PATH: string;
   PORT: number;
-  JWT_SECRET: string;
+  JWT_SECRET: Secret;
   SERVER_URL: string;
-  ACCESS_TOKEN_SECRET: string;
-  REFRESH_TOKEN_SECRET: string;
+  ACCESS_TOKEN_SECRET: Secret;
+  REFRESH_TOKEN_SECRET: Secret;
   ACCESS_TOKEN_DURATION: string;
   REFRESH_TOKEN_DURATION: string;
 };

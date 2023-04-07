@@ -7,6 +7,12 @@ export const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    // email: {
+    //   type: String,
+    //   unique: true,
+    //   trim: true,
+    //   required: true,
+    // },
     first_name: {
       type: String,
       required: true,
@@ -18,6 +24,10 @@ export const userSchema = new mongoose.Schema(
       trim: true,
     },
     hash: {
+      type: String,
+      required: true,
+    },
+    token: {
       type: String,
       required: true,
     },

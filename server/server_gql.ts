@@ -3,7 +3,8 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import schema from "./graphql/schema";
 import config from "./config";
-import context from "./graphql/context";
+import { context } from "./graphql/context";
+import { JwtPayload } from "jsonwebtoken";
 
 const { MONGO_URI, PORT } = config;
 
