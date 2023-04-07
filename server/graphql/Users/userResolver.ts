@@ -12,7 +12,7 @@ import {
 import { createBsonObjectId } from "../../utils/createBsonObjectId";
 import { setToken, verifyToken } from "../jwt";
 import { JwtPayload } from "jsonwebtoken";
-import { ApolloAccessError } from "../errors";
+import { ApolloAccessError } from "../apolloErrorHandlers";
 
 const userResolver: Resolvers = {
   Query: {

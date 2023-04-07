@@ -1,7 +1,7 @@
 import { StandaloneServerContextFunctionArgument } from "@apollo/server/dist/esm/standalone";
 import { getUserFromToken } from "./jwt";
 import TokenStorageModel from "../models/token_storage";
-import { ApolloAccessError } from "./errors";
+import { ApolloAccessError } from "./apolloErrorHandlers";
 
 export const context = async ({
   req,

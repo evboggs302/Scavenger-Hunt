@@ -1,3 +1,13 @@
+**_🚧 🚧 WARNING 🚧 🚧_**
+
+I'm currently transitioning the server from Express/Rest -> AolloGraphql... this will be a tad messy until I'm finished 😬
+
+_The following may or may not be accurate at the time of you reading this._
+
+**_🚧 🚧 WARNING 🚧 🚧_**
+
+---
+
 # Scavenger Hunt
 
 - This repo will eventually hold a scavenger hunt app that will utilize the Twilio texting service.
