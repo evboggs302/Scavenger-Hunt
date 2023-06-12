@@ -3,4 +3,4 @@
  */
 
 export * from './TeamTemplate';
-export * from './TeamsPage';
+// export * from './TeamsPage';

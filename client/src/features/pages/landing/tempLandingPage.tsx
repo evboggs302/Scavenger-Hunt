@@ -1,18 +1,22 @@
 import React, { useRef } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { setHunt } from "../../../dux/reducers/huntReducer";
 import { setTeams } from "../../../dux/reducers/teamsReducer";
 import { setClues } from "../../../dux/reducers/cluesReducer";
 import { fetchHuntData } from "../../../utils/apiUtils";
 import { useAppSelector, useAppDispatch } from "../../../dux/stateHooks";
+import { useUserContext } from "../../../shared/user/context/useUserContext";
 
 // 61323e0247dc492611e225dc
 
 const TempLandingPage = () => {
+  const { _id } = useUserContext();
+  console.log(_id);
+
   const state = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
   const huntName = useRef("");
-  let history = useHistory();
+  const navigate = useNavigate();
 
   const buttonClick = async () => {
     console.log(huntName.current);
@@ -21,7 +25,7 @@ const TempLandingPage = () => {
     dispatch(setHunt(data[0]));
     dispatch(setTeams(data[0].teams));
     dispatch(setClues(data[0].clues));
-    return history.push("/hunt");
+    return navigate("/hunt");
   };
 
   console.log(state);
