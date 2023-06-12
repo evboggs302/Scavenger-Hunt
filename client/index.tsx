@@ -1,5 +1,5 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import * as React from "react";
+import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import {
@@ -28,13 +28,12 @@ client
   })
   .then((result) => console.log(result));
 
-ReactDOM.render(
+createRoot(document.getElementById("root")!).render(
   <ApolloProvider client={client}>
     <Provider store={store}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
     </Provider>
-  </ApolloProvider>,
-  document.getElementById("root")
+  </ApolloProvider>
 );
