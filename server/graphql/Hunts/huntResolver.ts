@@ -12,7 +12,8 @@ import {
 
 const huntResolver: Resolvers = {
   // Query: {
-  //   getHuntsByUserId: (_, args) => {    //       try {
+  //   getHuntsByUserId: async (_, args) => {
+  //       try {
   //   } catch (err) {
   // createErrEvent({ location: "", err });
   // },

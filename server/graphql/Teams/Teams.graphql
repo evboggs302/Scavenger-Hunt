@@ -5,11 +5,13 @@ type Query {
 type Mutation {
   createSingleTeam(input: CreateSingleTeamInput!): [Team]
   createMultipleTeams(input: CreateMultTeamsInput!): [Team]
+  updateTeam(input: UpdateTeamInput!): [Team]
+  deleteTeam(input: DeleteTeamInput!): Boolean
 }
 
 type Team {
   _id: ID!
-  hunt_id: String!
+  hunt_id: ID!
   recall_sent: Boolean
   last_clue_sent: Int
   members: [String]
@@ -30,4 +32,15 @@ input CreateSingleTeamInput {
   h_id: String!
   members: [String]!
   device_number: String!
+}
+
+input UpdateTeamInput {
+  hunt_id: ID!
+  team_id: ID!
+  members: [String]
+  device_number: String
+}
+
+input DeleteTeamInput {
+  team_id: ID!
 }

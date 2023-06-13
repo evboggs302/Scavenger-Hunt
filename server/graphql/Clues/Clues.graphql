@@ -41,5 +41,5 @@ input UpdateClueDescriptionInput {
 
 input UpdateClueOrderInput {
   hunt_id: ID!
-  newOrder: [ID]!
+  newOrder: [String]!
 }

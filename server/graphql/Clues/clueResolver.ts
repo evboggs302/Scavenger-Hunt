@@ -6,6 +6,7 @@ import {
   CreateSingleClueInput,
   Resolvers,
   UpdateClueDescriptionInput,
+  UpdateClueOrderInput,
 } from "../../generated/graphql";
 import { createBsonObjectId } from "../../utils/createBsonObjectId";
 import { createErrEvent } from "../../utils/eventLogHelpers";
@@ -37,7 +38,9 @@ const clueResolvers: Resolvers = {
         const mappedClues = cluesList.map((clue) => {
           return { hunt_id: h_id, ...clue };
         });
+
         await ClueModel.insertMany(mappedClues);
+
         return await ClueModel.find({ hunt_id: h_id }).exec();
       } catch (err) {
         createErrEvent({ location: "createMultipleClues", err });
@@ -52,6 +55,7 @@ const clueResolvers: Resolvers = {
           ...clueItem,
         });
         await clue.save();
+
         return await ClueModel.find({ hunt_id }).exec();
       } catch (err) {
         createErrEvent({ location: "createSingleClue", err });
@@ -76,7 +80,26 @@ const clueResolvers: Resolvers = {
         createErrEvent({ location: "updateClueDescription", err });
       }
     },
-    // updateClueOrder: (_, args: {input: UpdateClueOrderInput}) => {},
+    updateClueOrder: async (_, args: { input: UpdateClueOrderInput }) => {
+      try {
+        const { hunt_id: h_id, newOrder } = args.input;
+        const hunt_id = createBsonObjectId(h_id);
+        const bulkWriteArr = newOrder.map((id, index) => {
+          return {
+            updateOne: {
+              filter: { _id: id },
+              update: { $set: { order_number: index + 1 } },
+            },
+          };
+        });
+
+        await ClueModel.bulkWrite(bulkWriteArr, { ordered: false });
+
+        return ClueModel.find({ hunt_id }).sort({ order_number: 1 }).exec();
+      } catch (err) {
+        createErrEvent({ location: "updateClueOrder", err });
+      }
+    },
     deleteClueById: async (_, args: { clue_id: string }) => {
       try {
         const { clue_id } = args;
