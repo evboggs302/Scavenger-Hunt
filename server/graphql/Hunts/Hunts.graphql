@@ -1,5 +1,5 @@
 type Query {
-  getCluesByHuntId: [Clue]
+  getHuntsByUserId: [Hunt]
 }
 
 type Mutation {
@@ -15,7 +15,7 @@ type Hunt {
   end_date: String
   is_active: Boolean
   recall_message: String
-  clues: [Clue!]
+  clues: [CluePayload!]
   teams: [Team!]
 }
 

@@ -27,7 +27,10 @@ const teamResolver: Resolvers = {
       return await TeamModel.find({ hunt_id: id }).exec();
     },
     // createMultipleTeams: (_, args: { input: CreateMultTeamsInput }) => {
-    //   const { h_id, members } = args.input;
+    // try {
+    // } catch (err) {
+    //   createErrEvent({ location: "", err });
+    // }
     // },
   },
 };

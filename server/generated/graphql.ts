@@ -26,12 +26,13 @@ export type AuthPayload = {
   token: Scalars['String'];
 };
 
-export type Clue = {
-  __typename: 'Clue';
+export type CluePayload = {
+  __typename: 'CluePayload';
   _id: Scalars['ID'];
   description?: Maybe<Scalars['String']>;
   hunt_id: Scalars['ID'];
   order_number?: Maybe<Scalars['Int']>;
+  responses?: Maybe<Array<Maybe<ResponsePayload>>>;
 };
 
 export type CluesListItem = {
@@ -79,7 +80,7 @@ export type FullUser = {
 export type Hunt = {
   __typename: 'Hunt';
   _id: Scalars['ID'];
-  clues?: Maybe<Array<Clue>>;
+  clues?: Maybe<Array<CluePayload>>;
   created_by: Scalars['ID'];
   created_date?: Maybe<Scalars['String']>;
   end_date?: Maybe<Scalars['String']>;
@@ -98,13 +99,17 @@ export type LoginInput = {
 export type Mutation = {
   __typename: 'Mutation';
   createHunt?: Maybe<Hunt>;
-  createMultipleClues?: Maybe<Array<Maybe<Clue>>>;
+  createMultipleClues?: Maybe<Array<Maybe<CluePayload>>>;
   createMultipleTeams?: Maybe<Array<Maybe<Team>>>;
-  createSingleClue?: Maybe<Array<Maybe<Clue>>>;
+  createSingleClue?: Maybe<Array<Maybe<CluePayload>>>;
   createSingleTeam?: Maybe<Array<Maybe<Team>>>;
+  deleteAllCluesByHuntId?: Maybe<Scalars['Boolean']>;
+  deleteClueById?: Maybe<Scalars['Boolean']>;
   login: AuthPayload;
   logout?: Maybe<Scalars['Boolean']>;
   registerUser: AuthPayload;
+  updateClueDescription?: Maybe<CluePayload>;
+  updateClueOrder?: Maybe<Array<Maybe<CluePayload>>>;
 };
 
 
@@ -133,6 +138,16 @@ export type MutationCreateSingleTeamArgs = {
 };
 
 
+export type MutationDeleteAllCluesByHuntIdArgs = {
+  hunt_id: Scalars['ID'];
+};
+
+
+export type MutationDeleteClueByIdArgs = {
+  clue_id: Scalars['ID'];
+};
+
+
 export type MutationLoginArgs = {
   input: LoginInput;
 };
@@ -142,10 +157,21 @@ export type MutationRegisterUserArgs = {
   input: AddUserInput;
 };
 
+
+export type MutationUpdateClueDescriptionArgs = {
+  input: UpdateClueDescriptionInput;
+};
+
+
+export type MutationUpdateClueOrderArgs = {
+  input: UpdateClueOrderInput;
+};
+
 export type Query = {
   __typename: 'Query';
   getAllUsers?: Maybe<Array<Maybe<UserPayload>>>;
-  getCluesByHuntId?: Maybe<Array<Maybe<Clue>>>;
+  getCluesByHuntId?: Maybe<Array<Maybe<CluePayload>>>;
+  getHuntsByUserId?: Maybe<Array<Maybe<Hunt>>>;
   getSingleUser?: Maybe<UserPayload>;
   getTeamsByHuntId?: Maybe<Array<Maybe<Team>>>;
   logout: Scalars['Boolean'];
@@ -196,6 +222,16 @@ export type Team = {
   last_clue_sent?: Maybe<Scalars['Int']>;
   members?: Maybe<Array<Maybe<Scalars['String']>>>;
   recall_sent?: Maybe<Scalars['Boolean']>;
+};
+
+export type UpdateClueDescriptionInput = {
+  clue_id: Scalars['ID'];
+  newDescription: Scalars['String'];
+};
+
+export type UpdateClueOrderInput = {
+  hunt_id: Scalars['ID'];
+  newOrder: Array<InputMaybe<Scalars['ID']>>;
 };
 
 export type UserPayload = {
@@ -285,7 +321,7 @@ export type ResolversTypes = {
   AddUserInput: AddUserInput;
   String: ResolverTypeWrapper<Scalars['String']>;
   AuthPayload: ResolverTypeWrapper<AuthPayload>;
-  Clue: ResolverTypeWrapper<Clue>;
+  CluePayload: ResolverTypeWrapper<CluePayload>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   CluesListItem: CluesListItem;
@@ -303,6 +339,8 @@ export type ResolversTypes = {
   ResponsePayload: ResolverTypeWrapper<ResponsePayload>;
   SingleTeamInput: SingleTeamInput;
   Team: ResolverTypeWrapper<Team>;
+  UpdateClueDescriptionInput: UpdateClueDescriptionInput;
+  UpdateClueOrderInput: UpdateClueOrderInput;
   UserPayload: ResolverTypeWrapper<UserPayload>;
   AdditionalEntityFields: AdditionalEntityFields;
 };
@@ -312,7 +350,7 @@ export type ResolversParentTypes = {
   AddUserInput: AddUserInput;
   String: Scalars['String'];
   AuthPayload: AuthPayload;
-  Clue: Clue;
+  CluePayload: CluePayload;
   ID: Scalars['ID'];
   Int: Scalars['Int'];
   CluesListItem: CluesListItem;
@@ -330,6 +368,8 @@ export type ResolversParentTypes = {
   ResponsePayload: ResponsePayload;
   SingleTeamInput: SingleTeamInput;
   Team: Team;
+  UpdateClueDescriptionInput: UpdateClueDescriptionInput;
+  UpdateClueOrderInput: UpdateClueOrderInput;
   UserPayload: UserPayload;
   AdditionalEntityFields: AdditionalEntityFields;
 };
@@ -386,11 +426,12 @@ export type AuthPayloadResolvers<ContextType = any, ParentType extends Resolvers
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ClueResolvers<ContextType = any, ParentType extends ResolversParentTypes['Clue'] = ResolversParentTypes['Clue']> = {
+export type CluePayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['CluePayload'] = ResolversParentTypes['CluePayload']> = {
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   hunt_id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   order_number?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  responses?: Resolver<Maybe<Array<Maybe<ResolversTypes['ResponsePayload']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -405,7 +446,7 @@ export type FullUserResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type HuntResolvers<ContextType = any, ParentType extends ResolversParentTypes['Hunt'] = ResolversParentTypes['Hunt']> = {
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  clues?: Resolver<Maybe<Array<ResolversTypes['Clue']>>, ParentType, ContextType>;
+  clues?: Resolver<Maybe<Array<ResolversTypes['CluePayload']>>, ParentType, ContextType>;
   created_by?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   created_date?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   end_date?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -419,18 +460,23 @@ export type HuntResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createHunt?: Resolver<Maybe<ResolversTypes['Hunt']>, ParentType, ContextType, RequireFields<MutationCreateHuntArgs, 'input'>>;
-  createMultipleClues?: Resolver<Maybe<Array<Maybe<ResolversTypes['Clue']>>>, ParentType, ContextType, RequireFields<MutationCreateMultipleCluesArgs, 'input'>>;
+  createMultipleClues?: Resolver<Maybe<Array<Maybe<ResolversTypes['CluePayload']>>>, ParentType, ContextType, RequireFields<MutationCreateMultipleCluesArgs, 'input'>>;
   createMultipleTeams?: Resolver<Maybe<Array<Maybe<ResolversTypes['Team']>>>, ParentType, ContextType, RequireFields<MutationCreateMultipleTeamsArgs, 'input'>>;
-  createSingleClue?: Resolver<Maybe<Array<Maybe<ResolversTypes['Clue']>>>, ParentType, ContextType, RequireFields<MutationCreateSingleClueArgs, 'input'>>;
+  createSingleClue?: Resolver<Maybe<Array<Maybe<ResolversTypes['CluePayload']>>>, ParentType, ContextType, RequireFields<MutationCreateSingleClueArgs, 'input'>>;
   createSingleTeam?: Resolver<Maybe<Array<Maybe<ResolversTypes['Team']>>>, ParentType, ContextType, RequireFields<MutationCreateSingleTeamArgs, 'input'>>;
+  deleteAllCluesByHuntId?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteAllCluesByHuntIdArgs, 'hunt_id'>>;
+  deleteClueById?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteClueByIdArgs, 'clue_id'>>;
   login?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>;
   logout?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   registerUser?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationRegisterUserArgs, 'input'>>;
+  updateClueDescription?: Resolver<Maybe<ResolversTypes['CluePayload']>, ParentType, ContextType, RequireFields<MutationUpdateClueDescriptionArgs, 'input'>>;
+  updateClueOrder?: Resolver<Maybe<Array<Maybe<ResolversTypes['CluePayload']>>>, ParentType, ContextType, RequireFields<MutationUpdateClueOrderArgs, 'input'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getAllUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserPayload']>>>, ParentType, ContextType>;
-  getCluesByHuntId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Clue']>>>, ParentType, ContextType, RequireFields<QueryGetCluesByHuntIdArgs, 'id'>>;
+  getCluesByHuntId?: Resolver<Maybe<Array<Maybe<ResolversTypes['CluePayload']>>>, ParentType, ContextType, RequireFields<QueryGetCluesByHuntIdArgs, 'id'>>;
+  getHuntsByUserId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Hunt']>>>, ParentType, ContextType>;
   getSingleUser?: Resolver<Maybe<ResolversTypes['UserPayload']>, ParentType, ContextType, RequireFields<QueryGetSingleUserArgs, 'uid'>>;
   getTeamsByHuntId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Team']>>>, ParentType, ContextType, RequireFields<QueryGetTeamsByHuntIdArgs, 'h_id'>>;
   logout?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -469,7 +515,7 @@ export type UserPayloadResolvers<ContextType = any, ParentType extends Resolvers
 
 export type Resolvers<ContextType = any> = {
   AuthPayload?: AuthPayloadResolvers<ContextType>;
-  Clue?: ClueResolvers<ContextType>;
+  CluePayload?: CluePayloadResolvers<ContextType>;
   FullUser?: FullUserResolvers<ContextType>;
   Hunt?: HuntResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;

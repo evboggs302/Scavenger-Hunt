@@ -1,8 +1,11 @@
 import ClueModel from "../../models/clues";
+import ResponseModel from "../../models/responses";
 import {
+  CluePayload,
   CreateMultipleCluesInput,
   CreateSingleClueInput,
   Resolvers,
+  UpdateClueDescriptionInput,
 } from "../../generated/graphql";
 import { createBsonObjectId } from "../../utils/createBsonObjectId";
 import { createErrEvent } from "../../utils/eventLogHelpers";
@@ -42,25 +45,68 @@ const clueResolvers: Resolvers = {
     },
     createSingleClue: async (_, args: { input: CreateSingleClueInput }) => {
       try {
-        const { clueItem } = args.input;
-        const h_id = createBsonObjectId(args.input.h_id);
+        const { clueItem, h_id } = args.input;
+        const hunt_id = createBsonObjectId(h_id);
         const clue = new ClueModel({
-          hunt_id: h_id,
+          hunt_id,
           ...clueItem,
         });
         await clue.save();
-        return await ClueModel.find({ hunt_id: h_id }).exec();
+        return await ClueModel.find({ hunt_id }).exec();
       } catch (err) {
         createErrEvent({ location: "createSingleClue", err });
       }
     },
-    // updateClueDescription: (_, args) => {},
-    // updateClueOrder: (_, args) => {},
-    // deleteClueById: (_, args) => {},
-    // deleteAllCluesByHuntId: (_, args) => {},
+    updateClueDescription: async (
+      _,
+      args: { input: UpdateClueDescriptionInput }
+    ) => {
+      try {
+        const { clue_id, newDescription } = args.input;
+        const _id = createBsonObjectId(clue_id);
+
+        return await ClueModel.updateOne(
+          { _id },
+          { description: newDescription }
+        )
+          .exec()
+          .findOne({ _id })
+          .exec();
+      } catch (err) {
+        createErrEvent({ location: "updateClueDescription", err });
+      }
+    },
+    // updateClueOrder: (_, args: {input: UpdateClueOrderInput}) => {},
+    deleteClueById: async (_, args: { clue_id: string }) => {
+      try {
+        const { clue_id } = args;
+        const _id = createBsonObjectId(clue_id);
+
+        return await ClueModel.deleteOne({ _id });
+      } catch (err) {
+        createErrEvent({ location: "deleteClueById", err });
+      }
+    },
+    deleteAllCluesByHuntId: async (_, args: { hunt_id: string }) => {
+      try {
+        const { hunt_id } = args;
+        const _id = createBsonObjectId(hunt_id);
+
+        return await ClueModel.deleteMany({ hunt_id: _id });
+      } catch (err) {
+        createErrEvent({ location: "deleteAllCluesByHuntId", err });
+      }
+    },
   },
-  Clue: {
-    // responses: async (parent: Clue) => {}
+  CluePayload: {
+    responses: async (parent: CluePayload) => {
+      try {
+        const clue_id = createBsonObjectId(parent._id);
+        return await ResponseModel.find({ clue_id });
+      } catch (err) {
+        createErrEvent({ location: "CluePayload.responses", err });
+      }
+    },
   },
 };
 

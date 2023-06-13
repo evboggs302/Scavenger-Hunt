@@ -1,21 +1,22 @@
 type Query {
-  getCluesByHuntId(id: String!): [Clue]
+  getCluesByHuntId(id: String!): [CluePayload]
 }
 
 type Mutation {
-  createMultipleClues(input: CreateMultipleCluesInput!): [Clue]
-  createSingleClue(input: CreateSingleClueInput!): [Clue]
-  # updateClueDescription(id: ID!, newDesc: String!): Clue
-  # updateClueOrder(newOrder: [ID]!): [Clue]
-  # deleteClueById(id: ID!): Boolean
-  # deleteAllCluesByHuntId(id: ID!): Boolean
+  createMultipleClues(input: CreateMultipleCluesInput!): [CluePayload]
+  createSingleClue(input: CreateSingleClueInput!): [CluePayload]
+  updateClueDescription(input: UpdateClueDescriptionInput!): CluePayload
+  updateClueOrder(input: UpdateClueOrderInput!): [CluePayload]
+  deleteClueById(clue_id: ID!): Boolean
+  deleteAllCluesByHuntId(hunt_id: ID!): Boolean
 }
 
-type Clue {
+type CluePayload {
   _id: ID!
   hunt_id: ID!
   order_number: Int
   description: String
+  responses: [ResponsePayload]
 }
 
 input CluesListItem {
@@ -31,4 +32,14 @@ input CreateMultipleCluesInput {
 input CreateSingleClueInput {
   h_id: String!
   clueItem: CluesListItem!
+}
+
+input UpdateClueDescriptionInput {
+  clue_id: ID!
+  newDescription: String!
+}
+
+input UpdateClueOrderInput {
+  hunt_id: ID!
+  newOrder: [ID]!
 }

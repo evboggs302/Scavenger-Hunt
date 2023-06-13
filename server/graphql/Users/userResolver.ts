@@ -13,6 +13,7 @@ import { createBsonObjectId } from "../../utils/createBsonObjectId";
 import { setToken, verifyToken } from "../jwt";
 import { JwtPayload } from "jsonwebtoken";
 import { ApolloAccessError } from "../apolloErrorHandlers";
+import { createErrEvent } from "../../utils/eventLogHelpers";
 
 const userResolver: Resolvers = {
   Query: {
@@ -95,6 +96,7 @@ const userResolver: Resolvers = {
         await oldTtoken.save();
         return true;
       } catch (err) {
+        createErrEvent({ location: "logout", err });
         return false;
       }
     },

@@ -3,7 +3,7 @@ import HuntModel from "../../models/hunts";
 import ClueModel from "../../models/clues";
 import TeamModel from "../../models/teams";
 import {
-  Clue,
+  CluePayload,
   CreateHuntInput,
   Hunt,
   Resolvers,
@@ -12,7 +12,10 @@ import {
 
 const huntResolver: Resolvers = {
   // Query: {
-  //   getCluesByHuntId: (_, args) => {},
+  //   getHuntsByUserId: (_, args) => {    //       try {
+  //   } catch (err) {
+  // createErrEvent({ location: "", err });
+  // },
   // },
   Mutation: {
     createHunt: async (_, args: { input: CreateHuntInput }) => {
@@ -33,7 +36,7 @@ const huntResolver: Resolvers = {
   Hunt: {
     clues: async (parent: Hunt) => {
       const h_id = createBsonObjectId(parent._id);
-      const clues: [Clue] = await ClueModel.find({
+      const clues: [CluePayload] = await ClueModel.find({
         hunt_id: h_id,
       }).exec();
       return clues;
