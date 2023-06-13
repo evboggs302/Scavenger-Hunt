@@ -11,6 +11,7 @@ export const context = async ({
   const tokenExists = await TokenStorageModel.findOne({
     token: token,
   }).exec();
+
   if (tokenExists) {
     return ApolloAccessError("Expired or invalid token.");
   } else {

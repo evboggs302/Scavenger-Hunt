@@ -42,7 +42,16 @@ _The following may or may not be accurate at the time of you reading this._
 ACCT_SID=< provided by Twilio >
 AUTH_TOKEN=< provided by Twilio >
 TWILIO_NUMBER=< provided by Twilio >
+
 MONGO_URI=< provided by MongoDB >
+
 SESSION_SECRET=< randomly button smash a long value >
 PORT=< 5 digit number >
+SASS_PATH="node_modules"
+
+JWT_SECRET=< randomly button smash a long value >
+ACCESS_TOKEN_SECRET=< randomly button smash a long value >
+ACCESS_TOKEN_DURATION=1d
+REFRESH_TOKEN_SECRET=< randomly button smash a long value >
+REFRESH_TOKEN_DURATION=14d
 ```
