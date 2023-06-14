@@ -1,5 +1,14 @@
-# type Query {}
-# type Mutation {}
+type Query {
+  getResponsesByClue(id: ID!): [ResponsePayload]
+  getResponsesByTeam(id: ID!): [ResponsePayload]
+}
+
+type Mutation {
+  markResponseCorrect(id: ID!): Boolean
+  sendHint(input: SendHintInput!): Boolean
+  deleteAllResponsesByTeam(id: ID!): Boolean
+  deleteAllResponsesByHunt(id: ID!): Boolean
+}
 
 type ResponsePayload {
   _id: ID!
@@ -9,4 +18,10 @@ type ResponsePayload {
   response_txt: String
   correct: Boolean
   hint_sent: Boolean
+}
+
+input SendHintInput {
+  response_id: ID!
+  team_id: ID!
+  hint_body: String!
 }
