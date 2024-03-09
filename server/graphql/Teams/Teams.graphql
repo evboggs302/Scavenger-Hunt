@@ -15,7 +15,7 @@ type Team {
   recall_sent: Boolean
   last_clue_sent: Int
   members: [String]
-  device_number: String
+  device_number: String!
 }
 
 input SingleTeamInput {
