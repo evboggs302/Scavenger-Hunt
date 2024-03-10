@@ -4,32 +4,25 @@
 # Stacks detected: deps:node:server,package_manager:yarn:
 version: 2.1
 
-orbs:
-  node: circleci/node@5.2.0
+executors:
+  node:
+    docker:
+      - image: cimg/node:20.11.1
 
 jobs:
-  install-node-job:
+  ui-test-job:
+    executor: node
+    working_directory: ~/client
     docker:
       - image: cimg/base:stable
     steps:
       - checkout
-      - node/install:
-          install-yarn: true
-          node-version: "20.11.1"
-      - node/install-packages:
-          pkg-manager: yarn
-      - run: node --version
-  test-job:
-    executor: node/default
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - checkout
-      - node/install-packages:
-          pkg-manager: yarn
+      - run:
+          name: Install deps
+          command: yarn install
       - run:
           name: Run tests
-          command: cd client && yarn test
+          command: yarn test
       - store_test_results:
           path: test-results
   # deploy-server-job:
@@ -52,12 +45,9 @@ jobs:
   #         command: cd client && yarn build
 
 workflows:
-  install:
+  tests:
     jobs:
-      - install-node-job
-      - test-job:
-          requires: 
-            - install-node-job
+      - ui-test-job
   # deploy-server:
   #   environment:
   #     NODE_ENV: production
