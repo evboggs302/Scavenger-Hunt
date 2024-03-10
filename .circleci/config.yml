@@ -11,7 +11,7 @@ default-environment: &default-environment
 jobs:
   ui-test-job:
     <<: *default-environment
-    working_directory: ~/client
+    working_directory: /client
     steps:
       - checkout
       - run:
