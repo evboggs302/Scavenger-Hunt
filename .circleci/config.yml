@@ -10,7 +10,7 @@ docker-node: &docker-node
 
 git-checkout: &git-checkout
   checkout:
-    path: /
+    path: ../
 
 yarn-install-step: &yarn-install-step
   run:
