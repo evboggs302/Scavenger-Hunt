@@ -20,12 +20,9 @@ yarn-install-step: &yarn-install-step
 jobs:
   ui-test-job:
     <<: *docker-node
-    working_directory: /client
+    working_directory: ~/scavenger-hunt/client
     steps:
       - <<: *git-checkout
-      # - run:
-      #     name: Go to /client
-      #     command: cd /client
       - <<: *yarn-install-step
       - run:
           name: Run tests
