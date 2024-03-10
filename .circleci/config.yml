@@ -8,6 +8,10 @@ docker-node: &docker-node
   docker:
     - image: cimg/node:20.11.1
 
+git-checkout: &git-checkout
+  checkout:
+    path: /
+
 yarn-install-step: &yarn-install-step
   run:
     name: Yarn install
@@ -18,7 +22,7 @@ jobs:
     <<: *docker-node
     working_directory: /client
     steps:
-      - checkout
+      - <<: *git-checkout
       # - run:
       #     name: Go to /client
       #     command: cd /client
