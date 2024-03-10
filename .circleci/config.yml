@@ -4,18 +4,25 @@
 # Stacks detected: deps:node:server,package_manager:yarn:
 version: 2.1
 
-default-environment: &default-environment
+docker-node: &docker-node
   docker:
     - image: cimg/node:20.11.1
 
+yarn-install-step: &yarn-install-step
+  run:
+    name: Yarn install
+    command: yarn install
+
 jobs:
   ui-test-job:
-    <<: *default-environment
+    <<: *docker-node
+    working_directory: /client
     steps:
       - checkout
-      - run:
-          name: Install deps
-          command: cd client && yarn install
+      # - run:
+      #     name: Go to /client
+      #     command: cd /client
+      - <<: *yarn-install-step
       - run:
           name: Run tests
           command: yarn test
