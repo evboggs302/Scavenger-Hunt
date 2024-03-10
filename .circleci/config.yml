@@ -5,11 +5,24 @@
 version: 2.1
 
 orbs:
-  node: circleci/node
+  node: circleci/node@5.2.0
 
 jobs:
+  install-node-job:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - node/install:
+          install-yarn: true
+          node-version: "20.11.1"
+      - node/install-packages:
+          pkg-manager: yarn
+      - run: node --version
   test-job:
     executor: node/default
+    docker:
+      - image: cimg/base:stable
     steps:
       - checkout
       - node/install-packages:
@@ -39,9 +52,12 @@ jobs:
   #         command: cd client && yarn build
 
 workflows:
-  test:
+  install:
     jobs:
-      - test-job
+      - install-node-job
+      - test-job:
+          requires: 
+            - install-node-job
   # deploy-server:
   #   environment:
   #     NODE_ENV: production
