@@ -1,5 +1,5 @@
-import ClueModel from "../../models/clues";
-import ResponseModel from "../../models/responses";
+import ClueModel from "../models/clues";
+import ResponseModel from "../models/responses";
 import {
   CluePayload,
   CreateMultipleCluesInput,
@@ -7,9 +7,9 @@ import {
   Resolvers,
   UpdateClueDescriptionInput,
   UpdateClueOrderInput,
-} from "../../generated/graphql";
-import { createBsonObjectId } from "../../utils/createBsonObjectId";
-import { createErrEvent } from "../../utils/eventLogHelpers";
+} from "../generated/graphql";
+import { createBsonObjectId } from "../utils/createBsonObjectId";
+import { createErrEvent } from "../utils/eventLogHelpers";
 
 const clueResolvers: Resolvers = {
   Query: {

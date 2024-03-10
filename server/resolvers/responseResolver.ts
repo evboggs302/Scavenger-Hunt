@@ -1,10 +1,10 @@
-import TeamModel from "../../models/teams";
-import ResponseModel from "../../models/responses";
-import { Resolvers, SendHintInput, Team } from "../../generated/graphql";
-import { createBsonObjectId } from "../../utils/createBsonObjectId";
-import { createErrEvent } from "../../utils/eventLogHelpers";
+import TeamModel from "../models/teams";
+import ResponseModel from "../models/responses";
+import { Resolvers, SendHintInput, Team } from "../generated/graphql";
+import { createBsonObjectId } from "../utils/createBsonObjectId";
+import { createErrEvent } from "../utils/eventLogHelpers";
 import Twilio from "twilio";
-import config from "../../config";
+import config from "../config";
 
 const { TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN, TWILIO_NUMBER } = config;
 const client = Twilio(TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN);
