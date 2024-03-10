@@ -1,6 +1,7 @@
 type Query {
-  getResponsesByClue(id: ID!): [ResponsePayload]
+  getResponsesByHunt(id: ID!): [ResponsePayload]
   getResponsesByTeam(id: ID!): [ResponsePayload]
+  getResponsesByClue(id: ID!): [ResponsePayload]
 }
 
 type Mutation {

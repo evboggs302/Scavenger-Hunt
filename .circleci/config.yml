@@ -3,42 +3,56 @@
 # See: https://circleci.com/docs/configuration-reference
 # Stacks detected: deps:node:server,package_manager:yarn:
 version: 2.1
+
+orbs:
+  node: circleci/node
+
 jobs:
-  test:
-    docker:
-      - image: cimg/base:stable
+  test-job:
+    executor: node/default
     steps:
       - checkout
-      # Replace this with a real test runner invocation
+      - node/install-packages:
+          pkg-manager: yarn
       - run:
           name: Run tests
-          command: echo 'replace me with real tests!' && false
-  build:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - checkout
-      # Replace this with steps to build a package, or executable
-      - run:
-          name: Build an artifact
-          command: touch example.txt
-      - store_artifacts:
-          path: example.txt
-  deploy:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      # Replace this with steps to deploy to users
-      - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
+          command: cd client && yarn test
+      - store_test_results:
+          path: test-results
+  # deploy-server-job:
+  #   executor: node/default
+  #   steps:
+  #     - checkout
+  #     - node/install-packages:
+  #         pkg-manager: yarn
+  #     - run:
+  #         name: Deploy server
+  #         command: cd server && yarn run start-server
+  # build-client-job:
+  #   executor: node/default
+  #   steps:
+  #     - checkout
+  #     - node/install-packages:
+  #         pkg-manager: yarn
+  #     - run:
+  #         name: Build UI
+  #         command: cd client && yarn build
+
 workflows:
-  example:
+  test:
     jobs:
-      - test
-      - build:
-          requires:
-            - test
-      - deploy:
-          requires:
-            - test
+      - test-job
+  # deploy-server:
+  #   environment:
+  #     NODE_ENV: production
+  #   jobs:
+  #     - deploy-server-job
+
+  # deploy-client:
+  #   environment:
+  #     NODE_ENV: production
+  #   jobs:
+  #     - test-job
+  #     - build-client-job:
+  #         requires:
+  #           - test-job

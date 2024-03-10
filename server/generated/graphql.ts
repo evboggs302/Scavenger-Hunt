@@ -213,6 +213,7 @@ export type Query = {
   getCluesByHuntId?: Maybe<Array<Maybe<CluePayload>>>;
   getHuntsByUserId?: Maybe<Array<Maybe<Hunt>>>;
   getResponsesByClue?: Maybe<Array<Maybe<ResponsePayload>>>;
+  getResponsesByHunt?: Maybe<Array<Maybe<ResponsePayload>>>;
   getResponsesByTeam?: Maybe<Array<Maybe<ResponsePayload>>>;
   getSingleUser?: Maybe<UserPayload>;
   getTeamsByHuntId?: Maybe<Array<Maybe<Team>>>;
@@ -227,6 +228,11 @@ export type QueryGetCluesByHuntIdArgs = {
 
 
 export type QueryGetResponsesByClueArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetResponsesByHuntArgs = {
   id: Scalars['ID'];
 };
 
@@ -275,7 +281,7 @@ export type SingleTeamInput = {
 export type Team = {
   __typename: 'Team';
   _id: Scalars['ID'];
-  device_number?: Maybe<Scalars['String']>;
+  device_number: Scalars['String'];
   hunt_id: Scalars['ID'];
   last_clue_sent?: Maybe<Scalars['Int']>;
   members?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -555,6 +561,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getCluesByHuntId?: Resolver<Maybe<Array<Maybe<ResolversTypes['CluePayload']>>>, ParentType, ContextType, RequireFields<QueryGetCluesByHuntIdArgs, 'id'>>;
   getHuntsByUserId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Hunt']>>>, ParentType, ContextType>;
   getResponsesByClue?: Resolver<Maybe<Array<Maybe<ResolversTypes['ResponsePayload']>>>, ParentType, ContextType, RequireFields<QueryGetResponsesByClueArgs, 'id'>>;
+  getResponsesByHunt?: Resolver<Maybe<Array<Maybe<ResolversTypes['ResponsePayload']>>>, ParentType, ContextType, RequireFields<QueryGetResponsesByHuntArgs, 'id'>>;
   getResponsesByTeam?: Resolver<Maybe<Array<Maybe<ResolversTypes['ResponsePayload']>>>, ParentType, ContextType, RequireFields<QueryGetResponsesByTeamArgs, 'id'>>;
   getSingleUser?: Resolver<Maybe<ResolversTypes['UserPayload']>, ParentType, ContextType, RequireFields<QueryGetSingleUserArgs, 'uid'>>;
   getTeamsByHuntId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Team']>>>, ParentType, ContextType, RequireFields<QueryGetTeamsByHuntIdArgs, 'h_id'>>;
@@ -575,7 +582,7 @@ export type ResponsePayloadResolvers<ContextType = any, ParentType extends Resol
 
 export type TeamResolvers<ContextType = any, ParentType extends ResolversParentTypes['Team'] = ResolversParentTypes['Team']> = {
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  device_number?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  device_number?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   hunt_id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   last_clue_sent?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   members?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
