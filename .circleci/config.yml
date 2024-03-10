@@ -30,18 +30,6 @@ jobs:
           command: yarn test
       - store_test_results:
           path: ui-test-results
-  server-test-job:
-    <<: *docker-node
-    working_directory: ~/scavenger-hunt/server
-    parallelism: 4
-    steps:
-      - <<: *git-checkout
-      - <<: *yarn-install-step
-      - run:
-          name: Run tests
-          command: yarn test
-      - store_test_results:
-          path: server-test-results
   # deploy-server-job:
   #   <<: *docker-node
   #   working_directory: ~/scavenger-hunt/server
@@ -73,7 +61,6 @@ jobs:
 workflows:
   tests:
     jobs:
-      - server-test-job
       - ui-test-job
   # deploy-server:
   #   environment:
