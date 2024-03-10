@@ -4,55 +4,77 @@
 # Stacks detected: deps:node:server,package_manager:yarn:
 version: 2.1
 
-orbs:
-  node: circleci/node
+docker-node: &docker-node
+  docker:
+    - image: cimg/node:20.11.1
+
+git-checkout: &git-checkout
+  checkout:
+    path: ~/scavenger-hunt
+
+yarn-install-step: &yarn-install-step
+  run:
+    name: Yarn install
+    command: yarn install
 
 jobs:
-  test-job:
-    executor: node/default
+  ui-test-job:
+    <<: *docker-node
+    working_directory: ~/scavenger-hunt/client
+    parallelism: 4
     steps:
-      - checkout
-      - node/install-packages:
-          pkg-manager: yarn
+      - <<: *git-checkout
+      - <<: *yarn-install-step
       - run:
           name: Run tests
-          command: cd client && yarn test
+          command: yarn test
       - store_test_results:
           path: test-results
-  # deploy-server-job:
-  #   executor: node/default
-  #   steps:
-  #     - checkout
-  #     - node/install-packages:
-  #         pkg-manager: yarn
-  #     - run:
-  #         name: Deploy server
-  #         command: cd server && yarn run start-server
-  # build-client-job:
-  #   executor: node/default
-  #   steps:
-  #     - checkout
-  #     - node/install-packages:
-  #         pkg-manager: yarn
-  #     - run:
-  #         name: Build UI
-  #         command: cd client && yarn build
+  deploy-server-job:
+    <<: *docker-node
+    working_directory: ~/scavenger-hunt/server
+    parallelism: 4
+    steps:
+      - <<: *git-checkout
+      - <<: *yarn-install-step
+      - run:
+          name: Deploy server
+          command: yarn run start-server
+  build-client-job:
+    <<: *docker-node
+    working_directory: ~/scavenger-hunt/client
+    parallelism: 4
+    steps:
+      - <<: *git-checkout
+      - <<: *yarn-install-step
+      - run:
+          name: Build UI
+          command: cd client && yarn build
+  deploy-client-job:
+    <<: *docker-node
+    working_directory: ~/scavenger-hunt/client
+    parallelism: 4
+    steps:
+      - <<: *git-checkout
+      - <<: *yarn-install-step
 
 workflows:
-  test:
+  tests:
     jobs:
-      - test-job
-  # deploy-server:
-  #   environment:
-  #     NODE_ENV: production
-  #   jobs:
-  #     - deploy-server-job
-
-  # deploy-client:
-  #   environment:
-  #     NODE_ENV: production
-  #   jobs:
-  #     - test-job
-  #     - build-client-job:
-  #         requires:
-  #           - test-job
+      - ui-test-job
+  deploy-server:
+    environment:
+      NODE_ENV: production
+    jobs:
+      - deploy-server-job
+  deploy-client:
+    environment:
+      NODE_ENV: production
+    jobs:
+      - ui-test-job
+      - build-client-job:
+          requires:
+            - ui-test-job
+      - deploy-client-job:
+          requires:
+            - build-client-job
