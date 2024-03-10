@@ -4,15 +4,14 @@
 # Stacks detected: deps:node:server,package_manager:yarn:
 version: 2.1
 
-default-environment:
+default-environment: &default-environment
   docker:
     - image: cimg/node:20.11.1
 
 jobs:
   ui-test-job:
+    <<: *default-environment
     working_directory: ~/client
-    docker:
-      - image: cimg/base:stable
     steps:
       - checkout
       - run:
