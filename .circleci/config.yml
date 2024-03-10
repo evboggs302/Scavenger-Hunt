@@ -29,52 +29,52 @@ jobs:
           name: Run tests
           command: yarn test
       - store_test_results:
-          path: test-results
-  deploy-server-job:
-    <<: *docker-node
-    working_directory: ~/scavenger-hunt/server
-    parallelism: 4
-    steps:
-      - <<: *git-checkout
-      - <<: *yarn-install-step
-      - run:
-          name: Deploy server
-          command: yarn run start-server
-  build-client-job:
-    <<: *docker-node
-    working_directory: ~/scavenger-hunt/client
-    parallelism: 4
-    steps:
-      - <<: *git-checkout
-      - <<: *yarn-install-step
-      - run:
-          name: Build UI
-          command: cd client && yarn build
-  deploy-client-job:
-    <<: *docker-node
-    working_directory: ~/scavenger-hunt/client
-    parallelism: 4
-    steps:
-      - <<: *git-checkout
-      - <<: *yarn-install-step
+          path: ui-test-results
+  # deploy-server-job:
+  #   <<: *docker-node
+  #   working_directory: ~/scavenger-hunt/server
+  #   parallelism: 4
+  #   steps:
+  #     - <<: *git-checkout
+  #     - <<: *yarn-install-step
+  #     - run:
+  #         name: Deploy server
+  #         command: yarn run start-server
+  # build-client-job:
+  #   <<: *docker-node
+  #   working_directory: ~/scavenger-hunt/client
+  #   parallelism: 4
+  #   steps:
+  #     - <<: *git-checkout
+  #     - <<: *yarn-install-step
+  #     - run:
+  #         name: Build UI
+  #         command: cd client && yarn build
+  # deploy-client-job:
+  #   <<: *docker-node
+  #   working_directory: ~/scavenger-hunt/client
+  #   parallelism: 4
+  #   steps:
+  #     - <<: *git-checkout
+  #     - <<: *yarn-install-step
 
 workflows:
   tests:
     jobs:
       - ui-test-job
-  deploy-server:
-    environment:
-      NODE_ENV: production
-    jobs:
-      - deploy-server-job
-  deploy-client:
-    environment:
-      NODE_ENV: production
-    jobs:
-      - ui-test-job
-      - build-client-job:
-          requires:
-            - ui-test-job
-      - deploy-client-job:
-          requires:
-            - build-client-job
+  # deploy-server:
+  #   environment:
+  #     NODE_ENV: production
+  #   jobs:
+  #     - deploy-server-job
+  # deploy-client:
+  #   environment:
+  #     NODE_ENV: production
+  #   jobs:
+  #     - ui-test-job
+  #     - build-client-job:
+  #         requires:
+  #           - ui-test-job
+  #     - deploy-client-job:
+  #         requires:
+  #           - build-client-job

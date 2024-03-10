@@ -3,7 +3,7 @@ import { getUserFromToken } from "./jwt";
 import TokenStorageModel from "../models/token_storage";
 import { ApolloAccessError } from "./apolloErrorHandlers";
 
-export const context = async ({
+export const apolloServerContext = async ({
   req,
 }: StandaloneServerContextFunctionArgument) => {
   const tokenHeader = req.headers.authorization || "";

@@ -1,14 +1,14 @@
-import { createBsonObjectId } from "../../utils/createBsonObjectId";
-import HuntModel from "../../models/hunts";
-import ClueModel from "../../models/clues";
-import TeamModel from "../../models/teams";
+import { createBsonObjectId } from "../utils/createBsonObjectId";
+import HuntModel from "../models/hunts";
+import ClueModel from "../models/clues";
+import TeamModel from "../models/teams";
 import {
   CluePayload,
   CreateHuntInput,
   Hunt,
   Resolvers,
   Team,
-} from "../../generated/graphql";
+} from "../generated/graphql";
 
 const huntResolver: Resolvers = {
   // Query: {

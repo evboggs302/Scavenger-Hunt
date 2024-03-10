@@ -1,13 +1,13 @@
-import TeamModel from "../../models/teams";
+import TeamModel from "../models/teams";
 import {
   CreateMultTeamsInput,
   CreateSingleTeamInput,
   DeleteTeamInput,
   Resolvers,
   UpdateTeamInput,
-} from "../../generated/graphql";
-import { createBsonObjectId } from "../../utils/createBsonObjectId";
-import { createErrEvent } from "../../utils/eventLogHelpers";
+} from "../generated/graphql";
+import { createBsonObjectId } from "../utils/createBsonObjectId";
+import { createErrEvent } from "../utils/eventLogHelpers";
 
 const teamResolver: Resolvers = {
   Query: {
