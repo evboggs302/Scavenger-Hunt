@@ -8,7 +8,7 @@
     "start-server": "yarn compile && node --experimental-modules --es-module-specifier-resolution=node ./tsdist/server_gql.js",
     "tsc-check": "tsc --noEmit",
     "codegen": "graphql-codegen --config codegen.ts",
-    "compile": "npx tsc"
+    "compile": "tsc"
   },
   "dependencies": {
     "@apollo/server": "^4.9.3",
