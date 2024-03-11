@@ -10,8 +10,7 @@ node_modules/
 /coverage
 
 # production
-tsdist
-/client/build
+dist
 
 
 # misc

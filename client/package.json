@@ -8,6 +8,7 @@
     "build": "vite build",
     "test": "jest",
     "tsc-check": "tsc --noEmit",
+    "compile": "npx tsc",
     "codegen": "graphql-codegen --config codegen.ts",
     "storybook": "start-storybook -p 6006 -s public"
   },
