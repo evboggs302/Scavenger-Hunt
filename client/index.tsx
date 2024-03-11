@@ -13,7 +13,8 @@ import App from "./App";
 import store from "./src/dux/store";
 
 const client = new ApolloClient({
-  uri: "http://localhost:22357/",
+  // uri: "http://localhost:22357/",
+  uri: process.env.DEPLOYED_GQL_SERVER_URL,
   cache: new InMemoryCache(),
 });
 
