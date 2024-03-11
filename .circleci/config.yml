@@ -26,21 +26,17 @@ jobs:
       - <<: *git-checkout
       - <<: *yarn-install-step
       - run:
-          name: Run tests
+          name: Run UI tests
           command: yarn test
       - store_test_results:
           path: ui-test-results
-  # deploy-server-job:
-  #   <<: *docker-node
-  #   working_directory: ~/scavenger-hunt/server
-  #   parallelism: 4
-  #   steps:
-  #     - <<: *git-checkout
-  #     - <<: *yarn-install-step
-  #     - run:
-  #         name: Deploy server
-  #         command: yarn run start-server
-  # build-client-job:
+  deploy-server-job:
+    <<: *docker-node
+    steps:
+      - run:
+          name: Deploy server via webhook
+          command: curl ${DEPLOY_SERVER_WEBHOOK}
+  # build-ui-job:
   #   <<: *docker-node
   #   working_directory: ~/scavenger-hunt/client
   #   parallelism: 4
@@ -50,23 +46,19 @@ jobs:
   #     - run:
   #         name: Build UI
   #         command: cd client && yarn build
-  # deploy-client-job:
-  #   <<: *docker-node
-  #   working_directory: ~/scavenger-hunt/client
-  #   parallelism: 4
-  #   steps:
-  #     - <<: *git-checkout
-  #     - <<: *yarn-install-step
 
 workflows:
-  tests:
+  test:
     jobs:
       - ui-test-job
-  # deploy-server:
-  #   environment:
-  #     NODE_ENV: production
-  #   jobs:
-  #     - deploy-server-job
+  deploy:
+    when:
+      equal: [master, << pipeline.git.branch >>]
+    jobs:
+      - deploy-server-job
+      # - deploy-ui-job
+      #   requires:
+      #   - deploy-server-job
   # deploy-client:
   #   environment:
   #     NODE_ENV: production
