@@ -18,7 +18,7 @@ yarn-install-step: &yarn-install-step
     command: yarn install
 
 jobs:
-  ui-test-job:
+  test-ui-job:
     <<: *docker-node
     working_directory: ~/scavenger-hunt/client
     parallelism: 4
@@ -50,7 +50,7 @@ jobs:
 workflows:
   test:
     jobs:
-      - ui-test-job
+      - test-ui-job
   deploy:
     when:
       equal: [master, << pipeline.git.branch >>]
