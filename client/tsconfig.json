@@ -7,7 +7,6 @@
     "moduleResolution": "node",
     "outDir": "../tsdist/client",
     "allowJs": false,
-    "noEmit": true,
     "strict": true,
     "declaration": true,
     "allowSyntheticDefaultImports": true,

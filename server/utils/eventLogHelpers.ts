@@ -18,7 +18,7 @@ export const createErrEvent = async ({
     time_stamp: timeStamp,
     body: err,
   });
-  await newLog.save((err) => {
+  await newLog.save().catch((err) => {
     if (err) console.log("LOG ERR:", err);
   });
 

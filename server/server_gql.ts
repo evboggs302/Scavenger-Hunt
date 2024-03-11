@@ -1,9 +1,13 @@
-import * as mongoose from "mongoose";
+import mongoose from "mongoose";
+import express from "express";
+import http from "http";
+import cors from "cors";
 import { ApolloServer } from "@apollo/server";
-import { startStandaloneServer } from "@apollo/server/standalone";
+import { expressMiddleware } from "@apollo/server/express4";
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import schema from "./schema";
 import config from "./config";
-import { apolloServerContext } from "./utils/apolloServerContext";
+import { apolloServerMiddlewareOptions } from "./utils/apolloServerMiddlewareOptions";
 import { ListenOptions } from "net";
 // import { JwtPayload } from "jsonwebtoken";
 
@@ -12,28 +16,38 @@ const { MONGO_URI, PORT } = config;
 export async function startServer(
   listenOptions: ListenOptions = { port: PORT }
 ) {
+  const app = express();
+  const httpServer = http.createServer(app);
   const server = new ApolloServer({
     schema,
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
-  const { url } = await startStandaloneServer(server, {
-    context: apolloServerContext,
-    listen: listenOptions,
-  });
-  config.SERVER_URL = url;
-  console.log(`🚀 ApolloServer ready at: ${url}`);
 
-  return { server, url };
+  await server.start();
+
+  app.use(
+    "/graphql",
+    cors<cors.CorsRequest>(),
+    express.json(),
+    expressMiddleware(server, apolloServerMiddlewareOptions)
+  );
+
+  // health check
+  app.get("/healthz", (_, res) => res.send({ status: 200 }));
+
+  // receive twilio messages
+  // app.post("/sms", findActiveTeamByDevice, saveSMS, saveMMS);
+
+  // MONGODB Connection
+  mongoose
+    .connect(MONGO_URI)
+    .then(async () => {
+      console.log(`✅ Connected to Database`);
+      await new Promise<void>((resolve) =>
+        httpServer.listen(listenOptions, resolve)
+      );
+    })
+    .catch((err) => console.log(`🚫 Mongo failed\n`));
 }
 
-// MONGODB Connection
-mongoose
-  .connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
-  .then(() => {
-    console.log(`✅ Connected to Database`);
-    return startServer();
-  })
-  .catch((err) => console.log(`🚫 Mongo failed\n`));
+startServer();
