@@ -1,7 +1,6 @@
 type Query {
   getAllUsers: [UserPayload]
   getSingleUser(uid: ID!): UserPayload
-  logout: Boolean!
   userNameExists(user_name: String!): Boolean!
 }
 

@@ -5,13 +5,12 @@ import TokenStorageModel from "../models/token_storage";
 import HuntModel from "../models/hunts";
 import {
   AddUserInput,
-  FullUser,
   LoginInput,
   Resolvers,
   UserPayload,
 } from "../generated/graphql";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
-import { setToken, verifyToken } from "../utils/jwt";
+import { createAndSaveToken, setToken, verifyToken } from "../utils/jwt";
 import { JwtPayload } from "jsonwebtoken";
 import { ApolloAccessError } from "../utils/apolloErrorHandlers";
 import { createErrEvent } from "../utils/eventLogHelpers";
@@ -61,27 +60,15 @@ const userResolver: Resolvers = {
         first_name,
         last_name,
         user_name,
-        password: hashedPw,
+        hash: hashedPw,
       });
       await user.save();
 
-      const savedUser = await UserModel.findOne({ _id: u_id })
-        .select({ hash: 0 })
-        .exec();
-      const token = savedUser && setToken({ u_id: `${savedUser._id}` });
-
-      if (!token) {
-        throw new GraphQLError("Unable to create token", {
-          extensions: {
-            code: "TOKEN ISSUE",
-            http: { status: 404 },
-          },
-        });
-      }
+      const token = await createAndSaveToken(u_id);
 
       return { __typename: "AuthPayload", token };
     },
-    login: async (_: unknown, args: { input: LoginInput }) => {
+    login: async (_: unknown, args: { input: LoginInput }, context) => {
       const { user_name, password } = args.input;
       const user = await UserModel.findOne({
         user_name: user_name,
@@ -102,7 +89,7 @@ const userResolver: Resolvers = {
         });
       } else {
         const { _id } = user;
-        const token = setToken({ u_id: `${_id}` });
+        const token = await createAndSaveToken(_id);
 
         return {
           __typename: "AuthPayload",
@@ -110,43 +97,34 @@ const userResolver: Resolvers = {
         };
       }
     },
-    logout: async (
-      _: unknown,
-      {},
-      context: ServerContext,
-      info: GraphQLResolveInfo
-    ) => {
-      const { token, user } = context;
+    // logout: async (
+    //   _: unknown,
+    //   {},
+    //   context: ServerContext,
+    //   info: GraphQLResolveInfo
+    // ) => {
+    //   const { user } = context;
 
-      if (!user || !user.u_id || !user.iat || !user.exp) {
-        createErrEvent({
-          location: "logout",
-          err: {
-            message: "token issue or no user",
-            context,
-          },
-        });
-        return false;
-      }
+    //   if (!user) {
+    //     createErrEvent({
+    //       location: "logout",
+    //       err: {
+    //         message: "token issue or no user",
+    //         context,
+    //         user,
+    //       },
+    //     });
+    //     return false;
+    //   }
 
-      const { u_id, iat, exp } = user;
-      try {
-        const issuedDate = new Date(iat * 1000);
-        const expireyDate = new Date(exp * 1000);
-        const oldTtoken = new TokenStorageModel({
-          token,
-          issuedToUser: u_id,
-          issuedAt: issuedDate,
-
-          expireAt: expireyDate,
-        });
-        await oldTtoken.save();
-        return true;
-      } catch (err) {
-        createErrEvent({ location: "logout", err });
-        return false;
-      }
-    },
+    //   try {
+    //     context.token = "";
+    //     return true;
+    //   } catch (err) {
+    //     createErrEvent({ location: "logout", err });
+    //     return false;
+    //   }
+    // },
   },
   UserPayload: {
     hunts: async (parent: UserPayload) => {
