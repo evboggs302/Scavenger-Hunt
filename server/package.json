@@ -4,12 +4,11 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start-rest": "npx nodemon server_rest.ts",
-    "start-gql": "npx nodemon server_gql.ts",
-    "start-server": "yarn compile && node --experimental-modules --es-module-specifier-resolution=node ../dist/server/server_gql.js",
-    "tsc-check": "yarn compile --noEmit",
+    "dev": "yarn compile && npx nodemon ../dist/server/server_gql.js",
+    "start-server": "node --experimental-modules --es-module-specifier-resolution=node ../dist/server/server_gql.js",
+    "tsc-check": "npx tsc --noEmit",
     "codegen": "graphql-codegen --config codegen.ts",
-    "compile": "npx tsc && cp -R node_modules ../dist/server/node_modules && cp -R graphql ../dist/server/graphql"
+    "compile": "rm -rf ../dist/ && npx tsc && cp -R node_modules ../dist/server/node_modules && cp -R graphql ../dist/server/graphql"
   },
   "dependencies": {
     "@apollo/server": "^4.9.3",
@@ -23,17 +22,17 @@
     "gridfs-stream": "^1.1.1",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^8.2.1",
-    "twilio": "^4.23.0",
-    "typescript": "^5.4.2"
+    "twilio": "^4.23.0"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "3.2.2",
+    "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/fragment-matcher": "^4.0.1",
     "@graphql-codegen/introspection": "3.0.1",
-    "@graphql-codegen/typescript": "3.0.2",
+    "@graphql-codegen/typescript": "^4.0.6",
     "@graphql-codegen/typescript-mongodb": "2.4.6",
     "@graphql-codegen/typescript-operations": "^3.0.2",
-    "@graphql-codegen/typescript-resolvers": "3.1.1",
+    "@graphql-codegen/typescript-resolvers": "^4.0.6",
+    "@swc/core": "^1.4.6",
     "@types/bcryptjs": "^2.4.2",
     "@types/bson": "^4.2.0",
     "@types/express": "^4.17.21",
@@ -47,8 +46,9 @@
     "bcryptjs": "^2.4.3",
     "graphql-import-node": "^0.0.5",
     "jest": "^29.7.0",
-    "nodemon": "^2.0.22",
+    "nodemon": "^3.1.0",
     "supertest": "^6.3.4",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.2"
   }
 }

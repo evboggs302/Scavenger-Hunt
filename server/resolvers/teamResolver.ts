@@ -4,12 +4,13 @@
 //   CreateSingleTeamInput,
 //   DeleteTeamInput,
 //   Resolvers,
+//   TeamResolvers,
 //   UpdateTeamInput,
 // } from "../generated/graphql";
 // import { createBsonObjectId } from "../utils/createBsonObjectId";
 // import { createErrEvent } from "../utils/eventLogHelpers";
 
-// const teamResolver: Resolvers = {
+// const teamResolver: TeamResolvers = {
 //   Query: {
 //     getTeamsByHuntId: (_, args: { h_id: string }) => {
 //       const h_id = createBsonObjectId(args.h_id);
@@ -50,8 +51,7 @@
 //         const hunt_id = createBsonObjectId(input.hunt_id);
 
 //         return await TeamModel.updateOne({ _id }, { ...input })
-//           .exec()
-//           .find({ hunt_id })
+//           .findOne({ hunt_id })
 //           .exec();
 //       } catch (err) {
 //         createErrEvent({ location: "updateTeam", err });
