@@ -58,7 +58,7 @@
     "storybook": "^7.6.17",
     "storybook-addon-apollo-client": "^5.0.0",
     "storycap": "^4.2.0",
-    "vite": "^4.3.4",
+    "vite": "^4.5.2",
     "vite-plugin-svgr": "^3.2.0",
     "vite-tsconfig-paths": "^4.0.7"
   }
