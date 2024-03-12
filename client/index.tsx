@@ -13,8 +13,9 @@ import App from "./App";
 import store from "./src/dux/store";
 
 const client = new ApolloClient({
-  // uri: "http://localhost:22357/",
-  uri: process.env.DEPLOYED_GQL_SERVER_URL,
+  uri: process.env.PRODUCTION
+    ? process.env.DEPLOYED_GQL_SERVER_URL
+    : "http://localhost:22357/",
   cache: new InMemoryCache(),
 });
 

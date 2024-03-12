@@ -1,5 +1,5 @@
 type Query {
-  getHuntsByUserId: [Hunt]
+  getHuntsByUserId(id: String!): [Hunt]
 }
 
 type Mutation {
@@ -19,11 +19,9 @@ type Hunt {
   teams: [Team!]
 }
 
-
 input CreateHuntInput {
   name: String!
   created_by: String!
   start_date: String!
   end_date: String!
 }
-

@@ -5,8 +5,8 @@ import cors from "cors";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
-import schema from "./schema";
 import config from "./config";
+import schema from "./schema";
 import { apolloServerMiddlewareOptions } from "./utils/apolloServerMiddlewareOptions";
 import { ListenOptions } from "net";
 // import { JwtPayload } from "jsonwebtoken";
@@ -42,12 +42,14 @@ export async function startServer(
   mongoose
     .connect(MONGO_URI)
     .then(async () => {
-      console.log(`✅ Connected to Database`);
-      await new Promise<void>((resolve) =>
-        httpServer.listen(listenOptions, resolve)
-      );
+      await new Promise<void>((resolve) => {
+        httpServer.listen(listenOptions, resolve);
+        console.log(`\n✅ Connected to database\n`);
+      });
     })
-    .catch((err) => console.log(`🚫 Mongo failed\n`));
+    .catch((err) =>
+      console.log(`\n🚫 Failed to connect to MongoDB. Server did not start.\n`)
+    );
 }
 
 startServer();
