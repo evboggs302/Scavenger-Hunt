@@ -38,8 +38,11 @@ jobs:
           path: ui-test-results
   deploy-server-job:
     <<: *docker-node
+    working_directory: ~/scavenger-hunt/server
     parallelism: 5
     steps:
+      - <<: *git-checkout
+      - <<: *yarn-install-step
       - run:
           name: Graphql codegen
           command: yarn codegen
