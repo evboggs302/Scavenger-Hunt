@@ -7,7 +7,7 @@ import {
 } from "@apollo/server/express4";
 import { JwtPayload } from "jsonwebtoken";
 
-interface ServerContext extends BaseContext {
+export interface ServerContext extends BaseContext {
   token?: string;
   user?: JwtPayload | null;
 }
