@@ -3,7 +3,7 @@ import { GraphQLError } from "graphql";
 export const ApolloAccessError = (message?: string) => {
   throw new GraphQLError(message || `Access error`, {
     extensions: {
-      code: "ACCESS TOKEN ERROR",
+      code: "ACCESS ERROR",
       http: { status: 404 },
     },
   });

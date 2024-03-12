@@ -1,73 +1,71 @@
-// import TeamModel from "../models/teams";
-// import {
-//   CreateMultTeamsInput,
-//   CreateSingleTeamInput,
-//   DeleteTeamInput,
-//   Resolvers,
-//   TeamResolvers,
-//   UpdateTeamInput,
-// } from "../generated/graphql";
-// import { createBsonObjectId } from "../utils/createBsonObjectId";
-// import { createErrEvent } from "../utils/eventLogHelpers";
+import TeamModel from "../models/teams";
+import {
+  CreateMultTeamsInput,
+  CreateSingleTeamInput,
+  DeleteTeamInput,
+  UpdateTeamInput,
+} from "../generated/graphql";
+import { createBsonObjectId } from "../utils/createBsonObjectId";
+import { createErrEvent } from "../utils/eventLogHelpers";
 
-// const teamResolver: TeamResolvers = {
-//   Query: {
-//     getTeamsByHuntId: (_, args: { h_id: string }) => {
-//       const h_id = createBsonObjectId(args.h_id);
-//       const teams = TeamModel.find({ hunt_id: h_id }).exec();
-//       return teams;
-//     },
-//   },
-//   Mutation: {
-//     createSingleTeam: async (_, args: { input: CreateSingleTeamInput }) => {
-//       const { h_id, members, device_number } = args.input;
-//       const id = createBsonObjectId(h_id);
-//       const team = new TeamModel({
-//         hunt_id: id,
-//         members,
-//         device_number,
-//       });
-//       await team.save();
+const teamResolver = {
+  Query: {
+    getTeamsByHuntId: (_: unknown, args: { h_id: string }) => {
+      const h_id = createBsonObjectId(args.h_id);
+      const teams = TeamModel.find({ hunt_id: h_id }).exec();
+      return teams;
+    },
+  },
+  Mutation: {
+    createSingleTeam: async (_: unknown, args: { input: CreateSingleTeamInput }) => {
+      const { h_id, members, device_number } = args.input;
+      const id = createBsonObjectId(h_id);
+      const team = new TeamModel({
+        hunt_id: id,
+        members,
+        device_number,
+      });
+      await team.save();
 
-//       return await TeamModel.find({ hunt_id: id }).exec();
-//     },
-//     createMultipleTeams: async (_, args: { input: CreateMultTeamsInput }) => {
-//       try {
-//         const { h_id, teams } = args.input;
-//         const hunt_id = createBsonObjectId(h_id);
-//         const mappedTeams = teams.map((team) => ({ hunt_id, ...team }));
+      return await TeamModel.find({ hunt_id: id }).exec();
+    },
+    createMultipleTeams: async (_: unknown, args: { input: CreateMultTeamsInput }) => {
+      try {
+        const { h_id, teams } = args.input;
+        const hunt_id = createBsonObjectId(h_id);
+        const mappedTeams = teams.map((team) => ({ hunt_id, ...team }));
 
-//         await TeamModel.insertMany(mappedTeams);
+        await TeamModel.insertMany(mappedTeams);
 
-//         return await TeamModel.find({ hunt_id }).exec();
-//       } catch (err) {
-//         createErrEvent({ location: "createMultipleTeams", err });
-//       }
-//     },
-//     updateTeam: async (_, args: { input: UpdateTeamInput }) => {
-//       try {
-//         const { input } = args;
-//         const _id = createBsonObjectId(input.team_id);
-//         const hunt_id = createBsonObjectId(input.hunt_id);
+        return await TeamModel.find({ hunt_id }).exec();
+      } catch (err) {
+        createErrEvent({ location: "createMultipleTeams", err });
+      }
+    },
+    updateTeam: async (_: unknown, args: { input: UpdateTeamInput }) => {
+      try {
+        const { input } = args;
+        const _id = createBsonObjectId(input.team_id);
+        const hunt_id = createBsonObjectId(input.hunt_id);
 
-//         return await TeamModel.updateOne({ _id }, { ...input })
-//           .findOne({ hunt_id })
-//           .exec();
-//       } catch (err) {
-//         createErrEvent({ location: "updateTeam", err });
-//       }
-//     },
-//     deleteTeam: async (_, args: { input: DeleteTeamInput }) => {
-//       try {
-//         const { team_id } = args.input;
-//         const _id = createBsonObjectId(team_id);
+        return await TeamModel.updateOne({ _id }, { ...input })
+          .findOne({ hunt_id })
+          .exec();
+      } catch (err) {
+        createErrEvent({ location: "updateTeam", err });
+      }
+    },
+    deleteTeam: async (_: unknown, args: { input: DeleteTeamInput }) => {
+      try {
+        const { team_id } = args.input;
+        const _id = createBsonObjectId(team_id);
 
-//         return await TeamModel.deleteOne({ _id });
-//       } catch (err) {
-//         createErrEvent({ location: "deleteTeam", err });
-//       }
-//     },
-//   },
-// };
+        return await TeamModel.deleteOne({ _id });
+      } catch (err) {
+        createErrEvent({ location: "deleteTeam", err });
+      }
+    },
+  },
+};
 
-// export default teamResolver;
+export default teamResolver;

@@ -219,7 +219,6 @@ export type Query = {
   getResponsesByTeam?: Maybe<Array<Maybe<ResponsePayload>>>;
   getSingleUser?: Maybe<UserPayload>;
   getTeamsByHuntId?: Maybe<Array<Maybe<Team>>>;
-  logout: Scalars['Boolean']['output'];
   userNameExists: Scalars['Boolean']['output'];
 };
 
@@ -573,7 +572,6 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getResponsesByTeam?: Resolver<Maybe<Array<Maybe<ResolversTypes['ResponsePayload']>>>, ParentType, ContextType, RequireFields<QueryGetResponsesByTeamArgs, 'id'>>;
   getSingleUser?: Resolver<Maybe<ResolversTypes['UserPayload']>, ParentType, ContextType, RequireFields<QueryGetSingleUserArgs, 'uid'>>;
   getTeamsByHuntId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Team']>>>, ParentType, ContextType, RequireFields<QueryGetTeamsByHuntIdArgs, 'h_id'>>;
-  logout?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   userNameExists?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryUserNameExistsArgs, 'user_name'>>;
 };
 
