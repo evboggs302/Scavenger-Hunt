@@ -16,7 +16,7 @@ export const apolloServerMiddlewareOptions: ExpressMiddlewareOptions<ServerConte
       if (["RegisterUser", "Login"].includes(req.body.operationName)) {
         return { req };
       } else if (!req.headers.authorization) {
-        return ApolloAccessError("You are not nauthorized.");
+        return ApolloAccessError("You are not authorized.");
       } else {
         const tokenHeader = req.headers.authorization;
         const token = tokenHeader.replace("Bearer ", "");
