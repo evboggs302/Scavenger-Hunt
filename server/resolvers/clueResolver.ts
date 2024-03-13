@@ -10,13 +10,7 @@ import {
 } from "../generated/graphql";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
 import { throwResolutionError } from "../utils/eventLogHelpers";
-
-export const clueMapper = (clu: any) => ({
-  ...clu,
-  __typename: "CluePayload",
-  _id: clu._id.toString(),
-  hunt_id: clu.hunt_id.toString(),
-});
+import { returnedItems } from "../utils/returnedItems";
 
 export const clueResolver: Resolvers = {
   Query: {
@@ -50,7 +44,7 @@ export const clueResolver: Resolvers = {
         await ClueModel.insertMany(mappedClues);
         const clues = await ClueModel.find({ hunt_id: h_id }).exec();
 
-        return clues.map(clueMapper);
+        return clues.map(returnedItems);
       } catch (err) {
         return throwResolutionError({ location: "createMultipleClues", err });
       }
@@ -69,7 +63,7 @@ export const clueResolver: Resolvers = {
         await clue.save();
 
         const allClues = await ClueModel.find({ hunt_id }).exec();
-        return allClues.map(clueMapper);
+        return allClues.map(returnedItems);
       } catch (err) {
         return throwResolutionError({ location: "createSingleClue", err });
       }
@@ -96,12 +90,7 @@ export const clueResolver: Resolvers = {
           });
         }
 
-        return {
-          ...updatedClue,
-          __typename: "CluePayload",
-          _id: updatedClue._id.toString(),
-          hunt_id: updatedClue.hunt_id.toString(),
-        };
+        return updatedClue.toObject();
       } catch (err) {
         return throwResolutionError({ location: "updateClueDescription", err });
       }
@@ -127,7 +116,7 @@ export const clueResolver: Resolvers = {
           .sort({ order_number: 1 })
           .exec();
 
-        return orderedClues.map(clueMapper);
+        return orderedClues.map(returnedItems);
       } catch (err) {
         return throwResolutionError({ location: "updateClueOrder", err });
       }
