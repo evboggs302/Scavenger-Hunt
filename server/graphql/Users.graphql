@@ -10,15 +10,14 @@ type Mutation {
   logout: Boolean
 }
 
-type FullUser {
+interface BaseUserPayload {
   _id: ID!
   user_name: String!
   first_name: String!
   last_name: String!
-  hash: String!
 }
 
-type UserPayload {
+type UserPayload implements BaseUserPayload {
   _id: ID!
   user_name: String!
   first_name: String!

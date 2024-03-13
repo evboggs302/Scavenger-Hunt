@@ -3,9 +3,9 @@ type Query {
 }
 
 type Mutation {
-  createSingleTeam(input: CreateSingleTeamInput!): [Team]
-  createMultipleTeams(input: CreateMultTeamsInput!): [Team]
-  updateTeam(input: UpdateTeamInput!): [Team]
+  createSingleTeam(input: CreateSingleTeamInput!): Team
+  createMultipleTeams(input: CreateMultipleTeamsInput!): [Team]
+  updateTeam(input: UpdateTeamInput!): Team
   deleteTeam(input: DeleteTeamInput!): Boolean
 }
 
@@ -15,17 +15,18 @@ type Team {
   recall_sent: Boolean
   last_clue_sent: Int
   members: [String]
+  device_number: String
+  responses: [ResponsePayload!]
+}
+
+input SingleTeam {
+  members: [String!]
   device_number: String!
 }
 
-input SingleTeamInput {
-  members: [String]
-  device_number: String
-}
-
-input CreateMultTeamsInput {
+input CreateMultipleTeamsInput {
   h_id: String!
-  teams: [SingleTeamInput]!
+  teams: [SingleTeam]!
 }
 
 input CreateSingleTeamInput {
@@ -35,7 +36,6 @@ input CreateSingleTeamInput {
 }
 
 input UpdateTeamInput {
-  hunt_id: ID!
   team_id: ID!
   members: [String]
   device_number: String

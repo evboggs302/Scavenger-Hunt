@@ -22,5 +22,5 @@ const logSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-logSchema.index({ time_stamp: 1 }, { expires: "1 year" });
+logSchema.index({ time_stamp: 1 }, { expires: "2y" });
 export default mongoose.model("Log", logSchema, "event_logs"); // modelName, schemaName, collectionName
