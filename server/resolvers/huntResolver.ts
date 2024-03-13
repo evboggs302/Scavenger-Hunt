@@ -4,18 +4,7 @@ import HuntModel from "../models/hunts";
 import ClueModel from "../models/clues";
 import TeamModel from "../models/teams";
 import { CreateHuntInput, Hunt, Resolvers } from "../generated/graphql";
-import { clueMapper } from "./clueResolver";
-import { teamMapper } from "./teamResolver";
-
-export const huntMapper = (ht: any) => ({
-  ...ht,
-  __typename: "Hunt",
-  _id: ht._id.toString(),
-  created_by: ht.created_by.toString(),
-  created_date: ht.created_date.toISOString(),
-  start_date: ht.start_date.toISOString(),
-  end_date: ht.end_date.toISOString(),
-});
+import { returnedItems } from "../utils/returnedItems";
 
 export const huntResolver: Resolvers = {
   Query: {
@@ -25,7 +14,7 @@ export const huntResolver: Resolvers = {
           .sort({ created_date: 1 })
           .exec();
 
-        return hunts.map(huntMapper);
+        return hunts.map(returnedItems);
       } catch (err) {
         return throwResolutionError({ location: "getHuntsByUserId", err });
       }
@@ -58,15 +47,7 @@ export const huntResolver: Resolvers = {
           });
         }
 
-        return {
-          ...createdHunt,
-          __typename: "Hunt",
-          _id: createdHunt._id.toString(),
-          created_by: createdHunt.created_by.toString(),
-          created_date: createdHunt.created_date.toISOString(),
-          start_date: createdHunt.start_date.toISOString(),
-          end_date: createdHunt.end_date.toISOString(),
-        };
+        return createdHunt.toObject();
       } catch (err) {
         return throwResolutionError({ location: "createHunt", err });
       }
@@ -78,14 +59,14 @@ export const huntResolver: Resolvers = {
       const clues = await ClueModel.find({
         hunt_id: h_id,
       }).exec();
-      return clues.map(clueMapper);
+      return clues.map(returnedItems);
     },
     teams: async (parent: Hunt) => {
       const h_id = createBsonObjectId(parent._id);
       const teams = await TeamModel.find({
         hunt_id: h_id,
       }).exec();
-      return teams.map(teamMapper);
+      return teams.map(returnedItems);
     },
   },
 };

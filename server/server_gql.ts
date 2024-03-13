@@ -33,7 +33,13 @@ export async function startServer(
   );
 
   // health check
-  app.get("/healthz", (_, res) => res.send({ status: 200 }));
+  app.get("/healthz", (_, res) =>
+    res.send({
+      status: 200,
+      message:
+        'This end point is only for doing a "health check", making sure the server is running and listening.',
+    })
+  );
 
   // receive twilio messages
   // app.post("/sms", findActiveTeamByDevice, saveSMS, saveMMS);

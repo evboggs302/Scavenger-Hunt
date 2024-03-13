@@ -13,18 +13,14 @@ import { createBsonObjectId } from "../utils/createBsonObjectId";
 import { createAndSaveToken } from "../utils/jwt";
 import { ApolloAccessError } from "../utils/apolloErrorHandlers";
 import { throwResolutionError } from "../utils/eventLogHelpers";
-import { huntMapper } from "./huntResolver";
+import { returnedItems } from "../utils/returnedItems";
 
 export const userResolver: Resolvers = {
   Query: {
     getAllUsers: async (_: unknown, {}, { user }) => {
       if (!user) return ApolloAccessError();
       const users = await UserModel.find({}).exec();
-      return users.map((usr) => ({
-        ...usr,
-        __typename: "UserPayload",
-        _id: usr._id.toString(),
-      }));
+      return users.map(returnedItems);
     },
     getSingleUser: async (_: unknown, args: { uid: string }) => {
       const u_id = createBsonObjectId(args.uid);
@@ -36,11 +32,7 @@ export const userResolver: Resolvers = {
           message: "User does not exist",
         });
       }
-      return {
-        ...user,
-        __typename: "UserPayload",
-        _id: user._id.toString(),
-      };
+      return user.toObject();
     },
     userNameExists: async (_: unknown, args: { user_name: string }) => {
       const matches = await UserModel.find({ userName: args.user_name }).exec();
@@ -130,7 +122,7 @@ export const userResolver: Resolvers = {
       const hunts = await HuntModel.find({
         created_by: _id,
       }).exec();
-      return hunts.map(huntMapper);
+      return hunts.map(returnedItems);
     },
   },
 };

@@ -10,20 +10,13 @@ import {
 } from "../generated/graphql";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
 import { throwResolutionError } from "../utils/eventLogHelpers";
-
-export const teamMapper = (tm: any) => ({
-  ...tm,
-  __typename: "Team",
-  _id: tm._id.toString(),
-  hunt_id: tm.hunt_id.toString(),
-});
+import { returnedItems } from "../utils/returnedItems";
 
 export const teamResolver: Resolvers = {
   Query: {
     getTeamsByHuntId: async (_: unknown, args: { h_id: string }) => {
       const h_id = createBsonObjectId(args.h_id);
-      const teams = await TeamModel.find({ hunt_id: h_id }).exec();
-      return teams.map(teamMapper);
+      return await TeamModel.find({ hunt_id: h_id });
     },
   },
   Mutation: {
@@ -49,12 +42,7 @@ export const teamResolver: Resolvers = {
         });
       }
 
-      return {
-        ...team,
-        __typename: "Team",
-        _id: team._id.toString(),
-        hunt_id: team.hunt_id.toString(),
-      };
+      return team.toObject();
     },
     createMultipleTeams: async (
       _: unknown,
@@ -67,7 +55,7 @@ export const teamResolver: Resolvers = {
 
         await TeamModel.insertMany(mappedTeams);
         const teams = await TeamModel.find({ hunt_id }).exec();
-        return teams.map(teamMapper);
+        return teams.map(returnedItems);
       } catch (err) {
         return throwResolutionError({
           location: "createMultipleTeams",
@@ -93,12 +81,7 @@ export const teamResolver: Resolvers = {
         });
       }
 
-      return {
-        ...updatedTeam,
-        __typename: "Team",
-        _id: updatedTeam._id.toString(),
-        hunt_id: updatedTeam.hunt_id.toString(),
-      };
+      return updatedTeam.toObject();
     },
     deleteTeam: async (_: unknown, args: { input: DeleteTeamInput }) => {
       try {
