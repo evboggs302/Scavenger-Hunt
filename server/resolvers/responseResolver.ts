@@ -2,25 +2,25 @@ import TeamModel from "../models/teams";
 import ResponseModel from "../models/responses";
 import { Resolvers, SendHintInput, Team } from "../generated/graphql";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
-import { createErrEvent } from "../utils/eventLogHelpers";
+import { throwResolutionError } from "../utils/eventLogHelpers";
 import twilio from "twilio";
 import config from "../config";
 
 const { TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN, TWILIO_NUMBER } = config;
 const client = twilio(TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN);
 
-const responseResolver: Resolvers = {
+export const responseResolver: Resolvers = {
   Query: {
     // getResponsesByHunt: async (parent, args) => {
     //   try {
     //   } catch (err) {
-    //     createErrEvent({ location: "getResponsesByHunt", err });
+    //     throwResolutionError({ location: "getResponsesByHunt", err });
     //   }
     // },
     // getResponsesByTeam: async (parent, args) => {
     //   try {
     //   } catch (err) {
-    //     createErrEvent({ location: "", err });
+    //     throwResolutionError({ location: "", err });
     //   }
     // },
   },
@@ -35,7 +35,7 @@ const responseResolver: Resolvers = {
 
         return true;
       } catch (err) {
-        createErrEvent({ location: "markResponseCorrect", err });
+        throwResolutionError({ location: "markResponseCorrect", err });
         return false;
       }
     },
@@ -57,11 +57,9 @@ const responseResolver: Resolvers = {
 
         return true;
       } catch (err) {
-        createErrEvent({ location: "sendHint", err });
+        throwResolutionError({ location: "sendHint", err });
         return false;
       }
     },
   },
 };
-
-export default responseResolver;

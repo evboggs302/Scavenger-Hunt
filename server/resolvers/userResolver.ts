@@ -10,13 +10,12 @@ import {
   UserPayload,
 } from "../generated/graphql";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
-import { createAndSaveToken, setToken, verifyToken } from "../utils/jwt";
-import { JwtPayload } from "jsonwebtoken";
+import { createAndSaveToken } from "../utils/jwt";
 import { ApolloAccessError } from "../utils/apolloErrorHandlers";
-import { createErrEvent } from "../utils/eventLogHelpers";
-import { ServerContext } from "../utils/apolloServerMiddlewareOptions";
+import { throwResolutionError } from "../utils/eventLogHelpers";
+import { huntMapper } from "./huntResolver";
 
-const userResolver: Resolvers = {
+export const userResolver: Resolvers = {
   Query: {
     getAllUsers: async (_: unknown, {}, { user }) => {
       if (!user) return ApolloAccessError();
@@ -24,24 +23,23 @@ const userResolver: Resolvers = {
       return users.map((usr) => ({
         ...usr,
         __typename: "UserPayload",
-        _id: `${usr._id}`,
+        _id: usr._id.toString(),
       }));
     },
     getSingleUser: async (_: unknown, args: { uid: string }) => {
       const u_id = createBsonObjectId(args.uid);
       const user = await UserModel.findOne({ _id: u_id }).exec();
       if (!user) {
-        throw new GraphQLError("User does not exist", {
-          extensions: {
-            code: "USER DOES NOT EXIST",
-            http: { status: 404 },
-          },
+        return throwResolutionError({
+          location: "createSingleUser",
+          err: null,
+          message: "User does not exist",
         });
       }
       return {
         ...user,
         __typename: "UserPayload",
-        _id: `${user._id}`,
+        _id: user._id.toString(),
       };
     },
     userNameExists: async (_: unknown, args: { user_name: string }) => {
@@ -106,7 +104,7 @@ const userResolver: Resolvers = {
     //   const { user } = context;
 
     //   if (!user) {
-    //     createErrEvent({
+    //     throwResolutionError({
     //       location: "logout",
     //       err: {
     //         message: "token issue or no user",
@@ -121,7 +119,7 @@ const userResolver: Resolvers = {
     //     context.token = "";
     //     return true;
     //   } catch (err) {
-    //     createErrEvent({ location: "logout", err });
+    //     throwResolutionError({ location: "logout", err });
     //     return false;
     //   }
     // },
@@ -132,17 +130,7 @@ const userResolver: Resolvers = {
       const hunts = await HuntModel.find({
         created_by: _id,
       }).exec();
-      return hunts.map((el) => ({
-        ...el,
-        __typename: "Hunt",
-        _id: `${el._id}`,
-        created_by: `${el.created_by}`,
-        created_date: el.created_date.toISOString(),
-        start_date: el.start_date.toISOString(),
-        end_date: el.end_date.toISOString(),
-      }));
+      return hunts.map(huntMapper);
     },
   },
 };
-
-export default userResolver;

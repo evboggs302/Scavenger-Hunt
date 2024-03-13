@@ -2,31 +2,58 @@ import { GraphQLError } from "graphql";
 import EventLogModel from "../models/event_logs";
 import { createBsonObjectId } from "./createBsonObjectId";
 
-type CreateEventLogProps = {
-  location: string;
+type EventLogProps = {
   err: unknown;
+  location: string;
+  message?: string;
 };
-export const createErrEvent = async ({
-  location,
+export const createErrLog = async ({
   err,
-}: CreateEventLogProps) => {
+  location,
+  message,
+}: EventLogProps) => {
   const timeStamp = new Date();
   const newLog = new EventLogModel({
     _id: createBsonObjectId(),
     type: "ERROR",
     where: location,
     time_stamp: timeStamp,
-    body: err,
+    body: {
+      message,
+      err,
+    },
   });
   await newLog.save().catch((err) => {
     if (err) console.log("LOG ERR:", err);
   });
+};
 
-  throw new GraphQLError("Uh-oh! An error occured.", {
+export const throwResolutionError = async ({
+  err,
+  location,
+  message,
+}: EventLogProps) => {
+  await createErrLog({ err, location, message });
+  throw new GraphQLError(`Uh-oh! An error occured.`, {
     extensions: {
-      code: "CAUGHT_ERR",
+      code: "OPERATION_RESOLUTION_FAILURE",
       where: location,
-      errMessage: err,
+      errMessage: message,
+    },
+  });
+};
+
+export const throwServerError = async ({
+  err,
+  location,
+  message,
+}: EventLogProps) => {
+  await createErrLog({ err, location, message });
+  throw new GraphQLError(`Uh-oh! An error occured.`, {
+    extensions: {
+      code: "INTERNAL_SERVER_ERROR",
+      where: location,
+      errMessage: message,
     },
   });
 };

@@ -1,23 +1,26 @@
 import { sign, verify, JwtPayload } from "jsonwebtoken";
 import TokenStorageModel from "../models/token_storage";
+import UserModel from "../models/users";
 import config from "../config";
 import parseDuration from "parse-duration";
 import { GraphQLError } from "graphql";
 import { Types } from "mongoose";
+import { BaseUserPayload } from "../generated/graphql";
+import { throwResolutionError } from "./eventLogHelpers";
 
 const { ACCESS_TOKEN_SECRET, ACCESS_TOKEN_DURATION } = config;
 
-type SetTokenArgs = {
+interface SetTokenArgs {
   u_id: string;
   // permissions: string[];
   // roles: string[];
-};
+}
 
 export const createAndSaveToken = async (id: Types.ObjectId) => {
   try {
-    const token = setToken({ u_id: `${id}` });
+    const token = setToken({ u_id: id.toString() });
     const today = new Date();
-    const expiresInMs = parseDuration(ACCESS_TOKEN_DURATION) as number;
+    const expiresInMs = parseDuration("2d") as number;
 
     const newToken = new TokenStorageModel({
       token,
@@ -39,13 +42,31 @@ export const createAndSaveToken = async (id: Types.ObjectId) => {
   }
 };
 
-export const getUserFromToken = (token: string) => {
-  try {
-    const verifiedToken = verifyToken(token);
-    return verifiedToken;
-  } catch (error) {
-    return null;
+export const getUserFromToken = async (
+  token: string
+): Promise<BaseUserPayload | null> => {
+  // authenticate token via decryption
+  const verifiedToken = verifyToken(token);
+
+  // the user the token is assigned to
+  const storedToken = await TokenStorageModel.findOne({ token })
+    .select({ issuedToUser: 1 })
+    .exec();
+
+  if (verifiedToken && storedToken?.issuedToUser) {
+    const user = await UserModel.findOne({
+      _id: storedToken?.issuedToUser,
+    })
+      .select({ hash: 0 })
+      .exec();
+
+    if (!user) {
+      return throwResolutionError({ location: "getUserFromToken", err: null });
+    }
+
+    return user.toObject();
   }
+  return null;
 };
 
 export const setToken = ({ u_id }: SetTokenArgs) => {
@@ -61,8 +82,10 @@ export const setToken = ({ u_id }: SetTokenArgs) => {
 
 export const verifyToken = (token: string) => {
   try {
-    const verifiedAccessToken = verify(token, ACCESS_TOKEN_SECRET);
-    return verifiedAccessToken as JwtPayload;
+    // return verify(token, ACCESS_TOKEN_SECRET, {
+    //   complete: true,
+    // });
+    return verify(token, ACCESS_TOKEN_SECRET);
   } catch (error) {
     // if (error instanceof Error && error.message !== "jwt expired") {
     //   console.error(`Access token error: ${error.message}`);

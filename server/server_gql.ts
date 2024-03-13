@@ -44,7 +44,7 @@ export async function startServer(
     .then(async () => {
       await new Promise<void>((resolve) => {
         httpServer.listen(listenOptions, resolve);
-        console.log(`\n✅ Connected to database\n`);
+        console.log(`\n✅ Connected to database. Server started.\n`);
       });
     })
     .catch((err) =>
