@@ -16,7 +16,7 @@ export const createErrLog = async ({
   const newLog = new EventLogModel({
     _id: createBsonObjectId(),
     type: "ERROR",
-    where: location,
+    location,
     time_stamp: timeStamp,
     body: {
       message,
@@ -34,7 +34,7 @@ export const throwResolutionError = async ({
   message,
 }: EventLogProps) => {
   await createErrLog({ err, location, message });
-  throw new GraphQLError(`Uh-oh! An error occured.`, {
+  throw new GraphQLError(message || `Uh-oh! An error occured.`, {
     extensions: {
       code: "OPERATION_RESOLUTION_FAILURE",
       where: location,

@@ -3,7 +3,12 @@ import { throwResolutionError } from "../utils/eventLogHelpers";
 import HuntModel from "../models/hunts";
 import ClueModel from "../models/clues";
 import TeamModel from "../models/teams";
-import { CreateHuntInput, Hunt, Resolvers } from "../generated/graphql";
+import {
+  CreateHuntInput,
+  Hunt,
+  Resolvers,
+  UpdateHuntInput,
+} from "../generated/graphql";
 import { returnedItems } from "../utils/returnedItems";
 
 export const huntResolver: Resolvers = {
@@ -17,6 +22,39 @@ export const huntResolver: Resolvers = {
         return hunts.map(returnedItems);
       } catch (err) {
         return throwResolutionError({ location: "getHuntsByUserId", err });
+      }
+    },
+    getHunt: async (_: unknown, { id }) => {
+      try {
+        const hunt = await HuntModel.findById(id).exec();
+
+        if (!hunt) {
+          return throwResolutionError({
+            location: "getHunt",
+            err: null,
+            message: "Unable to find Hunt",
+          });
+        }
+
+        return hunt.toObject();
+      } catch (err) {
+        return throwResolutionError({ location: "getHunt", err });
+      }
+    },
+    // activateHunt: async (_: unknown, { id }) => {},
+    // deactivateHunt: async (_: unknown, { id }) => {},
+    deleteAllHuntsByUser: async (_: unknown, {}, { user }) => {
+      try {
+        const { deletedCount } = await HuntModel.deleteMany({
+          created_by: user._id,
+        }).exec();
+
+        return deletedCount > 0;
+      } catch (err) {
+        return throwResolutionError({
+          location: "deleteAllHuntsByUser",
+          err,
+        });
       }
     },
   },
@@ -50,6 +88,99 @@ export const huntResolver: Resolvers = {
         return createdHunt.toObject();
       } catch (err) {
         return throwResolutionError({ location: "createHunt", err });
+      }
+    },
+    updateHunt: async (_: unknown, args: { input: UpdateHuntInput }) => {
+      try {
+        const {
+          hunt_id,
+          start_date: newStart,
+          end_date: newEnd,
+          recall_message: newRecall,
+        } = args.input;
+        const _id = createBsonObjectId(hunt_id);
+
+        // @ts-expect-error
+        const formattedStart = new Date(newStart);
+        // @ts-expect-error
+        const formattedEnd = new Date(newEnd);
+
+        const hunt = await HuntModel.findOneAndUpdate(
+          { _id },
+          [
+            {
+              $set: {
+                start_date: {
+                  $cond: [
+                    {
+                      $and: [
+                        newStart,
+                        { $ne: [formattedStart, "$start_date"] },
+                      ],
+                    },
+                    newStart,
+                    "$start_date",
+                  ],
+                },
+              },
+            },
+            {
+              $set: {
+                end_date: {
+                  $cond: [
+                    {
+                      $and: [newEnd, { $ne: [formattedEnd, "$end_date"] }],
+                    },
+                    newEnd,
+                    "$end_date",
+                  ],
+                },
+              },
+            },
+            {
+              $set: {
+                recall_message: {
+                  $cond: [
+                    {
+                      $and: [newRecall, { $ne: [newRecall, "$recallMessage"] }],
+                    },
+                    newRecall,
+                    "$recallMessage",
+                  ],
+                },
+              },
+            },
+          ],
+          { new: true }
+        );
+
+        if (!hunt) {
+          return throwResolutionError({
+            location: "updateHuntDates",
+            err: null,
+            message: `No hunt found to update. Hunt value: ${hunt}`,
+          });
+        }
+
+        return hunt.toObject();
+      } catch (err) {
+        return throwResolutionError({
+          location: "updateHuntDates",
+          err,
+        });
+      }
+    },
+    deleteHuntById: async (_: unknown, { h_id }) => {
+      try {
+        const _id = createBsonObjectId(h_id);
+        const { deletedCount } = await HuntModel.deleteOne({ _id }).exec();
+
+        return deletedCount === 1;
+      } catch (err) {
+        return throwResolutionError({
+          location: "deleteHuntById",
+          err,
+        });
       }
     },
   },

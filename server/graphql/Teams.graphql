@@ -1,5 +1,6 @@
 type Query {
   getTeamsByHuntId(h_id: ID!): [Team]
+  getTeam(id: ID!): Team
 }
 
 type Mutation {

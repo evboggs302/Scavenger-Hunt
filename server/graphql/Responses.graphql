@@ -1,5 +1,4 @@
 type Query {
-  getResponsesByHunt(id: ID!): [ResponsePayload]
   getResponsesByTeam(id: ID!): [ResponsePayload]
   getResponsesByClue(id: ID!): [ResponsePayload]
 }

@@ -110,14 +110,15 @@ export type Mutation = {
   deleteAllResponsesByHunt?: Maybe<Scalars['Boolean']['output']>;
   deleteAllResponsesByTeam?: Maybe<Scalars['Boolean']['output']>;
   deleteClueById?: Maybe<Scalars['Boolean']['output']>;
+  deleteHuntById?: Maybe<Scalars['Boolean']['output']>;
   deleteTeam?: Maybe<Scalars['Boolean']['output']>;
   login: AuthPayload;
-  logout?: Maybe<Scalars['Boolean']['output']>;
   markResponseCorrect?: Maybe<Scalars['Boolean']['output']>;
   registerUser: AuthPayload;
   sendHint?: Maybe<Scalars['Boolean']['output']>;
   updateClueDescription?: Maybe<CluePayload>;
   updateClueOrder?: Maybe<Array<Maybe<CluePayload>>>;
+  updateHunt?: Maybe<Hunt>;
   updateTeam?: Maybe<Team>;
 };
 
@@ -167,6 +168,11 @@ export type MutationDeleteClueByIdArgs = {
 };
 
 
+export type MutationDeleteHuntByIdArgs = {
+  h_id: Scalars['ID']['input'];
+};
+
+
 export type MutationDeleteTeamArgs = {
   input: DeleteTeamInput;
 };
@@ -202,21 +208,41 @@ export type MutationUpdateClueOrderArgs = {
 };
 
 
+export type MutationUpdateHuntArgs = {
+  input: UpdateHuntInput;
+};
+
+
 export type MutationUpdateTeamArgs = {
   input: UpdateTeamInput;
 };
 
 export type Query = {
   __typename: 'Query';
+  activateHunt?: Maybe<Hunt>;
+  deactivateHunt?: Maybe<Hunt>;
+  deleteAllHuntsByUser?: Maybe<Scalars['Boolean']['output']>;
   getAllUsers?: Maybe<Array<Maybe<UserPayload>>>;
   getCluesByHuntId?: Maybe<Array<Maybe<CluePayload>>>;
+  getHunt?: Maybe<Hunt>;
   getHuntsByUserId?: Maybe<Array<Maybe<Hunt>>>;
   getResponsesByClue?: Maybe<Array<Maybe<ResponsePayload>>>;
-  getResponsesByHunt?: Maybe<Array<Maybe<ResponsePayload>>>;
   getResponsesByTeam?: Maybe<Array<Maybe<ResponsePayload>>>;
   getSingleUser?: Maybe<UserPayload>;
+  getTeam?: Maybe<Team>;
   getTeamsByHuntId?: Maybe<Array<Maybe<Team>>>;
+  logout?: Maybe<Scalars['Boolean']['output']>;
   userNameExists: Scalars['Boolean']['output'];
+};
+
+
+export type QueryActivateHuntArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryDeactivateHuntArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -225,12 +251,12 @@ export type QueryGetCluesByHuntIdArgs = {
 };
 
 
-export type QueryGetResponsesByClueArgs = {
+export type QueryGetHuntArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type QueryGetResponsesByHuntArgs = {
+export type QueryGetResponsesByClueArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -242,6 +268,11 @@ export type QueryGetResponsesByTeamArgs = {
 
 export type QueryGetSingleUserArgs = {
   uid: Scalars['ID']['input'];
+};
+
+
+export type QueryGetTeamArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -295,6 +326,13 @@ export type UpdateClueDescriptionInput = {
 export type UpdateClueOrderInput = {
   hunt_id: Scalars['ID']['input'];
   newOrder: Array<InputMaybe<Scalars['String']['input']>>;
+};
+
+export type UpdateHuntInput = {
+  end_date?: InputMaybe<Scalars['String']['input']>;
+  hunt_id: Scalars['String']['input'];
+  recall_message?: InputMaybe<Scalars['String']['input']>;
+  start_date?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateTeamInput = {
@@ -417,6 +455,7 @@ export type ResolversTypes = {
   Team: ResolverTypeWrapper<Team>;
   UpdateClueDescriptionInput: UpdateClueDescriptionInput;
   UpdateClueOrderInput: UpdateClueOrderInput;
+  UpdateHuntInput: UpdateHuntInput;
   UpdateTeamInput: UpdateTeamInput;
   UserPayload: ResolverTypeWrapper<UserPayload>;
   AdditionalEntityFields: AdditionalEntityFields;
@@ -449,6 +488,7 @@ export type ResolversParentTypes = {
   Team: Team;
   UpdateClueDescriptionInput: UpdateClueDescriptionInput;
   UpdateClueOrderInput: UpdateClueOrderInput;
+  UpdateHuntInput: UpdateHuntInput;
   UpdateTeamInput: UpdateTeamInput;
   UserPayload: UserPayload;
   AdditionalEntityFields: AdditionalEntityFields;
@@ -547,26 +587,32 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteAllResponsesByHunt?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteAllResponsesByHuntArgs, 'id'>>;
   deleteAllResponsesByTeam?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteAllResponsesByTeamArgs, 'id'>>;
   deleteClueById?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteClueByIdArgs, 'clue_id'>>;
+  deleteHuntById?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteHuntByIdArgs, 'h_id'>>;
   deleteTeam?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteTeamArgs, 'input'>>;
   login?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>;
-  logout?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   markResponseCorrect?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationMarkResponseCorrectArgs, 'id'>>;
   registerUser?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationRegisterUserArgs, 'input'>>;
   sendHint?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationSendHintArgs, 'input'>>;
   updateClueDescription?: Resolver<Maybe<ResolversTypes['CluePayload']>, ParentType, ContextType, RequireFields<MutationUpdateClueDescriptionArgs, 'input'>>;
   updateClueOrder?: Resolver<Maybe<Array<Maybe<ResolversTypes['CluePayload']>>>, ParentType, ContextType, RequireFields<MutationUpdateClueOrderArgs, 'input'>>;
+  updateHunt?: Resolver<Maybe<ResolversTypes['Hunt']>, ParentType, ContextType, RequireFields<MutationUpdateHuntArgs, 'input'>>;
   updateTeam?: Resolver<Maybe<ResolversTypes['Team']>, ParentType, ContextType, RequireFields<MutationUpdateTeamArgs, 'input'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  activateHunt?: Resolver<Maybe<ResolversTypes['Hunt']>, ParentType, ContextType, RequireFields<QueryActivateHuntArgs, 'id'>>;
+  deactivateHunt?: Resolver<Maybe<ResolversTypes['Hunt']>, ParentType, ContextType, RequireFields<QueryDeactivateHuntArgs, 'id'>>;
+  deleteAllHuntsByUser?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   getAllUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserPayload']>>>, ParentType, ContextType>;
   getCluesByHuntId?: Resolver<Maybe<Array<Maybe<ResolversTypes['CluePayload']>>>, ParentType, ContextType, RequireFields<QueryGetCluesByHuntIdArgs, 'id'>>;
+  getHunt?: Resolver<Maybe<ResolversTypes['Hunt']>, ParentType, ContextType, RequireFields<QueryGetHuntArgs, 'id'>>;
   getHuntsByUserId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Hunt']>>>, ParentType, ContextType>;
   getResponsesByClue?: Resolver<Maybe<Array<Maybe<ResolversTypes['ResponsePayload']>>>, ParentType, ContextType, RequireFields<QueryGetResponsesByClueArgs, 'id'>>;
-  getResponsesByHunt?: Resolver<Maybe<Array<Maybe<ResolversTypes['ResponsePayload']>>>, ParentType, ContextType, RequireFields<QueryGetResponsesByHuntArgs, 'id'>>;
   getResponsesByTeam?: Resolver<Maybe<Array<Maybe<ResolversTypes['ResponsePayload']>>>, ParentType, ContextType, RequireFields<QueryGetResponsesByTeamArgs, 'id'>>;
   getSingleUser?: Resolver<Maybe<ResolversTypes['UserPayload']>, ParentType, ContextType, RequireFields<QueryGetSingleUserArgs, 'uid'>>;
+  getTeam?: Resolver<Maybe<ResolversTypes['Team']>, ParentType, ContextType, RequireFields<QueryGetTeamArgs, 'id'>>;
   getTeamsByHuntId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Team']>>>, ParentType, ContextType, RequireFields<QueryGetTeamsByHuntIdArgs, 'h_id'>>;
+  logout?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   userNameExists?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryUserNameExistsArgs, 'user_name'>>;
 };
 

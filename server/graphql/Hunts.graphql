@@ -1,9 +1,15 @@
 type Query {
   getHuntsByUserId: [Hunt]
+  getHunt(id: ID!): Hunt
+  activateHunt(id: ID!): Hunt
+  deactivateHunt(id: ID!): Hunt
+  deleteAllHuntsByUser: Boolean
 }
 
 type Mutation {
   createHunt(input: CreateHuntInput!): Hunt
+  updateHunt(input: UpdateHuntInput!): Hunt
+  deleteHuntById(h_id: ID!): Boolean
 }
 
 type Hunt {
@@ -23,4 +29,11 @@ input CreateHuntInput {
   name: String!
   start_date: String!
   end_date: String!
+}
+
+input UpdateHuntInput {
+  hunt_id: String!
+  start_date: String
+  end_date: String
+  recall_message: String
 }

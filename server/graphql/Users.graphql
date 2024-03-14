@@ -2,12 +2,12 @@ type Query {
   getAllUsers: [UserPayload]
   getSingleUser(uid: ID!): UserPayload
   userNameExists(user_name: String!): Boolean!
+  logout: Boolean
 }
 
 type Mutation {
   registerUser(input: AddUserInput!): AuthPayload!
   login(input: LoginInput!): AuthPayload!
-  logout: Boolean
 }
 
 interface BaseUserPayload {

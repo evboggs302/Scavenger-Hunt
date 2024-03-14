@@ -1,6 +1,6 @@
-import * as mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const logSchema = new mongoose.Schema(
+const logSchema = new Schema(
   {
     type: {
       type: String,
@@ -11,7 +11,7 @@ const logSchema = new mongoose.Schema(
       required: true,
     },
     body: {
-      type: mongoose.Schema.Types.Mixed,
+      type: Schema.Types.Mixed,
       required: true,
     },
     time_stamp: {
@@ -23,4 +23,4 @@ const logSchema = new mongoose.Schema(
 );
 
 logSchema.index({ time_stamp: 1 }, { expires: "2y" });
-export default mongoose.model("Log", logSchema, "event_logs"); // modelName, schemaName, collectionName
+export default model("Log", logSchema, "event_logs"); // modelName, schemaName, collectionName

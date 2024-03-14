@@ -100,12 +100,14 @@ module.exports = {
       res.status(200).send("Response Saved!");
     });
   },
-  getAllResponsesByHunt: (req, res, next) => {
+  getAllResponsesByHunt: async (req, res, next) => {
     const { id } = req.params;
     const h_id = mongoose.Types.ObjectId(id);
     Team.aggregate([
       {
-        $match: { hunt_id: h_id },
+        $match: {
+          hunt_id: h_id,
+        },
       },
       {
         $lookup: {
@@ -122,25 +124,38 @@ module.exports = {
           responses: 1,
         },
       },
-      { $unwind: "$responses" },
-      { $sort: { "responses.time_received": 1 } },
       {
-        $group: {
-          _id: "$hunt_id",
-          allResponses: { $push: "$responses" },
+        $unwind: {
+          path: "$responses",
+        },
+      },
+      {
+        $project: {
+          _id: "$responses._id",
+          hunt_id: "$hunt_id",
+          clue_id: "$responses.clue_id",
+          team_id: "$responses.team_id",
+          response_txt: "$responses.response_txt",
+          time_received: "$responses.time_received",
+          correct: "$responses.correct",
+        },
+      },
+      {
+        $sort: {
+          time_received: 1,
         },
       },
     ])
       .allowDiskUse(true)
       .exec()
-      .then((clues, err) => {
+      .then((responses, err) => {
         if (err) {
-          logErr("getAllCluesByHunt", err);
+          logErr("getAllResponsesByHunt", err);
           return res
             .status(500)
             .send("Error Reported. Please check error logs for more details.");
         }
-        return res.status(200).send(clues);
+        return res.status(200).send(responses);
       });
   },
   markResCorrect: (req, res, next) => {
