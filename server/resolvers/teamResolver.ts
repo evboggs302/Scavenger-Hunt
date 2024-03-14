@@ -18,6 +18,27 @@ export const teamResolver: Resolvers = {
       const h_id = createBsonObjectId(args.h_id);
       return await TeamModel.find({ hunt_id: h_id });
     },
+    getTeam: async (_: unknown, { id }) => {
+      try {
+        const team = await TeamModel.findById(id);
+
+        if (!team) {
+          return throwResolutionError({
+            location: "getTeam",
+            err: null,
+            message: "Failed to find the specified team.",
+          });
+        }
+
+        return team.toObject();
+      } catch (err) {
+        return throwResolutionError({
+          location: "getTeam",
+          err: null,
+          message: "Failed to find the specified team.",
+        });
+      }
+    },
   },
   Mutation: {
     createSingleTeam: async (
@@ -69,9 +90,8 @@ export const teamResolver: Resolvers = {
       const { team_id } = input;
       const _id = createBsonObjectId(team_id);
 
-      const updatedTeam = await TeamModel.updateOne({ _id }, { ...input })
-        .findById(_id)
-        .exec();
+      await TeamModel.updateOne({ _id }, { ...input }).exec();
+      const updatedTeam = await TeamModel.findById(_id).exec();
 
       if (!updatedTeam) {
         return throwResolutionError({

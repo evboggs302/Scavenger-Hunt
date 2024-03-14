@@ -1,6 +1,6 @@
-import * as mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const tokenStorageSchema = new mongoose.Schema(
+const tokenStorageSchema = new Schema(
   {
     token: {
       type: String,
@@ -23,4 +23,4 @@ const tokenStorageSchema = new mongoose.Schema(
 );
 
 tokenStorageSchema.index({ expireAt: 1 }, { expireAfterSeconds: 0 });
-export default mongoose.model("Token", tokenStorageSchema, "token_storage"); // modelName, schemaName, collectionName
+export default model("Token", tokenStorageSchema, "token_storage"); // modelName, schemaName, collectionName

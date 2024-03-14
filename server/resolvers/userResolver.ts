@@ -38,6 +38,17 @@ export const userResolver: Resolvers = {
       const matches = await UserModel.find({ userName: args.user_name }).exec();
       return matches.length > 0;
     },
+    logout: async (_: unknown, {}, { token, user }) => {
+      try {
+        await TokenStorageModel.deleteOne({
+          token,
+          issuedToUser: user._id.toString(),
+        });
+        return true;
+      } catch (err) {
+        return throwResolutionError({ location: "logout", err });
+      }
+    },
   },
   Mutation: {
     registerUser: async (_: unknown, args: { input: AddUserInput }) => {
@@ -58,7 +69,7 @@ export const userResolver: Resolvers = {
 
       return { __typename: "AuthPayload", token };
     },
-    login: async (_: unknown, args: { input: LoginInput }, context) => {
+    login: async (_: unknown, args: { input: LoginInput }) => {
       const { user_name, password } = args.input;
       const user = await UserModel.findOne({
         user_name: user_name,
@@ -87,34 +98,6 @@ export const userResolver: Resolvers = {
         };
       }
     },
-    // logout: async (
-    //   _: unknown,
-    //   {},
-    //   context: ServerContext,
-    //   info: GraphQLResolveInfo
-    // ) => {
-    //   const { user } = context;
-
-    //   if (!user) {
-    //     throwResolutionError({
-    //       location: "logout",
-    //       err: {
-    //         message: "token issue or no user",
-    //         context,
-    //         user,
-    //       },
-    //     });
-    //     return false;
-    //   }
-
-    //   try {
-    //     context.token = "";
-    //     return true;
-    //   } catch (err) {
-    //     throwResolutionError({ location: "logout", err });
-    //     return false;
-    //   }
-    // },
   },
   UserPayload: {
     hunts: async (parent: UserPayload) => {

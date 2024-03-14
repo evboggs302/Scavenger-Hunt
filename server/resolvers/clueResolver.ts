@@ -28,6 +28,7 @@ export const clueResolver: Resolvers = {
         return throwResolutionError({ location: "getCluesByHuntId", err });
       }
     },
+    // getNextClue: async () => {},
   },
   Mutation: {
     createMultipleClues: async (
@@ -75,12 +76,11 @@ export const clueResolver: Resolvers = {
       try {
         const { clue_id, newDescription } = args.input;
         const _id = createBsonObjectId(clue_id);
-        const updatedClue = await ClueModel.updateOne(
+        const updatedClue = await ClueModel.findOneAndUpdate(
           { _id },
-          { description: newDescription }
-        )
-          .findOne({ _id })
-          .exec();
+          { description: newDescription },
+          { new: true }
+        ).exec();
 
         if (!updatedClue) {
           return throwResolutionError({
@@ -125,9 +125,37 @@ export const clueResolver: Resolvers = {
       try {
         const { clue_id } = args;
         const _id = createBsonObjectId(clue_id);
-        const { deletedCount } = await ClueModel.deleteOne({ _id }).exec();
+        const clue = await ClueModel.findById(_id).exec();
 
-        return deletedCount === 1;
+        if (clue) {
+          const { deletedCount } = await ClueModel.deleteOne({ _id }).exec();
+
+          const { hunt_id } = clue;
+          const orderedClues = await ClueModel.aggregate([
+            {
+              $match: { hunt_id: hunt_id },
+            },
+            { $sort: { order_number: 1 } },
+          ]).exec();
+
+          const bulkWriteArr = orderedClues.map((clu, index) => {
+            return {
+              updateOne: {
+                filter: { _id: clu._id },
+                update: { $set: { order_number: index + 1 } },
+              },
+            };
+          });
+
+          await ClueModel.bulkWrite(bulkWriteArr, { ordered: false });
+
+          return deletedCount === 1 ;
+        } else {
+          return throwResolutionError({
+            location: "deleteClueById",
+            err: null,
+          });
+        }
       } catch (err) {
         return throwResolutionError({ location: "deleteClueById", err });
       }
@@ -139,7 +167,7 @@ export const clueResolver: Resolvers = {
         const { deletedCount } = await ClueModel.deleteMany({
           hunt_id: _id,
         }).exec();
-
+        console.log(deletedCount);
         return deletedCount > 0;
       } catch (err) {
         return throwResolutionError({

@@ -9,7 +9,6 @@ import config from "./config";
 import schema from "./schema";
 import { apolloServerMiddlewareOptions } from "./utils/apolloServerMiddlewareOptions";
 import { ListenOptions } from "net";
-// import { JwtPayload } from "jsonwebtoken";
 
 const { MONGO_URI, PORT } = config;
 

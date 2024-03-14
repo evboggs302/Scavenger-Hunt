@@ -1,9 +1,9 @@
-import * as mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-export const clueSchema = new mongoose.Schema(
+export const clueSchema = new Schema(
   {
     hunt_id: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       required: true,
     },
     order_number: {
@@ -19,4 +19,4 @@ export const clueSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-export default mongoose.model("Clue", clueSchema, "clues"); // modelName, schemaName, collectionName
+export default model("Clue", clueSchema, "clues"); // modelName, schemaName, collectionName
