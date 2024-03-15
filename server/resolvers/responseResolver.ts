@@ -42,30 +42,30 @@ export const responseResolver: Resolvers = {
       try {
         const result = await markResponseCorrect(args.id);
 
-        const {
-          description,
-          device_number,
-          next_clue_id,
-          next_order_number,
-          recall_message,
-          team_id,
-        } = result;
+        const { device_number, recall_message, team_id, next_clue } = result;
 
-        if (next_clue_id) {
-          await TeamModel.findByIdAndUpdate(team_id, {
-            last_clue_sent: next_order_number,
-          }).exec();
+        if (next_clue) {
+          const { description, order_number } = next_clue;
 
-          // await client.messages.create({
+          // await client.messages
+          // .create({
           //   body: `${description}`,
           //   from: `${TWILIO_NUMBER}`,
           //   to: device_number,
+          // })
+          // .then(async () => {
+          await TeamModel.findByIdAndUpdate(team_id, {
+            last_clue_sent: order_number,
+          }).exec();
           // });
         } else {
           // await client.messages.create({
           //   body: `${recall_message}`,
           //   from: `${TWILIO_NUMBER}`,
           //   to: device_number,
+          await TeamModel.findByIdAndUpdate(team_id, {
+            recall_sent: true,
+          }).exec();
           // });
         }
 
