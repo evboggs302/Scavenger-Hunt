@@ -127,6 +127,5 @@ export const markResponseCorrect = async (
     { allowDiskUse: true }
   ).exec();
 
-  console.log(result);
   return result[0];
 };
