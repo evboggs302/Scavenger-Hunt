@@ -28,7 +28,6 @@ export const clueResolver: Resolvers = {
         return throwResolutionError({ location: "getCluesByHuntId", err });
       }
     },
-    // getNextClue: async () => {},
   },
   Mutation: {
     createMultipleClues: async (
@@ -149,7 +148,7 @@ export const clueResolver: Resolvers = {
 
           await ClueModel.bulkWrite(bulkWriteArr, { ordered: false });
 
-          return deletedCount === 1 ;
+          return deletedCount === 1;
         } else {
           return throwResolutionError({
             location: "deleteClueById",

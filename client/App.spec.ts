@@ -1,5 +1,7 @@
 describe("basic test", () => {
   it("first test", () => {
-    console.log("test was run");
+    const variabe = "test was run";
+    console.log(variabe);
+    expect(variabe).toBe("test was run");
   });
 });
