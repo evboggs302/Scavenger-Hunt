@@ -15,6 +15,7 @@ git-checkout: &git-checkout
 yarn-install-step: &yarn-install-step
   run:
     name: Yarn install
+    no_output_timeout: 30m
     command: yarn install --frozen-lockfile
 
 jobs:
