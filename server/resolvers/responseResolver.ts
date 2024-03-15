@@ -1,3 +1,4 @@
+import ClueModel from "../models/clues";
 import TeamModel from "../models/teams";
 import ResponseModel from "../models/responses";
 import { Resolvers, SendHintInput } from "../generated/graphql";
@@ -6,6 +7,7 @@ import { throwResolutionError } from "../utils/eventLogHelpers";
 import twilio from "twilio";
 import config from "../config";
 import { returnedItems } from "../utils/returnedItems";
+import { markResponseCorrect } from "./markResponseCorrect";
 
 const { TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN, TWILIO_NUMBER } = config;
 const client = twilio(TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN);
@@ -22,21 +24,50 @@ export const responseResolver: Resolvers = {
         return throwResolutionError({ location: "", err });
       }
     },
-    // getResponsesByClue: async (_: unknown, { id }) => {
-    //   try {
-    //   } catch (err) {
-    //     return throwResolutionError({ location: "", err });
-    //   }
-    // },
+    getResponsesByClue: async (_: unknown, { id }) => {
+      try {
+        const c_id = createBsonObjectId(id);
+        const responses = await ResponseModel.find({
+          clue_id: c_id,
+        }).exec();
+
+        return responses.map(returnedItems);
+      } catch (err) {
+        return throwResolutionError({ location: "", err });
+      }
+    },
   },
   Mutation: {
     markResponseCorrect: async (_, args: { id: string }) => {
       try {
-        const res_id = createBsonObjectId(args.id);
-        await ResponseModel.updateOne(
-          { _id: res_id },
-          { correct: true }
-        ).exec();
+        const result = await markResponseCorrect(args.id);
+
+        const {
+          description,
+          device_number,
+          next_clue_id,
+          next_order_number,
+          recall_message,
+          team_id,
+        } = result;
+
+        if (next_clue_id) {
+          await TeamModel.findByIdAndUpdate(team_id, {
+            last_clue_sent: next_order_number,
+          }).exec();
+
+          // await client.messages.create({
+          //   body: `${description}`,
+          //   from: `${TWILIO_NUMBER}`,
+          //   to: device_number,
+          // });
+        } else {
+          // await client.messages.create({
+          //   body: `${recall_message}`,
+          //   from: `${TWILIO_NUMBER}`,
+          //   to: device_number,
+          // });
+        }
 
         return true;
       } catch (err) {
@@ -63,7 +94,7 @@ export const responseResolver: Resolvers = {
             },
           },
         ]).exec();
-        console.log(activeTeam);
+
         if (!activeTeam)
           return throwResolutionError({
             location: "sendHint",
