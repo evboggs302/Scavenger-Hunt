@@ -3,12 +3,7 @@ import { throwResolutionError } from "../utils/eventLogHelpers";
 import HuntModel from "../models/hunts";
 import ClueModel from "../models/clues";
 import TeamModel from "../models/teams";
-import {
-  CreateHuntInput,
-  Hunt,
-  Resolvers,
-  UpdateHuntInput,
-} from "../generated/graphql";
+import { Hunt, Resolvers } from "../generated/graphql";
 import { returnedItems } from "../utils/returnedItems";
 
 export const huntResolver: Resolvers = {
@@ -61,11 +56,10 @@ export const huntResolver: Resolvers = {
   Mutation: {
     createHunt: async (
       _: unknown,
-      args: { input: CreateHuntInput },
+      { input: { name, start_date, end_date } },
       { user }
     ) => {
       try {
-        const { name, start_date, end_date } = args.input;
         const h_id = createBsonObjectId();
         const hunt = new HuntModel({
           _id: h_id,
@@ -90,14 +84,18 @@ export const huntResolver: Resolvers = {
         return throwResolutionError({ location: "createHunt", err });
       }
     },
-    updateHunt: async (_: unknown, args: { input: UpdateHuntInput }) => {
-      try {
-        const {
+    updateHunt: async (
+      _: unknown,
+      {
+        input: {
           hunt_id,
           start_date: newStart,
           end_date: newEnd,
           recall_message: newRecall,
-        } = args.input;
+        },
+      }
+    ) => {
+      try {
         const _id = createBsonObjectId(hunt_id);
 
         // @ts-expect-error

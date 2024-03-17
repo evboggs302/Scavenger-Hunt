@@ -1,7 +1,6 @@
-import ClueModel from "../models/clues";
 import TeamModel from "../models/teams";
 import ResponseModel from "../models/responses";
-import { Resolvers, SendHintInput } from "../generated/graphql";
+import { Resolvers } from "../generated/graphql";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
 import { throwResolutionError } from "../utils/eventLogHelpers";
 import twilio from "twilio";
@@ -38,9 +37,9 @@ export const responseResolver: Resolvers = {
     },
   },
   Mutation: {
-    markResponseCorrect: async (_, args: { id: string }) => {
+    markResponseCorrect: async (_, { id }) => {
       try {
-        const result = await markResponseCorrect(args.id);
+        const result = await markResponseCorrect(id);
 
         const { device_number, recall_message, team_id, next_clue } = result;
 
@@ -74,9 +73,8 @@ export const responseResolver: Resolvers = {
         return throwResolutionError({ location: "markResponseCorrect", err });
       }
     },
-    sendHint: async (_, args: { input: SendHintInput }) => {
+    sendHint: async (_, { input: { response_id, team_id, hint_body } }) => {
       try {
-        let { response_id, team_id, hint_body } = args.input;
         const t_id = createBsonObjectId(team_id);
         const r_id = createBsonObjectId(response_id);
         await ResponseModel.updateOne({ _id: r_id }, { hintSent: true }).exec();

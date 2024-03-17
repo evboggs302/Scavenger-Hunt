@@ -1,22 +1,15 @@
 import TeamModel from "../models/teams";
 import ResponseModel from "../models/responses";
-import {
-  CreateMultipleTeamsInput,
-  CreateSingleTeamInput,
-  DeleteTeamInput,
-  Resolvers,
-  Team,
-  UpdateTeamInput,
-} from "../generated/graphql";
+import { Resolvers, Team } from "../generated/graphql";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
 import { throwResolutionError } from "../utils/eventLogHelpers";
 import { returnedItems } from "../utils/returnedItems";
 
 export const teamResolver: Resolvers = {
   Query: {
-    getTeamsByHuntId: async (_: unknown, args: { h_id: string }) => {
-      const h_id = createBsonObjectId(args.h_id);
-      return await TeamModel.find({ hunt_id: h_id });
+    getTeamsByHuntId: async (_: unknown, { h_id }) => {
+      const hunt_id = createBsonObjectId(h_id);
+      return await TeamModel.find({ hunt_id });
     },
     getTeam: async (_: unknown, { id }) => {
       try {
@@ -43,18 +36,17 @@ export const teamResolver: Resolvers = {
   Mutation: {
     createSingleTeam: async (
       _: unknown,
-      args: { input: CreateSingleTeamInput }
+      { input: { h_id, members, device_number } }
     ) => {
-      const { h_id, members, device_number } = args.input;
-      const id = createBsonObjectId(h_id);
+      const hunt_id = createBsonObjectId(h_id);
       const tm = new TeamModel({
-        hunt_id: id,
+        hunt_id,
         members,
         device_number,
       });
       await tm.save();
 
-      const team = await TeamModel.findOne({ hunt_id: id }).exec();
+      const team = await TeamModel.findOne({ hunt_id }).exec();
       if (!team) {
         return throwResolutionError({
           location: "createSingleTeam",
@@ -67,10 +59,9 @@ export const teamResolver: Resolvers = {
     },
     createMultipleTeams: async (
       _: unknown,
-      args: { input: CreateMultipleTeamsInput }
+      { input: { h_id, teams: tms } }
     ) => {
       try {
-        const { h_id, teams: tms } = args.input;
         const hunt_id = createBsonObjectId(h_id);
         const mappedTeams = tms.map((tm) => ({ hunt_id, ...tm }));
 
@@ -85,8 +76,7 @@ export const teamResolver: Resolvers = {
         });
       }
     },
-    updateTeam: async (_: unknown, args: { input: UpdateTeamInput }) => {
-      const { input } = args;
+    updateTeam: async (_: unknown, { input }) => {
       const { team_id } = input;
       const _id = createBsonObjectId(team_id);
 
@@ -103,9 +93,8 @@ export const teamResolver: Resolvers = {
 
       return updatedTeam.toObject();
     },
-    deleteTeam: async (_: unknown, args: { input: DeleteTeamInput }) => {
+    deleteTeam: async (_: unknown, { input: { team_id } }) => {
       try {
-        const { team_id } = args.input;
         const _id = createBsonObjectId(team_id);
         const { deletedCount } = await TeamModel.deleteOne({ _id }).exec();
 
