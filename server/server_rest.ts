@@ -87,11 +87,7 @@ app.use(
 
 // MONGODB Connection
 mongoose
-  .connect(MONGO_URI as string, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
+  .connect(MONGO_URI as string)
   .then(() => console.log(`✅ Connected to Database\n`))
   // .then((str) => console.log(str))
   .catch(() => console.log(`🚫 Mongo failed\n`));

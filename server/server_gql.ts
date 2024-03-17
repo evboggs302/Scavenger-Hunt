@@ -40,8 +40,8 @@ export async function startServer(
     })
   );
 
-  // receive twilio messages
-  // app.post("/sms", findActiveTeamByDevice, saveSMS, saveMMS);
+  // RECEIVE TWILIO SMS
+  // app.post("/twilio/sms", findActiveTeamByDevice, saveSMS, saveMMS);
 
   // MONGODB Connection
   mongoose
