@@ -1,13 +1,6 @@
 import ClueModel from "../models/clues";
 import ResponseModel from "../models/responses";
-import {
-  CluePayload,
-  CreateMultipleCluesInput,
-  CreateSingleClueInput,
-  Resolvers,
-  UpdateClueDescriptionInput,
-  UpdateClueOrderInput,
-} from "../generated/graphql";
+import { CluePayload, Resolvers } from "../generated/graphql";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
 import { throwResolutionError } from "../utils/eventLogHelpers";
 import { returnedItems } from "../utils/returnedItems";

@@ -1,13 +1,6 @@
 import TeamModel from "../models/teams";
 import ResponseModel from "../models/responses";
-import {
-  CreateMultipleTeamsInput,
-  CreateSingleTeamInput,
-  DeleteTeamInput,
-  Resolvers,
-  Team,
-  UpdateTeamInput,
-} from "../generated/graphql";
+import { Resolvers, Team } from "../generated/graphql";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
 import { throwResolutionError } from "../utils/eventLogHelpers";
 import { returnedItems } from "../utils/returnedItems";

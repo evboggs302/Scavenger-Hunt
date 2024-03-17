@@ -1,11 +1,9 @@
-import { GraphQLError, GraphQLResolveInfo } from "graphql";
+import { GraphQLError } from "graphql";
 import { compareSync, hashSync } from "bcryptjs";
 import UserModel from "../models/users";
 import TokenStorageModel from "../models/token_storage";
 import HuntModel from "../models/hunts";
 import {
-  AddUserInput,
-  LoginInput,
   Resolvers,
   UserPayload,
 } from "../generated/graphql";

@@ -1,7 +1,6 @@
-import ClueModel from "../models/clues";
 import TeamModel from "../models/teams";
 import ResponseModel from "../models/responses";
-import { Resolvers, SendHintInput } from "../generated/graphql";
+import { Resolvers } from "../generated/graphql";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
 import { throwResolutionError } from "../utils/eventLogHelpers";
 import twilio from "twilio";

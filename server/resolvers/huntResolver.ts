@@ -3,12 +3,7 @@ import { throwResolutionError } from "../utils/eventLogHelpers";
 import HuntModel from "../models/hunts";
 import ClueModel from "../models/clues";
 import TeamModel from "../models/teams";
-import {
-  CreateHuntInput,
-  Hunt,
-  Resolvers,
-  UpdateHuntInput,
-} from "../generated/graphql";
+import { Hunt, Resolvers } from "../generated/graphql";
 import { returnedItems } from "../utils/returnedItems";
 
 export const huntResolver: Resolvers = {
