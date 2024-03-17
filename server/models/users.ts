@@ -4,6 +4,7 @@ export const userSchema = new Schema(
   {
     user_name: {
       type: String,
+      unique: true,
       required: true,
       trim: true,
     },
@@ -28,7 +29,17 @@ export const userSchema = new Schema(
       required: true,
     },
   },
-  { versionKey: false }
+  {
+    versionKey: false,
+    statics: {
+      async getUserForLogin(user_name: string) {
+        return await this.findOne({ user_name }).exec();
+      },
+      async findUsername(user_name: string) {
+        return await this.find({ user_name }).select({ hash: 0 }).exec();
+      },
+    },
+  }
 );
 
 export default model("User", userSchema, "users"); // modelName, schemaName, collectionName

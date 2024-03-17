@@ -19,11 +19,11 @@ export const userResolver: Resolvers = {
   Query: {
     getAllUsers: async (_: unknown, {}, { user }) => {
       if (!user) return ApolloAccessError();
-      const users = await UserModel.find({}).exec();
+      const users = await UserModel.find({}).select({ hash: 0 }).exec();
       return users.map(returnedItems);
     },
-    getSingleUser: async (_: unknown, args: { uid: string }) => {
-      const u_id = createBsonObjectId(args.uid);
+    getSingleUser: async (_: unknown, { uid }) => {
+      const u_id = createBsonObjectId(uid);
       const user = await UserModel.findOne({ _id: u_id }).exec();
       if (!user) {
         return throwResolutionError({
@@ -34,8 +34,8 @@ export const userResolver: Resolvers = {
       }
       return user.toObject();
     },
-    userNameExists: async (_: unknown, args: { user_name: string }) => {
-      const matches = await UserModel.find({ userName: args.user_name }).exec();
+    userNameExists: async (_: unknown, { user_name }) => {
+      const matches = await UserModel.findUsername(user_name);
       return matches.length > 0;
     },
     logout: async (_: unknown, {}, { token, user }) => {
@@ -51,8 +51,10 @@ export const userResolver: Resolvers = {
     },
   },
   Mutation: {
-    registerUser: async (_: unknown, args: { input: AddUserInput }) => {
-      const { first_name, last_name, user_name, password } = args.input;
+    registerUser: async (
+      _: unknown,
+      { input: { first_name, last_name, user_name, password } }
+    ) => {
       const hashedPw = hashSync(password, 15);
       const u_id = createBsonObjectId();
 
@@ -69,11 +71,8 @@ export const userResolver: Resolvers = {
 
       return { __typename: "AuthPayload", token };
     },
-    login: async (_: unknown, args: { input: LoginInput }) => {
-      const { user_name, password } = args.input;
-      const user = await UserModel.findOne({
-        user_name: user_name,
-      }).exec();
+    login: async (_: unknown, { input: { user_name, password } }) => {
+      const user = await UserModel.getUserForLogin(user_name);
       if (!user) {
         throw new GraphQLError("User name does not exist", {
           extensions: {
@@ -89,8 +88,7 @@ export const userResolver: Resolvers = {
           },
         });
       } else {
-        const { _id } = user;
-        const token = await createAndSaveToken(_id);
+        const token = await createAndSaveToken(user._id);
 
         return {
           __typename: "AuthPayload",

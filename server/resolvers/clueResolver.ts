@@ -14,9 +14,9 @@ import { returnedItems } from "../utils/returnedItems";
 
 export const clueResolver: Resolvers = {
   Query: {
-    getCluesByHuntId: async (_: unknown, args: { id: string }) => {
+    getCluesByHuntId: async (_: unknown, { id }) => {
       try {
-        const h_id = createBsonObjectId(args.id);
+        const h_id = createBsonObjectId(id);
         const orderedClues = await ClueModel.aggregate([
           {
             $match: { hunt_id: h_id },
@@ -30,31 +30,23 @@ export const clueResolver: Resolvers = {
     },
   },
   Mutation: {
-    createMultipleClues: async (
-      _: unknown,
-      args: { input: CreateMultipleCluesInput }
-    ) => {
+    createMultipleClues: async (_: unknown, { input: { cluesList, h_id } }) => {
       try {
-        const { cluesList } = args.input;
-        const h_id = createBsonObjectId(args.input.h_id);
+        const hunt_id = createBsonObjectId(h_id);
         const mappedClues = cluesList.map((clue) => {
-          return { hunt_id: h_id, ...clue };
+          return { hunt_id, ...clue };
         });
 
         await ClueModel.insertMany(mappedClues);
-        const clues = await ClueModel.find({ hunt_id: h_id }).exec();
+        const clues = await ClueModel.find({ hunt_id }).exec();
 
         return clues.map(returnedItems);
       } catch (err) {
         return throwResolutionError({ location: "createMultipleClues", err });
       }
     },
-    createSingleClue: async (
-      _: unknown,
-      args: { input: CreateSingleClueInput }
-    ) => {
+    createSingleClue: async (_: unknown, { input: { clueItem, h_id } }) => {
       try {
-        const { clueItem, h_id } = args.input;
         const hunt_id = createBsonObjectId(h_id);
         const clue = new ClueModel({
           hunt_id,
@@ -70,10 +62,9 @@ export const clueResolver: Resolvers = {
     },
     updateClueDescription: async (
       _: unknown,
-      args: { input: UpdateClueDescriptionInput }
+      { input: { clue_id, newDescription } }
     ) => {
       try {
-        const { clue_id, newDescription } = args.input;
         const _id = createBsonObjectId(clue_id);
         const updatedClue = await ClueModel.findOneAndUpdate(
           { _id },
@@ -96,10 +87,9 @@ export const clueResolver: Resolvers = {
     },
     updateClueOrder: async (
       _: unknown,
-      args: { input: UpdateClueOrderInput }
+      { input: { hunt_id: h_id, newOrder } }
     ) => {
       try {
-        const { hunt_id: h_id, newOrder } = args.input;
         const hunt_id = createBsonObjectId(h_id);
         const bulkWriteArr = newOrder.map((id, index) => {
           return {
@@ -120,9 +110,8 @@ export const clueResolver: Resolvers = {
         return throwResolutionError({ location: "updateClueOrder", err });
       }
     },
-    deleteClueById: async (_: unknown, args: { clue_id: string }) => {
+    deleteClueById: async (_: unknown, { clue_id }) => {
       try {
-        const { clue_id } = args;
         const _id = createBsonObjectId(clue_id);
         const clue = await ClueModel.findById(_id).exec();
 
@@ -159,14 +148,13 @@ export const clueResolver: Resolvers = {
         return throwResolutionError({ location: "deleteClueById", err });
       }
     },
-    deleteAllCluesByHuntId: async (_: unknown, args: { hunt_id: string }) => {
+    deleteAllCluesByHuntId: async (_: unknown, { hunt_id }) => {
       try {
-        const { hunt_id } = args;
         const _id = createBsonObjectId(hunt_id);
         const { deletedCount } = await ClueModel.deleteMany({
           hunt_id: _id,
         }).exec();
-        console.log(deletedCount);
+
         return deletedCount > 0;
       } catch (err) {
         return throwResolutionError({
