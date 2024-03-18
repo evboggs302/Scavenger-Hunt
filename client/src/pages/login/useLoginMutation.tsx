@@ -13,7 +13,7 @@ export const useLoginMutation = () => {
   const handlLoginUser = useCallback(
     async ({ username, password }: { username: string; password: string }) => {
       const { data, errors } = await loginUser({
-        variables: { input: { user_name: username, password } },
+        variables: { username, password },
       });
       try {
         const token = data?.login.token;
