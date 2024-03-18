@@ -1,41 +1,13 @@
 import * as React from "react";
 import { createRoot } from "react-dom/client";
-import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  gql,
-} from "@apollo/client";
-import "./index.css";
-import App from "./App";
-import store from "./src/dux/store";
-
-const client = new ApolloClient({
-  uri: process.env.PRODUCTION
-    ? process.env.DEPLOYED_GQL_SERVER_URL
-    : "http://localhost:22357/",
-  cache: new InMemoryCache(),
-});
-
-client
-  .query({
-    query: gql`
-      query getAllUsers {
-        _id
-        first_name
-      }
-    `,
-  })
-  .then((result) => console.log(result));
+import { ApolloClientProvider } from "./apolloClient";
+import { AppRouter } from "./routes/appRouter";
+import { UserContextProvider } from "./src/shared/user/UserContextProvider";
 
 createRoot(document.getElementById("root")!).render(
-  <ApolloProvider client={client}>
-    <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
-  </ApolloProvider>
+  <UserContextProvider>
+    <ApolloClientProvider>
+      <AppRouter />
+    </ApolloClientProvider>
+  </UserContextProvider>
 );

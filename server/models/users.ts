@@ -42,4 +42,11 @@ export const userSchema = new Schema(
   }
 );
 
+userSchema.set("toObject", {
+  transform: (doc, ret) => {
+    delete ret.hash;
+    return ret;
+  },
+});
+
 export default model("User", userSchema, "users"); // modelName, schemaName, collectionName

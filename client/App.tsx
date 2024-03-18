@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import AppRoutes from "./src/utils/AppRoutes";
 import "./App.css";
 import { UserContextProvider } from "./src/shared/user/UserContextProvider";
 
@@ -9,9 +8,9 @@ function App() {
     <UserContextProvider>
       <div className="App">
         <h1>HELLO VITE WORLD</h1>
-        <nav className="app-navigation">
+        {/* <nav className="app-navigation">
           <h3>
-            <Link to="/">Home</Link>
+            <Link to="/dashboard">Home</Link>
           </h3>
           <h3>
             <Link to="/hunt">Hunt Info</Link>
@@ -26,8 +25,8 @@ function App() {
             <Link to="/responses">Responses</Link>
           </h3>
         </nav>
-        <br />
-        <AppRoutes />
+        <br /> */}
+        {/* <AppRoutes /> */}
       </div>
     </UserContextProvider>
   );
