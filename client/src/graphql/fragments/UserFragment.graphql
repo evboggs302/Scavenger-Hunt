@@ -1,0 +1,6 @@
+fragment User on BaseUserPayload {
+  _id
+  user_name
+  first_name
+  last_name
+}

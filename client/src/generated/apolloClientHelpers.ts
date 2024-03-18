@@ -1,11 +1,8 @@
 import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
-export type AuthPayloadKeySpecifier = ('_id' | 'first_name' | 'last_name' | 'token' | 'user_name' | AuthPayloadKeySpecifier)[];
+export type AuthPayloadKeySpecifier = ('_id' | 'token' | AuthPayloadKeySpecifier)[];
 export type AuthPayloadFieldPolicy = {
 	_id?: FieldPolicy<any> | FieldReadFunction<any>,
-	first_name?: FieldPolicy<any> | FieldReadFunction<any>,
-	last_name?: FieldPolicy<any> | FieldReadFunction<any>,
-	token?: FieldPolicy<any> | FieldReadFunction<any>,
-	user_name?: FieldPolicy<any> | FieldReadFunction<any>
+	token?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type BaseUserPayloadKeySpecifier = ('_id' | 'first_name' | 'last_name' | 'user_name' | BaseUserPayloadKeySpecifier)[];
 export type BaseUserPayloadFieldPolicy = {
@@ -57,7 +54,7 @@ export type MutationFieldPolicy = {
 	updateHunt?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateTeam?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('activateHunt' | 'deactivateHunt' | 'deleteAllHuntsByUser' | 'getAllUsers' | 'getCluesByHuntId' | 'getHunt' | 'getHuntsByUserId' | 'getResponsesByClue' | 'getResponsesByTeam' | 'getSingleUser' | 'getTeam' | 'getTeamsByHuntId' | 'logout' | 'userNameExists' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('activateHunt' | 'deactivateHunt' | 'deleteAllHuntsByUser' | 'getAllUsers' | 'getCluesByHuntId' | 'getHunt' | 'getHuntsByUserId' | 'getResponsesByClue' | 'getResponsesByTeam' | 'getTeam' | 'getTeamsByHuntId' | 'getUserFromToken' | 'logout' | 'userNameExists' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	activateHunt?: FieldPolicy<any> | FieldReadFunction<any>,
 	deactivateHunt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -68,9 +65,9 @@ export type QueryFieldPolicy = {
 	getHuntsByUserId?: FieldPolicy<any> | FieldReadFunction<any>,
 	getResponsesByClue?: FieldPolicy<any> | FieldReadFunction<any>,
 	getResponsesByTeam?: FieldPolicy<any> | FieldReadFunction<any>,
-	getSingleUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	getTeam?: FieldPolicy<any> | FieldReadFunction<any>,
 	getTeamsByHuntId?: FieldPolicy<any> | FieldReadFunction<any>,
+	getUserFromToken?: FieldPolicy<any> | FieldReadFunction<any>,
 	logout?: FieldPolicy<any> | FieldReadFunction<any>,
 	userNameExists?: FieldPolicy<any> | FieldReadFunction<any>
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -15,6 +15,8 @@ import Container from "@material-ui/core/Container";
 import { useLoginMutation } from "./useLoginMutation";
 import { useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useUserQueryResult } from "../../shared/user/UserContextApolloWrapper";
+import { useTokenContext } from "../../shared/tokenManagement/useTokenRefContext";
 
 function Copyright() {
   return (
@@ -57,6 +59,7 @@ type Inputs = {
 export default function LogIn() {
   const classes = useStyles();
   const navigate = useNavigate();
+  const { setToken } = useTokenContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { loginUser } = useLoginMutation();
   const {
@@ -71,6 +74,7 @@ export default function LogIn() {
     setIsSubmitting(false);
 
     if (response?.login.__typename === "AuthPayload") {
+      setToken(response.login.token);
       return navigate("/dashboard");
     }
   };
@@ -121,6 +125,7 @@ export default function LogIn() {
             fullWidth
             variant="contained"
             color="primary"
+            disabled={isSubmitting}
             className={classes.submit}>
             {isSubmitting ? "Logging in..." : "Sign In"}
           </Button>

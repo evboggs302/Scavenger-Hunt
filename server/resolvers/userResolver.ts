@@ -17,9 +17,11 @@ export const userResolver: Resolvers = {
       const users = await UserModel.find({}).select({ hash: 0 }).exec();
       return users.map(returnedItems);
     },
-    getSingleUser: async (_: unknown, { uid }) => {
-      const u_id = createBsonObjectId(uid);
-      const user = await UserModel.findOne({ _id: u_id }).exec();
+    getUserFromToken: async (_: unknown, { tkn }) => {
+      const id = await TokenStorageModel.findOne({ token: tkn })
+        .select({ issuedToUser: 1 })
+        .exec();
+      const user = await UserModel.findById(id).exec();
       if (!user) {
         return throwResolutionError({
           location: "createSingleUser",

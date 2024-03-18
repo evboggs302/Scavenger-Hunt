@@ -1,0 +1,7 @@
+# The operation name of 'LoginUser' is important for the server to see.
+mutation LoginUser($username: String!, $password: String!) {
+  login(input: { user_name: $username, password: $password }) {
+    _id
+    token
+  }
+}
