@@ -3,10 +3,7 @@ import { compareSync, hashSync } from "bcryptjs";
 import UserModel from "../models/users";
 import TokenStorageModel from "../models/token_storage";
 import HuntModel from "../models/hunts";
-import {
-  Resolvers,
-  UserPayload,
-} from "../generated/graphql";
+import { Resolvers, UserPayload } from "../generated/graphql";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
 import { createAndSaveToken } from "../utils/jwt";
 import { ApolloAccessError } from "../utils/apolloErrorHandlers";
@@ -66,8 +63,16 @@ export const userResolver: Resolvers = {
       await user.save();
 
       const token = await createAndSaveToken(u_id);
+      const newFoundUser = await UserModel.findById(u_id);
 
-      return { __typename: "AuthPayload", token };
+      if (!newFoundUser) {
+        return throwResolutionError({
+          location: "registerUser",
+          err: "unable to find the newly saved user",
+        });
+      }
+
+      return { __typename: "AuthPayload", token, ...newFoundUser.toObject() };
     },
     login: async (_: unknown, { input: { user_name, password } }) => {
       const user = await UserModel.getUserForLogin(user_name);
@@ -91,6 +96,7 @@ export const userResolver: Resolvers = {
         return {
           __typename: "AuthPayload",
           token,
+          ...user.toObject(),
         };
       }
     },

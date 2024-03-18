@@ -10,7 +10,7 @@ import schema from "./schema";
 import { apolloServerMiddlewareOptions } from "./utils/apolloServerMiddlewareOptions";
 import { ListenOptions } from "net";
 
-const { MONGO_URI, PORT } = config;
+const { MONGO_URI, PORT, GQL_SERVER_URL } = config;
 
 export async function startServer(
   listenOptions: ListenOptions = { port: PORT }
@@ -20,13 +20,21 @@ export async function startServer(
   const server = new ApolloServer({
     schema,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    introspection: GQL_SERVER_URL.includes("localhost"),
   });
 
   await server.start();
 
   app.use(
     "/graphql",
-    cors<cors.CorsRequest>(),
+    cors<cors.CorsRequest>({
+      credentials: true,
+      origin: [
+        "http://localhost:5173",
+        "https://scavenger-hunt-ui.onrender.com",
+        "https://studio.apollographql.com",
+      ],
+    }),
     express.json(),
     expressMiddleware(server, apolloServerMiddlewareOptions)
   );
@@ -49,7 +57,9 @@ export async function startServer(
     .then(async () => {
       await new Promise<void>((resolve) => {
         httpServer.listen(listenOptions, resolve);
-        console.log(`\n✅ Connected to database. Server started.\n`);
+        console.log(
+          `\n✅ Connected to database. Server started listening on ${GQL_SERVER_URL}.\n`
+        );
       });
     })
     .catch((err) =>

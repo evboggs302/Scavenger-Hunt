@@ -1,5 +1,4 @@
-import React, { useRef, useState } from "react";
-import { useQuery } from "react-query";
+import React, { useEffect, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -13,7 +12,9 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { sendLogin, fetchActiveUser } from "../../../utils/apiUtils";
+import { useLoginMutation } from "./useLoginMutation";
+import { useNavigate } from "react-router-dom";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 function Copyright() {
   return (
@@ -48,20 +49,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+type Inputs = {
+  username: string;
+  password: string;
+};
+
+export default function LogIn() {
   const classes = useStyles();
-  const [username, setName] = useState("");
-  const [password, setPW] = useState("");
-  const [wrongCreds, setWrongCreds] = useState(false);
+  const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { loginUser } = useLoginMutation();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
 
-  const handleSubmit = async () => {
-    const data = await sendLogin(username, password);
-    console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    setIsSubmitting(true);
+    const response = await loginUser(data);
+    setIsSubmitting(false);
+
+    if (response?.login.__typename === "AuthPayload") {
+      return navigate("/dashboard");
+    }
   };
-
-  // Queries
-  // const query = useQuery("allUsers", fetchActiveUser);
-  // console.log(query);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -73,10 +85,12 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
           <TextField
-            error={wrongCreds}
-            helperText={wrongCreds ? "Incorrect Credentials." : ""}
+            placeholder="Username"
+            {...register("username", { required: true })}
+            error={!!errors.username}
+            helperText={errors.username ? "Incorrect Credentials." : ""}
             variant="outlined"
             margin="normal"
             required
@@ -86,11 +100,12 @@ export default function SignIn() {
             name="username"
             autoComplete="username"
             autoFocus
-            onChange={(e) => setName(e.target.value)}
           />
           <TextField
-            error={wrongCreds}
-            helperText={wrongCreds ? "Incorrect Credentials." : ""}
+            placeholder="Password"
+            {...register("password", { required: true })}
+            error={!!errors.password}
+            helperText={errors.password ? "Incorrect Credentials." : ""}
             variant="outlined"
             margin="normal"
             required
@@ -100,7 +115,6 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
-            onChange={(e) => setPW(e.target.value)}
           />
           <Button
             type="submit"
@@ -108,7 +122,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}>
-            Sign In
+            {isSubmitting ? "Logging in..." : "Sign In"}
           </Button>
         </form>
       </div>

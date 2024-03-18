@@ -7,7 +7,7 @@ import { ExpressMiddlewareOptions } from "@apollo/server/express4";
 export const apolloServerMiddlewareOptions: ExpressMiddlewareOptions<BaseContext> =
   {
     context: async ({ req }) => {
-      if (["RegisterUser", "Login"].includes(req.body.operationName)) {
+      if (["RegisterUser", "LoginUser"].includes(req.body.operationName)) {
         return { req };
       } else if (!req.headers.authorization) {
         return ApolloAccessError("You are not authorized.");

@@ -23,9 +23,13 @@ export type AddUserInput = {
   user_name: Scalars['String']['input'];
 };
 
-export type AuthPayload = {
+export type AuthPayload = BaseUserPayload & {
   __typename: 'AuthPayload';
+  _id: Scalars['ID']['output'];
+  first_name: Scalars['String']['output'];
+  last_name: Scalars['String']['output'];
   token: Scalars['String']['output'];
+  user_name: Scalars['String']['output'];
 };
 
 export type BaseUserPayload = {
@@ -425,7 +429,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping of interface types */
 export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = {
-  BaseUserPayload: ( UserPayload );
+  BaseUserPayload: ( AuthPayload ) | ( UserPayload );
 };
 
 /** Mapping between all available schema types and the resolvers types */
@@ -433,8 +437,8 @@ export type ResolversTypes = {
   AddUserInput: AddUserInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   AuthPayload: ResolverTypeWrapper<AuthPayload>;
-  BaseUserPayload: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['BaseUserPayload']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  BaseUserPayload: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['BaseUserPayload']>;
   CluePayload: ResolverTypeWrapper<CluePayload>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   CluesListItem: CluesListItem;
@@ -466,8 +470,8 @@ export type ResolversParentTypes = {
   AddUserInput: AddUserInput;
   String: Scalars['String']['output'];
   AuthPayload: AuthPayload;
-  BaseUserPayload: ResolversInterfaceTypes<ResolversParentTypes>['BaseUserPayload'];
   ID: Scalars['ID']['output'];
+  BaseUserPayload: ResolversInterfaceTypes<ResolversParentTypes>['BaseUserPayload'];
   CluePayload: CluePayload;
   Int: Scalars['Int']['output'];
   CluesListItem: CluesListItem;
@@ -542,12 +546,16 @@ export type MapDirectiveArgs = {
 export type MapDirectiveResolver<Result, Parent, ContextType = any, Args = MapDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type AuthPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthPayload'] = ResolversParentTypes['AuthPayload']> = {
+  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  first_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  last_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  user_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type BaseUserPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['BaseUserPayload'] = ResolversParentTypes['BaseUserPayload']> = {
-  __resolveType: TypeResolveFn<'UserPayload', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'AuthPayload' | 'UserPayload', ParentType, ContextType>;
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   first_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   last_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -680,6 +688,7 @@ import { ObjectId } from 'mongodb';
       const result: PossibleTypesResultData = {
   "possibleTypes": {
     "BaseUserPayload": [
+      "AuthPayload",
       "UserPayload"
     ]
   }

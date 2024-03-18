@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { setHunt } from "../../../dux/reducers/huntReducer";
-import { setTeams } from "../../../dux/reducers/teamsReducer";
-import { setClues } from "../../../dux/reducers/cluesReducer";
-import { fetchHuntData } from "../../../utils/apiUtils";
-import { useAppSelector, useAppDispatch } from "../../../dux/stateHooks";
-import { useUserContext } from "../../../shared/user/context/useUserContext";
+import { setHunt } from "../../dux/reducers/huntReducer";
+import { setTeams } from "../../dux/reducers/teamsReducer";
+import { setClues } from "../../dux/reducers/cluesReducer";
+import { fetchHuntData } from "../../utils/apiUtils-rest";
+import { useAppSelector, useAppDispatch } from "../../dux/stateHooks";
+import { useUserContext } from "../../shared/user/context/useUserContext";
 
 // 61323e0247dc492611e225dc
 
