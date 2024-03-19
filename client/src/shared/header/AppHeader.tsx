@@ -8,6 +8,7 @@ const AppHeader = () => {
 
   const onClick = async () => {
     await logoutUser();
+    return;
   };
 
   return (

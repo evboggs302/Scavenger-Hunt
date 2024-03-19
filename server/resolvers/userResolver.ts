@@ -52,76 +52,89 @@ export const userResolver: Resolvers = {
     registerUser: async (
       _: unknown,
       { input: { first_name, last_name, user_name, password } }
-      ) => {
-        const hashedPw = hashSync(password, 15);
-        const u_id = createBsonObjectId();
-        
-        const user = new UserModel({
-          _id: u_id,
-          first_name,
-          last_name,
-          user_name,
-          hash: hashedPw,
+    ) => {
+      const hashedPw = hashSync(password, 15);
+      const u_id = createBsonObjectId();
+
+      const user = new UserModel({
+        _id: u_id,
+        first_name,
+        last_name,
+        user_name,
+        hash: hashedPw,
+      });
+      await user.save();
+
+      const token = await createAndSaveToken(u_id);
+      const newFoundUser = await UserModel.findById(u_id);
+
+      if (!newFoundUser) {
+        return throwResolutionError({
+          location: "registerUser",
+          err: "unable to find the newly saved user",
         });
-        await user.save();
-        
-        const token = await createAndSaveToken(u_id);
-        const newFoundUser = await UserModel.findById(u_id);
-        
-        if (!newFoundUser) {
+      }
+
+      const tkn = await TokenStorageModel.findOne({ token });
+
+      if (!tkn) {
+        return throwResolutionError({
+          location: "registerUser",
+          err: "unable to find the newly saved user",
+        });
+      }
+
+      return tkn.toObject();
+    },
+    login: async (_: unknown, { input: { user_name, password } }) => {
+      const user = await UserModel.getUserForLogin(user_name);
+      if (!user) {
+        throw new GraphQLError("User name does not exist", {
+          extensions: {
+            code: "USER DOES NOT EXIST",
+            http: { status: 404 },
+          },
+        });
+      } else if (!compareSync(password, user.hash)) {
+        throw new GraphQLError("Incorrect Password", {
+          extensions: {
+            code: "UNAUTHENTICATED",
+            http: { status: 401 },
+          },
+        });
+      } else {
+        const token = await createAndSaveToken(user._id);
+        const tkn = await TokenStorageModel.findOne({ token });
+
+        if (!tkn) {
           return throwResolutionError({
             location: "registerUser",
             err: "unable to find the newly saved user",
           });
         }
-        
-        return { __typename: "AuthPayload", token, ...newFoundUser.toObject() };
-      },
-      login: async (_: unknown, { input: { user_name, password } }) => {
-        const user = await UserModel.getUserForLogin(user_name);
-        if (!user) {
-          throw new GraphQLError("User name does not exist", {
-            extensions: {
-              code: "USER DOES NOT EXIST",
-              http: { status: 404 },
-            },
-          });
-        } else if (!compareSync(password, user.hash)) {
-          throw new GraphQLError("Incorrect Password", {
-            extensions: {
-              code: "UNAUTHENTICATED",
-              http: { status: 401 },
-            },
-          });
-        } else {
-          const token = await createAndSaveToken(user._id);
-          
-          return {
-            __typename: "AuthPayload",
-            token,
-            ...user.toObject(),
-          };
-        }
-      },
-      logout: async (_: unknown, {}, { token, user }) => {
-        try {
-          await TokenStorageModel.deleteOne({
-            token,
-            issuedToUser: user._id.toString(),
-          });
-          return true;
-        } catch (err) {
-          return throwResolutionError({ location: "logout", err });
-        }
-      },
+
+        return tkn.toObject();
+      }
     },
-    UserPayload: {
-      hunts: async (parent: UserPayload) => {
-        const _id = createBsonObjectId(parent._id);
-        const hunts = await HuntModel.find({
-          created_by: _id,
-        }).exec();
-        return hunts.map(returnedItems);
+    logout: async (_: unknown, {}, { token, user }) => {
+      try {
+        await TokenStorageModel.deleteOne({
+          token,
+          issuedToUser: user._id.toString(),
+        });
+        return true;
+      } catch (err) {
+        return throwResolutionError({ location: "logout", err });
+      }
+    },
+  },
+  UserPayload: {
+    hunts: async (parent: UserPayload) => {
+      const _id = createBsonObjectId(parent._id);
+      const hunts = await HuntModel.find({
+        created_by: _id,
+      }).exec();
+      return hunts.map(returnedItems);
     },
   },
 };
