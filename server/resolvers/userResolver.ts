@@ -17,32 +17,35 @@ export const userResolver: Resolvers = {
       const users = await UserModel.find({}).select({ hash: 0 }).exec();
       return users.map(returnedItems);
     },
-    getSingleUser: async (_: unknown, { uid }) => {
-      const u_id = createBsonObjectId(uid);
-      const user = await UserModel.findOne({ _id: u_id }).exec();
+    getUserFromToken: async (_: unknown, { tkn }) => {
+      const doc = await TokenStorageModel.findOne({ token: tkn })
+        .select({ issuedToUser: 1 })
+        .exec();
+      if (!doc) {
+        return throwResolutionError({
+          location: "getUserFromToken",
+          err: null,
+          message: "Token does not exist",
+        });
+      }
+
+      const user = await UserModel.findById(doc.issuedToUser).exec();
       if (!user) {
         return throwResolutionError({
-          location: "createSingleUser",
+          location: "getUserFromToken",
           err: null,
           message: "User does not exist",
         });
       }
+
       return user.toObject();
     },
+    // checkForToken: async (_: unknown, {}, { token }) => {
+    //   return token || false;
+    // },
     userNameExists: async (_: unknown, { user_name }) => {
       const matches = await UserModel.findUsername(user_name);
       return matches.length > 0;
-    },
-    logout: async (_: unknown, {}, { token, user }) => {
-      try {
-        await TokenStorageModel.deleteOne({
-          token,
-          issuedToUser: user._id.toString(),
-        });
-        return true;
-      } catch (err) {
-        return throwResolutionError({ location: "logout", err });
-      }
     },
   },
   Mutation: {
@@ -72,7 +75,16 @@ export const userResolver: Resolvers = {
         });
       }
 
-      return { __typename: "AuthPayload", token, ...newFoundUser.toObject() };
+      const tkn = await TokenStorageModel.findOne({ token });
+
+      if (!tkn) {
+        return throwResolutionError({
+          location: "registerUser",
+          err: "unable to find the newly saved user",
+        });
+      }
+
+      return tkn.toObject();
     },
     login: async (_: unknown, { input: { user_name, password } }) => {
       const user = await UserModel.getUserForLogin(user_name);
@@ -92,12 +104,27 @@ export const userResolver: Resolvers = {
         });
       } else {
         const token = await createAndSaveToken(user._id);
+        const tkn = await TokenStorageModel.findOne({ token });
 
-        return {
-          __typename: "AuthPayload",
+        if (!tkn) {
+          return throwResolutionError({
+            location: "registerUser",
+            err: "unable to find the newly saved user",
+          });
+        }
+
+        return tkn.toObject();
+      }
+    },
+    logout: async (_: unknown, {}, { token, user }) => {
+      try {
+        await TokenStorageModel.deleteOne({
           token,
-          ...user.toObject(),
-        };
+          issuedToUser: user._id.toString(),
+        });
+        return true;
+      } catch (err) {
+        return throwResolutionError({ location: "logout", err });
       }
     },
   },

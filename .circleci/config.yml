@@ -8,7 +8,7 @@ docker-node: &docker-node
   docker:
     - image: cimg/node:20.11.1
 
-git-checkout: &git-checkout
+git-checkout-root: &git-checkout-root
   checkout:
     path: ~/scavenger-hunt
 
@@ -24,7 +24,7 @@ jobs:
     working_directory: ~/scavenger-hunt/client
     parallelism: 2
     steps:
-      - <<: *git-checkout
+      - <<: *git-checkout-root
       - <<: *yarn-install-step
       - run:
           name: UI functional tests
@@ -42,7 +42,7 @@ jobs:
     working_directory: ~/scavenger-hunt/server
     parallelism: 2
     steps:
-      - <<: *git-checkout
+      - <<: *git-checkout-root
       - <<: *yarn-install-step
       - run:
           name: Graphql codegen
@@ -58,7 +58,7 @@ jobs:
     working_directory: ~/scavenger-hunt/client
     parallelism: 5
     steps:
-      - <<: *git-checkout
+      - <<: *git-checkout-root
       - <<: *yarn-install-step
       - run:
           name: Build UI

@@ -1,23 +1,23 @@
 type Query {
   getAllUsers: [UserPayload]
-  getSingleUser(uid: ID!): UserPayload
+  getUserFromToken(tkn: String!): BaseUserPayload
   userNameExists(user_name: String!): Boolean!
-  logout: Boolean
 }
 
 type Mutation {
   registerUser(input: AddUserInput!): AuthPayload!
   login(input: LoginInput!): AuthPayload!
+  logout: Boolean
 }
 
-interface BaseUserPayload {
+type BaseUserPayload {
   _id: ID!
   user_name: String!
   first_name: String!
   last_name: String!
 }
 
-type UserPayload implements BaseUserPayload {
+type UserPayload {
   _id: ID!
   user_name: String!
   first_name: String!
@@ -25,11 +25,8 @@ type UserPayload implements BaseUserPayload {
   hunts: [Hunt!]
 }
 
-type AuthPayload implements BaseUserPayload {
+type AuthPayload {
   _id: ID!
-  user_name: String!
-  first_name: String!
-  last_name: String!
   token: String!
 }
 

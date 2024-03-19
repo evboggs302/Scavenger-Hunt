@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
-import { UserContext } from "./context/UserContext";
-import { useCreateUserContextValue } from "./context/useCreateUserContext";
+import { UserContext } from "./UserContext.template";
+import { useCreateUserContextValue } from "./useCreateUserContext.template";
 
 export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const contextValue = useCreateUserContextValue({

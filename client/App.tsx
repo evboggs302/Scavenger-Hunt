@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
-import { UserContextProvider } from "./src/shared/user/UserContextProvider";
+import { UserContextProvider } from "./src/shared/user/context.template/UserContextProvider.template";
 
 function App() {
   return (

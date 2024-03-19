@@ -5,7 +5,7 @@ import { setTeams } from "../../dux/reducers/teamsReducer";
 import { setClues } from "../../dux/reducers/cluesReducer";
 import { fetchHuntData } from "../../utils/apiUtils-rest";
 import { useAppSelector, useAppDispatch } from "../../dux/stateHooks";
-import { useUserContext } from "../../shared/user/context/useUserContext";
+import { useUserContext } from "../../shared/user/context.template/useUserContext.template";
 
 // 61323e0247dc492611e225dc
 

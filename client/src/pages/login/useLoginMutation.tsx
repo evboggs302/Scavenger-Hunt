@@ -1,37 +1,22 @@
-import { useApolloClient, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { LoginUserDocument } from "../../generated/graphql";
-// import { useNavigate } from "react-router-dom";
 import { useCallback, useMemo } from "react";
-import { setContext } from "@apollo/client/link/context";
-import { httpLink } from "../../../apolloClient";
-import { useUserContext } from "../../shared/user/context/useUserContext";
+import { useTokenContext } from "../../shared/tokenManagement/useTokenRefContext";
 
 export const useLoginMutation = () => {
   const [loginUser] = useMutation(LoginUserDocument);
-  const client = useApolloClient();
+  const { setToken } = useTokenContext();
 
   const handlLoginUser = useCallback(
     async ({ username, password }: { username: string; password: string }) => {
       const { data, errors } = await loginUser({
         variables: { username, password },
       });
-      try {
-        const token = data?.login.token;
-        const authLink = setContext((_, { headers }) => {
-          const { token } = useUserContext();
-          return {
-            headers: {
-              ...headers,
-              "Access-Control-Allow-Origin": `${process.env.CLIENT_URL}`,
-              authorization: `Bearer ${token || ""}`,
-            },
-          };
-        });
-        const newLink = authLink.concat(httpLink);
-        client.setLink(newLink);
-
+      if (data?.login.token) {
+        localStorage.setItem("BEARER_TOKEN", data.login.token);
+        setToken(data.login.token);
         return data;
-      } catch (err) {
+      } else {
         console.log("useLoginMutation");
         console.log(errors);
       }
@@ -41,7 +26,7 @@ export const useLoginMutation = () => {
 
   return useMemo(
     () => ({
-      loginUser: handlLoginUser, // mutation handler
+      loginUser: handlLoginUser,
     }),
     []
   );

@@ -1,0 +1,10 @@
+fragment Hunt on Hunt {
+  _id
+  created_by
+  name
+  created_date
+  start_date
+  end_date
+  is_active
+  recall_message
+}

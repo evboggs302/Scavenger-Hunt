@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -121,6 +121,7 @@ export default function LogIn() {
             fullWidth
             variant="contained"
             color="primary"
+            disabled={isSubmitting}
             className={classes.submit}>
             {isSubmitting ? "Logging in..." : "Sign In"}
           </Button>
