@@ -58,7 +58,7 @@ jobs:
     working_directory: ~/scavenger-hunt/client
     parallelism: 5
     steps:
-      - <<: *git-checkout
+      - <<: *git-checkout-root
       - <<: *yarn-install-step
       - run:
           name: Build UI
