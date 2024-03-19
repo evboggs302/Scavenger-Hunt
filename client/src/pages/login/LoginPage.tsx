@@ -15,8 +15,6 @@ import Container from "@material-ui/core/Container";
 import { useLoginMutation } from "./useLoginMutation";
 import { useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useUserQueryResult } from "../../shared/user/UserContextApolloWrapper";
-import { useTokenContext } from "../../shared/tokenManagement/useTokenRefContext";
 
 function Copyright() {
   return (
@@ -59,7 +57,6 @@ type Inputs = {
 export default function LogIn() {
   const classes = useStyles();
   const navigate = useNavigate();
-  const { setToken } = useTokenContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { loginUser } = useLoginMutation();
   const {
@@ -74,7 +71,6 @@ export default function LogIn() {
     setIsSubmitting(false);
 
     if (response?.login.__typename === "AuthPayload") {
-      setToken(response.login.token);
       return navigate("/dashboard");
     }
   };

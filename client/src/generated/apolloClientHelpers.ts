@@ -32,7 +32,7 @@ export type HuntFieldPolicy = {
 	start_date?: FieldPolicy<any> | FieldReadFunction<any>,
 	teams?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('createHunt' | 'createMultipleClues' | 'createMultipleTeams' | 'createSingleClue' | 'createSingleTeam' | 'deleteAllCluesByHuntId' | 'deleteAllResponsesByHunt' | 'deleteAllResponsesByTeam' | 'deleteClueById' | 'deleteHuntById' | 'deleteTeam' | 'login' | 'markResponseCorrect' | 'registerUser' | 'sendHint' | 'updateClueDescription' | 'updateClueOrder' | 'updateHunt' | 'updateTeam' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('createHunt' | 'createMultipleClues' | 'createMultipleTeams' | 'createSingleClue' | 'createSingleTeam' | 'deleteAllCluesByHuntId' | 'deleteAllResponsesByHunt' | 'deleteAllResponsesByTeam' | 'deleteClueById' | 'deleteHuntById' | 'deleteTeam' | 'login' | 'logout' | 'markResponseCorrect' | 'registerUser' | 'sendHint' | 'updateClueDescription' | 'updateClueOrder' | 'updateHunt' | 'updateTeam' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	createHunt?: FieldPolicy<any> | FieldReadFunction<any>,
 	createMultipleClues?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -46,6 +46,7 @@ export type MutationFieldPolicy = {
 	deleteHuntById?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteTeam?: FieldPolicy<any> | FieldReadFunction<any>,
 	login?: FieldPolicy<any> | FieldReadFunction<any>,
+	logout?: FieldPolicy<any> | FieldReadFunction<any>,
 	markResponseCorrect?: FieldPolicy<any> | FieldReadFunction<any>,
 	registerUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	sendHint?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -54,7 +55,7 @@ export type MutationFieldPolicy = {
 	updateHunt?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateTeam?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('activateHunt' | 'deactivateHunt' | 'deleteAllHuntsByUser' | 'getAllUsers' | 'getCluesByHuntId' | 'getHunt' | 'getHuntsByUserId' | 'getResponsesByClue' | 'getResponsesByTeam' | 'getTeam' | 'getTeamsByHuntId' | 'getUserFromToken' | 'logout' | 'userNameExists' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('activateHunt' | 'deactivateHunt' | 'deleteAllHuntsByUser' | 'getAllUsers' | 'getCluesByHuntId' | 'getHunt' | 'getHuntsByUserId' | 'getResponsesByClue' | 'getResponsesByTeam' | 'getTeam' | 'getTeamsByHuntId' | 'getUserFromToken' | 'userNameExists' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	activateHunt?: FieldPolicy<any> | FieldReadFunction<any>,
 	deactivateHunt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -68,7 +69,6 @@ export type QueryFieldPolicy = {
 	getTeam?: FieldPolicy<any> | FieldReadFunction<any>,
 	getTeamsByHuntId?: FieldPolicy<any> | FieldReadFunction<any>,
 	getUserFromToken?: FieldPolicy<any> | FieldReadFunction<any>,
-	logout?: FieldPolicy<any> | FieldReadFunction<any>,
 	userNameExists?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ResponsePayloadKeySpecifier = ('_id' | 'clue_id' | 'correct' | 'hint_sent' | 'response_txt' | 'team_id' | 'time_received' | ResponsePayloadKeySpecifier)[];

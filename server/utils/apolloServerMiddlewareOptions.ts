@@ -13,6 +13,7 @@ export const apolloServerMiddlewareOptions: ExpressMiddlewareOptions<BaseContext
         return ApolloAccessError("You are not authorized.");
       } else {
         const tokenHeader = req.headers.authorization;
+        console.log(tokenHeader);
         const token = tokenHeader.replace("Bearer ", "");
         const tokenExists = await TokenStorageModel.findOne({
           token,

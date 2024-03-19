@@ -18,98 +18,110 @@ export const userResolver: Resolvers = {
       return users.map(returnedItems);
     },
     getUserFromToken: async (_: unknown, { tkn }) => {
-      const id = await TokenStorageModel.findOne({ token: tkn })
+      const doc = await TokenStorageModel.findOne({ token: tkn })
         .select({ issuedToUser: 1 })
         .exec();
-      const user = await UserModel.findById(id).exec();
+      if (!doc) {
+        return throwResolutionError({
+          location: "getUserFromToken",
+          err: null,
+          message: "Token does not exist",
+        });
+      }
+
+      const user = await UserModel.findById(doc.issuedToUser).exec();
       if (!user) {
         return throwResolutionError({
-          location: "createSingleUser",
+          location: "getUserFromToken",
           err: null,
           message: "User does not exist",
         });
       }
+
       return user.toObject();
     },
+    // checkForToken: async (_: unknown, {}, { token }) => {
+    //   return token || false;
+    // },
     userNameExists: async (_: unknown, { user_name }) => {
       const matches = await UserModel.findUsername(user_name);
       return matches.length > 0;
-    },
-    logout: async (_: unknown, {}, { token, user }) => {
-      try {
-        await TokenStorageModel.deleteOne({
-          token,
-          issuedToUser: user._id.toString(),
-        });
-        return true;
-      } catch (err) {
-        return throwResolutionError({ location: "logout", err });
-      }
     },
   },
   Mutation: {
     registerUser: async (
       _: unknown,
       { input: { first_name, last_name, user_name, password } }
-    ) => {
-      const hashedPw = hashSync(password, 15);
-      const u_id = createBsonObjectId();
-
-      const user = new UserModel({
-        _id: u_id,
-        first_name,
-        last_name,
-        user_name,
-        hash: hashedPw,
-      });
-      await user.save();
-
-      const token = await createAndSaveToken(u_id);
-      const newFoundUser = await UserModel.findById(u_id);
-
-      if (!newFoundUser) {
-        return throwResolutionError({
-          location: "registerUser",
-          err: "unable to find the newly saved user",
+      ) => {
+        const hashedPw = hashSync(password, 15);
+        const u_id = createBsonObjectId();
+        
+        const user = new UserModel({
+          _id: u_id,
+          first_name,
+          last_name,
+          user_name,
+          hash: hashedPw,
         });
-      }
-
-      return { __typename: "AuthPayload", token, ...newFoundUser.toObject() };
+        await user.save();
+        
+        const token = await createAndSaveToken(u_id);
+        const newFoundUser = await UserModel.findById(u_id);
+        
+        if (!newFoundUser) {
+          return throwResolutionError({
+            location: "registerUser",
+            err: "unable to find the newly saved user",
+          });
+        }
+        
+        return { __typename: "AuthPayload", token, ...newFoundUser.toObject() };
+      },
+      login: async (_: unknown, { input: { user_name, password } }) => {
+        const user = await UserModel.getUserForLogin(user_name);
+        if (!user) {
+          throw new GraphQLError("User name does not exist", {
+            extensions: {
+              code: "USER DOES NOT EXIST",
+              http: { status: 404 },
+            },
+          });
+        } else if (!compareSync(password, user.hash)) {
+          throw new GraphQLError("Incorrect Password", {
+            extensions: {
+              code: "UNAUTHENTICATED",
+              http: { status: 401 },
+            },
+          });
+        } else {
+          const token = await createAndSaveToken(user._id);
+          
+          return {
+            __typename: "AuthPayload",
+            token,
+            ...user.toObject(),
+          };
+        }
+      },
+      logout: async (_: unknown, {}, { token, user }) => {
+        try {
+          await TokenStorageModel.deleteOne({
+            token,
+            issuedToUser: user._id.toString(),
+          });
+          return true;
+        } catch (err) {
+          return throwResolutionError({ location: "logout", err });
+        }
+      },
     },
-    login: async (_: unknown, { input: { user_name, password } }) => {
-      const user = await UserModel.getUserForLogin(user_name);
-      if (!user) {
-        throw new GraphQLError("User name does not exist", {
-          extensions: {
-            code: "USER DOES NOT EXIST",
-            http: { status: 404 },
-          },
-        });
-      } else if (!compareSync(password, user.hash)) {
-        throw new GraphQLError("Incorrect Password", {
-          extensions: {
-            code: "UNAUTHENTICATED",
-            http: { status: 401 },
-          },
-        });
-      } else {
-        const token = await createAndSaveToken(user._id);
-
-        return {
-          __typename: "AuthPayload",
-          token,
-          ...user.toObject(),
-        };
-      }
-    },
-  },
-  UserPayload: {
-    hunts: async (parent: UserPayload) => {
-      const _id = createBsonObjectId(parent._id);
-      const hunts = await HuntModel.find({
-        created_by: _id,
-      }).exec();
-      return hunts.map(returnedItems);
+    UserPayload: {
+      hunts: async (parent: UserPayload) => {
+        const _id = createBsonObjectId(parent._id);
+        const hunts = await HuntModel.find({
+          created_by: _id,
+        }).exec();
+        return hunts.map(returnedItems);
     },
   },
 };

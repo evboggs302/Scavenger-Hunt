@@ -30,6 +30,7 @@ export type AuthPayload = {
 };
 
 export type BaseUserPayload = {
+  __typename: 'BaseUserPayload';
   _id: Scalars['ID']['output'];
   first_name: Scalars['String']['output'];
   last_name: Scalars['String']['output'];
@@ -114,6 +115,7 @@ export type Mutation = {
   deleteHuntById?: Maybe<Scalars['Boolean']['output']>;
   deleteTeam?: Maybe<Scalars['Boolean']['output']>;
   login: AuthPayload;
+  logout?: Maybe<Scalars['Boolean']['output']>;
   markResponseCorrect?: Maybe<Scalars['Boolean']['output']>;
   registerUser: AuthPayload;
   sendHint?: Maybe<Scalars['Boolean']['output']>;
@@ -231,8 +233,7 @@ export type Query = {
   getResponsesByTeam?: Maybe<Array<Maybe<ResponsePayload>>>;
   getTeam?: Maybe<Team>;
   getTeamsByHuntId?: Maybe<Array<Maybe<Team>>>;
-  getUserFromToken?: Maybe<UserPayload>;
-  logout?: Maybe<Scalars['Boolean']['output']>;
+  getUserFromToken?: Maybe<BaseUserPayload>;
   userNameExists: Scalars['Boolean']['output'];
 };
 
@@ -342,7 +343,7 @@ export type UpdateTeamInput = {
   team_id: Scalars['ID']['input'];
 };
 
-export type UserPayload = BaseUserPayload & {
+export type UserPayload = {
   __typename: 'UserPayload';
   _id: Scalars['ID']['output'];
   first_name: Scalars['String']['output'];
@@ -424,10 +425,6 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 ) => TResult | Promise<TResult>;
 
 
-/** Mapping of interface types */
-export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = {
-  BaseUserPayload: ( UserPayload );
-};
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
@@ -435,7 +432,7 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   AuthPayload: ResolverTypeWrapper<AuthPayload>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
-  BaseUserPayload: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['BaseUserPayload']>;
+  BaseUserPayload: ResolverTypeWrapper<BaseUserPayload>;
   CluePayload: ResolverTypeWrapper<CluePayload>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   CluesListItem: CluesListItem;
@@ -468,7 +465,7 @@ export type ResolversParentTypes = {
   String: Scalars['String']['output'];
   AuthPayload: AuthPayload;
   ID: Scalars['ID']['output'];
-  BaseUserPayload: ResolversInterfaceTypes<ResolversParentTypes>['BaseUserPayload'];
+  BaseUserPayload: BaseUserPayload;
   CluePayload: CluePayload;
   Int: Scalars['Int']['output'];
   CluesListItem: CluesListItem;
@@ -549,11 +546,11 @@ export type AuthPayloadResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type BaseUserPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['BaseUserPayload'] = ResolversParentTypes['BaseUserPayload']> = {
-  __resolveType: TypeResolveFn<'UserPayload', ParentType, ContextType>;
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   first_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   last_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   user_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type CluePayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['CluePayload'] = ResolversParentTypes['CluePayload']> = {
@@ -592,6 +589,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteHuntById?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteHuntByIdArgs, 'h_id'>>;
   deleteTeam?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteTeamArgs, 'input'>>;
   login?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>;
+  logout?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   markResponseCorrect?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationMarkResponseCorrectArgs, 'id'>>;
   registerUser?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationRegisterUserArgs, 'input'>>;
   sendHint?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationSendHintArgs, 'input'>>;
@@ -613,8 +611,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getResponsesByTeam?: Resolver<Maybe<Array<Maybe<ResolversTypes['ResponsePayload']>>>, ParentType, ContextType, RequireFields<QueryGetResponsesByTeamArgs, 'id'>>;
   getTeam?: Resolver<Maybe<ResolversTypes['Team']>, ParentType, ContextType, RequireFields<QueryGetTeamArgs, 'id'>>;
   getTeamsByHuntId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Team']>>>, ParentType, ContextType, RequireFields<QueryGetTeamsByHuntIdArgs, 'h_id'>>;
-  getUserFromToken?: Resolver<Maybe<ResolversTypes['UserPayload']>, ParentType, ContextType, RequireFields<QueryGetUserFromTokenArgs, 'tkn'>>;
-  logout?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  getUserFromToken?: Resolver<Maybe<ResolversTypes['BaseUserPayload']>, ParentType, ContextType, RequireFields<QueryGetUserFromTokenArgs, 'tkn'>>;
   userNameExists?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryUserNameExistsArgs, 'user_name'>>;
 };
 
@@ -680,11 +677,7 @@ import { ObjectId } from 'mongodb';
         }
       }
       const result: PossibleTypesResultData = {
-  "possibleTypes": {
-    "BaseUserPayload": [
-      "UserPayload"
-    ]
-  }
+  "possibleTypes": {}
 };
       export default result;
     

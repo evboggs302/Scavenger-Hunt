@@ -1,15 +1,14 @@
-import React from "react";
-import { UseUserContextValueArgs } from "./useCreateUserContext";
+import { useContext } from "react";
 import { UserContext } from "./UserContext";
 
-export const useUserContext = (): UseUserContextValueArgs => {
-  const userContext = React.useContext(UserContext);
+export const useUserContext = () => {
+  const context = useContext(UserContext);
 
-  if (!userContext) {
+  if (!context) {
     throw new Error(
-      "useUserContext must be used within a UserContext provider"
+      "useUserContext must be used within a UserQryContextProvider"
     );
   }
 
-  return userContext;
+  return context;
 };

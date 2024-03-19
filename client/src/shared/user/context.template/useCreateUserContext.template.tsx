@@ -5,7 +5,6 @@ export interface UseUserContextValueArgs {
   userName: string;
   firstName: string;
   lastName: string;
-  token?: string;
 }
 
 export const useCreateUserContextValue = ({
@@ -13,7 +12,6 @@ export const useCreateUserContextValue = ({
   userName,
   firstName,
   lastName,
-  token,
 }: UseUserContextValueArgs) => {
   return useMemo(
     () => ({
@@ -21,9 +19,8 @@ export const useCreateUserContextValue = ({
       userName,
       firstName,
       lastName,
-      token,
     }),
-    [_id, userName, firstName, lastName, token]
+    [_id, userName, firstName, lastName]
   );
 };
 

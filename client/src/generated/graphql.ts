@@ -29,6 +29,7 @@ export type AuthPayload = {
 };
 
 export type BaseUserPayload = {
+  __typename: 'BaseUserPayload';
   _id: Scalars['ID']['output'];
   first_name: Scalars['String']['output'];
   last_name: Scalars['String']['output'];
@@ -113,6 +114,7 @@ export type Mutation = {
   deleteHuntById?: Maybe<Scalars['Boolean']['output']>;
   deleteTeam?: Maybe<Scalars['Boolean']['output']>;
   login: AuthPayload;
+  logout?: Maybe<Scalars['Boolean']['output']>;
   markResponseCorrect?: Maybe<Scalars['Boolean']['output']>;
   registerUser: AuthPayload;
   sendHint?: Maybe<Scalars['Boolean']['output']>;
@@ -230,8 +232,7 @@ export type Query = {
   getResponsesByTeam?: Maybe<Array<Maybe<ResponsePayload>>>;
   getTeam?: Maybe<Team>;
   getTeamsByHuntId?: Maybe<Array<Maybe<Team>>>;
-  getUserFromToken?: Maybe<UserPayload>;
-  logout?: Maybe<Scalars['Boolean']['output']>;
+  getUserFromToken?: Maybe<BaseUserPayload>;
   userNameExists: Scalars['Boolean']['output'];
 };
 
@@ -341,7 +342,7 @@ export type UpdateTeamInput = {
   team_id: Scalars['ID']['input'];
 };
 
-export type UserPayload = BaseUserPayload & {
+export type UserPayload = {
   __typename: 'UserPayload';
   _id: Scalars['ID']['output'];
   first_name: Scalars['String']['output'];
@@ -352,7 +353,7 @@ export type UserPayload = BaseUserPayload & {
 
 export type HuntFragment = { __typename: 'Hunt', _id: string, created_by: string, name?: string | null, created_date?: string | null, start_date?: string | null, end_date?: string | null, is_active?: boolean | null, recall_message?: string | null };
 
-export type UserFragment = { __typename: 'UserPayload', _id: string, user_name: string, first_name: string, last_name: string };
+export type UserFragmentFragment = { __typename: 'BaseUserPayload', _id: string, user_name: string, first_name: string, last_name: string };
 
 export type LoginUserMutationVariables = Exact<{
   username: Scalars['String']['input'];
@@ -362,12 +363,17 @@ export type LoginUserMutationVariables = Exact<{
 
 export type LoginUserMutation = { login: { __typename: 'AuthPayload', _id: string, token: string } };
 
+export type LogoutUserMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutUserMutation = { logout?: boolean | null };
+
 export type GetUserFromTokenQueryVariables = Exact<{
   tkn: Scalars['String']['input'];
 }>;
 
 
-export type GetUserFromTokenQuery = { getUserFromToken?: { __typename: 'UserPayload', _id: string, user_name: string, first_name: string, last_name: string } | null };
+export type GetUserFromTokenQuery = { getUserFromToken?: { __typename: 'BaseUserPayload', _id: string, user_name: string, first_name: string, last_name: string } | null };
 
 
       export interface PossibleTypesResultData {
@@ -376,15 +382,12 @@ export type GetUserFromTokenQuery = { getUserFromToken?: { __typename: 'UserPayl
         }
       }
       const result: PossibleTypesResultData = {
-  "possibleTypes": {
-    "BaseUserPayload": [
-      "UserPayload"
-    ]
-  }
+  "possibleTypes": {}
 };
       export default result;
     
 export const HuntFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Hunt"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Hunt"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_by"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_date"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"is_active"}},{"kind":"Field","name":{"kind":"Name","value":"recall_message"}}]}}]} as unknown as DocumentNode<HuntFragment, unknown>;
-export const UserFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"User"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"BaseUserPayload"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"user_name"}},{"kind":"Field","name":{"kind":"Name","value":"first_name"}},{"kind":"Field","name":{"kind":"Name","value":"last_name"}}]}}]} as unknown as DocumentNode<UserFragment, unknown>;
+export const UserFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"BaseUserPayload"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"user_name"}},{"kind":"Field","name":{"kind":"Name","value":"first_name"}},{"kind":"Field","name":{"kind":"Name","value":"last_name"}}]}}]} as unknown as DocumentNode<UserFragmentFragment, unknown>;
 export const LoginUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LoginUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"user_name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]}}]} as unknown as DocumentNode<LoginUserMutation, LoginUserMutationVariables>;
-export const GetUserFromTokenDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUserFromToken"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tkn"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getUserFromToken"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"tkn"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tkn"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"User"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"User"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"BaseUserPayload"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"user_name"}},{"kind":"Field","name":{"kind":"Name","value":"first_name"}},{"kind":"Field","name":{"kind":"Name","value":"last_name"}}]}}]} as unknown as DocumentNode<GetUserFromTokenQuery, GetUserFromTokenQueryVariables>;
+export const LogoutUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LogoutUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logout"}}]}}]} as unknown as DocumentNode<LogoutUserMutation, LogoutUserMutationVariables>;
+export const GetUserFromTokenDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUserFromToken"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tkn"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getUserFromToken"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"tkn"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tkn"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"BaseUserPayload"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"user_name"}},{"kind":"Field","name":{"kind":"Name","value":"first_name"}},{"kind":"Field","name":{"kind":"Name","value":"last_name"}}]}}]} as unknown as DocumentNode<GetUserFromTokenQuery, GetUserFromTokenQueryVariables>;

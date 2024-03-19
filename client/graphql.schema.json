@@ -127,7 +127,7 @@
         "possibleTypes": null
       },
       {
-        "kind": "INTERFACE",
+        "kind": "OBJECT",
         "name": "BaseUserPayload",
         "description": null,
         "fields": [
@@ -199,13 +199,7 @@
         "inputFields": null,
         "interfaces": [],
         "enumValues": null,
-        "possibleTypes": [
-          {
-            "kind": "OBJECT",
-            "name": "UserPayload",
-            "ofType": null
-          }
-        ]
+        "possibleTypes": null
       },
       {
         "kind": "SCALAR",
@@ -1217,6 +1211,18 @@
             "deprecationReason": null
           },
           {
+            "name": "logout",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "markResponseCorrect",
             "description": null,
             "args": [
@@ -1753,19 +1759,7 @@
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "UserPayload",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "logout",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "name": "BaseUserPayload",
               "ofType": null
             },
             "isDeprecated": false,
@@ -2447,13 +2441,7 @@
           }
         ],
         "inputFields": null,
-        "interfaces": [
-          {
-            "kind": "INTERFACE",
-            "name": "BaseUserPayload",
-            "ofType": null
-          }
-        ],
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },
