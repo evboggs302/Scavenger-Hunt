@@ -1,12 +1,12 @@
+import twilio from "twilio";
+import config from "../config";
 import TeamModel from "../models/teams";
 import ResponseModel from "../models/responses";
 import { Resolvers } from "../generated/graphql";
-import { createBsonObjectId } from "../utils/createBsonObjectId";
-import { throwResolutionError } from "../utils/eventLogHelpers";
-import twilio from "twilio";
-import config from "../config";
 import { returnedItems } from "../utils/returnedItems";
 import { markResponseCorrect } from "./markResponseCorrect";
+import { createBsonObjectId } from "../utils/createBsonObjectId";
+import { throwResolutionError } from "../utils/apolloErrorHandlers";
 
 const { TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN, TWILIO_NUMBER } = config;
 const client = twilio(TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN);

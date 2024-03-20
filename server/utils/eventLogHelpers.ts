@@ -1,12 +1,13 @@
-import { GraphQLError } from "graphql";
 import EventLogModel from "../models/event_logs";
+import { throwServerError } from "./apolloErrorHandlers";
 import { createBsonObjectId } from "./createBsonObjectId";
 
-type EventLogProps = {
+export type EventLogProps = {
   err: unknown;
   location: string;
   message?: string;
 };
+
 export const createErrLog = async ({
   err,
   location,
@@ -24,36 +25,11 @@ export const createErrLog = async ({
     },
   });
   await newLog.save().catch((err) => {
-    if (err) console.log("LOG ERR:", err);
-  });
-};
-
-export const throwResolutionError = async ({
-  err,
-  location,
-  message,
-}: EventLogProps) => {
-  await createErrLog({ err, location, message });
-  throw new GraphQLError(message || `Uh-oh! An error occured.`, {
-    extensions: {
-      code: "OPERATION_RESOLUTION_FAILURE",
-      where: location,
-      errMessage: message,
-    },
-  });
-};
-
-export const throwServerError = async ({
-  err,
-  location,
-  message,
-}: EventLogProps) => {
-  await createErrLog({ err, location, message });
-  throw new GraphQLError(`Uh-oh! An error occured.`, {
-    extensions: {
-      code: "INTERNAL_SERVER_ERROR",
-      where: location,
-      errMessage: message,
-    },
+    if (err)
+      return throwServerError({
+        err,
+        location: "createErrLog",
+        message: "unable to save error to the logs",
+      });
   });
 };

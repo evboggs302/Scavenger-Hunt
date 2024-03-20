@@ -1,19 +1,17 @@
-import { sign, verify, JwtPayload } from "jsonwebtoken";
-import TokenStorageModel from "../models/token_storage";
-import UserModel from "../models/users";
 import config from "../config";
-import parseDuration from "parse-duration";
-import { GraphQLError } from "graphql";
+import UserModel from "../models/users";
+import TokenStorageModel from "../models/token_storage";
 import { Types } from "mongoose";
+import { GraphQLError } from "graphql";
+import parseDuration from "parse-duration";
+import { sign, verify } from "jsonwebtoken";
 import { BaseUserPayload } from "../generated/graphql";
-import { throwResolutionError } from "./eventLogHelpers";
+import { throwResolutionError } from "./apolloErrorHandlers";
 
 const { ACCESS_TOKEN_SECRET, ACCESS_TOKEN_DURATION } = config;
 
 interface SetTokenArgs {
   u_id: string;
-  // permissions: string[];
-  // roles: string[];
 }
 
 export const createAndSaveToken = async (id: Types.ObjectId) => {
@@ -76,15 +74,11 @@ export const setToken = ({ u_id }: SetTokenArgs) => {
     expiresIn: ACCESS_TOKEN_DURATION,
   });
 
-  // console.log("accessToken: ", accessToken);
   return accessToken;
 };
 
 export const verifyToken = (token: string) => {
   try {
-    // return verify(token, ACCESS_TOKEN_SECRET, {
-    //   complete: true,
-    // });
     return verify(token, ACCESS_TOKEN_SECRET);
   } catch (error) {
     // if (error instanceof Error && error.message !== "jwt expired") {

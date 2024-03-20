@@ -1,5 +1,5 @@
 import React from "react";
-import { OperationVariables, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { apolloContextHeaders } from "../../apolloContextHeaders";
 import { UserContext } from "./UserContext";
 import { useTokenContext } from "../../tokenManagement/useTokenRefContext";
@@ -14,7 +14,7 @@ export const UserQryContextProvider = ({
 }: UserQryContextProviderProps) => {
   const { token } = useTokenContext();
   const { data, error, loading } = useQuery(GetUserFromTokenDocument, {
-    variables: { tkn: token },
+    variables: { tkn: token || "invalid" },
     context: apolloContextHeaders(),
   });
 
