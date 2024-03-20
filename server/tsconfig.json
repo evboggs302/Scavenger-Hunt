@@ -3,7 +3,7 @@
     "target": "esnext",
     "module": "commonjs",
     "esModuleInterop": true,
-    "outDir": "../dist/server",
+    "outDir": "dist",
     "allowJs": false,
     "strict": true,
     "sourceMap": true,

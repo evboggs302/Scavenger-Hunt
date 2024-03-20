@@ -1,9 +1,9 @@
 import ClueModel from "../models/clues";
 import ResponseModel from "../models/responses";
+import { returnedItems } from "../utils/returnedItems";
 import { CluePayload, Resolvers } from "../generated/graphql";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
-import { throwResolutionError } from "../utils/eventLogHelpers";
-import { returnedItems } from "../utils/returnedItems";
+import { throwResolutionError } from "../utils/apolloErrorHandlers";
 
 export const clueResolver: Resolvers = {
   Query: {

@@ -1,10 +1,10 @@
-import { createBsonObjectId } from "../utils/createBsonObjectId";
-import { throwResolutionError } from "../utils/eventLogHelpers";
 import HuntModel from "../models/hunts";
 import ClueModel from "../models/clues";
 import TeamModel from "../models/teams";
 import { Hunt, Resolvers } from "../generated/graphql";
 import { returnedItems } from "../utils/returnedItems";
+import { createBsonObjectId } from "../utils/createBsonObjectId";
+import { throwResolutionError } from "../utils/apolloErrorHandlers";
 
 export const huntResolver: Resolvers = {
   Query: {

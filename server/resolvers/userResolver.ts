@@ -1,14 +1,13 @@
-import { GraphQLError } from "graphql";
-import { compareSync, hashSync } from "bcryptjs";
 import UserModel from "../models/users";
 import TokenStorageModel from "../models/token_storage";
 import HuntModel from "../models/hunts";
+import { GraphQLError } from "graphql";
+import { compareSync, hashSync } from "bcryptjs";
+import { createAndSaveToken } from "../utils/jwt";
+import { returnedItems } from "../utils/returnedItems";
 import { Resolvers, UserPayload } from "../generated/graphql";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
-import { createAndSaveToken } from "../utils/jwt";
-import { ApolloAccessError } from "../utils/apolloErrorHandlers";
-import { throwResolutionError } from "../utils/eventLogHelpers";
-import { returnedItems } from "../utils/returnedItems";
+import { ApolloAccessError, throwResolutionError } from "../utils/apolloErrorHandlers";
 
 export const userResolver: Resolvers = {
   Query: {

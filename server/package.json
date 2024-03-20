@@ -1,14 +1,13 @@
 {
   "name": "@eboggs302/scavenger_hunt.server",
   "version": "0.1.0",
-  "type": "module",
   "private": true,
   "scripts": {
-    "dev": "yarn compile && npx nodemon ../dist/server/server_gql.js",
-    "start-server": "node --experimental-modules --es-module-specifier-resolution=node ../dist/server/server_gql.js",
+    "dev": "yarn compile && npx nodemon ./dist/server_gql.js",
+    "start-server": "node --experimental-modules --es-module-specifier-resolution=node ./dist/server_gql.js",
     "tsc-check": "npx tsc --noEmit",
     "codegen": "graphql-codegen --config codegen.ts",
-    "compile": "rm -rf ../dist/ && npx tsc && cp -R node_modules ../dist/server/node_modules && cp -R graphql ../dist/server/graphql"
+    "compile": "rm -rf ./dist && npx tsc && cp -R node_modules ./dist/node_modules && cp -R graphql ./dist/graphql"
   },
   "dependencies": {
     "@apollo/server": "^4.9.3",
