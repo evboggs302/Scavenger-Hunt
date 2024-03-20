@@ -1,9 +1,22 @@
 import React, { PropsWithChildren } from "react";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  createHttpLink,
+} from "@apollo/client";
+
+const httpLink = createHttpLink({
+  uri: `${process.env.GQL_SERVER_URL}`,
+  fetch: (uri, options) => {
+    const { operationName } = JSON.parse(options?.body as string);
+    return fetch(`${uri}?opName=${operationName}`, options);
+  },
+});
 
 export const client = new ApolloClient({
   name: "scavenger-web-client",
-  uri: `${process.env.GQL_SERVER_URL}`,
+  link: httpLink,
   cache: new InMemoryCache(),
   defaultOptions: {
     watchQuery: {
