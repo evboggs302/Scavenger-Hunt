@@ -1,8 +1,8 @@
 import { useApolloClient, useMutation } from "@apollo/client";
-import { LogoutUserDocument } from "../../generated/graphql";
+import { LogoutUserDocument } from "../../../generated/graphql";
 import { useCallback, useMemo } from "react";
-import { useTokenContext } from "../tokenManagement/useTokenRefContext";
-import { apolloContextHeaders } from "../apolloContextHeaders";
+import { useTokenContext } from "../../context/tokenManagement/useTokenRefContext";
+import { apolloContextHeaders } from "../../utils/apolloContextHeaders";
 import { useNavigate } from "react-router-dom";
 
 export const useLogoutMutation = () => {

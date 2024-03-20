@@ -1,0 +1,7 @@
+interface ErrorInterface {
+  message: String!
+}
+
+type ErrorObj implements ErrorInterface {
+  message: String!
+}

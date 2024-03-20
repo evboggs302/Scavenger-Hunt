@@ -19,6 +19,14 @@ export type CluePayloadFieldPolicy = {
 	order_number?: FieldPolicy<any> | FieldReadFunction<any>,
 	responses?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type ErrorInterfaceKeySpecifier = ('message' | ErrorInterfaceKeySpecifier)[];
+export type ErrorInterfaceFieldPolicy = {
+	message?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type ErrorObjKeySpecifier = ('message' | ErrorObjKeySpecifier)[];
+export type ErrorObjFieldPolicy = {
+	message?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type HuntKeySpecifier = ('_id' | 'clues' | 'created_by' | 'created_date' | 'end_date' | 'is_active' | 'name' | 'recall_message' | 'start_date' | 'teams' | HuntKeySpecifier)[];
 export type HuntFieldPolicy = {
 	_id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -111,6 +119,14 @@ export type StrictTypedTypePolicies = {
 	CluePayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CluePayloadKeySpecifier | (() => undefined | CluePayloadKeySpecifier),
 		fields?: CluePayloadFieldPolicy,
+	},
+	ErrorInterface?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ErrorInterfaceKeySpecifier | (() => undefined | ErrorInterfaceKeySpecifier),
+		fields?: ErrorInterfaceFieldPolicy,
+	},
+	ErrorObj?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ErrorObjKeySpecifier | (() => undefined | ErrorObjKeySpecifier),
+		fields?: ErrorObjFieldPolicy,
 	},
 	Hunt?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | HuntKeySpecifier | (() => undefined | HuntKeySpecifier),

@@ -1,12 +1,12 @@
 type Query {
   getAllUsers: [UserPayload]
   getUserFromToken(tkn: String!): BaseUserPayload
-  userNameExists(user_name: String!): Boolean!
+  userNameExists(user_name: String!): Boolean
 }
 
 type Mutation {
-  registerUser(input: AddUserInput!): AuthPayload!
-  login(input: LoginInput!): AuthPayload!
+  registerUser(input: AddUserInput!): AuthPayload
+  login(input: LoginInput!): AuthPayload
   logout: Boolean
 }
 

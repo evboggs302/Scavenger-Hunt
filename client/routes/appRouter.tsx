@@ -1,21 +1,34 @@
 import React from "react";
+import "../index.css";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-import App from "../App";
 import { Dashboard } from "../src/pages/dashboard/Dashboard";
-import LogIn from "../src/pages/login/LoginPage";
 import { catchallRouteToLogin } from "./catchAllRoutes/catchallRouteToLogin";
 import { catchallRouteToParent } from "./catchAllRoutes/catchallRouteToParent";
+import { AuthOutlet } from "../src/pages/auth/AuthOutlet";
+import { LoginPage } from "../src/pages/auth/login/LoginPage";
+import { RegisterPage } from "../src/pages/auth/register/RegisterPage";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <LogIn />,
+    path: "/login",
+    element: <AuthOutlet />,
+    children: [
+      {
+        index: true,
+        // path: "login",
+        element: <LoginPage />,
+      },
+      {
+        path: "register",
+        element: <RegisterPage />,
+      },
+    ],
   },
   {
     path: "/dashboard",
     element: <Dashboard />,
     children: [
-      { index: true, element: <App /> },
+      // { index: true, element: <App /> },
       // {
       //   path: "hunt",
       //   element: <Outlet />,

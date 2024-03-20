@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "vite",
+    "preview": "vite preview",
     "build": "vite build --emptyOutDir",
     "test": "jest",
     "tsc-check": "npx tsc --noEmit",
@@ -13,9 +14,10 @@
     "storybook": "start-storybook -p 6006 -s public"
   },
   "dependencies": {
+    "@ant-design/cssinjs": "^1.18.4",
+    "@ant-design/icons": "^5.3.4",
     "@apollo/client": "^3.9.7",
-    "@material-ui/core": "^4.12.4",
-    "@material-ui/icons": "^4.11.3",
+    "antd": "^5.15.3",
     "graphql": "^16.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -35,10 +37,12 @@
     "@graphql-codegen/typescript-operations": "^4.0.0",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
     "@graphql-codegen/typescript-resolvers": "4.0.0",
+    "@rollup/plugin-commonjs": "^25.0.7",
     "@storybook/addon-essentials": "^8.0.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
+    "@types/antd": "^1.0.0",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.25",
     "@types/react-dom": "^18.0.11",

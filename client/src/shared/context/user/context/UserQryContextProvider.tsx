@@ -1,9 +1,9 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { apolloContextHeaders } from "../../apolloContextHeaders";
+import { apolloContextHeaders } from "../../../utils/apolloContextHeaders";
 import { UserContext } from "./UserContext";
 import { useTokenContext } from "../../tokenManagement/useTokenRefContext";
-import { GetUserFromTokenDocument } from "../../../generated/graphql";
+import { GetUserFromTokenDocument } from "../../../../generated/graphql";
 
 interface UserQryContextProviderProps {
   children: React.ReactNode;
