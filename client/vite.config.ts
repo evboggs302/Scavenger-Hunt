@@ -44,6 +44,7 @@ export default defineConfig(({ mode }) => {
             else if (id.includes("material-ui")) {
               return "@material-ui";
             }
+            // used to help with identifying packages
             // else {
             //   console.log(id);
             //   console.log(getModuleInfo(id));
