@@ -6,7 +6,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 
-export const httpLink = createHttpLink({
+const httpLink = createHttpLink({
   uri: `${process.env.GQL_SERVER_URL}`,
   fetch: (uri, options) => {
     const { operationName } = JSON.parse(options?.body as string);
