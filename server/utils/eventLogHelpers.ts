@@ -1,5 +1,5 @@
 import EventLogModel from "../models/event_logs";
-import { UnknownError } from "./apolloErrorHandlers";
+import { throwServerError } from "./apolloErrorHandlers";
 import { createBsonObjectId } from "./createBsonObjectId";
 
 export type EventLogProps = {
@@ -26,6 +26,10 @@ export const createErrLog = async ({
   });
   await newLog.save().catch((err) => {
     if (err)
-      return UnknownError("unable to save error to the logs");
+      return throwServerError({
+        err,
+        location: "createErrLog",
+        message: "unable to save error to the logs",
+      });
   });
 };
