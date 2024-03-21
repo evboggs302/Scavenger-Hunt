@@ -1,5 +1,9 @@
 query GetUserFromToken($tkn: String!) {
   getUserFromToken(tkn: $tkn) {
     ...UserFragment
+    ...AuthError
+    ...InvalidError
+    ...NotFoundError
+    ...UnknownError
   }
 }

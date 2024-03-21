@@ -84,12 +84,79 @@
         "possibleTypes": null
       },
       {
-        "kind": "OBJECT",
+        "kind": "UNION",
+        "name": "AnyError",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "AuthorizationError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "InvalidInputError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "NotFoundError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "UnknownError",
+            "ofType": null
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
         "name": "AuthPayload",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "AuthorizationError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "InvalidInputError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "NotFoundError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "Token",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "UnknownError",
+            "ofType": null
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "AuthorizationError",
         "description": null,
         "fields": [
           {
-            "name": "_id",
+            "name": "message",
             "description": null,
             "args": [],
             "type": {
@@ -97,15 +164,32 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "ID",
+                "name": "String",
                 "ofType": null
               }
             },
             "isDeprecated": false,
             "deprecationReason": null
-          },
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
           {
-            "name": "token",
+            "kind": "INTERFACE",
+            "name": "BaseError",
+            "ofType": null
+          }
+        ],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "BaseError",
+        "description": null,
+        "fields": [
+          {
+            "name": "message",
             "description": null,
             "args": [],
             "type": {
@@ -124,11 +208,32 @@
         "inputFields": null,
         "interfaces": [],
         "enumValues": null,
-        "possibleTypes": null
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "AuthorizationError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "InvalidInputError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "NotFoundError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "UnknownError",
+            "ofType": null
+          }
+        ]
       },
       {
         "kind": "OBJECT",
-        "name": "BaseUserPayload",
+        "name": "BaseUser",
         "description": null,
         "fields": [
           {
@@ -202,6 +307,42 @@
         "possibleTypes": null
       },
       {
+        "kind": "UNION",
+        "name": "BaseUserPayload",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "AuthorizationError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "BaseUser",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "InvalidInputError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "NotFoundError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "UnknownError",
+            "ofType": null
+          }
+        ]
+      },
+      {
         "kind": "SCALAR",
         "name": "Boolean",
         "description": "The `Boolean` scalar type represents `true` or `false`.",
@@ -213,7 +354,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "CluePayload",
+        "name": "Clue",
         "description": null,
         "fields": [
           {
@@ -281,7 +422,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "ResponsePayload",
+                "name": "Responses",
                 "ofType": null
               }
             },
@@ -293,6 +434,42 @@
         "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
+      },
+      {
+        "kind": "UNION",
+        "name": "CluePayload",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "AuthorizationError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "Clue",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "InvalidInputError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "NotFoundError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "UnknownError",
+            "ofType": null
+          }
+        ]
       },
       {
         "kind": "INPUT_OBJECT",
@@ -336,6 +513,65 @@
         "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CorrectResponse",
+        "description": null,
+        "fields": [
+          {
+            "name": "correct",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "UNION",
+        "name": "CorrectResponsePayload",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "AuthorizationError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "CorrectResponse",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "InvalidInputError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "NotFoundError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "UnknownError",
+            "ofType": null
+          }
+        ]
       },
       {
         "kind": "INPUT_OBJECT",
@@ -597,6 +833,173 @@
         "possibleTypes": null
       },
       {
+        "kind": "OBJECT",
+        "name": "Delete",
+        "description": null,
+        "fields": [
+          {
+            "name": "success",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "UNION",
+        "name": "DeleteClues",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "AuthorizationError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "Delete",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "InvalidInputError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "NotFoundError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "UnknownError",
+            "ofType": null
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "DeleteHunt",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "AuthorizationError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "Delete",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "InvalidInputError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "NotFoundError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "UnknownError",
+            "ofType": null
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "DeleteResponses",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "AuthorizationError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "Delete",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "InvalidInputError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "NotFoundError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "UnknownError",
+            "ofType": null
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "DeleteTeam",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "AuthorizationError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "Delete",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "InvalidInputError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "NotFoundError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "UnknownError",
+            "ofType": null
+          }
+        ]
+      },
+      {
         "kind": "INPUT_OBJECT",
         "name": "DeleteTeamInput",
         "description": null,
@@ -624,22 +1027,54 @@
         "possibleTypes": null
       },
       {
-        "kind": "INTERFACE",
-        "name": "ErrorInterface",
+        "kind": "UNION",
+        "name": "HintPayload",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "AuthorizationError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "HintSent",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "InvalidInputError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "NotFoundError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "UnknownError",
+            "ofType": null
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "HintSent",
         "description": null,
         "fields": [
           {
-            "name": "message",
+            "name": "sent",
             "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -647,45 +1082,6 @@
         ],
         "inputFields": null,
         "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": [
-          {
-            "kind": "OBJECT",
-            "name": "ErrorObj",
-            "ofType": null
-          }
-        ]
-      },
-      {
-        "kind": "OBJECT",
-        "name": "ErrorObj",
-        "description": null,
-        "fields": [
-          {
-            "name": "message",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [
-          {
-            "kind": "INTERFACE",
-            "name": "ErrorInterface",
-            "ofType": null
-          }
-        ],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -722,7 +1118,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "CluePayload",
+                  "name": "Clue",
                   "ofType": null
                 }
               }
@@ -845,6 +1241,42 @@
         "possibleTypes": null
       },
       {
+        "kind": "UNION",
+        "name": "HuntPayload",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "AuthorizationError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "Hunt",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "InvalidInputError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "NotFoundError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "UnknownError",
+            "ofType": null
+          }
+        ]
+      },
+      {
         "kind": "SCALAR",
         "name": "ID",
         "description": "The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"4\"`) or integer (such as `4`) input value will be accepted as an ID.",
@@ -861,6 +1293,39 @@
         "fields": null,
         "inputFields": null,
         "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "InvalidInputError",
+        "description": null,
+        "fields": [
+          {
+            "name": "message",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "BaseError",
+            "ofType": null
+          }
+        ],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -909,6 +1374,65 @@
       },
       {
         "kind": "OBJECT",
+        "name": "Logout",
+        "description": null,
+        "fields": [
+          {
+            "name": "success",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "UNION",
+        "name": "LogoutPayload",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "AuthorizationError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "InvalidInputError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "Logout",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "NotFoundError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "UnknownError",
+            "ofType": null
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
         "name": "Mutation",
         "description": null,
         "fields": [
@@ -934,9 +1458,13 @@
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "Hunt",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "HuntPayload",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -966,9 +1494,13 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "OBJECT",
-                "name": "CluePayload",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "UNION",
+                  "name": "CluePayload",
+                  "ofType": null
+                }
               }
             },
             "isDeprecated": false,
@@ -999,9 +1531,13 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "OBJECT",
-                "name": "Team",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "UNION",
+                  "name": "TeamPayload",
+                  "ofType": null
+                }
               }
             },
             "isDeprecated": false,
@@ -1032,9 +1568,13 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "OBJECT",
-                "name": "CluePayload",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "UNION",
+                  "name": "CluePayload",
+                  "ofType": null
+                }
               }
             },
             "isDeprecated": false,
@@ -1062,9 +1602,13 @@
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "Team",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "TeamPayload",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1091,9 +1635,13 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "DeleteClues",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1120,9 +1668,13 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "DeleteResponses",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1149,9 +1701,13 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "DeleteResponses",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1178,9 +1734,13 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "DeleteClues",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1207,9 +1767,13 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "DeleteHunt",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1236,9 +1800,13 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "DeleteTeam",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1265,9 +1833,13 @@
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "AuthPayload",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "AuthPayload",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1277,9 +1849,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "LogoutPayload",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1306,9 +1882,13 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "CorrectResponsePayload",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1335,9 +1915,13 @@
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "AuthPayload",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "AuthPayload",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1364,9 +1948,13 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "HintPayload",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1393,9 +1981,13 @@
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "CluePayload",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "CluePayload",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1425,9 +2017,13 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "OBJECT",
-                "name": "CluePayload",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "UNION",
+                  "name": "CluePayload",
+                  "ofType": null
+                }
               }
             },
             "isDeprecated": false,
@@ -1455,9 +2051,13 @@
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "Hunt",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "HuntPayload",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1484,9 +2084,13 @@
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "Team",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "TeamPayload",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1494,6 +2098,39 @@
         ],
         "inputFields": null,
         "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "NotFoundError",
+        "description": null,
+        "fields": [
+          {
+            "name": "message",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "BaseError",
+            "ofType": null
+          }
+        ],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -1524,9 +2161,13 @@
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "Hunt",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "HuntPayload",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1553,9 +2194,13 @@
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "Hunt",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "HuntPayload",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1565,9 +2210,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "DeleteHunt",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1580,7 +2229,7 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "OBJECT",
+                "kind": "UNION",
                 "name": "UserPayload",
                 "ofType": null
               }
@@ -1613,9 +2262,13 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "OBJECT",
-                "name": "CluePayload",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "UNION",
+                  "name": "CluePayload",
+                  "ofType": null
+                }
               }
             },
             "isDeprecated": false,
@@ -1643,9 +2296,13 @@
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "Hunt",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "HuntPayload",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1658,9 +2315,13 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "OBJECT",
-                "name": "Hunt",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "UNION",
+                  "name": "HuntPayload",
+                  "ofType": null
+                }
               }
             },
             "isDeprecated": false,
@@ -1691,9 +2352,13 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "OBJECT",
-                "name": "ResponsePayload",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "UNION",
+                  "name": "ResponsePayload",
+                  "ofType": null
+                }
               }
             },
             "isDeprecated": false,
@@ -1724,9 +2389,13 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "OBJECT",
-                "name": "ResponsePayload",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "UNION",
+                  "name": "ResponsePayload",
+                  "ofType": null
+                }
               }
             },
             "isDeprecated": false,
@@ -1754,9 +2423,13 @@
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "Team",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "TeamPayload",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1786,9 +2459,13 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "OBJECT",
-                "name": "Team",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "UNION",
+                  "name": "TeamPayload",
+                  "ofType": null
+                }
               }
             },
             "isDeprecated": false,
@@ -1816,9 +2493,13 @@
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "BaseUserPayload",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "UNION",
+                "name": "BaseUserPayload",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1859,8 +2540,44 @@
         "possibleTypes": null
       },
       {
-        "kind": "OBJECT",
+        "kind": "UNION",
         "name": "ResponsePayload",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "AuthorizationError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "InvalidInputError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "NotFoundError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "Responses",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "UnknownError",
+            "ofType": null
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Responses",
         "description": null,
         "fields": [
           {
@@ -2181,7 +2898,7 @@
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
+                  "kind": "UNION",
                   "name": "ResponsePayload",
                   "ofType": null
                 }
@@ -2193,6 +2910,118 @@
         ],
         "inputFields": null,
         "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "UNION",
+        "name": "TeamPayload",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "AuthorizationError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "InvalidInputError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "NotFoundError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "Team",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "UnknownError",
+            "ofType": null
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Token",
+        "description": null,
+        "fields": [
+          {
+            "name": "_id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "token",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "UnknownError",
+        "description": null,
+        "fields": [
+          {
+            "name": "message",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "BaseError",
+            "ofType": null
+          }
+        ],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -2406,7 +3235,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "UserPayload",
+        "name": "User",
         "description": null,
         "fields": [
           {
@@ -2498,6 +3327,42 @@
         "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
+      },
+      {
+        "kind": "UNION",
+        "name": "UserPayload",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "AuthorizationError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "InvalidInputError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "NotFoundError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "UnknownError",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "User",
+            "ofType": null
+          }
+        ]
       },
       {
         "kind": "OBJECT",

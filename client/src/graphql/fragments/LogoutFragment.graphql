@@ -1,0 +1,4 @@
+fragment Logout on Logout {
+  __typename
+  success
+}

@@ -1,3 +1,15 @@
-fragment ErrorFragment on ErrorInterface {
+fragment AuthError on AuthorizationError {
+  message
+}
+
+fragment InvalidError on InvalidInputError {
+  message
+}
+
+fragment NotFoundError on NotFoundError {
+  message
+}
+
+fragment UnknownError on UnknownError {
   message
 }

@@ -1,4 +1,4 @@
-fragment UserFragment on BaseUserPayload {
+fragment UserFragment on BaseUser {
   __typename
   _id
   user_name

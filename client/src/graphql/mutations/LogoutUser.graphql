@@ -1,3 +1,9 @@
 mutation LogoutUser {
-  logout
+  logout {
+    ...Logout
+    ...AuthError
+    ...InvalidError
+    ...NotFoundError
+    ...UnknownError
+  }
 }

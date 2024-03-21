@@ -1,49 +1,57 @@
 import { createErrLog } from "./eventLogHelpers";
 
 export const NotFoundError = async (message: string, location?: string) => {
+  const type = "NotFoundError";
   await createErrLog({
     err: null,
-    location: location || "NotFoundError",
+    location: location || type,
     message,
   });
   return {
-    __typename: "NotFoundError" as const,
+    __typename: `${type}` as const,
+    _error_type_: type,
     message,
   };
 };
 
 export const AuthError = async (message: string, location?: string) => {
+  const type = "AuthorizationError";
   await createErrLog({
     err: null,
-    location: location || "AuthorizationError" ,
+    location: location || type,
     message,
   });
   return {
-    __typename: "AuthorizationError" as const,
+    __typename: `${type}` as const,
+    _error_type_: type,
     message,
   };
 };
 
 export const InvalidInputError = async (message: string, location?: string) => {
+  const type = "InvalidInputError";
   await createErrLog({
     err: null,
-    location: location || "InvalidInputError",
+    location: location || type,
     message,
   });
   return {
-    __typename: "InvalidInputError" as const,
+    __typename: `${type}` as const,
+    _error_type_: type,
     message,
   };
 };
 
 export const UnknownError = async (message: string, location?: string) => {
+  const type = "UnknownError";
   await createErrLog({
     err: null,
-    location: location || "UnknownError",
+    location: location || type,
     message,
   });
   return {
-    __typename: "UnknownError" as const,
+    __typename: `${type}` as const,
+    _error_type_: type,
     message,
   };
 };

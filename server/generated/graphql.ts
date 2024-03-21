@@ -24,16 +24,11 @@ export type AddUserInput = {
   user_name: Scalars['String']['input'];
 };
 
-export type AnyError = AuthorizationError | InvalidInputError | NotFoundError | UnknownError;
-
 export type AuthPayload = AuthorizationError | InvalidInputError | NotFoundError | Token | UnknownError;
 
-export type AuthorizationError = BaseError & {
+export type AuthorizationError = {
   __typename: 'AuthorizationError';
-  message: Scalars['String']['output'];
-};
-
-export type BaseError = {
+  _error_type_: Scalars['String']['output'];
   message: Scalars['String']['output'];
 };
 
@@ -137,8 +132,9 @@ export type Hunt = {
 
 export type HuntPayload = AuthorizationError | Hunt | InvalidInputError | NotFoundError | UnknownError;
 
-export type InvalidInputError = BaseError & {
+export type InvalidInputError = {
   __typename: 'InvalidInputError';
+  _error_type_: Scalars['String']['output'];
   message: Scalars['String']['output'];
 };
 
@@ -273,8 +269,9 @@ export type MutationUpdateTeamArgs = {
   input: UpdateTeamInput;
 };
 
-export type NotFoundError = BaseError & {
+export type NotFoundError = {
   __typename: 'NotFoundError';
+  _error_type_: Scalars['String']['output'];
   message: Scalars['String']['output'];
 };
 
@@ -388,8 +385,9 @@ export type Token = {
   token: Scalars['String']['output'];
 };
 
-export type UnknownError = BaseError & {
+export type UnknownError = {
   __typename: 'UnknownError';
+  _error_type_: Scalars['String']['output'];
   message: Scalars['String']['output'];
 };
 
@@ -501,7 +499,6 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping of union types */
 export type ResolversUnionTypes<RefType extends Record<string, unknown>> = {
-  AnyError: ( AuthorizationError ) | ( InvalidInputError ) | ( NotFoundError ) | ( UnknownError );
   AuthPayload: ( AuthorizationError ) | ( InvalidInputError ) | ( NotFoundError ) | ( Token ) | ( UnknownError );
   BaseUserPayload: ( AuthorizationError ) | ( BaseUser ) | ( InvalidInputError ) | ( NotFoundError ) | ( UnknownError );
   CluePayload: ( AuthorizationError ) | ( Clue ) | ( InvalidInputError ) | ( NotFoundError ) | ( UnknownError );
@@ -518,19 +515,13 @@ export type ResolversUnionTypes<RefType extends Record<string, unknown>> = {
   UserPayload: ( AuthorizationError ) | ( InvalidInputError ) | ( NotFoundError ) | ( UnknownError ) | ( User );
 };
 
-/** Mapping of interface types */
-export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = {
-  BaseError: ( AuthorizationError ) | ( InvalidInputError ) | ( NotFoundError ) | ( UnknownError );
-};
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   AddUserInput: AddUserInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  AnyError: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['AnyError']>;
   AuthPayload: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['AuthPayload']>;
   AuthorizationError: ResolverTypeWrapper<AuthorizationError>;
-  BaseError: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['BaseError']>;
   BaseUser: ResolverTypeWrapper<BaseUser>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   BaseUserPayload: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['BaseUserPayload']>;
@@ -584,10 +575,8 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   AddUserInput: AddUserInput;
   String: Scalars['String']['output'];
-  AnyError: ResolversUnionTypes<ResolversParentTypes>['AnyError'];
   AuthPayload: ResolversUnionTypes<ResolversParentTypes>['AuthPayload'];
   AuthorizationError: AuthorizationError;
-  BaseError: ResolversInterfaceTypes<ResolversParentTypes>['BaseError'];
   BaseUser: BaseUser;
   ID: Scalars['ID']['output'];
   BaseUserPayload: ResolversUnionTypes<ResolversParentTypes>['BaseUserPayload'];
@@ -684,22 +673,14 @@ export type MapDirectiveArgs = {
 
 export type MapDirectiveResolver<Result, Parent, ContextType = any, Args = MapDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type AnyErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['AnyError'] = ResolversParentTypes['AnyError']> = {
-  __resolveType: TypeResolveFn<'AuthorizationError' | 'InvalidInputError' | 'NotFoundError' | 'UnknownError', ParentType, ContextType>;
-};
-
 export type AuthPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthPayload'] = ResolversParentTypes['AuthPayload']> = {
   __resolveType: TypeResolveFn<'AuthorizationError' | 'InvalidInputError' | 'NotFoundError' | 'Token' | 'UnknownError', ParentType, ContextType>;
 };
 
 export type AuthorizationErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthorizationError'] = ResolversParentTypes['AuthorizationError']> = {
+  _error_type_?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type BaseErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['BaseError'] = ResolversParentTypes['BaseError']> = {
-  __resolveType: TypeResolveFn<'AuthorizationError' | 'InvalidInputError' | 'NotFoundError' | 'UnknownError', ParentType, ContextType>;
-  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
 export type BaseUserResolvers<ContextType = any, ParentType extends ResolversParentTypes['BaseUser'] = ResolversParentTypes['BaseUser']> = {
@@ -785,6 +766,7 @@ export type HuntPayloadResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type InvalidInputErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['InvalidInputError'] = ResolversParentTypes['InvalidInputError']> = {
+  _error_type_?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -822,6 +804,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type NotFoundErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['NotFoundError'] = ResolversParentTypes['NotFoundError']> = {
+  _error_type_?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -879,6 +862,7 @@ export type TokenResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type UnknownErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['UnknownError'] = ResolversParentTypes['UnknownError']> = {
+  _error_type_?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -897,10 +881,8 @@ export type UserPayloadResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type Resolvers<ContextType = any> = {
-  AnyError?: AnyErrorResolvers<ContextType>;
   AuthPayload?: AuthPayloadResolvers<ContextType>;
   AuthorizationError?: AuthorizationErrorResolvers<ContextType>;
-  BaseError?: BaseErrorResolvers<ContextType>;
   BaseUser?: BaseUserResolvers<ContextType>;
   BaseUserPayload?: BaseUserPayloadResolvers<ContextType>;
   Clue?: ClueResolvers<ContextType>;
@@ -952,23 +934,11 @@ import { ObjectId } from 'mongodb';
       }
       const result: PossibleTypesResultData = {
   "possibleTypes": {
-    "AnyError": [
-      "AuthorizationError",
-      "InvalidInputError",
-      "NotFoundError",
-      "UnknownError"
-    ],
     "AuthPayload": [
       "AuthorizationError",
       "InvalidInputError",
       "NotFoundError",
       "Token",
-      "UnknownError"
-    ],
-    "BaseError": [
-      "AuthorizationError",
-      "InvalidInputError",
-      "NotFoundError",
       "UnknownError"
     ],
     "BaseUserPayload": [

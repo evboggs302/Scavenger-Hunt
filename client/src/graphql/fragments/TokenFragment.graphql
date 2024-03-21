@@ -1,0 +1,5 @@
+fragment Token on Token {
+  __typename
+  _id
+  token
+}

@@ -1,25 +1,19 @@
-interface BaseError {
+type AuthorizationError {
+  _error_type_: String!
   message: String!
 }
 
-type AuthorizationError implements BaseError {
+type InvalidInputError {
+  _error_type_: String!
   message: String!
 }
 
-type InvalidInputError implements BaseError {
+type NotFoundError {
+  _error_type_: String!
   message: String!
 }
 
-type NotFoundError implements BaseError {
+type UnknownError {
+  _error_type_: String!
   message: String!
 }
-
-type UnknownError implements BaseError {
-  message: String!
-}
-
-union AnyError =
-    NotFoundError
-  | AuthorizationError
-  | InvalidInputError
-  | UnknownError
