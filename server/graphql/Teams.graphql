@@ -1,13 +1,13 @@
 type Query {
-  getTeamsByHuntId(h_id: ID!): [TeamPayload!]
-  getTeam(id: ID!): TeamPayload!
+  getTeamsByHuntId(h_id: ID!): [Team]
+  getTeam(id: ID!): Team
 }
 
 type Mutation {
-  createSingleTeam(input: CreateSingleTeamInput!): TeamPayload!
-  createMultipleTeams(input: CreateMultipleTeamsInput!): [TeamPayload!]
-  updateTeam(input: UpdateTeamInput!): TeamPayload!
-  deleteTeam(input: DeleteTeamInput!): DeleteTeam!
+  createSingleTeam(input: CreateSingleTeamInput!): Team
+  createMultipleTeams(input: CreateMultipleTeamsInput!): [Team]
+  updateTeam(input: UpdateTeamInput!): Team
+  deleteTeam(input: DeleteTeamInput!): Boolean
 }
 
 type Team {
@@ -19,19 +19,6 @@ type Team {
   device_number: String
   responses: [ResponsePayload!]
 }
-union TeamPayload =
-    Team
-  | NotFoundError
-  | AuthorizationError
-  | InvalidInputError
-  | UnknownError
-
-union DeleteTeam =
-    Delete
-  | NotFoundError
-  | AuthorizationError
-  | InvalidInputError
-  | UnknownError
 
 input SingleTeam {
   members: [String!]

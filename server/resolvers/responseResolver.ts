@@ -6,28 +6,24 @@ import { Resolvers } from "../generated/graphql";
 import { returnedItems } from "../utils/returnedItems";
 import { markResponseCorrect } from "./markResponseCorrect";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
-import { NotFoundError, UnknownError } from "../utils/apolloErrorHandlers";
+import { throwResolutionError } from "../utils/apolloErrorHandlers";
 
 const { TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN, TWILIO_NUMBER } = config;
 const client = twilio(TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN);
 
 export const responseResolver: Resolvers = {
   Query: {
-    getResponsesByTeam: async (_: unknown, { id }, _ctxt, { operation }) => {
+    getResponsesByTeam: async (_: unknown, { id }) => {
       try {
         const t_id = createBsonObjectId(id);
         const responses = await ResponseModel.find({ team_id: t_id }).exec();
 
         return responses.map(returnedItems);
-      } catch {
-        const err = await NotFoundError(
-          "Unable to find responses at this time.",
-          operation.name?.value
-        );
-        return [err];
+      } catch (err) {
+        return throwResolutionError({ location: "", err });
       }
     },
-    getResponsesByClue: async (_: unknown, { id }, _ctxt, { operation }) => {
+    getResponsesByClue: async (_: unknown, { id }) => {
       try {
         const c_id = createBsonObjectId(id);
         const responses = await ResponseModel.find({
@@ -35,17 +31,13 @@ export const responseResolver: Resolvers = {
         }).exec();
 
         return responses.map(returnedItems);
-      } catch {
-        const err = await NotFoundError(
-          "Unable to find responses at this time.",
-          operation.name?.value
-        );
-        return [err];
+      } catch (err) {
+        return throwResolutionError({ location: "", err });
       }
     },
   },
   Mutation: {
-    markResponseCorrect: async (_, { id }, _ctxt, { operation }) => {
+    markResponseCorrect: async (_, { id }) => {
       try {
         const result = await markResponseCorrect(id);
 
@@ -76,23 +68,12 @@ export const responseResolver: Resolvers = {
           // });
         }
 
-        return {
-          __typename: "CorrectResponse" as const,
-          correct: true,
-        };
-      } catch {
-        return await UnknownError(
-          "Unable to mark this response correct at this time.",
-          operation.name?.value
-        );
+        return true;
+      } catch (err) {
+        return throwResolutionError({ location: "markResponseCorrect", err });
       }
     },
-    sendHint: async (
-      _,
-      { input: { response_id, team_id, hint_body } },
-      _ctxt,
-      { operation }
-    ) => {
+    sendHint: async (_, { input: { response_id, team_id, hint_body } }) => {
       try {
         const t_id = createBsonObjectId(team_id);
         const r_id = createBsonObjectId(response_id);
@@ -112,12 +93,12 @@ export const responseResolver: Resolvers = {
           },
         ]).exec();
 
-        if (!activeTeam) {
-          return await NotFoundError(
-            "No active team found",
-            operation.name?.value
-          );
-        }
+        if (!activeTeam)
+          return throwResolutionError({
+            location: "sendHint",
+            err: null,
+            message: "No team exists for that number",
+          });
 
         await client.messages.create({
           body: `${hint_body}`,
@@ -125,15 +106,9 @@ export const responseResolver: Resolvers = {
           to: activeTeam[0].device_number,
         });
 
-        return {
-          __typename: "HintSent" as const,
-          sent: true,
-        };
-      } catch {
-        return await UnknownError(
-          "Unable to send hints at this time.",
-          operation.name?.value
-        );
+        return true;
+      } catch (err) {
+        return throwResolutionError({ location: "sendHint", err });
       }
     },
   },

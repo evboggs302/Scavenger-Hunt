@@ -1,14 +1,13 @@
 import ClueModel from "../models/clues";
 import ResponseModel from "../models/responses";
 import { returnedItems } from "../utils/returnedItems";
-import { Clue, Resolvers } from "../generated/graphql";
+import { CluePayload, Resolvers } from "../generated/graphql";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
-import { NotFoundError, UnknownError } from "../utils/apolloErrorHandlers";
-import { createDeleteResponse } from "../utils/createDeleteResponse";
+import { throwResolutionError } from "../utils/apolloErrorHandlers";
 
 export const clueResolver: Resolvers = {
   Query: {
-    getCluesByHuntId: async (_: unknown, { id }, _ctxt, { operation }) => {
+    getCluesByHuntId: async (_: unknown, { id }) => {
       try {
         const h_id = createBsonObjectId(id);
         const orderedClues = await ClueModel.aggregate([
@@ -18,22 +17,13 @@ export const clueResolver: Resolvers = {
           { $sort: { order_number: 1 } },
         ]).exec();
         return orderedClues;
-      } catch {
-        const error = await UnknownError(
-          "Unable to find clues by hunt.",
-          operation.name?.value
-        );
-        return [error];
+      } catch (err) {
+        return throwResolutionError({ location: "getCluesByHuntId", err });
       }
     },
   },
   Mutation: {
-    createMultipleClues: async (
-      _: unknown,
-      { input: { cluesList, h_id } },
-      _ctxt,
-      { operation }
-    ) => {
+    createMultipleClues: async (_: unknown, { input: { cluesList, h_id } }) => {
       try {
         const hunt_id = createBsonObjectId(h_id);
         const mappedClues = cluesList.map((clue) => {
@@ -44,20 +34,11 @@ export const clueResolver: Resolvers = {
         const clues = await ClueModel.find({ hunt_id }).exec();
 
         return clues.map(returnedItems);
-      } catch {
-        const error = await UnknownError(
-          "Unable to create multiple clues at this time.",
-          operation.name?.value
-        );
-        return [error];
+      } catch (err) {
+        return throwResolutionError({ location: "createMultipleClues", err });
       }
     },
-    createSingleClue: async (
-      _: unknown,
-      { input: { clueItem, h_id } },
-      _ctxt,
-      { operation }
-    ) => {
+    createSingleClue: async (_: unknown, { input: { clueItem, h_id } }) => {
       try {
         const hunt_id = createBsonObjectId(h_id);
         const clue = new ClueModel({
@@ -68,19 +49,13 @@ export const clueResolver: Resolvers = {
 
         const allClues = await ClueModel.find({ hunt_id }).exec();
         return allClues.map(returnedItems);
-      } catch {
-        const error = await UnknownError(
-          "Unable to create that clue at this time.",
-          operation.name?.value
-        );
-        return [error];
+      } catch (err) {
+        return throwResolutionError({ location: "createSingleClue", err });
       }
     },
     updateClueDescription: async (
       _: unknown,
-      { input: { clue_id, newDescription } },
-      _ctxt,
-      { operation }
+      { input: { clue_id, newDescription } }
     ) => {
       try {
         const _id = createBsonObjectId(clue_id);
@@ -91,28 +66,21 @@ export const clueResolver: Resolvers = {
         ).exec();
 
         if (!updatedClue) {
-          return await NotFoundError(
-            "Failed to update or find the specified clue.",
-            operation.name?.value
-          );
+          return throwResolutionError({
+            location: "updateClueDescription",
+            err: null,
+            message: "Failed to update or find the specified clue description.",
+          });
         }
 
-        return {
-          __typename: "Clue",
-          ...updatedClue.toObject(),
-        };
-      } catch {
-        return await UnknownError(
-          "Unable to update clue description at this time.",
-          operation.name?.value
-        );
+        return updatedClue.toObject();
+      } catch (err) {
+        return throwResolutionError({ location: "updateClueDescription", err });
       }
     },
     updateClueOrder: async (
       _: unknown,
-      { input: { hunt_id: h_id, newOrder } },
-      _ctxt,
-      { operation }
+      { input: { hunt_id: h_id, newOrder } }
     ) => {
       try {
         const hunt_id = createBsonObjectId(h_id);
@@ -131,79 +99,72 @@ export const clueResolver: Resolvers = {
           .exec();
 
         return orderedClues.map(returnedItems);
-      } catch {
-        const error = await UnknownError(
-          "Unable to update the clue order at this time.",
-          operation.name?.value
-        );
-        return [error];
+      } catch (err) {
+        return throwResolutionError({ location: "updateClueOrder", err });
       }
     },
-    deleteClueById: async (_: unknown, { clue_id }, _ctxt, { operation }) => {
+    deleteClueById: async (_: unknown, { clue_id }) => {
       try {
         const _id = createBsonObjectId(clue_id);
         const clue = await ClueModel.findById(_id).exec();
 
-        if (!clue) {
-          return await NotFoundError(
-            "No clue found to be deleted.",
-            operation.name?.value
-          );
-        }
-        const { deletedCount } = await ClueModel.deleteOne({ _id }).exec();
+        if (clue) {
+          const { deletedCount } = await ClueModel.deleteOne({ _id }).exec();
 
-        const { hunt_id } = clue;
-        const orderedClues = await ClueModel.aggregate([
-          {
-            $match: { hunt_id: hunt_id },
-          },
-          { $sort: { order_number: 1 } },
-        ]).exec();
-
-        const bulkWriteArr = orderedClues.map((clu, index) => {
-          return {
-            updateOne: {
-              filter: { _id: clu._id },
-              update: { $set: { order_number: index + 1 } },
+          const { hunt_id } = clue;
+          const orderedClues = await ClueModel.aggregate([
+            {
+              $match: { hunt_id: hunt_id },
             },
-          };
-        });
+            { $sort: { order_number: 1 } },
+          ]).exec();
 
-        await ClueModel.bulkWrite(bulkWriteArr, { ordered: false });
+          const bulkWriteArr = orderedClues.map((clu, index) => {
+            return {
+              updateOne: {
+                filter: { _id: clu._id },
+                update: { $set: { order_number: index + 1 } },
+              },
+            };
+          });
 
-        return createDeleteResponse(deletedCount === 1);
-      } catch {
-        return await UnknownError(
-          "Unable to delete specified clue",
-          operation.name?.value
-        );
+          await ClueModel.bulkWrite(bulkWriteArr, { ordered: false });
+
+          return deletedCount === 1;
+        } else {
+          return throwResolutionError({
+            location: "deleteClueById",
+            err: null,
+          });
+        }
+      } catch (err) {
+        return throwResolutionError({ location: "deleteClueById", err });
       }
     },
-    deleteAllCluesByHuntId: async (
-      _: unknown,
-      { hunt_id },
-      _ctxt,
-      { operation }
-    ) => {
+    deleteAllCluesByHuntId: async (_: unknown, { hunt_id }) => {
       try {
         const _id = createBsonObjectId(hunt_id);
         const { deletedCount } = await ClueModel.deleteMany({
           hunt_id: _id,
         }).exec();
 
-        return createDeleteResponse(deletedCount > 0);
-      } catch {
-        return await UnknownError(
-          "Unable to find the newly saved user",
-          operation.name?.value
-        );
+        return deletedCount > 0;
+      } catch (err) {
+        return throwResolutionError({
+          location: "deleteAllCluesByHuntId",
+          err,
+        });
       }
     },
   },
-  Clue: {
-    responses: async (parent: Clue) => {
-      const clue_id = createBsonObjectId(parent._id);
-      return await ResponseModel.find({ clue_id });
+  CluePayload: {
+    responses: async (parent: CluePayload) => {
+      try {
+        const clue_id = createBsonObjectId(parent._id);
+        return await ResponseModel.find({ clue_id });
+      } catch (err) {
+        return throwResolutionError({ location: "CluePayload.responses", err });
+      }
     },
   },
 };

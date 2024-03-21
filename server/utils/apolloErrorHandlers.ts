@@ -1,57 +1,44 @@
-import { createErrLog } from "./eventLogHelpers";
+import { GraphQLError } from "graphql";
+import { EventLogProps, createErrLog } from "./eventLogHelpers";
 
-export const NotFoundError = async (message: string, location?: string) => {
-  const type = "NotFoundError";
-  await createErrLog({
-    err: null,
-    location: location || type,
-    message,
+const defaultErrMessage = `Uh-oh! An error occured.`;
+
+export const ApolloAccessError = async (message?: string) => {
+  await createErrLog({ err: null, location: "middleware", message });
+  throw new GraphQLError(message || defaultErrMessage, {
+    extensions: {
+      code: "ACCESS_ERROR",
+      http: { status: 404 },
+    },
   });
-  return {
-    __typename: `${type}` as const,
-    _error_type_: type,
-    message,
-  };
 };
 
-export const AuthError = async (message: string, location?: string) => {
-  const type = "AuthorizationError";
-  await createErrLog({
-    err: null,
-    location: location || type,
-    message,
+export const throwResolutionError = async ({
+  err,
+  location,
+  message,
+}: EventLogProps) => {
+  await createErrLog({ err, location, message });
+  throw new GraphQLError(message || defaultErrMessage, {
+    extensions: {
+      code: "OPERATION_RESOLUTION_FAILURE",
+      location,
+      errMessage: message,
+    },
   });
-  return {
-    __typename: `${type}` as const,
-    _error_type_: type,
-    message,
-  };
 };
 
-export const InvalidInputError = async (message: string, location?: string) => {
-  const type = "InvalidInputError";
-  await createErrLog({
-    err: null,
-    location: location || type,
-    message,
+export const throwServerError = async ({
+  err,
+  location,
+  message,
+}: EventLogProps) => {
+  await createErrLog({ err, location, message });
+  throw new GraphQLError(defaultErrMessage, {
+    extensions: {
+      code: "INTERNAL_SERVER_ERROR",
+      location,
+      errMessage: message,
+    },
   });
-  return {
-    __typename: `${type}` as const,
-    _error_type_: type,
-    message,
-  };
-};
-
-export const UnknownError = async (message: string, location?: string) => {
-  const type = "UnknownError";
-  await createErrLog({
-    err: null,
-    location: location || type,
-    message,
-  });
-  return {
-    __typename: `${type}` as const,
-    _error_type_: type,
-    message,
-  };
 };
