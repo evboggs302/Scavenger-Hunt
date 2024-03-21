@@ -23,7 +23,10 @@ export const teamResolver: Resolvers = {
           );
         }
 
-        return team.toObject();
+        return {
+          __typename: "Team",
+          ...team.toObject(),
+        };
       } catch {
         return await UnknownError(
           "Unable to find the team",
@@ -55,7 +58,10 @@ export const teamResolver: Resolvers = {
         );
       }
 
-      return team.toObject();
+      return {
+        __typename: "Team",
+        ...team.toObject(),
+      };
     },
     createMultipleTeams: async (
       _: unknown,
@@ -93,7 +99,10 @@ export const teamResolver: Resolvers = {
           );
         }
 
-        return updatedTeam.toObject();
+        return {
+          __typename: "Team",
+          ...updatedTeam.toObject(),
+        };
       } catch {
         return await UnknownError(
           "Unable to update the team.",

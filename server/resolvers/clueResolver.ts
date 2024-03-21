@@ -97,7 +97,10 @@ export const clueResolver: Resolvers = {
           );
         }
 
-        return updatedClue.toObject();
+        return {
+          __typename: "Clue",
+          ...updatedClue.toObject(),
+        };
       } catch {
         return await UnknownError(
           "Unable to update clue description at this time.",

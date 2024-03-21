@@ -280,10 +280,10 @@ export type Query = {
   activateHunt: HuntPayload;
   deactivateHunt: HuntPayload;
   deleteAllHuntsByUser: DeleteHunt;
-  getAllUsers?: Maybe<Array<Maybe<UserPayload>>>;
+  getAllUsers: Array<Maybe<UserPayload>>;
   getCluesByHuntId?: Maybe<Array<CluePayload>>;
   getHunt: HuntPayload;
-  getHuntsByUserId?: Maybe<Array<HuntPayload>>;
+  getHuntsByUserId: Array<Maybe<HuntPayload>>;
   getResponsesByClue?: Maybe<Array<ResponsePayload>>;
   getResponsesByTeam?: Maybe<Array<ResponsePayload>>;
   getTeam: TeamPayload;
@@ -813,10 +813,10 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   activateHunt?: Resolver<ResolversTypes['HuntPayload'], ParentType, ContextType, RequireFields<QueryActivateHuntArgs, 'id'>>;
   deactivateHunt?: Resolver<ResolversTypes['HuntPayload'], ParentType, ContextType, RequireFields<QueryDeactivateHuntArgs, 'id'>>;
   deleteAllHuntsByUser?: Resolver<ResolversTypes['DeleteHunt'], ParentType, ContextType>;
-  getAllUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserPayload']>>>, ParentType, ContextType>;
+  getAllUsers?: Resolver<Array<Maybe<ResolversTypes['UserPayload']>>, ParentType, ContextType>;
   getCluesByHuntId?: Resolver<Maybe<Array<ResolversTypes['CluePayload']>>, ParentType, ContextType, RequireFields<QueryGetCluesByHuntIdArgs, 'id'>>;
   getHunt?: Resolver<ResolversTypes['HuntPayload'], ParentType, ContextType, RequireFields<QueryGetHuntArgs, 'id'>>;
-  getHuntsByUserId?: Resolver<Maybe<Array<ResolversTypes['HuntPayload']>>, ParentType, ContextType>;
+  getHuntsByUserId?: Resolver<Array<Maybe<ResolversTypes['HuntPayload']>>, ParentType, ContextType>;
   getResponsesByClue?: Resolver<Maybe<Array<ResolversTypes['ResponsePayload']>>, ParentType, ContextType, RequireFields<QueryGetResponsesByClueArgs, 'id'>>;
   getResponsesByTeam?: Resolver<Maybe<Array<ResolversTypes['ResponsePayload']>>, ParentType, ContextType, RequireFields<QueryGetResponsesByTeamArgs, 'id'>>;
   getTeam?: Resolver<ResolversTypes['TeamPayload'], ParentType, ContextType, RequireFields<QueryGetTeamArgs, 'id'>>;

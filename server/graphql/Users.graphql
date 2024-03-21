@@ -1,5 +1,5 @@
 type Query {
-  getAllUsers: [UserPayload]
+  getAllUsers: [UserPayload]!
   getUserFromToken(tkn: String!): BaseUserPayload!
   userNameExists(user_name: String!): Boolean
 }

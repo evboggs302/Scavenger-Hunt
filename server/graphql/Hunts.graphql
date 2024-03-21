@@ -1,5 +1,5 @@
 type Query {
-  getHuntsByUserId: [HuntPayload!]
+  getHuntsByUserId: [HuntPayload]!
   getHunt(id: ID!): HuntPayload!
   activateHunt(id: ID!): HuntPayload!
   deactivateHunt(id: ID!): HuntPayload!

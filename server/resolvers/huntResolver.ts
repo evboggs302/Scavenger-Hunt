@@ -35,7 +35,10 @@ export const huntResolver: Resolvers = {
           );
         }
 
-        return hunt.toObject();
+        return {
+          __typename: "Hunt",
+          ...hunt.toObject(),
+        };
       } catch {
         return await UnknownError(
           "Unable to find the specified hunt at this time.",
@@ -86,7 +89,10 @@ export const huntResolver: Resolvers = {
           );
         }
 
-        return createdHunt.toObject();
+        return {
+          __typename: "Hunt",
+          ...createdHunt.toObject(),
+        };
       } catch {
         return await UnknownError(
           "Unable to create hunts at this time.",
@@ -171,7 +177,10 @@ export const huntResolver: Resolvers = {
           );
         }
 
-        return hunt.toObject();
+        return {
+          __typename: "Hunt",
+          ...hunt.toObject(),
+        };
       } catch {
         return await UnknownError(
           "Unable to update hunts at this time.",
@@ -208,5 +217,8 @@ export const huntResolver: Resolvers = {
       }).exec();
       return teams.map(returnedItems);
     },
+  },
+  HuntPayload: {
+    __resolveType: (obj) => obj.__typename,
   },
 };

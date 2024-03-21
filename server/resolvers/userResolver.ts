@@ -32,11 +32,7 @@ export const userResolver: Resolvers = {
         .select({ issuedToUser: 1 })
         .exec();
       if (!doc) {
-        const err = await AuthError(
-          "Token does not exist.",
-          operation.name?.value
-        );
-        return err;
+        return await AuthError("Token does not exist.", operation.name?.value);
       }
 
       const user = await UserModel.findById(doc.issuedToUser).exec();
@@ -48,7 +44,10 @@ export const userResolver: Resolvers = {
         return err;
       }
 
-      return user.toObject();
+      return {
+        __typename: "BaseUser",
+        ...user.toObject(),
+      };
     },
     // checkForToken: async (_: unknown, {}, { token }) => {
     //   return token || false;
@@ -98,7 +97,10 @@ export const userResolver: Resolvers = {
         return err;
       }
 
-      return tkn.toObject();
+      return {
+        __typename: "Token",
+        ...tkn.toObject(),
+      };
     },
     login: async (
       _: unknown,
@@ -128,7 +130,10 @@ export const userResolver: Resolvers = {
           );
         }
 
-        return tkn.toObject();
+        return {
+          __typename: "Token",
+          ...tkn.toObject(),
+        };
       }
     },
     logout: async (_: unknown, {}, { token, user }, { operation }) => {
@@ -150,11 +155,8 @@ export const userResolver: Resolvers = {
     },
   },
   User: {
-    hunts: async (
-      parent: User,
-      _: unknown,
-      { operation }: GraphQLResolveInfo
-    ) => {
+    __isTypeOf: (obj) => obj.__typename === "User",
+    hunts: async (parent: User) => {
       const _id = createBsonObjectId(parent._id);
       const hunts = await HuntModel.find({
         created_by: _id,

@@ -1,6 +1,6 @@
 import { Resolvers } from "../generated/graphql";
 
-export const errorResolver: Resolvers = {
+export const errorTypeResolver: Resolvers = {
   NotFoundError: {
     __isTypeOf: (obj) => obj._error_type_ === "NotFoundError",
     message: (obj) => obj.message,

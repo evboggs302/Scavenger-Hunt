@@ -6,7 +6,7 @@ import { huntResolver } from "./resolvers/huntResolver";
 import { responseResolver } from "./resolvers/responseResolver";
 import { teamResolver } from "./resolvers/teamResolver";
 import { userResolver } from "./resolvers/userResolver";
-import { errorResolver } from "./resolvers/errorResolver";
+import { errorTypeResolver } from "./resolvers/errorTypeResolver";
 import * as GenericTypeDefs from "./graphql/Generics.graphql";
 import * as ErrorTypeDefs from "./graphql/Errors.graphql";
 import * as ClueTypeDefs from "./graphql/Clues.graphql";
@@ -26,7 +26,7 @@ const schema: GraphQLSchema = makeExecutableSchema({
     ResponseTypeDefs,
   ],
   resolvers: [
-    errorResolver,
+    errorTypeResolver,
     userResolver,
     huntResolver,
     teamResolver,
