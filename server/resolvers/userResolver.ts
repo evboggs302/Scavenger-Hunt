@@ -7,12 +7,20 @@ import { createAndSaveToken } from "../utils/jwt";
 import { returnedItems } from "../utils/returnedItems";
 import { Resolvers, UserPayload } from "../generated/graphql";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
-import { ApolloAccessError, throwResolutionError } from "../utils/apolloErrorHandlers";
+import {
+  AuthError,
+  InvalidInputError,
+  NotFoundError,
+  UnknownError,
+} from "../utils/apolloErrorHandlers";
 
 export const userResolver: Resolvers = {
   Query: {
     getAllUsers: async (_: unknown, {}, { user }) => {
-      if (!user) return ApolloAccessError();
+      if (!user) {
+        const err = await NotFoundError("No user found.");
+        return err;
+      }
       const users = await UserModel.find({}).select({ hash: 0 }).exec();
       return users.map(returnedItems);
     },
@@ -21,11 +29,8 @@ export const userResolver: Resolvers = {
         .select({ issuedToUser: 1 })
         .exec();
       if (!doc) {
-        return throwResolutionError({
-          location: "getUserFromToken",
-          err: null,
-          message: "Token does not exist",
-        });
+        const err = await AuthError("Token does not exist.");
+        return err;
       }
 
       const user = await UserModel.findById(doc.issuedToUser).exec();
@@ -88,28 +93,21 @@ export const userResolver: Resolvers = {
     login: async (_: unknown, { input: { user_name, password } }) => {
       const user = await UserModel.getUserForLogin(user_name);
       if (!user) {
-        throw new GraphQLError("User name does not exist", {
-          extensions: {
-            code: "USER DOES NOT EXIST",
-            http: { status: 404 },
-          },
-        });
+        return await NotFoundError(
+          "No user exists for that username.",
+          "login"
+        );
       } else if (!compareSync(password, user.hash)) {
-        throw new GraphQLError("Incorrect Password", {
-          extensions: {
-            code: "UNAUTHENTICATED",
-            http: { status: 401 },
-          },
-        });
+        return await InvalidInputError("Incorrect password", "login");
       } else {
         const token = await createAndSaveToken(user._id);
-        const tkn = await TokenStorageModel.findOne({ token });
+        const tkn = await TokenStorageModel.findOne({ token }).exec();
 
         if (!tkn) {
-          return throwResolutionError({
-            location: "registerUser",
-            err: "unable to find the newly saved user",
-          });
+          return await UnknownError(
+            "Unable to find the newly saved user",
+            "login"
+          );
         }
 
         return tkn.toObject();

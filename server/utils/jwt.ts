@@ -6,7 +6,7 @@ import { GraphQLError } from "graphql";
 import parseDuration from "parse-duration";
 import { sign, verify } from "jsonwebtoken";
 import { BaseUserPayload } from "../generated/graphql";
-import { throwResolutionError } from "./apolloErrorHandlers";
+import { NotFoundError } from "./apolloErrorHandlers";
 
 const { ACCESS_TOKEN_SECRET, ACCESS_TOKEN_DURATION } = config;
 
@@ -59,7 +59,9 @@ export const getUserFromToken = async (
       .exec();
 
     if (!user) {
-      return throwResolutionError({ location: "getUserFromToken", err: null });
+      return await NotFoundError(
+        "Unable to find the user associated with that token."
+      );
     }
 
     return user.toObject();

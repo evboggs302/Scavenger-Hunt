@@ -6,7 +6,6 @@ import { Resolvers } from "../generated/graphql";
 import { returnedItems } from "../utils/returnedItems";
 import { markResponseCorrect } from "./markResponseCorrect";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
-import { throwResolutionError } from "../utils/apolloErrorHandlers";
 
 const { TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN, TWILIO_NUMBER } = config;
 const client = twilio(TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN);

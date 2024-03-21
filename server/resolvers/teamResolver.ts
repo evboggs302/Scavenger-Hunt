@@ -3,7 +3,6 @@ import ResponseModel from "../models/responses";
 import { Resolvers, Team } from "../generated/graphql";
 import { returnedItems } from "../utils/returnedItems";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
-import { throwResolutionError } from "../utils/apolloErrorHandlers";
 
 export const teamResolver: Resolvers = {
   Query: {

@@ -1,7 +1,25 @@
-interface ErrorInterface {
+interface BaseError {
   message: String!
 }
 
-type ErrorObj implements ErrorInterface {
+type AuthorizationError implements BaseError {
   message: String!
 }
+
+type InvalidInputError implements BaseError {
+  message: String!
+}
+
+type NotFoundError implements BaseError {
+  message: String!
+}
+
+type UnknownError implements BaseError {
+  message: String!
+}
+
+union AnyError =
+    NotFoundError
+  | AuthorizationError
+  | InvalidInputError
+  | UnknownError

@@ -1,18 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLoginMutation } from "./useLoginMutation";
 import { Link, useNavigate } from "react-router-dom";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import {
-  Input,
-  Flex,
-  Typography,
-  Checkbox,
-  Button,
-  Tooltip,
-  Alert,
-} from "antd";
+import { Input, Flex, Typography, Button, Tooltip, Alert } from "antd";
+import { useTokenContext } from "../../../shared/context/tokenManagement/useTokenRefContext";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 type Inputs = {
   username: string;
@@ -22,13 +15,15 @@ type Inputs = {
 
 export const LoginPage = () => {
   const navigate = useNavigate();
+  const { setToken } = useTokenContext();
   const [showLoginErr, setShowLoginErr] = useState(false);
-  const { loginUser, isLoading } = useLoginMutation();
+  const [loginMutation, { loading, error }] = useLoginMutation();
+  
   const {
     reset,
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors: formErrors },
   } = useForm<Inputs>({
     mode: "onTouched",
     defaultValues: {
@@ -38,18 +33,21 @@ export const LoginPage = () => {
 
   const onSubmit: SubmitHandler<Inputs> = async (formData) => {
     setShowLoginErr(false);
-    try {
-      const response = await loginUser(formData);
+    const { data } = await loginMutation(formData);
+    if (data?.login) {
+      const { token } = data.login;
+      localStorage.setItem("BEARER_TOKEN", token);
+      setToken(token);
       return navigate("/dashboard");
-    } catch (err) {
-      console.log(err);
+    } else {
+      console.log(error);
       reset();
       setShowLoginErr(true);
     }
   };
 
-  const passwordErrMsg = errors.password?.message;
-  const usernameErrMsg = errors.username?.message;
+  const passwordErrMsg = formErrors.password?.message;
+  const usernameErrMsg = formErrors.username?.message;
 
   return (
     <>
@@ -103,29 +101,29 @@ export const LoginPage = () => {
               </Tooltip>
             )}
           />
+          {/* <Controller
+            name="remember"
+            control={control}
+            rules={{
+              required: false,
+            }}
+            render={({ field }) => (
+              <Checkbox checked={field.value} {...field}>
+                Remember me
+              </Checkbox>
+            )}
+          /> */}
+          <Button type="primary" htmlType="submit" disabled={loading}>
+            {loading ? "Logging in..." : "Submit"}
+          </Button>
         </Flex>
-        <Controller
-          name="remember"
-          control={control}
-          rules={{
-            required: false,
-          }}
-          render={({ field }) => (
-            <Checkbox checked={field.value} {...field}>
-              Remember me
-            </Checkbox>
-          )}
-        />
-        <Button type="primary" htmlType="submit" disabled={isLoading}>
-          {isLoading ? "Logging in..." : "Submit"}
-        </Button>
       </form>
-      <p className="font-semibold text-muted">
+      <Text type="secondary">
         Don't have an account?{" "}
         <Link to="/register" className="text-dark font-bold">
           Register now
         </Link>
-      </p>
+      </Text>
     </>
   );
 };

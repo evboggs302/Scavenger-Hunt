@@ -23,10 +23,17 @@ export type AddUserInput = {
   user_name: Scalars['String']['input'];
 };
 
-export type AuthPayload = {
-  __typename: 'AuthPayload';
-  _id: Scalars['ID']['output'];
-  token: Scalars['String']['output'];
+export type AnyError = AuthorizationError | InvalidInputError | NotFoundError | UnknownError;
+
+export type AuthPayload = InvalidInputError | NotFoundError | Token | UnknownError;
+
+export type AuthorizationError = BaseError & {
+  __typename: 'AuthorizationError';
+  message: Scalars['String']['output'];
+};
+
+export type BaseError = {
+  message: Scalars['String']['output'];
 };
 
 export type BaseUserPayload = {
@@ -82,15 +89,6 @@ export type DeleteTeamInput = {
   team_id: Scalars['ID']['input'];
 };
 
-export type ErrorInterface = {
-  message: Scalars['String']['output'];
-};
-
-export type ErrorObj = ErrorInterface & {
-  __typename: 'ErrorObj';
-  message: Scalars['String']['output'];
-};
-
 export type Hunt = {
   __typename: 'Hunt';
   _id: Scalars['ID']['output'];
@@ -103,6 +101,11 @@ export type Hunt = {
   recall_message?: Maybe<Scalars['String']['output']>;
   start_date?: Maybe<Scalars['String']['output']>;
   teams?: Maybe<Array<Team>>;
+};
+
+export type InvalidInputError = BaseError & {
+  __typename: 'InvalidInputError';
+  message: Scalars['String']['output'];
 };
 
 export type LoginInput = {
@@ -123,10 +126,10 @@ export type Mutation = {
   deleteClueById?: Maybe<Scalars['Boolean']['output']>;
   deleteHuntById?: Maybe<Scalars['Boolean']['output']>;
   deleteTeam?: Maybe<Scalars['Boolean']['output']>;
-  login?: Maybe<AuthPayload>;
+  login: AuthPayload;
   logout?: Maybe<Scalars['Boolean']['output']>;
   markResponseCorrect?: Maybe<Scalars['Boolean']['output']>;
-  registerUser?: Maybe<AuthPayload>;
+  registerUser: AuthPayload;
   sendHint?: Maybe<Scalars['Boolean']['output']>;
   updateClueDescription?: Maybe<CluePayload>;
   updateClueOrder?: Maybe<Array<Maybe<CluePayload>>>;
@@ -229,12 +232,17 @@ export type MutationUpdateTeamArgs = {
   input: UpdateTeamInput;
 };
 
+export type NotFoundError = BaseError & {
+  __typename: 'NotFoundError';
+  message: Scalars['String']['output'];
+};
+
 export type Query = {
   __typename: 'Query';
   activateHunt?: Maybe<Hunt>;
   deactivateHunt?: Maybe<Hunt>;
   deleteAllHuntsByUser?: Maybe<Scalars['Boolean']['output']>;
-  getAllUsers?: Maybe<Array<Maybe<UserPayload>>>;
+  getAllUsers?: Maybe<Array<UserPayload>>;
   getCluesByHuntId?: Maybe<Array<Maybe<CluePayload>>>;
   getHunt?: Maybe<Hunt>;
   getHuntsByUserId?: Maybe<Array<Maybe<Hunt>>>;
@@ -327,6 +335,17 @@ export type Team = {
   members?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   recall_sent?: Maybe<Scalars['Boolean']['output']>;
   responses?: Maybe<Array<ResponsePayload>>;
+};
+
+export type Token = {
+  __typename: 'Token';
+  _id: Scalars['ID']['output'];
+  token: Scalars['String']['output'];
+};
+
+export type UnknownError = BaseError & {
+  __typename: 'UnknownError';
+  message: Scalars['String']['output'];
 };
 
 export type UpdateClueDescriptionInput = {
@@ -433,19 +452,27 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
+/** Mapping of union types */
+export type ResolversUnionTypes<RefType extends Record<string, unknown>> = {
+  AnyError: ( AuthorizationError ) | ( InvalidInputError ) | ( NotFoundError ) | ( UnknownError );
+  AuthPayload: ( InvalidInputError ) | ( NotFoundError ) | ( Token ) | ( UnknownError );
+};
 
 /** Mapping of interface types */
 export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = {
-  ErrorInterface: ( ErrorObj );
+  BaseError: ( AuthorizationError ) | ( InvalidInputError ) | ( NotFoundError ) | ( UnknownError );
 };
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   AddUserInput: AddUserInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  AuthPayload: ResolverTypeWrapper<AuthPayload>;
-  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  AnyError: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['AnyError']>;
+  AuthPayload: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['AuthPayload']>;
+  AuthorizationError: ResolverTypeWrapper<AuthorizationError>;
+  BaseError: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['BaseError']>;
   BaseUserPayload: ResolverTypeWrapper<BaseUserPayload>;
+  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   CluePayload: ResolverTypeWrapper<CluePayload>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   CluesListItem: CluesListItem;
@@ -455,17 +482,19 @@ export type ResolversTypes = {
   CreateSingleClueInput: CreateSingleClueInput;
   CreateSingleTeamInput: CreateSingleTeamInput;
   DeleteTeamInput: DeleteTeamInput;
-  ErrorInterface: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['ErrorInterface']>;
-  ErrorObj: ResolverTypeWrapper<ErrorObj>;
   Hunt: ResolverTypeWrapper<Hunt>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  InvalidInputError: ResolverTypeWrapper<InvalidInputError>;
   LoginInput: LoginInput;
   Mutation: ResolverTypeWrapper<{}>;
+  NotFoundError: ResolverTypeWrapper<NotFoundError>;
   Query: ResolverTypeWrapper<{}>;
   ResponsePayload: ResolverTypeWrapper<ResponsePayload>;
   SendHintInput: SendHintInput;
   SingleTeam: SingleTeam;
   Team: ResolverTypeWrapper<Team>;
+  Token: ResolverTypeWrapper<Token>;
+  UnknownError: ResolverTypeWrapper<UnknownError>;
   UpdateClueDescriptionInput: UpdateClueDescriptionInput;
   UpdateClueOrderInput: UpdateClueOrderInput;
   UpdateHuntInput: UpdateHuntInput;
@@ -478,9 +507,12 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   AddUserInput: AddUserInput;
   String: Scalars['String']['output'];
-  AuthPayload: AuthPayload;
-  ID: Scalars['ID']['output'];
+  AnyError: ResolversUnionTypes<ResolversParentTypes>['AnyError'];
+  AuthPayload: ResolversUnionTypes<ResolversParentTypes>['AuthPayload'];
+  AuthorizationError: AuthorizationError;
+  BaseError: ResolversInterfaceTypes<ResolversParentTypes>['BaseError'];
   BaseUserPayload: BaseUserPayload;
+  ID: Scalars['ID']['output'];
   CluePayload: CluePayload;
   Int: Scalars['Int']['output'];
   CluesListItem: CluesListItem;
@@ -490,17 +522,19 @@ export type ResolversParentTypes = {
   CreateSingleClueInput: CreateSingleClueInput;
   CreateSingleTeamInput: CreateSingleTeamInput;
   DeleteTeamInput: DeleteTeamInput;
-  ErrorInterface: ResolversInterfaceTypes<ResolversParentTypes>['ErrorInterface'];
-  ErrorObj: ErrorObj;
   Hunt: Hunt;
   Boolean: Scalars['Boolean']['output'];
+  InvalidInputError: InvalidInputError;
   LoginInput: LoginInput;
   Mutation: {};
+  NotFoundError: NotFoundError;
   Query: {};
   ResponsePayload: ResponsePayload;
   SendHintInput: SendHintInput;
   SingleTeam: SingleTeam;
   Team: Team;
+  Token: Token;
+  UnknownError: UnknownError;
   UpdateClueDescriptionInput: UpdateClueDescriptionInput;
   UpdateClueOrderInput: UpdateClueOrderInput;
   UpdateHuntInput: UpdateHuntInput;
@@ -556,10 +590,22 @@ export type MapDirectiveArgs = {
 
 export type MapDirectiveResolver<Result, Parent, ContextType = any, Args = MapDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
+export type AnyErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['AnyError'] = ResolversParentTypes['AnyError']> = {
+  __resolveType: TypeResolveFn<'AuthorizationError' | 'InvalidInputError' | 'NotFoundError' | 'UnknownError', ParentType, ContextType>;
+};
+
 export type AuthPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthPayload'] = ResolversParentTypes['AuthPayload']> = {
-  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'InvalidInputError' | 'NotFoundError' | 'Token' | 'UnknownError', ParentType, ContextType>;
+};
+
+export type AuthorizationErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthorizationError'] = ResolversParentTypes['AuthorizationError']> = {
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type BaseErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['BaseError'] = ResolversParentTypes['BaseError']> = {
+  __resolveType: TypeResolveFn<'AuthorizationError' | 'InvalidInputError' | 'NotFoundError' | 'UnknownError', ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
 export type BaseUserPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['BaseUserPayload'] = ResolversParentTypes['BaseUserPayload']> = {
@@ -579,16 +625,6 @@ export type CluePayloadResolvers<ContextType = any, ParentType extends Resolvers
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ErrorInterfaceResolvers<ContextType = any, ParentType extends ResolversParentTypes['ErrorInterface'] = ResolversParentTypes['ErrorInterface']> = {
-  __resolveType: TypeResolveFn<'ErrorObj', ParentType, ContextType>;
-  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-};
-
-export type ErrorObjResolvers<ContextType = any, ParentType extends ResolversParentTypes['ErrorObj'] = ResolversParentTypes['ErrorObj']> = {
-  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type HuntResolvers<ContextType = any, ParentType extends ResolversParentTypes['Hunt'] = ResolversParentTypes['Hunt']> = {
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   clues?: Resolver<Maybe<Array<ResolversTypes['CluePayload']>>, ParentType, ContextType>;
@@ -600,6 +636,11 @@ export type HuntResolvers<ContextType = any, ParentType extends ResolversParentT
   recall_message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   start_date?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   teams?: Resolver<Maybe<Array<ResolversTypes['Team']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type InvalidInputErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['InvalidInputError'] = ResolversParentTypes['InvalidInputError']> = {
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -615,10 +656,10 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteClueById?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteClueByIdArgs, 'clue_id'>>;
   deleteHuntById?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteHuntByIdArgs, 'h_id'>>;
   deleteTeam?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteTeamArgs, 'input'>>;
-  login?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>;
+  login?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>;
   logout?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   markResponseCorrect?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationMarkResponseCorrectArgs, 'id'>>;
-  registerUser?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<MutationRegisterUserArgs, 'input'>>;
+  registerUser?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationRegisterUserArgs, 'input'>>;
   sendHint?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationSendHintArgs, 'input'>>;
   updateClueDescription?: Resolver<Maybe<ResolversTypes['CluePayload']>, ParentType, ContextType, RequireFields<MutationUpdateClueDescriptionArgs, 'input'>>;
   updateClueOrder?: Resolver<Maybe<Array<Maybe<ResolversTypes['CluePayload']>>>, ParentType, ContextType, RequireFields<MutationUpdateClueOrderArgs, 'input'>>;
@@ -626,11 +667,16 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateTeam?: Resolver<Maybe<ResolversTypes['Team']>, ParentType, ContextType, RequireFields<MutationUpdateTeamArgs, 'input'>>;
 };
 
+export type NotFoundErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['NotFoundError'] = ResolversParentTypes['NotFoundError']> = {
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   activateHunt?: Resolver<Maybe<ResolversTypes['Hunt']>, ParentType, ContextType, RequireFields<QueryActivateHuntArgs, 'id'>>;
   deactivateHunt?: Resolver<Maybe<ResolversTypes['Hunt']>, ParentType, ContextType, RequireFields<QueryDeactivateHuntArgs, 'id'>>;
   deleteAllHuntsByUser?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  getAllUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserPayload']>>>, ParentType, ContextType>;
+  getAllUsers?: Resolver<Maybe<Array<ResolversTypes['UserPayload']>>, ParentType, ContextType>;
   getCluesByHuntId?: Resolver<Maybe<Array<Maybe<ResolversTypes['CluePayload']>>>, ParentType, ContextType, RequireFields<QueryGetCluesByHuntIdArgs, 'id'>>;
   getHunt?: Resolver<Maybe<ResolversTypes['Hunt']>, ParentType, ContextType, RequireFields<QueryGetHuntArgs, 'id'>>;
   getHuntsByUserId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Hunt']>>>, ParentType, ContextType>;
@@ -664,6 +710,17 @@ export type TeamResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type TokenResolvers<ContextType = any, ParentType extends ResolversParentTypes['Token'] = ResolversParentTypes['Token']> = {
+  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UnknownErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['UnknownError'] = ResolversParentTypes['UnknownError']> = {
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type UserPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserPayload'] = ResolversParentTypes['UserPayload']> = {
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   first_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -674,16 +731,21 @@ export type UserPayloadResolvers<ContextType = any, ParentType extends Resolvers
 };
 
 export type Resolvers<ContextType = any> = {
+  AnyError?: AnyErrorResolvers<ContextType>;
   AuthPayload?: AuthPayloadResolvers<ContextType>;
+  AuthorizationError?: AuthorizationErrorResolvers<ContextType>;
+  BaseError?: BaseErrorResolvers<ContextType>;
   BaseUserPayload?: BaseUserPayloadResolvers<ContextType>;
   CluePayload?: CluePayloadResolvers<ContextType>;
-  ErrorInterface?: ErrorInterfaceResolvers<ContextType>;
-  ErrorObj?: ErrorObjResolvers<ContextType>;
   Hunt?: HuntResolvers<ContextType>;
+  InvalidInputError?: InvalidInputErrorResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  NotFoundError?: NotFoundErrorResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   ResponsePayload?: ResponsePayloadResolvers<ContextType>;
   Team?: TeamResolvers<ContextType>;
+  Token?: TokenResolvers<ContextType>;
+  UnknownError?: UnknownErrorResolvers<ContextType>;
   UserPayload?: UserPayloadResolvers<ContextType>;
 };
 
@@ -707,8 +769,23 @@ import { ObjectId } from 'mongodb';
       }
       const result: PossibleTypesResultData = {
   "possibleTypes": {
-    "ErrorInterface": [
-      "ErrorObj"
+    "AnyError": [
+      "AuthorizationError",
+      "InvalidInputError",
+      "NotFoundError",
+      "UnknownError"
+    ],
+    "AuthPayload": [
+      "InvalidInputError",
+      "NotFoundError",
+      "Token",
+      "UnknownError"
+    ],
+    "BaseError": [
+      "AuthorizationError",
+      "InvalidInputError",
+      "NotFoundError",
+      "UnknownError"
     ]
   }
 };

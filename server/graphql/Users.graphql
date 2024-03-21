@@ -1,12 +1,12 @@
 type Query {
-  getAllUsers: [UserPayload]
+  getAllUsers: [UserPayload!]
   getUserFromToken(tkn: String!): BaseUserPayload
   userNameExists(user_name: String!): Boolean
 }
 
 type Mutation {
-  registerUser(input: AddUserInput!): AuthPayload
-  login(input: LoginInput!): AuthPayload
+  registerUser(input: AddUserInput!): AuthPayload!
+  login(input: LoginInput!): AuthPayload!
   logout: Boolean
 }
 
@@ -25,10 +25,11 @@ type UserPayload {
   hunts: [Hunt!]
 }
 
-type AuthPayload {
+type Token {
   _id: ID!
   token: String!
 }
+union AuthPayload = Token | NotFoundError | InvalidInputError | UnknownError
 
 input AddUserInput {
   first_name: String!

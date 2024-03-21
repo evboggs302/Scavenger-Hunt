@@ -3,7 +3,7 @@ import ResponseModel from "../models/responses";
 import { returnedItems } from "../utils/returnedItems";
 import { CluePayload, Resolvers } from "../generated/graphql";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
-import { throwResolutionError } from "../utils/apolloErrorHandlers";
+import { UnknownError } from "../utils/apolloErrorHandlers";
 
 export const clueResolver: Resolvers = {
   Query: {
@@ -18,7 +18,7 @@ export const clueResolver: Resolvers = {
         ]).exec();
         return orderedClues;
       } catch (err) {
-        return throwResolutionError({ location: "getCluesByHuntId", err });
+        return await UnknownError("Unable to find clues by hunt.");
       }
     },
   },
@@ -35,7 +35,9 @@ export const clueResolver: Resolvers = {
 
         return clues.map(returnedItems);
       } catch (err) {
-        return throwResolutionError({ location: "createMultipleClues", err });
+        return await UnknownError(
+          "Unable to create multiple clues at this time."
+        );
       }
     },
     createSingleClue: async (_: unknown, { input: { clueItem, h_id } }) => {
@@ -50,7 +52,7 @@ export const clueResolver: Resolvers = {
         const allClues = await ClueModel.find({ hunt_id }).exec();
         return allClues.map(returnedItems);
       } catch (err) {
-        return throwResolutionError({ location: "createSingleClue", err });
+        return await UnknownError("Unable to create that clue at this time.");
       }
     },
     updateClueDescription: async (
@@ -66,16 +68,16 @@ export const clueResolver: Resolvers = {
         ).exec();
 
         if (!updatedClue) {
-          return throwResolutionError({
-            location: "updateClueDescription",
-            err: null,
-            message: "Failed to update or find the specified clue description.",
-          });
+          return await UnknownError(
+            "Failed to update or find the specified clue description."
+          );
         }
 
         return updatedClue.toObject();
       } catch (err) {
-        return throwResolutionError({ location: "updateClueDescription", err });
+        return await UnknownError(
+          "Unable to update clue description at this time."
+        );
       }
     },
     updateClueOrder: async (

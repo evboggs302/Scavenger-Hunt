@@ -1,6 +1,7 @@
 import "graphql-import-node";
 import { GraphQLSchema } from "graphql";
 import { makeExecutableSchema } from "@graphql-tools/schema";
+import * as ErrorTypeDefs from "./graphql/Errors.graphql";
 import * as ClueTypeDefs from "./graphql/Clues.graphql";
 import { clueResolver } from "./resolvers/clueResolver";
 import * as HuntTypeDefs from "./graphql/Hunts.graphql";
@@ -14,6 +15,7 @@ import { userResolver } from "./resolvers/userResolver";
 
 const schema: GraphQLSchema = makeExecutableSchema({
   typeDefs: [
+    ErrorTypeDefs,
     UserTypeDefs,
     HuntTypeDefs,
     TeamTypeDefs,

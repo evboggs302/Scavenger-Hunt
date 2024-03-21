@@ -1,40 +1,49 @@
-import { ApolloError } from "apollo-server-errors";
-import { EventLogProps, createErrLog } from "./eventLogHelpers";
+import { createErrLog } from "./eventLogHelpers";
 
-const defaultErrMessage = `Uh-oh! An error occured.`;
-
-export const ApolloAccessError = async (message?: string) => {
-  await createErrLog({ err: null, location: "middleware", message });
-  throw new ApolloError(message || defaultErrMessage, "ACCESS_ERROR", {
-    http: { status: 400 },
+export const NotFoundError = async (message: string, location?: string) => {
+  await createErrLog({
+    err: null,
+    location: location || "NotFoundError",
+    message,
   });
+  return {
+    __typename: "NotFoundError" as const,
+    message,
+  };
 };
 
-export const throwResolutionError = async ({
-  err,
-  location,
-  message,
-}: EventLogProps) => {
-  await createErrLog({ err, location, message });
-  throw new ApolloError(
-    message || defaultErrMessage,
-    "OPERATION_RESOLUTION_FAILURE",
-    {
-      location,
-      errMessage: message,
-    }
-  );
+export const AuthError = async (message: string, location?: string) => {
+  await createErrLog({
+    err: null,
+    location: location || "AuthorizationError" ,
+    message,
+  });
+  return {
+    __typename: "AuthorizationError" as const,
+    message,
+  };
 };
 
-export const throwServerError = async ({
-  err,
-  location,
-  message,
-}: EventLogProps) => {
-  await createErrLog({ err, location, message });
-  throw new ApolloError(message || defaultErrMessage, "INTERNAL_SERVER_ERROR", {
-    code: "INTERNAL_SERVER_ERROR",
-    location,
-    errMessage: message,
+export const InvalidInputError = async (message: string, location?: string) => {
+  await createErrLog({
+    err: null,
+    location: location || "InvalidInputError",
+    message,
   });
+  return {
+    __typename: "InvalidInputError" as const,
+    message,
+  };
+};
+
+export const UnknownError = async (message: string, location?: string) => {
+  await createErrLog({
+    err: null,
+    location: location || "UnknownError",
+    message,
+  });
+  return {
+    __typename: "UnknownError" as const,
+    message,
+  };
 };
