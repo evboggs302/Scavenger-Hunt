@@ -1,0 +1,3 @@
+type Delete {
+  success: Boolean
+}

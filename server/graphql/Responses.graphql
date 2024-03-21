@@ -1,16 +1,16 @@
 type Query {
-  getResponsesByTeam(id: ID!): [ResponsePayload]
-  getResponsesByClue(id: ID!): [ResponsePayload]
+  getResponsesByTeam(id: ID!): [ResponsePayload!]
+  getResponsesByClue(id: ID!): [ResponsePayload!]
 }
 
 type Mutation {
-  markResponseCorrect(id: ID!): Boolean
-  sendHint(input: SendHintInput!): Boolean
-  deleteAllResponsesByTeam(id: ID!): Boolean
-  deleteAllResponsesByHunt(id: ID!): Boolean
+  markResponseCorrect(id: ID!): CorrectResponsePayload!
+  sendHint(input: SendHintInput!): HintPayload!
+  deleteAllResponsesByTeam(id: ID!): DeleteResponses!
+  deleteAllResponsesByHunt(id: ID!): DeleteResponses!
 }
 
-type ResponsePayload {
+type Responses {
   _id: ID!
   clue_id: String!
   team_id: String!
@@ -19,6 +19,39 @@ type ResponsePayload {
   correct: Boolean
   hint_sent: Boolean
 }
+union ResponsePayload =
+    Responses
+  | NotFoundError
+  | AuthorizationError
+  | InvalidInputError
+  | UnknownError
+
+type CorrectResponse {
+  correct: Boolean
+}
+union CorrectResponsePayload =
+    CorrectResponse
+  | NotFoundError
+  | AuthorizationError
+  | InvalidInputError
+  | UnknownError
+
+type HintSent {
+  sent: Boolean
+}
+union HintPayload =
+    HintSent
+  | NotFoundError
+  | AuthorizationError
+  | InvalidInputError
+  | UnknownError
+
+union DeleteResponses =
+    Delete
+  | NotFoundError
+  | AuthorizationError
+  | InvalidInputError
+  | UnknownError
 
 input SendHintInput {
   response_id: ID!
