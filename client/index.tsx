@@ -4,14 +4,16 @@ import { ApolloClientProvider } from "./apolloClient/apolloClient";
 import { AppRouter } from "./routes/appRouter";
 import { TokenContextProvider } from "./src/shared/context/tokenContext/TokenContext";
 import { StyleProvider } from "@ant-design/cssinjs";
-import { ErrorContextProvider } from "./src/shared/context/errorContext/ErrorContext";
+import { ToastContextProvider } from "./src/shared/context/toastContext/ToastContext";
 
 createRoot(document.getElementById("root")!).render(
   <StyleProvider hashPriority="high">
     <ApolloClientProvider>
-      <TokenContextProvider>
-        <AppRouter />
-      </TokenContextProvider>
+      <ToastContextProvider>
+        <TokenContextProvider>
+          <AppRouter />
+        </TokenContextProvider>
+      </ToastContextProvider>
     </ApolloClientProvider>
   </StyleProvider>
 );

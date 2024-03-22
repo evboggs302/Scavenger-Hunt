@@ -2,14 +2,13 @@ import mongoose from "mongoose";
 import express from "express";
 import http from "http";
 import cors from "cors";
-import { ApolloServer } from "@apollo/server";
-import { expressMiddleware } from "@apollo/server/express4";
-import { ApolloServerErrorCode } from "@apollo/server/errors";
-import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import config from "./config";
 import schema from "./schema";
-import { apolloServerMiddlewareOptions } from "./utils/apolloServerMiddlewareOptions";
 import { ListenOptions } from "net";
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@apollo/server/express4";
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import { apolloServerMiddlewareOptions } from "./utils/apolloServerMiddlewareOptions";
 
 const { MONGO_URI, PORT, GQL_SERVER_URL } = config;
 

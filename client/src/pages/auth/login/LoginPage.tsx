@@ -38,7 +38,7 @@ export const LoginPage = () => {
       if (err instanceof ApolloError) {
         setLoginErr(err.message);
       } else {
-        setLoginErr("Invalid credentials.");
+        setLoginErr("An unknown error occurred.");
       }
       reset();
     }

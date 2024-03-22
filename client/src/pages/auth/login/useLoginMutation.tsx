@@ -23,7 +23,7 @@ export const useLoginMutation = () => {
         },
       });
     },
-    [loginUser]
+    [loginUser, navigate]
   );
 
   return useMemo(

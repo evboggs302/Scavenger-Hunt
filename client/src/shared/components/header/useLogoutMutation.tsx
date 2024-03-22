@@ -6,34 +6,28 @@ import { apolloContextHeaders } from "../../utils/apolloContextHeaders";
 import { useNavigate } from "react-router-dom";
 
 export const useLogoutMutation = () => {
+  const navigate = useNavigate();
   const headers = apolloContextHeaders();
   const client = useApolloClient();
-  const navigate = useNavigate();
-  const [logoutUser, { loading }] = useMutation(LogoutUserDocument, {
+  const [logoutUser, result] = useMutation(LogoutUserDocument, {
     context: headers,
     fetchPolicy: "network-only",
   });
   const { setToken } = useTokenContext();
 
   const handlLogoutUser = useCallback(async () => {
-    const { data, errors } = await logoutUser();
-    if (data?.logout) {
-      console.log(data);
-      localStorage.clear();
-      client.clearStore();
-      setToken(null);
-      return navigate("/");
-    } else {
-      console.log("useLogoutMutation");
-      console.log(errors);
-    }
-  }, []);
+    await logoutUser({
+      onCompleted: () => {
+        localStorage.clear();
+        client.clearStore();
+        setToken(null);
+        return navigate("/");
+      },
+    });
+  }, [logoutUser, client, navigate]);
 
   return useMemo(
-    () => ({
-      logoutUser: handlLogoutUser,
-      loading,
-    }),
-    []
+    (): [typeof handlLogoutUser, typeof result] => [handlLogoutUser, result],
+    [handlLogoutUser, result]
   );
 };

@@ -16,6 +16,7 @@ export const UserQryContextProvider = ({
   const { data, error, loading } = useQuery(GetUserFromTokenDocument, {
     variables: { tkn: token || "invalid" },
     context: apolloContextHeaders(),
+    pollInterval: 4500,
   });
 
   return (

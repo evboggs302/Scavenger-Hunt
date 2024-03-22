@@ -29,9 +29,6 @@ export const client = new ApolloClient({
   link: from([errorLink, httpLink]),
   cache: new InMemoryCache(),
   defaultOptions: {
-    // mutate: {
-    //   errorPolicy: "ignore",
-    // },
     watchQuery: {
       fetchPolicy: "cache-and-network",
     },
