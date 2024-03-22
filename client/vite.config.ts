@@ -51,13 +51,13 @@ export default defineConfig(({ mode }) => {
               return "@antd";
             }
             // used to help with identifying packages
-            // else {
-            //   console.log(
-            //     id,
-            //     // getModuleInfo(id),
-            //     "\n"
-            //   );
-            // }
+            else {
+              console.log(
+                id,
+                // getModuleInfo(id),
+                "\n"
+              );
+            }
           },
         },
       },
