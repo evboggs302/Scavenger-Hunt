@@ -22,51 +22,33 @@ export type AddUserInput = {
   user_name: Scalars['String']['input'];
 };
 
-export type AnyError = AuthorizationError | InvalidInputError | NotFoundError | UnknownError;
-
-export type AuthPayload = AuthorizationError | InvalidInputError | NotFoundError | Token | UnknownError;
-
-export type AuthorizationError = BaseError & {
-  __typename: 'AuthorizationError';
-  message: Scalars['String']['output'];
+export type AuthPayload = {
+  __typename: 'AuthPayload';
+  _id: Scalars['ID']['output'];
+  token: Scalars['String']['output'];
 };
 
-export type BaseError = {
-  message: Scalars['String']['output'];
-};
-
-export type BaseUser = {
-  __typename: 'BaseUser';
+export type BaseUserPayload = {
+  __typename: 'BaseUserPayload';
   _id: Scalars['ID']['output'];
   first_name: Scalars['String']['output'];
   last_name: Scalars['String']['output'];
   user_name: Scalars['String']['output'];
 };
 
-export type BaseUserPayload = AuthorizationError | BaseUser | InvalidInputError | NotFoundError | UnknownError;
-
-export type Clue = {
-  __typename: 'Clue';
+export type CluePayload = {
+  __typename: 'CluePayload';
   _id: Scalars['ID']['output'];
   description?: Maybe<Scalars['String']['output']>;
   hunt_id: Scalars['ID']['output'];
   order_number?: Maybe<Scalars['Int']['output']>;
-  responses?: Maybe<Array<Maybe<Responses>>>;
+  responses?: Maybe<Array<Maybe<ResponsePayload>>>;
 };
-
-export type CluePayload = AuthorizationError | Clue | InvalidInputError | NotFoundError | UnknownError;
 
 export type CluesListItem = {
   description: Scalars['String']['input'];
   order_number: Scalars['Int']['input'];
 };
-
-export type CorrectResponse = {
-  __typename: 'CorrectResponse';
-  correct?: Maybe<Scalars['Boolean']['output']>;
-};
-
-export type CorrectResponsePayload = AuthorizationError | CorrectResponse | InvalidInputError | NotFoundError | UnknownError;
 
 export type CreateHuntInput = {
   end_date: Scalars['String']['input'];
@@ -95,34 +77,14 @@ export type CreateSingleTeamInput = {
   members: Array<InputMaybe<Scalars['String']['input']>>;
 };
 
-export type Delete = {
-  __typename: 'Delete';
-  success?: Maybe<Scalars['Boolean']['output']>;
-};
-
-export type DeleteClues = AuthorizationError | Delete | InvalidInputError | NotFoundError | UnknownError;
-
-export type DeleteHunt = AuthorizationError | Delete | InvalidInputError | NotFoundError | UnknownError;
-
-export type DeleteResponses = AuthorizationError | Delete | InvalidInputError | NotFoundError | UnknownError;
-
-export type DeleteTeam = AuthorizationError | Delete | InvalidInputError | NotFoundError | UnknownError;
-
 export type DeleteTeamInput = {
   team_id: Scalars['ID']['input'];
-};
-
-export type HintPayload = AuthorizationError | HintSent | InvalidInputError | NotFoundError | UnknownError;
-
-export type HintSent = {
-  __typename: 'HintSent';
-  sent?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Hunt = {
   __typename: 'Hunt';
   _id: Scalars['ID']['output'];
-  clues?: Maybe<Array<Clue>>;
+  clues?: Maybe<Array<CluePayload>>;
   created_by: Scalars['ID']['output'];
   created_date?: Maybe<Scalars['String']['output']>;
   end_date?: Maybe<Scalars['String']['output']>;
@@ -133,47 +95,40 @@ export type Hunt = {
   teams?: Maybe<Array<Team>>;
 };
 
-export type HuntPayload = AuthorizationError | Hunt | InvalidInputError | NotFoundError | UnknownError;
-
-export type InvalidInputError = BaseError & {
-  __typename: 'InvalidInputError';
-  message: Scalars['String']['output'];
-};
-
 export type LoginInput = {
   password: Scalars['String']['input'];
   user_name: Scalars['String']['input'];
 };
 
-export type Logout = {
-  __typename: 'Logout';
-  success?: Maybe<Scalars['Boolean']['output']>;
-};
-
-export type LogoutPayload = AuthorizationError | InvalidInputError | Logout | NotFoundError | UnknownError;
-
 export type Mutation = {
   __typename: 'Mutation';
-  createHunt: HuntPayload;
-  createMultipleClues?: Maybe<Array<CluePayload>>;
-  createMultipleTeams?: Maybe<Array<TeamPayload>>;
-  createSingleClue?: Maybe<Array<CluePayload>>;
-  createSingleTeam: TeamPayload;
-  deleteAllCluesByHuntId: DeleteClues;
-  deleteAllResponsesByHunt: DeleteResponses;
-  deleteAllResponsesByTeam: DeleteResponses;
-  deleteClueById: DeleteClues;
-  deleteHuntById: DeleteHunt;
-  deleteTeam: DeleteTeam;
+  activateHunt?: Maybe<Hunt>;
+  createHunt?: Maybe<Hunt>;
+  createMultipleClues?: Maybe<Array<Maybe<CluePayload>>>;
+  createMultipleTeams?: Maybe<Array<Maybe<Team>>>;
+  createSingleClue?: Maybe<Array<Maybe<CluePayload>>>;
+  createSingleTeam?: Maybe<Team>;
+  deactivateHunt?: Maybe<Hunt>;
+  deleteAllCluesByHuntId?: Maybe<Scalars['Boolean']['output']>;
+  deleteAllResponsesByHunt?: Maybe<Scalars['Boolean']['output']>;
+  deleteAllResponsesByTeam?: Maybe<Scalars['Boolean']['output']>;
+  deleteClueById?: Maybe<Scalars['Boolean']['output']>;
+  deleteHuntById?: Maybe<Scalars['Boolean']['output']>;
+  deleteTeam?: Maybe<Scalars['Boolean']['output']>;
   login: AuthPayload;
-  logout: LogoutPayload;
-  markResponseCorrect: CorrectResponsePayload;
+  logout?: Maybe<Scalars['Boolean']['output']>;
+  markResponseCorrect?: Maybe<Scalars['Boolean']['output']>;
   registerUser: AuthPayload;
-  sendHint: HintPayload;
-  updateClueDescription: CluePayload;
-  updateClueOrder?: Maybe<Array<CluePayload>>;
-  updateHunt: HuntPayload;
-  updateTeam: TeamPayload;
+  sendHint?: Maybe<Scalars['Boolean']['output']>;
+  updateClueDescription?: Maybe<CluePayload>;
+  updateClueOrder?: Maybe<Array<Maybe<CluePayload>>>;
+  updateHunt?: Maybe<Hunt>;
+  updateTeam?: Maybe<Team>;
+};
+
+
+export type MutationActivateHuntArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -199,6 +154,11 @@ export type MutationCreateSingleClueArgs = {
 
 export type MutationCreateSingleTeamArgs = {
   input: CreateSingleTeamInput;
+};
+
+
+export type MutationDeactivateHuntArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -271,36 +231,19 @@ export type MutationUpdateTeamArgs = {
   input: UpdateTeamInput;
 };
 
-export type NotFoundError = BaseError & {
-  __typename: 'NotFoundError';
-  message: Scalars['String']['output'];
-};
-
 export type Query = {
   __typename: 'Query';
-  activateHunt: HuntPayload;
-  deactivateHunt: HuntPayload;
-  deleteAllHuntsByUser: DeleteHunt;
+  deleteAllHuntsByUser?: Maybe<Scalars['Boolean']['output']>;
   getAllUsers?: Maybe<Array<Maybe<UserPayload>>>;
-  getCluesByHuntId?: Maybe<Array<CluePayload>>;
-  getHunt: HuntPayload;
-  getHuntsByUserId?: Maybe<Array<HuntPayload>>;
-  getResponsesByClue?: Maybe<Array<ResponsePayload>>;
-  getResponsesByTeam?: Maybe<Array<ResponsePayload>>;
-  getTeam: TeamPayload;
-  getTeamsByHuntId?: Maybe<Array<TeamPayload>>;
-  getUserFromToken: BaseUserPayload;
-  userNameExists?: Maybe<Scalars['Boolean']['output']>;
-};
-
-
-export type QueryActivateHuntArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type QueryDeactivateHuntArgs = {
-  id: Scalars['ID']['input'];
+  getCluesByHuntId?: Maybe<Array<Maybe<CluePayload>>>;
+  getHunt?: Maybe<Hunt>;
+  getHuntsByUserId?: Maybe<Array<Maybe<Hunt>>>;
+  getResponsesByClue?: Maybe<Array<Maybe<ResponsePayload>>>;
+  getResponsesByTeam?: Maybe<Array<Maybe<ResponsePayload>>>;
+  getTeam?: Maybe<Team>;
+  getTeamsByHuntId?: Maybe<Array<Maybe<Team>>>;
+  getUserFromToken?: Maybe<BaseUserPayload>;
+  userNameExists: Scalars['Boolean']['output'];
 };
 
 
@@ -343,10 +286,8 @@ export type QueryUserNameExistsArgs = {
   user_name: Scalars['String']['input'];
 };
 
-export type ResponsePayload = AuthorizationError | InvalidInputError | NotFoundError | Responses | UnknownError;
-
-export type Responses = {
-  __typename: 'Responses';
+export type ResponsePayload = {
+  __typename: 'ResponsePayload';
   _id: Scalars['ID']['output'];
   clue_id: Scalars['String']['output'];
   correct?: Maybe<Scalars['Boolean']['output']>;
@@ -378,19 +319,6 @@ export type Team = {
   responses?: Maybe<Array<ResponsePayload>>;
 };
 
-export type TeamPayload = AuthorizationError | InvalidInputError | NotFoundError | Team | UnknownError;
-
-export type Token = {
-  __typename: 'Token';
-  _id: Scalars['ID']['output'];
-  token: Scalars['String']['output'];
-};
-
-export type UnknownError = BaseError & {
-  __typename: 'UnknownError';
-  message: Scalars['String']['output'];
-};
-
 export type UpdateClueDescriptionInput = {
   clue_id: Scalars['ID']['input'];
   newDescription: Scalars['String']['input'];
@@ -414,8 +342,8 @@ export type UpdateTeamInput = {
   team_id: Scalars['ID']['input'];
 };
 
-export type User = {
-  __typename: 'User';
+export type UserPayload = {
+  __typename: 'UserPayload';
   _id: Scalars['ID']['output'];
   first_name: Scalars['String']['output'];
   hunts?: Maybe<Array<Hunt>>;
@@ -423,23 +351,11 @@ export type User = {
   user_name: Scalars['String']['output'];
 };
 
-export type UserPayload = AuthorizationError | InvalidInputError | NotFoundError | UnknownError | User;
-
-export type AuthErrorFragment = { __typename: 'AuthorizationError', message: string };
-
-export type InvalidErrorFragment = { __typename: 'InvalidInputError', message: string };
-
-export type NotFoundErrorFragment = { __typename: 'NotFoundError', message: string };
-
-export type UnknownErrorFragment = { __typename: 'UnknownError', message: string };
-
 export type HuntFragment = { __typename: 'Hunt', _id: string, created_by: string, name?: string | null, created_date?: string | null, start_date?: string | null, end_date?: string | null, is_active?: boolean | null, recall_message?: string | null };
 
-export type LogoutFragment = { __typename: 'Logout', success?: boolean | null };
+export type TokenFragment = { __typename: 'AuthPayload', _id: string, token: string };
 
-export type TokenFragment = { __typename: 'Token', _id: string, token: string };
-
-export type UserFragmentFragment = { __typename: 'BaseUser', _id: string, user_name: string, first_name: string, last_name: string };
+export type UserFragmentFragment = { __typename: 'BaseUserPayload', _id: string, user_name: string, first_name: string, last_name: string };
 
 export type LoginUserMutationVariables = Exact<{
   username: Scalars['String']['input'];
@@ -447,26 +363,26 @@ export type LoginUserMutationVariables = Exact<{
 }>;
 
 
-export type LoginUserMutation = { login: { __typename: 'AuthorizationError', message: string } | { __typename: 'InvalidInputError', message: string } | { __typename: 'NotFoundError', message: string } | { __typename: 'Token', _id: string, token: string } | { __typename: 'UnknownError', message: string } };
+export type LoginUserMutation = { login: { __typename: 'AuthPayload', _id: string, token: string } };
 
 export type LogoutUserMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LogoutUserMutation = { logout: { __typename: 'AuthorizationError', message: string } | { __typename: 'InvalidInputError', message: string } | { __typename: 'Logout', success?: boolean | null } | { __typename: 'NotFoundError', message: string } | { __typename: 'UnknownError', message: string } };
+export type LogoutUserMutation = { logout?: boolean | null };
 
 export type RegisterUserMutationVariables = Exact<{
   input: AddUserInput;
 }>;
 
 
-export type RegisterUserMutation = { registerUser: { __typename: 'AuthorizationError', message: string } | { __typename: 'InvalidInputError', message: string } | { __typename: 'NotFoundError', message: string } | { __typename: 'Token', _id: string, token: string } | { __typename: 'UnknownError', message: string } };
+export type RegisterUserMutation = { registerUser: { __typename: 'AuthPayload', _id: string, token: string } };
 
 export type GetUserFromTokenQueryVariables = Exact<{
   tkn: Scalars['String']['input'];
 }>;
 
 
-export type GetUserFromTokenQuery = { getUserFromToken: { __typename: 'AuthorizationError', message: string } | { __typename: 'BaseUser', _id: string, user_name: string, first_name: string, last_name: string } | { __typename: 'InvalidInputError', message: string } | { __typename: 'NotFoundError', message: string } | { __typename: 'UnknownError', message: string } };
+export type GetUserFromTokenQuery = { getUserFromToken?: { __typename: 'BaseUserPayload', _id: string, user_name: string, first_name: string, last_name: string } | null };
 
 
       export interface PossibleTypesResultData {
@@ -475,130 +391,14 @@ export type GetUserFromTokenQuery = { getUserFromToken: { __typename: 'Authoriza
         }
       }
       const result: PossibleTypesResultData = {
-  "possibleTypes": {
-    "AnyError": [
-      "AuthorizationError",
-      "InvalidInputError",
-      "NotFoundError",
-      "UnknownError"
-    ],
-    "AuthPayload": [
-      "AuthorizationError",
-      "InvalidInputError",
-      "NotFoundError",
-      "Token",
-      "UnknownError"
-    ],
-    "BaseError": [
-      "AuthorizationError",
-      "InvalidInputError",
-      "NotFoundError",
-      "UnknownError"
-    ],
-    "BaseUserPayload": [
-      "AuthorizationError",
-      "BaseUser",
-      "InvalidInputError",
-      "NotFoundError",
-      "UnknownError"
-    ],
-    "CluePayload": [
-      "AuthorizationError",
-      "Clue",
-      "InvalidInputError",
-      "NotFoundError",
-      "UnknownError"
-    ],
-    "CorrectResponsePayload": [
-      "AuthorizationError",
-      "CorrectResponse",
-      "InvalidInputError",
-      "NotFoundError",
-      "UnknownError"
-    ],
-    "DeleteClues": [
-      "AuthorizationError",
-      "Delete",
-      "InvalidInputError",
-      "NotFoundError",
-      "UnknownError"
-    ],
-    "DeleteHunt": [
-      "AuthorizationError",
-      "Delete",
-      "InvalidInputError",
-      "NotFoundError",
-      "UnknownError"
-    ],
-    "DeleteResponses": [
-      "AuthorizationError",
-      "Delete",
-      "InvalidInputError",
-      "NotFoundError",
-      "UnknownError"
-    ],
-    "DeleteTeam": [
-      "AuthorizationError",
-      "Delete",
-      "InvalidInputError",
-      "NotFoundError",
-      "UnknownError"
-    ],
-    "HintPayload": [
-      "AuthorizationError",
-      "HintSent",
-      "InvalidInputError",
-      "NotFoundError",
-      "UnknownError"
-    ],
-    "HuntPayload": [
-      "AuthorizationError",
-      "Hunt",
-      "InvalidInputError",
-      "NotFoundError",
-      "UnknownError"
-    ],
-    "LogoutPayload": [
-      "AuthorizationError",
-      "InvalidInputError",
-      "Logout",
-      "NotFoundError",
-      "UnknownError"
-    ],
-    "ResponsePayload": [
-      "AuthorizationError",
-      "InvalidInputError",
-      "NotFoundError",
-      "Responses",
-      "UnknownError"
-    ],
-    "TeamPayload": [
-      "AuthorizationError",
-      "InvalidInputError",
-      "NotFoundError",
-      "Team",
-      "UnknownError"
-    ],
-    "UserPayload": [
-      "AuthorizationError",
-      "InvalidInputError",
-      "NotFoundError",
-      "UnknownError",
-      "User"
-    ]
-  }
+  "possibleTypes": {}
 };
       export default result;
     
-export const AuthErrorFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AuthError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AuthorizationError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]} as unknown as DocumentNode<AuthErrorFragment, unknown>;
-export const InvalidErrorFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"InvalidError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"InvalidInputError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]} as unknown as DocumentNode<InvalidErrorFragment, unknown>;
-export const NotFoundErrorFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NotFoundError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotFoundError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]} as unknown as DocumentNode<NotFoundErrorFragment, unknown>;
-export const UnknownErrorFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UnknownError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"UnknownError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]} as unknown as DocumentNode<UnknownErrorFragment, unknown>;
 export const HuntFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Hunt"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Hunt"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_by"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_date"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"is_active"}},{"kind":"Field","name":{"kind":"Name","value":"recall_message"}}]}}]} as unknown as DocumentNode<HuntFragment, unknown>;
-export const LogoutFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Logout"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Logout"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"success"}}]}}]} as unknown as DocumentNode<LogoutFragment, unknown>;
-export const TokenFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Token"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Token"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]} as unknown as DocumentNode<TokenFragment, unknown>;
-export const UserFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"BaseUser"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"user_name"}},{"kind":"Field","name":{"kind":"Name","value":"first_name"}},{"kind":"Field","name":{"kind":"Name","value":"last_name"}}]}}]} as unknown as DocumentNode<UserFragmentFragment, unknown>;
-export const LoginUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LoginUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"user_name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Token"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"AuthError"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"InvalidError"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"NotFoundError"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"UnknownError"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Token"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Token"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"token"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AuthError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AuthorizationError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"InvalidError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"InvalidInputError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NotFoundError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotFoundError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UnknownError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"UnknownError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]} as unknown as DocumentNode<LoginUserMutation, LoginUserMutationVariables>;
-export const LogoutUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LogoutUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logout"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Logout"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"AuthError"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"InvalidError"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"NotFoundError"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"UnknownError"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Logout"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Logout"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"success"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AuthError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AuthorizationError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"InvalidError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"InvalidInputError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NotFoundError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotFoundError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UnknownError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"UnknownError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]} as unknown as DocumentNode<LogoutUserMutation, LogoutUserMutationVariables>;
-export const RegisterUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RegisterUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AddUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"registerUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Token"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"AuthError"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"InvalidError"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"NotFoundError"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"UnknownError"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Token"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Token"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"token"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AuthError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AuthorizationError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"InvalidError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"InvalidInputError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NotFoundError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotFoundError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UnknownError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"UnknownError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]} as unknown as DocumentNode<RegisterUserMutation, RegisterUserMutationVariables>;
-export const GetUserFromTokenDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUserFromToken"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tkn"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getUserFromToken"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"tkn"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tkn"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"AuthError"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"InvalidError"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"NotFoundError"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"UnknownError"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"BaseUser"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"user_name"}},{"kind":"Field","name":{"kind":"Name","value":"first_name"}},{"kind":"Field","name":{"kind":"Name","value":"last_name"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"AuthError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AuthorizationError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"InvalidError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"InvalidInputError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NotFoundError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NotFoundError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UnknownError"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"UnknownError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]} as unknown as DocumentNode<GetUserFromTokenQuery, GetUserFromTokenQueryVariables>;
+export const TokenFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Token"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AuthPayload"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]} as unknown as DocumentNode<TokenFragment, unknown>;
+export const UserFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"BaseUserPayload"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"user_name"}},{"kind":"Field","name":{"kind":"Name","value":"first_name"}},{"kind":"Field","name":{"kind":"Name","value":"last_name"}}]}}]} as unknown as DocumentNode<UserFragmentFragment, unknown>;
+export const LoginUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LoginUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"user_name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Token"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Token"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AuthPayload"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]} as unknown as DocumentNode<LoginUserMutation, LoginUserMutationVariables>;
+export const LogoutUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LogoutUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logout"}}]}}]} as unknown as DocumentNode<LogoutUserMutation, LogoutUserMutationVariables>;
+export const RegisterUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RegisterUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AddUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"registerUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Token"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Token"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AuthPayload"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]} as unknown as DocumentNode<RegisterUserMutation, RegisterUserMutationVariables>;
+export const GetUserFromTokenDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUserFromToken"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tkn"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getUserFromToken"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"tkn"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tkn"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"UserFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"UserFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"BaseUserPayload"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"user_name"}},{"kind":"Field","name":{"kind":"Name","value":"first_name"}},{"kind":"Field","name":{"kind":"Name","value":"last_name"}}]}}]} as unknown as DocumentNode<GetUserFromTokenQuery, GetUserFromTokenQueryVariables>;

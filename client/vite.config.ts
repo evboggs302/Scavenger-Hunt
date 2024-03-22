@@ -2,7 +2,6 @@ import { defineConfig, loadEnv, splitVendorChunkPlugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import viteTsconfigPaths from "vite-tsconfig-paths";
 import svgrPlugin from "vite-plugin-svgr";
-import commonJsPlugin from "@rollup/plugin-commonjs";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, "../", "");
@@ -17,7 +16,6 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       svgrPlugin(),
-      commonJsPlugin(),
       viteTsconfigPaths(),
       splitVendorChunkPlugin(),
     ],
@@ -30,27 +28,36 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         output: {
           manualChunks: (id, { getModuleInfo }) => {
-            // creating a @react-router chunk. Reducing the vendor chunk size
             if (
               id.includes("react-router-dom") ||
-              id.includes("react-router")
+              id.includes("react-router") ||
+              id.includes("react-dom")
             ) {
+              // creating a @react-router chunk. Reducing the vendor chunk size
               return "@react-router";
-            }
-            // creating a @apollo chunk. Reducing the vendor chunk size
-            else if (id.includes("node_modules/graphql/")) {
-              return "@gql";
-            }
-            // creating a @antd chunk. Reducing the vendor chunk size
-            else if (id.includes("antd")) {
+            } else if (
+              id.includes("node_modules/graphql/") ||
+              id.includes("@apollo/")
+            ) {
+              // creating a @apollo chunk. Reducing the vendor chunk size
+              return "@apollo";
+            } else if (
+              id.includes("antd") ||
+              id.includes("ant-design") ||
+              id.includes("rc-") ||
+              id.includes("dayjs/")
+            ) {
+              // creating a @antd chunk. Reducing the vendor chunk size
               return "@antd";
             }
             // used to help with identifying packages
-            else {
-              console.log(id);
-              console.log(getModuleInfo(id));
-              console.log("\n");
-            }
+            // else {
+            //   console.log(
+            //     id,
+            //     // getModuleInfo(id),
+            //     "\n"
+            //   );
+            // }
           },
         },
       },

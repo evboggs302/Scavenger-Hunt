@@ -8,35 +8,44 @@ import { returnedItems } from "../utils/returnedItems";
 import { Resolvers, UserPayload } from "../generated/graphql";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
 import {
-  ApolloAccessError,
+  AuthenticationError,
   throwResolutionError,
+  throwServerError,
 } from "../utils/apolloErrorHandlers";
 
 export const userResolver: Resolvers = {
   Query: {
-    getAllUsers: async (_: unknown, {}, { user }) => {
-      if (!user) return ApolloAccessError();
+    getAllUsers: async (_: unknown, {}, { user }, { operation: { name } }) => {
+      if (!user) {
+        return AuthenticationError({
+          message: "No user stored on server.",
+          location: name?.value,
+        });
+      }
       const users = await UserModel.find({}).select({ hash: 0 }).exec();
       return users.map(returnedItems);
     },
-    getUserFromToken: async (_: unknown, { tkn }) => {
+    getUserFromToken: async (
+      _: unknown,
+      { tkn },
+      _ctxt,
+      { operation: { name } }
+    ) => {
       const doc = await TokenStorageModel.findOne({ token: tkn })
         .select({ issuedToUser: 1 })
         .exec();
       if (!doc) {
         return throwResolutionError({
-          location: "getUserFromToken",
-          err: null,
-          message: "Token does not exist",
+          location: name?.value,
+          message: "Token does not exist.",
         });
       }
 
       const user = await UserModel.findById(doc.issuedToUser).exec();
       if (!user) {
         return throwResolutionError({
-          location: "getUserFromToken",
-          err: null,
-          message: "User does not exist",
+          location: name?.value,
+          message: "User does not exist.",
         });
       }
 
@@ -53,7 +62,9 @@ export const userResolver: Resolvers = {
   Mutation: {
     registerUser: async (
       _: unknown,
-      { input: { first_name, last_name, user_name, password } }
+      { input: { first_name, last_name, user_name, password } },
+      _ctxt,
+      { operation: { name } }
     ) => {
       const hashedPw = hashSync(password, 15);
       const u_id = createBsonObjectId();
@@ -72,8 +83,8 @@ export const userResolver: Resolvers = {
 
       if (!newFoundUser) {
         return throwResolutionError({
-          location: "registerUser",
-          err: "unable to find the newly saved user",
+          location: name?.value,
+          message: "Unable to find the newly saved user",
         });
       }
 
@@ -81,28 +92,29 @@ export const userResolver: Resolvers = {
 
       if (!tkn) {
         return throwResolutionError({
-          location: "registerUser",
-          err: "unable to find the newly saved user",
+          location: name?.value,
+          message: "Unable to find the newly saved user",
         });
       }
 
       return tkn.toObject();
     },
-    login: async (_: unknown, { input: { user_name, password } }) => {
+    login: async (
+      _: unknown,
+      { input: { user_name, password } },
+      _ctxt,
+      { operation: { name } }
+    ) => {
       const user = await UserModel.getUserForLogin(user_name);
       if (!user) {
-        throw new GraphQLError("User name does not exist", {
-          extensions: {
-            code: "USER DOES NOT EXIST",
-            http: { status: 404 },
-          },
+        return AuthenticationError({
+          message: "Username does not exist.",
+          location: name?.value,
         });
       } else if (!compareSync(password, user.hash)) {
-        throw new GraphQLError("Incorrect Password", {
-          extensions: {
-            code: "UNAUTHENTICATED",
-            http: { status: 401 },
-          },
+        return AuthenticationError({
+          message: "Incorrect password.",
+          location: name?.value,
         });
       } else {
         const token = await createAndSaveToken(user._id);
@@ -110,15 +122,20 @@ export const userResolver: Resolvers = {
 
         if (!tkn) {
           return throwResolutionError({
-            location: "registerUser",
-            err: "unable to find the newly saved user",
+            message: "Unable to find the newly saved user.",
+            location: name?.value,
           });
         }
 
         return tkn.toObject();
       }
     },
-    logout: async (_: unknown, {}, { token, user }) => {
+    logout: async (
+      _: unknown,
+      {},
+      { token, user },
+      { operation: { name } }
+    ) => {
       try {
         await TokenStorageModel.deleteOne({
           token,
@@ -126,17 +143,19 @@ export const userResolver: Resolvers = {
         });
         return true;
       } catch (err) {
-        return throwResolutionError({ location: "logout", err });
+        return throwServerError({
+          message: "Unable to logout at this time.",
+          location: name?.value,
+        });
       }
     },
   },
   UserPayload: {
     hunts: async (parent: UserPayload) => {
       const _id = createBsonObjectId(parent._id);
-      const hunts = await HuntModel.find({
+      return await HuntModel.find({
         created_by: _id,
-      }).exec();
-      return hunts.map(returnedItems);
+      });
     },
   },
 };

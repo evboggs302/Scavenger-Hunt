@@ -4,7 +4,7 @@ import {
   RegisterUserDocument,
 } from "../../../generated/graphql";
 import { useCallback, useMemo } from "react";
-import { useTokenContext } from "../../../shared/context/tokenManagement/useTokenRefContext";
+import { useTokenContext } from "../../../shared/context/tokenContext/useTokenContext";
 
 type RegisterUserCallbackProps = {
   username: string;

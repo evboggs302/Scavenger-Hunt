@@ -4,11 +4,19 @@ import TeamModel from "../models/teams";
 import { Hunt, Resolvers } from "../generated/graphql";
 import { returnedItems } from "../utils/returnedItems";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
-import { throwResolutionError } from "../utils/apolloErrorHandlers";
+import {
+  throwResolutionError,
+  throwServerError,
+} from "../utils/apolloErrorHandlers";
 
 export const huntResolver: Resolvers = {
   Query: {
-    getHuntsByUserId: async (_: unknown, {}, { user }) => {
+    getHuntsByUserId: async (
+      _: unknown,
+      _args,
+      { user },
+      { operation: { name } }
+    ) => {
       try {
         const hunts = await HuntModel.find({ created_by: user._id })
           .sort({ created_date: 1 })
@@ -16,29 +24,41 @@ export const huntResolver: Resolvers = {
 
         return hunts.map(returnedItems);
       } catch (err) {
-        return throwResolutionError({ location: "getHuntsByUserId", err });
+        return throwServerError({
+          message: "Unable to get hunts at this time.",
+          location: name?.value,
+          err,
+        });
       }
     },
-    getHunt: async (_: unknown, { id }) => {
+    getHunt: async (_: unknown, { id }, _ctxt, { operation: { name } }) => {
       try {
         const hunt = await HuntModel.findById(id).exec();
 
         if (!hunt) {
           return throwResolutionError({
-            location: "getHunt",
-            err: null,
-            message: "Unable to find Hunt",
+            location: name?.value,
+            message: "Unable to find hunt.",
           });
         }
 
         return hunt.toObject();
       } catch (err) {
-        return throwResolutionError({ location: "getHunt", err });
+        return throwServerError({
+          message: "Unable to get hunts at the moment",
+          location: name?.value,
+          err,
+        });
       }
     },
     // activateHunt: async (_: unknown, { id }) => {},
     // deactivateHunt: async (_: unknown, { id }) => {},
-    deleteAllHuntsByUser: async (_: unknown, {}, { user }) => {
+    deleteAllHuntsByUser: async (
+      _: unknown,
+      _args,
+      { user },
+      { operation: { name } }
+    ) => {
       try {
         const { deletedCount } = await HuntModel.deleteMany({
           created_by: user._id,
@@ -46,8 +66,9 @@ export const huntResolver: Resolvers = {
 
         return deletedCount > 0;
       } catch (err) {
-        return throwResolutionError({
-          location: "deleteAllHuntsByUser",
+        return throwServerError({
+          message: "Unable to delete hunts at the moment.",
+          location: name?.value,
           err,
         });
       }
@@ -57,7 +78,8 @@ export const huntResolver: Resolvers = {
     createHunt: async (
       _: unknown,
       { input: { name, start_date, end_date } },
-      { user }
+      { user },
+      { operation: { name: opname } }
     ) => {
       try {
         const h_id = createBsonObjectId();
@@ -73,15 +95,18 @@ export const huntResolver: Resolvers = {
         const createdHunt = await HuntModel.findOne({ _id: h_id }).exec();
         if (!createdHunt) {
           return throwResolutionError({
-            location: "createHunt",
-            err: null,
             message: "Failed to create or find the specified hunt.",
+            location: opname?.value,
           });
         }
 
         return createdHunt.toObject();
       } catch (err) {
-        return throwResolutionError({ location: "createHunt", err });
+        return throwServerError({
+          message: "Unable to create hunts at the moment.",
+          location: opname?.value,
+          err,
+        });
       }
     },
     updateHunt: async (
@@ -93,7 +118,9 @@ export const huntResolver: Resolvers = {
           end_date: newEnd,
           recall_message: newRecall,
         },
-      }
+      },
+      _ctxt,
+      { operation: { name } }
     ) => {
       try {
         const _id = createBsonObjectId(hunt_id);
@@ -154,29 +181,35 @@ export const huntResolver: Resolvers = {
 
         if (!hunt) {
           return throwResolutionError({
-            location: "updateHuntDates",
-            err: null,
-            message: `No hunt found to update. Hunt value: ${hunt}`,
+            message: "No hunt found to update.",
+            location: name?.value,
           });
         }
 
         return hunt.toObject();
       } catch (err) {
-        return throwResolutionError({
-          location: "updateHuntDates",
+        return throwServerError({
+          message: "Unable to update hunts at this time.",
+          location: name?.value,
           err,
         });
       }
     },
-    deleteHuntById: async (_: unknown, { h_id }) => {
+    deleteHuntById: async (
+      _: unknown,
+      { h_id },
+      _ctxt,
+      { operation: { name } }
+    ) => {
       try {
         const _id = createBsonObjectId(h_id);
         const { deletedCount } = await HuntModel.deleteOne({ _id }).exec();
 
         return deletedCount === 1;
       } catch (err) {
-        return throwResolutionError({
-          location: "deleteHuntById",
+        return throwServerError({
+          message: "Unable to delete hunts at this time.",
+          location: name?.value,
           err,
         });
       }
@@ -185,17 +218,15 @@ export const huntResolver: Resolvers = {
   Hunt: {
     clues: async (parent: Hunt) => {
       const h_id = createBsonObjectId(parent._id);
-      const clues = await ClueModel.find({
+      return await ClueModel.find({
         hunt_id: h_id,
-      }).exec();
-      return clues.map(returnedItems);
+      });
     },
     teams: async (parent: Hunt) => {
       const h_id = createBsonObjectId(parent._id);
-      const teams = await TeamModel.find({
+      return await TeamModel.find({
         hunt_id: h_id,
-      }).exec();
-      return teams.map(returnedItems);
+      });
     },
   },
 };

@@ -22,21 +22,6 @@ export async function startServer(
     schema,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     introspection: GQL_SERVER_URL.includes("localhost"),
-    formatError: (formattedError, error) => {
-      const code = formattedError.extensions?.code;
-      switch (code) {
-        case ApolloServerErrorCode.INTERNAL_SERVER_ERROR:
-          return formattedError;
-        case ApolloServerErrorCode.OPERATION_RESOLUTION_FAILURE:
-          return { message: formattedError.message };
-        case "ACCESS_ERROR":
-          return formattedError;
-      }
-
-      // Otherwise return the formatted error. This error can also
-      // be manipulated in other ways, as long as it's returned.
-      return formattedError;
-    },
   });
 
   await server.start();

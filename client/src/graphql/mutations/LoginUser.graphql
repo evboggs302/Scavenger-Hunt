@@ -2,9 +2,5 @@
 mutation LoginUser($username: String!, $password: String!) {
   login(input: { user_name: $username, password: $password }) {
     ...Token
-    ...AuthError
-    ...InvalidError
-    ...NotFoundError
-    ...UnknownError
   }
 }

@@ -1,15 +1,26 @@
-import { useMutation } from "@apollo/client";
-import { LoginUserDocument } from "../../../generated/graphql";
+import { MutationHookOptions, useMutation } from "@apollo/client";
+import {
+  LoginUserDocument,
+  LoginUserMutationVariables,
+} from "../../../generated/graphql";
 import { useCallback, useMemo } from "react";
-import { useTokenContext } from "../../../shared/context/tokenManagement/useTokenRefContext";
+import { useTokenContext } from "../../../shared/context/tokenContext/useTokenContext";
+import { useNavigate } from "react-router-dom";
 
 export const useLoginMutation = () => {
+  const navigate = useNavigate();
+  const { setToken } = useTokenContext();
   const [loginUser, result] = useMutation(LoginUserDocument);
 
   const handlLoginUser = useCallback(
-    async ({ username, password }: { username: string; password: string }) => {
-      return loginUser({
-        variables: { username, password },
+    async (args: LoginUserMutationVariables) => {
+      await loginUser({
+        variables: args,
+        onCompleted: ({ login }) => {
+          localStorage.setItem("BEARER_TOKEN", login.token);
+          setToken(login.token);
+          return navigate("/dashboard");
+        },
       });
     },
     [loginUser]

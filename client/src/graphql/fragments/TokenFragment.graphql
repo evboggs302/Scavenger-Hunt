@@ -1,5 +1,4 @@
-fragment Token on Token {
-  __typename
+fragment Token on AuthPayload {
   _id
   token
 }

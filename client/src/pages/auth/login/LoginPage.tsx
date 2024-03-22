@@ -3,7 +3,8 @@ import { useLoginMutation } from "./useLoginMutation";
 import { Link, useNavigate } from "react-router-dom";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Input, Flex, Typography, Button, Tooltip, Alert } from "antd";
-import { useTokenContext } from "../../../shared/context/tokenManagement/useTokenRefContext";
+import { useTokenContext } from "../../../shared/context/tokenContext/useTokenContext";
+import { ApolloError } from "@apollo/client";
 
 const { Title, Text } = Typography;
 
@@ -14,16 +15,14 @@ type Inputs = {
 };
 
 export const LoginPage = () => {
-  const navigate = useNavigate();
-  const { setToken } = useTokenContext();
-  const [showLoginErr, setShowLoginErr] = useState(false);
-  const [loginMutation, { loading, error }] = useLoginMutation();
-  
+  const [loginErr, setLoginErr] = useState<null | string>(null);
+  const [loginMutation, { loading }] = useLoginMutation();
+
   const {
     reset,
     control,
     handleSubmit,
-    formState: { errors: formErrors },
+    formState: { isValid, errors: formErrors },
   } = useForm<Inputs>({
     mode: "onTouched",
     defaultValues: {
@@ -32,17 +31,16 @@ export const LoginPage = () => {
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (formData) => {
-    setShowLoginErr(false);
-    const { data } = await loginMutation(formData);
-    if (data?.login) {
-      const { token } = data.login;
-      localStorage.setItem("BEARER_TOKEN", token);
-      setToken(token);
-      return navigate("/dashboard");
-    } else {
-      console.log(error);
+    setLoginErr(null);
+    try {
+      await loginMutation(formData);
+    } catch (err) {
+      if (err instanceof ApolloError) {
+        setLoginErr(err.message);
+      } else {
+        setLoginErr("Invalid credentials.");
+      }
       reset();
-      setShowLoginErr(true);
     }
   };
 
@@ -57,11 +55,8 @@ export const LoginPage = () => {
           Enter your email and password to sign in
         </Title>
         <Flex vertical gap={12}>
-          {showLoginErr && (
-            <Alert
-              message="Invalid credentials. Please try again."
-              type="error"
-            />
+          {loginErr && (
+            <Alert message={`${loginErr} Please try again.`} type="error" />
           )}
           <Controller
             name="username"
@@ -113,17 +108,20 @@ export const LoginPage = () => {
               </Checkbox>
             )}
           /> */}
-          <Button type="primary" htmlType="submit" disabled={loading}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            disabled={!isValid || loading}>
             {loading ? "Logging in..." : "Submit"}
           </Button>
+          <Text type="secondary">
+            Don't have an account?{" "}
+            <Link to="/register" className="text-dark font-bold">
+              Register now
+            </Link>
+          </Text>
         </Flex>
       </form>
-      <Text type="secondary">
-        Don't have an account?{" "}
-        <Link to="/register" className="text-dark font-bold">
-          Register now
-        </Link>
-      </Text>
     </>
   );
 };

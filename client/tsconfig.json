@@ -5,7 +5,7 @@
     "module": "CommonJS",
     "jsx": "react",
     "moduleResolution": "node",
-    "outDir": "../tsdist/client",
+    "outDir": "dist",
     "allowJs": false,
     "strict": true,
     "declaration": true,

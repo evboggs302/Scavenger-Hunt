@@ -1,44 +1,54 @@
 import { GraphQLError } from "graphql";
-import { EventLogProps, createErrLog } from "./eventLogHelpers";
+import { createErrLog } from "./eventLogHelpers";
 
-const defaultErrMessage = `Uh-oh! An error occured.`;
+type CustomGraphQLErrorArgs = {
+  err?: unknown;
+  location?: string;
+  message: string;
+};
 
-export const ApolloAccessError = async (message?: string) => {
-  await createErrLog({ err: null, location: "middleware", message });
-  throw new GraphQLError(message || defaultErrMessage, {
+export const AuthenticationError = async ({
+  err = null,
+  location = "Authentication error on server.",
+  message,
+}: CustomGraphQLErrorArgs) => {
+  await createErrLog({
+    err,
+    location,
+    message,
+  });
+  throw new GraphQLError(message, {
     extensions: {
-      code: "ACCESS_ERROR",
-      http: { status: 404 },
+      code: "UNAUTHENTICATED",
+      location,
     },
   });
 };
 
 export const throwResolutionError = async ({
-  err,
-  location,
+  err = null,
+  location = "resolvers",
   message,
-}: EventLogProps) => {
+}: CustomGraphQLErrorArgs) => {
   await createErrLog({ err, location, message });
-  throw new GraphQLError(message || defaultErrMessage, {
+  throw new GraphQLError(message, {
     extensions: {
       code: "OPERATION_RESOLUTION_FAILURE",
       location,
-      errMessage: message,
     },
   });
 };
 
 export const throwServerError = async ({
-  err,
-  location,
+  err = null,
+  location = "server",
   message,
-}: EventLogProps) => {
+}: CustomGraphQLErrorArgs) => {
   await createErrLog({ err, location, message });
-  throw new GraphQLError(defaultErrMessage, {
+  throw new GraphQLError(message, {
     extensions: {
       code: "INTERNAL_SERVER_ERROR",
       location,
-      errMessage: message,
     },
   });
 };

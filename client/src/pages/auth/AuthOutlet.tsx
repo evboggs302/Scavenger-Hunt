@@ -17,17 +17,16 @@ export const AuthOutlet = () => {
     <Layout style={{ width: "100vw", height: "100vh", margin: 0 }}>
       <Content className="auth-outlet" style={boxStyle}>
         <Row align="middle" justify="space-around" style={boxStyle}>
-          <Col
-            style={{
-              backgroundColor: "lightgrey",
-            }}>
+          <Col span={7}>
             <Title>WELCOME</Title>
           </Col>
-          <Divider
-            type="vertical"
-            style={{ height: "90%", backgroundColor: "darkgrey" }}
-          />
-          <Col>
+          <Col span={1}>
+            <Divider
+              type="vertical"
+              style={{ height: "80vh", backgroundColor: "darkgrey" }}
+            />
+          </Col>
+          <Col span={16}>
             <Outlet />
           </Col>
         </Row>
