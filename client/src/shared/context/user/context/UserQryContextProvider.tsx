@@ -1,9 +1,9 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { apolloContextHeaders } from "../../apolloContextHeaders";
+import { apolloContextHeaders } from "../../../utils/apolloContextHeaders";
 import { UserContext } from "./UserContext";
-import { useTokenContext } from "../../tokenManagement/useTokenRefContext";
-import { GetUserFromTokenDocument } from "../../../generated/graphql";
+import { useTokenContext } from "../../tokenContext/useTokenContext";
+import { GetUserFromTokenDocument } from "../../../../generated/graphql";
 
 interface UserQryContextProviderProps {
   children: React.ReactNode;
@@ -16,6 +16,7 @@ export const UserQryContextProvider = ({
   const { data, error, loading } = useQuery(GetUserFromTokenDocument, {
     variables: { tkn: token || "invalid" },
     context: apolloContextHeaders(),
+    pollInterval: 4500,
   });
 
   return (

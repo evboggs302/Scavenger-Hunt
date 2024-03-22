@@ -10,10 +10,13 @@ export default defineConfig(({ mode }) => {
       "process.env.GQL_SERVER_URL": JSON.stringify(env.GQL_SERVER_URL),
       "process.env.CLIENT_URL": JSON.stringify(env.CLIENT_URL),
     },
+    preview: {
+      port: 8080,
+    },
     plugins: [
       react(),
-      viteTsconfigPaths(),
       svgrPlugin(),
+      viteTsconfigPaths(),
       splitVendorChunkPlugin(),
     ],
     server: {
@@ -25,30 +28,35 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         output: {
           manualChunks: (id, { getModuleInfo }) => {
-            // creating a @react-router chunk. Reducing the vendor chunk size
             if (
               id.includes("react-router-dom") ||
               id.includes("react-router") ||
               id.includes("react-dom")
             ) {
+              // creating a @react-router chunk. Reducing the vendor chunk size
               return "@react-router";
-            }
-            // creating a @apollo chunk. Reducing the vendor chunk size
-            else if (
+            } else if (
               id.includes("node_modules/graphql/") ||
-              id.includes("@apollo/client")
+              id.includes("@apollo/")
             ) {
-              return "@apollo-client";
-            }
-            // creating a @material-ui chunk. Reducing the vendor chunk size
-            else if (id.includes("material-ui")) {
-              return "@material-ui";
+              // creating a @apollo chunk. Reducing the vendor chunk size
+              return "@apollo";
+            } else if (
+              id.includes("antd") ||
+              id.includes("ant-design") ||
+              id.includes("rc-") ||
+              id.includes("dayjs/")
+            ) {
+              // creating a @antd chunk. Reducing the vendor chunk size
+              return "@antd";
             }
             // used to help with identifying packages
             // else {
-            //   console.log(id);
-            //   console.log(getModuleInfo(id));
-            //   console.log("\n");
+            //   console.log(
+            //     id,
+            //     // getModuleInfo(id),
+            //     "\n"
+            //   );
             // }
           },
         },

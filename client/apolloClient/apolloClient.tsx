@@ -2,9 +2,19 @@ import React, { PropsWithChildren } from "react";
 import {
   ApolloClient,
   ApolloProvider,
+  from,
   InMemoryCache,
   createHttpLink,
 } from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
+
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.forEach(({ message, path }) =>
+      console.log(`[GraphQL error]: Message: ${message}; Path: ${path}`)
+    );
+  if (networkError) console.log(`[Network error]: ${networkError}`);
+});
 
 const httpLink = createHttpLink({
   uri: `${process.env.GQL_SERVER_URL}`,
@@ -16,7 +26,7 @@ const httpLink = createHttpLink({
 
 export const client = new ApolloClient({
   name: "scavenger-web-client",
-  link: httpLink,
+  link: from([errorLink, httpLink]),
   cache: new InMemoryCache(),
   defaultOptions: {
     watchQuery: {

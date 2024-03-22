@@ -1,0 +1,4 @@
+fragment Token on AuthPayload {
+  _id
+  token
+}

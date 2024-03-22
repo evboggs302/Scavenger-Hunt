@@ -59,7 +59,10 @@ export const getUserFromToken = async (
       .exec();
 
     if (!user) {
-      return throwResolutionError({ location: "getUserFromToken", err: null });
+      return throwResolutionError({
+        message: "Unable to find a user associated with that auth token.",
+        location: "getUserFromToken",
+      });
     }
 
     return user.toObject();

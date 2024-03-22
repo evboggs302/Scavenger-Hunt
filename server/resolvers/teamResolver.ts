@@ -3,7 +3,10 @@ import ResponseModel from "../models/responses";
 import { Resolvers, Team } from "../generated/graphql";
 import { returnedItems } from "../utils/returnedItems";
 import { createBsonObjectId } from "../utils/createBsonObjectId";
-import { throwResolutionError } from "../utils/apolloErrorHandlers";
+import {
+  throwResolutionError,
+  throwServerError,
+} from "../utils/apolloErrorHandlers";
 
 export const teamResolver: Resolvers = {
   Query: {
@@ -11,24 +14,22 @@ export const teamResolver: Resolvers = {
       const hunt_id = createBsonObjectId(h_id);
       return await TeamModel.find({ hunt_id });
     },
-    getTeam: async (_: unknown, { id }) => {
+    getTeam: async (_: unknown, { id }, _ctxt, { operation: { name } }) => {
       try {
         const team = await TeamModel.findById(id);
 
         if (!team) {
           return throwResolutionError({
-            location: "getTeam",
-            err: null,
             message: "Failed to find the specified team.",
+            location: name?.value,
           });
         }
 
         return team.toObject();
-      } catch (err) {
-        return throwResolutionError({
-          location: "getTeam",
-          err: null,
-          message: "Failed to find the specified team.",
+      } catch {
+        return throwServerError({
+          message: "Unable to get teams at the moment.",
+          location: name?.value,
         });
       }
     },
@@ -36,7 +37,9 @@ export const teamResolver: Resolvers = {
   Mutation: {
     createSingleTeam: async (
       _: unknown,
-      { input: { h_id, members, device_number } }
+      { input: { h_id, members, device_number } },
+      _ctxt,
+      { operation: { name } }
     ) => {
       const hunt_id = createBsonObjectId(h_id);
       const tm = new TeamModel({
@@ -49,9 +52,8 @@ export const teamResolver: Resolvers = {
       const team = await TeamModel.findOne({ hunt_id }).exec();
       if (!team) {
         return throwResolutionError({
-          location: "createSingleTeam",
-          message: "Unable to find team",
-          err: null,
+          message: "Unable to find team.",
+          location: name?.value,
         });
       }
 
@@ -59,59 +61,74 @@ export const teamResolver: Resolvers = {
     },
     createMultipleTeams: async (
       _: unknown,
-      { input: { h_id, teams: tms } }
+      { input: { h_id, teams: tms } },
+      _ctxt,
+      { operation: { name } }
     ) => {
       try {
         const hunt_id = createBsonObjectId(h_id);
         const mappedTeams = tms.map((tm) => ({ hunt_id, ...tm }));
 
-        await TeamModel.insertMany(mappedTeams);
+        const result = await TeamModel.insertMany(mappedTeams, {
+          includeResultMetadata: true,
+        });
+        console.log(result);
         const teams = await TeamModel.find({ hunt_id }).exec();
         return teams.map(returnedItems);
-      } catch (err) {
-        return throwResolutionError({
-          location: "createMultipleTeams",
-          message: "Unable to create multiple teams.",
-          err,
+      } catch {
+        return throwServerError({
+          message: "Unable to create multiple teams at this time.",
+          location: name?.value,
         });
       }
     },
-    updateTeam: async (_: unknown, { input }) => {
+    updateTeam: async (
+      _: unknown,
+      { input },
+      _ctxt,
+      { operation: { name } }
+    ) => {
       const { team_id } = input;
       const _id = createBsonObjectId(team_id);
 
-      await TeamModel.updateOne({ _id }, { ...input }).exec();
-      const updatedTeam = await TeamModel.findById(_id).exec();
+      const updatedTeam = await TeamModel.findOneAndUpdate(
+        { _id },
+        { ...input },
+        { new: true }
+      );
 
       if (!updatedTeam) {
         return throwResolutionError({
-          location: "updateTeam",
-          err: null,
-          message: "Failed to update or find the specified team.",
+          message: "Unable to update or find the specified team.",
+          location: name?.value,
         });
       }
 
       return updatedTeam.toObject();
     },
-    deleteTeam: async (_: unknown, { input: { team_id } }) => {
+    deleteTeam: async (
+      _: unknown,
+      { input: { team_id } },
+      _ctxt,
+      { operation: { name } }
+    ) => {
       try {
         const _id = createBsonObjectId(team_id);
         const { deletedCount } = await TeamModel.deleteOne({ _id }).exec();
 
         return deletedCount === 1;
-      } catch (err) {
-        return throwResolutionError({ location: "deleteTeam", err });
+      } catch {
+        return throwResolutionError({
+          message: "Unable to delete teams at the moment.",
+          location: name?.value,
+        });
       }
     },
   },
   Team: {
     responses: async (parent: Team) => {
-      try {
-        const team_id = createBsonObjectId(parent._id);
-        return await ResponseModel.find({ team_id });
-      } catch (err) {
-        return throwResolutionError({ location: "CluePayload.responses", err });
-      }
+      const team_id = createBsonObjectId(parent._id);
+      return await ResponseModel.find({ team_id });
     },
   },
 };

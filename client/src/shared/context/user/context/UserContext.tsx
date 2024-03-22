@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { BaseUserPayload } from "../../../generated/graphql";
+import { BaseUserPayload } from "../../../../generated/graphql";
 
 export interface UserContextValue extends Partial<BaseUserPayload> {
   error?: unknown;

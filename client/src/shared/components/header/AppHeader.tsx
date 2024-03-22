@@ -1,18 +1,33 @@
 import React, { memo } from "react";
 import { Link } from "react-router-dom";
 import { useLogoutMutation } from "./useLogoutMutation";
+import { Layout } from "antd";
+import { ApolloError } from "@apollo/client/errors";
+import { useToast } from "../../hooks/useToast";
+
+const { Header } = Layout;
 
 const AppHeader = () => {
-  // const result = useUserContext();
-  const { logoutUser, loading } = useLogoutMutation();
+  const { toastError } = useToast();
+  const [logoutUser, { loading }] = useLogoutMutation();
 
   const onClick = async () => {
-    await logoutUser();
-    return;
+    try {
+      await logoutUser();
+    } catch (err) {
+      if (err instanceof ApolloError) {
+        toastError({ title: "Trouble logging out", message: err.message });
+      } else {
+        toastError({ message: "There was an error trying to logout." });
+      }
+    }
   };
 
   return (
-    <header className="app-header">
+    <Header>
+      <div className="header-col header-brand">
+        <h5>AUTH PAGE</h5>
+      </div>
       <nav className="app-navigation">
         <h3>
           <Link to="/dashboard">Home</Link>
@@ -35,7 +50,7 @@ const AppHeader = () => {
           </button>
         </h3>
       </nav>
-    </header>
+    </Header>
   );
 };
 export default memo(AppHeader);
