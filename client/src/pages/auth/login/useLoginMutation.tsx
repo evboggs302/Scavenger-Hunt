@@ -19,7 +19,7 @@ export const useLoginMutation = () => {
         onCompleted: ({ login }) => {
           localStorage.setItem("BEARER_TOKEN", login.token);
           setToken(login.token);
-          return navigate("/dashboard");
+          navigate("/dashboard");
         },
       });
     },
