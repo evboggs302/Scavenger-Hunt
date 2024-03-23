@@ -7,7 +7,7 @@ import { Input, Typography, Button, Alert, Form } from "antd";
 import { ApolloError } from "@apollo/client";
 import { useRegisterResolver } from "./useRegisterResolver";
 import { Spinner } from "../../../shared/components/Spinner";
-import { formItemLayout } from "../../../shared/components/auth/AuthLayout";
+import { authFormItemLayout } from "../../../shared/components/auth/AuthLayout";
 
 const { Title, Text } = Typography;
 
@@ -55,9 +55,7 @@ export const RegisterPage = () => {
     <>
       <Form
         name="register"
-        {...formItemLayout}
-        style={{ maxWidth: 600 }}
-        requiredMark
+        {...authFormItemLayout}
         onFinish={handleSubmit(onSubmit)}
         autoComplete="off">
         <Title className="mb-15">Register</Title>
@@ -65,7 +63,12 @@ export const RegisterPage = () => {
           Fill out the below information to create an acccount.
         </Title>
         {registerErr && (
-          <Alert message={`${registerErr} Please try again.`} type="error" />
+          <Form.Item>
+            <Alert
+              message={`${registerErr} Please try again later.`}
+              type="error"
+            />
+          </Form.Item>
         )}
         <FormItem
           control={control}
@@ -86,13 +89,13 @@ export const RegisterPage = () => {
         <FormItem control={control} name="username" label="Username" required>
           <Input
             status={usernameErrMsg ? "error" : undefined}
-            placeholder="Enter what you'd like your username to be"
+            placeholder="Enter a username"
           />
         </FormItem>
         <FormItem control={control} name="password" label="Password" required>
           <Input.Password
             status={passwordErrMsg ? "error" : undefined}
-            placeholder="Enter what you'd like your username to be"
+            placeholder="Enter a password"
           />
         </FormItem>
         <Form.Item>

@@ -1,10 +1,5 @@
-export const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 6 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 14 },
-  },
+export const authFormItemLayout = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 18 },
+  style: { maxWidth: 380 },
 };

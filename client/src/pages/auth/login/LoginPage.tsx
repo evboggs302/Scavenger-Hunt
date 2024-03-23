@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { useLoginMutation } from "./useLoginMutation";
 import { FormItem } from "react-hook-form-antd";
 import { Link } from "react-router-dom";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Input, Flex, Typography, Button, Tooltip, Alert, Form } from "antd";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Input, Typography, Button, Alert, Form } from "antd";
 import { ApolloError } from "@apollo/client";
 import { Spinner } from "../../../shared/components/Spinner";
-import { formItemLayout } from "../../../shared/components/auth/AuthLayout";
+import { authFormItemLayout } from "../../../shared/components/auth/AuthLayout";
 import { useLoginResolver } from "./useLoginResolver";
 
 const { Title, Text } = Typography;
@@ -34,7 +34,8 @@ export const LoginPage = () => {
   const onSubmit: SubmitHandler<Inputs> = async (formData) => {
     setLoginErr(null);
     try {
-      await loginMutation(formData);
+      // await loginMutation(formData);
+      throw new Error("well well well");
     } catch (err) {
       if (err instanceof ApolloError) {
         setLoginErr(err.message);
@@ -52,28 +53,32 @@ export const LoginPage = () => {
     <>
       <Form
         name="login"
-        {...formItemLayout}
-        style={{ maxWidth: 600 }}
+        {...authFormItemLayout}
         onFinish={handleSubmit(onSubmit)}>
         <Title className="mb-15">Sign In</Title>
         <Title className="font-regular text-muted" level={5}>
           Enter your email and password to sign in
         </Title>
         {loginErr && (
-          <Alert message={`${loginErr} Please try again.`} type="error" />
+          <Form.Item>
+            <Alert
+              message={`${loginErr} Please try again later.`}
+              type="error"
+            />
+          </Form.Item>
         )}
         <FormItem control={control} name="username" label="Username" required>
           <Input
             required
             status={usernameErrMsg ? "error" : undefined}
-            placeholder="Enter what you'd like your username to be"
+            placeholder="Enter your username"
           />
         </FormItem>
         <FormItem control={control} name="password" label="Password" required>
           <Input.Password
             required
             status={passwordErrMsg ? "error" : undefined}
-            placeholder="Enter what you'd like your username to be"
+            placeholder="Enter your password"
           />
         </FormItem>
         <Form.Item>
