@@ -34,8 +34,8 @@ export const LoginPage = () => {
   const onSubmit: SubmitHandler<Inputs> = async (formData) => {
     setLoginErr(null);
     try {
-      // await loginMutation(formData);
-      throw new Error("well well well");
+      await loginMutation(formData);
+      // throw new Error("try try try");
     } catch (err) {
       if (err instanceof ApolloError) {
         setLoginErr(err.message);

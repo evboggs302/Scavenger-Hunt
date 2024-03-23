@@ -7,7 +7,10 @@ import { Input, Typography, Button, Alert, Form } from "antd";
 import { ApolloError } from "@apollo/client";
 import { useRegisterResolver } from "./useRegisterResolver";
 import { Spinner } from "../../../shared/components/Spinner";
-import { authFormButtonLayout, authFormItemLayout } from "../../../shared/components/auth/AuthLayout";
+import {
+  authFormButtonLayout,
+  authFormItemLayout,
+} from "../../../shared/components/auth/AuthLayout";
 
 const { Title, Text } = Typography;
 
@@ -36,6 +39,7 @@ export const RegisterPage = () => {
   const onSubmit: SubmitHandler<Inputs> = async (formData) => {
     try {
       await registerMutation(formData);
+      // throw new Error("try try try");
     } catch (err) {
       if (err instanceof ApolloError) {
         setRegisterErr(err.message);
