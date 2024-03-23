@@ -1,4 +1,4 @@
-import { MutationHookOptions, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import {
   LoginUserDocument,
   LoginUserMutationVariables,

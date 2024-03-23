@@ -68,7 +68,6 @@ export const userResolver: Resolvers = {
     ) => {
       const hashedPw = hashSync(password, 15);
       const u_id = createBsonObjectId();
-
       const user = new UserModel({
         _id: u_id,
         first_name,
@@ -84,7 +83,7 @@ export const userResolver: Resolvers = {
       if (!newFoundUser) {
         return throwResolutionError({
           location: name?.value,
-          message: "Unable to find the newly saved user",
+          message: "Unable to find the newly saved user.",
         });
       }
 
@@ -93,7 +92,7 @@ export const userResolver: Resolvers = {
       if (!tkn) {
         return throwResolutionError({
           location: name?.value,
-          message: "Unable to find the newly saved user",
+          message: "Unable to find the newly saved user.",
         });
       }
 

@@ -7,7 +7,11 @@ import { ExpressMiddlewareOptions } from "@apollo/server/express4";
 export const apolloServerMiddlewareOptions: ExpressMiddlewareOptions<BaseContext> =
   {
     context: async ({ req }) => {
-      if (["RegisterUser", "LoginUser"].includes(req.body.operationName)) {
+      if (
+        ["RegisterUser", "UsernameExists", "LoginUser"].includes(
+          req.body.operationName
+        )
+      ) {
         return { req };
       } else if (!req.headers.authorization) {
         return AuthenticationError({

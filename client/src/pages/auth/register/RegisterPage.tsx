@@ -1,85 +1,116 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRegisterMutation } from "./useRegisterMutation";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { FormItem } from "react-hook-form-antd";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Input, Typography, Checkbox, Button } from "antd";
+import { Input, Typography, Button, Alert, Form } from "antd";
+import { ApolloError } from "@apollo/client";
+import { useRegisterResolver } from "./useRegisterResolver";
+import { Spinner } from "../../../shared/components/Spinner";
+import { formItemLayout } from "../../../shared/components/auth/AuthLayout";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 type Inputs = {
   username: string;
   password: string;
   firstName: string;
   lastName: string;
-  remember?: boolean;
 };
 
 export const RegisterPage = () => {
-  const navigate = useNavigate();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { registerUser } = useRegisterMutation();
+  const [registerErr, setRegisterErr] = useState<null | string>(null);
+  const [registerMutation, { loading }] = useRegisterMutation();
+  const [resolver] = useRegisterResolver();
+
   const {
-    register,
+    reset,
+    control,
     handleSubmit,
-    formState: { errors },
+    formState: { isValid, errors: formErrors },
   } = useForm<Inputs>({
     mode: "onTouched",
-    defaultValues: {
-      remember: true,
-    },
+    resolver,
   });
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    setIsSubmitting(true);
-    const response = await registerUser(data);
-    setIsSubmitting(false);
-
-    if (response?.registerUser?.__typename === "AuthPayload") {
-      return navigate("/dashboard");
+  const onSubmit: SubmitHandler<Inputs> = async (formData) => {
+    try {
+      await registerMutation(formData);
+    } catch (err) {
+      if (err instanceof ApolloError) {
+        setRegisterErr(err.message);
+      } else {
+        setRegisterErr("An unknown error occurred.");
+      }
+      reset();
     }
   };
 
+  const passwordErrMsg = formErrors.password?.message;
+  const usernameErrMsg = formErrors.username?.message;
+  const firstNameErrMsg = formErrors.firstName?.message;
+  const lastNameErrMsg = formErrors.lastName?.message;
+
   return (
     <>
-      <form
-        name="basic"
+      <Form
+        name="register"
+        {...formItemLayout}
         style={{ maxWidth: 600 }}
-        onSubmit={handleSubmit(onSubmit)}
+        requiredMark
+        onFinish={handleSubmit(onSubmit)}
         autoComplete="off">
-        <Title className="mb-15">Sign In</Title>
+        <Title className="mb-15">Register</Title>
         <Title className="font-regular text-muted" level={5}>
-          Enter your email and password to sign in
+          Fill out the below information to create an acccount.
         </Title>
-        <Input
-          {...register("firstName", {
-            required: "Please input your first name!",
-          })}
-        />
-
-        <Input
-          {...register("lastName", {
-            required: "Please input your last name!",
-          })}
-        />
-
-        <Input
-          {...register("username", { required: "Please input your password!" })}
-        />
-
-        <Input
-          {...register("password", { required: "Please input your password!" })}
-        />
-
-        <Button type="primary" htmlType="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Registering..." : "Register"}
-        </Button>
-      </form>
-      <p className="font-semibold text-muted">
-        Already have an account?{" "}
-        <Link to="/login" className="text-dark font-bold">
-          Login now
-        </Link>
-      </p>
+        {registerErr && (
+          <Alert message={`${registerErr} Please try again.`} type="error" />
+        )}
+        <FormItem
+          control={control}
+          name="firstName"
+          label="First name"
+          required>
+          <Input
+            status={firstNameErrMsg ? "error" : undefined}
+            placeholder="Enter your first name"
+          />
+        </FormItem>
+        <FormItem control={control} name="lastName" label="Lirst name" required>
+          <Input
+            status={lastNameErrMsg ? "error" : undefined}
+            placeholder="Enter your last name"
+          />
+        </FormItem>
+        <FormItem control={control} name="username" label="Username" required>
+          <Input
+            status={usernameErrMsg ? "error" : undefined}
+            placeholder="Enter what you'd like your username to be"
+          />
+        </FormItem>
+        <FormItem control={control} name="password" label="Password" required>
+          <Input.Password
+            status={passwordErrMsg ? "error" : undefined}
+            placeholder="Enter what you'd like your username to be"
+          />
+        </FormItem>
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            disabled={!isValid || loading}>
+            Register
+            {loading && <Spinner />}
+          </Button>
+        </Form.Item>
+        <Text className="font-semibold text-muted">
+          Already have an account?{" "}
+          <Link to="/login" className="text-dark font-bold">
+            Login now
+          </Link>
+        </Text>
+      </Form>
     </>
   );
 };

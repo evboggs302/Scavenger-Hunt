@@ -1,22 +1,25 @@
 import React, { useState } from "react";
 import { useLoginMutation } from "./useLoginMutation";
-import { Link, useNavigate } from "react-router-dom";
+import { FormItem } from "react-hook-form-antd";
+import { Link } from "react-router-dom";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Input, Flex, Typography, Button, Tooltip, Alert } from "antd";
-import { useTokenContext } from "../../../shared/context/tokenContext/useTokenContext";
+import { Input, Flex, Typography, Button, Tooltip, Alert, Form } from "antd";
 import { ApolloError } from "@apollo/client";
+import { Spinner } from "../../../shared/components/Spinner";
+import { formItemLayout } from "../../../shared/components/auth/AuthLayout";
+import { useLoginResolver } from "./useLoginResolver";
 
 const { Title, Text } = Typography;
 
 type Inputs = {
   username: string;
   password: string;
-  remember?: boolean;
 };
 
 export const LoginPage = () => {
   const [loginErr, setLoginErr] = useState<null | string>(null);
   const [loginMutation, { loading }] = useLoginMutation();
+  const [resolver] = useLoginResolver();
 
   const {
     reset,
@@ -25,9 +28,7 @@ export const LoginPage = () => {
     formState: { isValid, errors: formErrors },
   } = useForm<Inputs>({
     mode: "onTouched",
-    defaultValues: {
-      remember: true,
-    },
+    resolver,
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (formData) => {
@@ -49,79 +50,48 @@ export const LoginPage = () => {
 
   return (
     <>
-      <form style={{ maxWidth: 600 }} onSubmit={handleSubmit(onSubmit)}>
+      <Form
+        name="login"
+        {...formItemLayout}
+        style={{ maxWidth: 600 }}
+        onFinish={handleSubmit(onSubmit)}>
         <Title className="mb-15">Sign In</Title>
         <Title className="font-regular text-muted" level={5}>
           Enter your email and password to sign in
         </Title>
-        <Flex vertical gap={12}>
-          {loginErr && (
-            <Alert message={`${loginErr} Please try again.`} type="error" />
-          )}
-          <Controller
-            name="username"
-            control={control}
-            rules={{
-              required: "Please enter your username!",
-            }}
-            render={({ field }) => (
-              <Tooltip
-                trigger={usernameErrMsg ? ["focus"] : undefined}
-                title={usernameErrMsg}
-                placement="topLeft"
-                overlayClassName="numeric-input">
-                <Input
-                  status={usernameErrMsg ? "error" : undefined}
-                  {...field}
-                />
-              </Tooltip>
-            )}
+        {loginErr && (
+          <Alert message={`${loginErr} Please try again.`} type="error" />
+        )}
+        <FormItem control={control} name="username" label="Username" required>
+          <Input
+            required
+            status={usernameErrMsg ? "error" : undefined}
+            placeholder="Enter what you'd like your username to be"
           />
-          <Controller
-            name="password"
-            control={control}
-            rules={{
-              required: "Please enter your password!",
-            }}
-            render={({ field }) => (
-              <Tooltip
-                trigger={passwordErrMsg ? ["focus"] : undefined}
-                title={passwordErrMsg}
-                placement="topLeft"
-                overlayClassName="numeric-input">
-                <Input.Password
-                  status={passwordErrMsg ? "error" : undefined}
-                  {...field}
-                />
-              </Tooltip>
-            )}
+        </FormItem>
+        <FormItem control={control} name="password" label="Password" required>
+          <Input.Password
+            required
+            status={passwordErrMsg ? "error" : undefined}
+            placeholder="Enter what you'd like your username to be"
           />
-          {/* <Controller
-            name="remember"
-            control={control}
-            rules={{
-              required: false,
-            }}
-            render={({ field }) => (
-              <Checkbox checked={field.value} {...field}>
-                Remember me
-              </Checkbox>
-            )}
-          /> */}
+        </FormItem>
+        <Form.Item>
           <Button
             type="primary"
             htmlType="submit"
             disabled={!isValid || loading}>
-            {loading ? "Logging in..." : "Submit"}
+            Login
+            {loading && <Spinner />}
           </Button>
-          <Text type="secondary">
-            Don't have an account?{" "}
-            <Link to="/register" className="text-dark font-bold">
-              Register now
-            </Link>
-          </Text>
-        </Flex>
-      </form>
+        </Form.Item>
+        <Text type="secondary">
+          Don't have an account?{" "}
+          <Link to="/register" className="text-dark font-bold">
+            Register now
+          </Link>
+        </Text>
+      </Form>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useToastContext } from "../context/toastContext/useToastContext";
+import { App } from "antd";
 
 type ToastProps = {
   title?: string;
@@ -7,7 +7,7 @@ type ToastProps = {
 };
 
 export const useToast = () => {
-  const { notify } = useToastContext();
+  const { notification: notify } = App.useApp();
 
   const toastInfo = ({ title = "Info", message }: ToastProps) => {
     notify.info({

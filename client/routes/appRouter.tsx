@@ -15,13 +15,20 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        // path: "login",
         element: <LoginPage />,
       },
+      catchallRouteToParent,
+    ],
+  },
+  {
+    path: "/register",
+    element: <AuthOutlet />,
+    children: [
       {
-        path: "register",
+        index: true,
         element: <RegisterPage />,
       },
+      catchallRouteToParent,
     ],
   },
   {
