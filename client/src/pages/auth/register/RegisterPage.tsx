@@ -80,7 +80,7 @@ export const RegisterPage = () => {
             placeholder="Enter your first name"
           />
         </FormItem>
-        <FormItem control={control} name="lastName" label="Lirst name" required>
+        <FormItem control={control} name="lastName" label="Last name" required>
           <Input
             status={lastNameErrMsg ? "error" : undefined}
             placeholder="Enter your last name"
