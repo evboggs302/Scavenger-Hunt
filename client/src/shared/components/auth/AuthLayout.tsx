@@ -3,3 +3,7 @@ export const authFormItemLayout = {
   wrapperCol: { span: 18 },
   style: { maxWidth: 380 },
 };
+
+export const authFormButtonLayout = {
+  wrapperCol: { offset: 8, span: 16 },
+};

@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Input, Typography, Button, Alert, Form } from "antd";
 import { ApolloError } from "@apollo/client";
 import { Spinner } from "../../../shared/components/Spinner";
-import { authFormItemLayout } from "../../../shared/components/auth/AuthLayout";
+import { authFormButtonLayout, authFormItemLayout } from "../../../shared/components/auth/AuthLayout";
 import { useLoginResolver } from "./useLoginResolver";
 
 const { Title, Text } = Typography;
@@ -81,7 +81,7 @@ export const LoginPage = () => {
             placeholder="Enter your password"
           />
         </FormItem>
-        <Form.Item>
+        <Form.Item {...authFormButtonLayout}>
           <Button
             type="primary"
             htmlType="submit"

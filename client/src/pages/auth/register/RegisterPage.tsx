@@ -7,7 +7,7 @@ import { Input, Typography, Button, Alert, Form } from "antd";
 import { ApolloError } from "@apollo/client";
 import { useRegisterResolver } from "./useRegisterResolver";
 import { Spinner } from "../../../shared/components/Spinner";
-import { authFormItemLayout } from "../../../shared/components/auth/AuthLayout";
+import { authFormButtonLayout, authFormItemLayout } from "../../../shared/components/auth/AuthLayout";
 
 const { Title, Text } = Typography;
 
@@ -98,7 +98,7 @@ export const RegisterPage = () => {
             placeholder="Enter a password"
           />
         </FormItem>
-        <Form.Item>
+        <Form.Item {...authFormButtonLayout}>
           <Button
             type="primary"
             htmlType="submit"
