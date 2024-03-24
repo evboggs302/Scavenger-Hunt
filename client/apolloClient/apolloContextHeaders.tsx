@@ -1,4 +1,4 @@
-import { useTokenContext } from "../context/tokenContext/useTokenContext";
+import { useTokenContext } from "../src/shared/context/tokenContext/useTokenContext";
 
 export const apolloContextHeaders = () => {
   const { token } = useTokenContext();

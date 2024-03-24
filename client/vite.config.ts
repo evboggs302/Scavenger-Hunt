@@ -19,6 +19,12 @@ export default defineConfig(({ mode }) => {
       viteTsconfigPaths(),
       splitVendorChunkPlugin(),
     ],
+    test: {
+      environment: "jsdom",
+      globals: true,
+      root: "src/",
+      setupFiles: "./vitest.setup.ts",
+    },
     server: {
       open: true,
     },

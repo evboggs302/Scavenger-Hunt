@@ -14,11 +14,12 @@ export const Dashboard = () => {
   if (!token || token?.length === 0) {
     return <Navigate to="/" replace />;
   }
+
   return (
     <UserQryContextProvider>
       <Layout>
         <AppHeader />
-        <Content className="signin">
+        <Content data-testid="dashboard-page">
           <Outlet />
         </Content>
         <AppFooter />
