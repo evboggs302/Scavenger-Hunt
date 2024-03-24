@@ -26,6 +26,7 @@ const AllTheProviders = ({ children }: PropsWithChildren) => {
 
 export const render = (
   comp: ReactNode,
-  options: Omit<RenderOptions, "wrapper">
+  options?: Omit<RenderOptions, "wrapper">
 ) => tlrRender(comp, { wrapper: AllTheProviders, ...options });
+
 export { default as userEvent } from "@testing-library/user-event";

@@ -7,5 +7,6 @@ describe("Dashboard Component", () => {
     const { getByTestId } = render(<Dashboard />);
     const page = getByTestId("dashboard-page");
     expect(page).toBeInTheDocument();
+    expect(page).toMatchSnapshot();
   });
 });

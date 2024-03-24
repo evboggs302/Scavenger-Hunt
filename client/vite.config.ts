@@ -24,6 +24,10 @@ export default defineConfig(({ mode }) => {
       globals: true,
       root: "src/",
       setupFiles: "./vitest.setup.ts",
+      resolveSnapshotPath: (path: string) => {
+        const finalPath = path.split("client/src")[1];
+        return "ui-test-results/" + finalPath;
+      },
     },
     server: {
       open: true,
