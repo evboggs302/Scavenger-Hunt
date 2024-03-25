@@ -8,6 +8,8 @@ node_modules/
 
 # testing
 /coverage
+chromatic-diagnostics.json
+client/chromatic.log
 
 # production
 dist/

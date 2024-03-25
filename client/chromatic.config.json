@@ -1,5 +1,6 @@
 {
   "projectId": "Project:660196f2d7d9f94f508241ba",
+  "storybookBaseDir": "client",
   "zip": true,
-  "storybookBaseDir": "client"
+  "debug": true
 }

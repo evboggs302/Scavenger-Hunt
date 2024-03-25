@@ -12,6 +12,18 @@ git-checkout-root: &git-checkout-root
   checkout:
     path: ~/scavenger-hunt
 
+restore-cache: &restore-cache
+  restore_cache:
+    keys:
+      - v1-dependencies-{{ checksum "package.json" }}
+      - v1-dependencies-
+
+save-cache: &save-cache
+  save_cache:
+    paths:
+      - node_modules
+    key: v1-dependencies-{{ checksum "package.json" }}
+
 yarn-install-step: &yarn-install-step
   run:
     name: Yarn install
@@ -25,13 +37,17 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
+      - <<: *restore-cache
       - <<: *yarn-install-step
+      - <<: *save-cache
       - run:
           name: UI functional tests
           command: yarn test
-      # - run:
-      #     name: UI component tests
-      #     command: yarn storybook
+      - run:
+          name: UI component tests
+          command: yarn chromatic
+          environment:
+            CHROMATIC_PROJECT_TOKEN: ${CHROMATIC_PROJECT_TOKEN}
       # - run:
       #     name: UI e2e tests
       #     command: yarn playwright
@@ -43,7 +59,9 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
+      - <<: *restore-cache
       - <<: *yarn-install-step
+      - <<: *save-cache
       - run:
           name: Graphql codegen
           command: yarn codegen
@@ -59,13 +77,24 @@ jobs:
     parallelism: 5
     steps:
       - <<: *git-checkout-root
+      - <<: *restore-cache
       - <<: *yarn-install-step
+      - <<: *save-cache
       - run:
           name: Build UI
           command: yarn build
       - run:
           name: Deploy UI
           command: curl ${DEPLOY_UI_WEBHOOK}
+      - run:
+          name: Build Storybook
+          command: yarn build-storybook
+      - run:
+          name: Update chromatic
+          command: yarn chromatic --auto-accept-changes
+      - run:
+          name: Deploy Storybook
+          command: curl ${DEPLOY_STORYBOOK_WEBHOOK}
 
 workflows:
   test:
