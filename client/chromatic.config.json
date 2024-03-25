@@ -2,7 +2,7 @@
   "projectId": "Project:660196f2d7d9f94f508241ba",
   "autoAcceptChanges": "master",
   "exitZeroOnChanges": true,
-  "storybookBaseDir": "client",
+  "storybookBaseDir": "client/src",
   "zip": true,
   "debug": true
 }
