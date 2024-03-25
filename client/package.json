@@ -15,7 +15,7 @@
     "codegen": "graphql-codegen --config codegen.json",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "chromatic": "chromatic --exit-zero-on-changes --zip"
+    "chromatic": "npx chromatic"
   },
   "dependencies": {
     "@ant-design/cssinjs": "^1.18.4",
