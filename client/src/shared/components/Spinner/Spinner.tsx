@@ -2,7 +2,7 @@ import React from "react";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 
-type SpinnerProps = {
+export type SpinnerProps = {
   size: "sm" | "md" | "lg" | "xl" | number;
 };
 
@@ -28,6 +28,11 @@ export const Spinner = ({ size }: Partial<SpinnerProps>) => {
         );
     }
   } else {
+    if (size < 0) {
+      return (
+        <Spin indicator={<LoadingOutlined style={{ fontSize: 20 }} spin />} />
+      );
+    }
     return (
       <Spin indicator={<LoadingOutlined style={{ fontSize: size }} spin />} />
     );

@@ -5,8 +5,11 @@ import { Link } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input, Typography, Button, Alert, Form } from "antd";
 import { ApolloError } from "@apollo/client";
-import { Spinner } from "../../../shared/components/Spinner";
-import { authFormButtonLayout, authFormItemLayout } from "../../../shared/components/auth/AuthLayout";
+import { Spinner } from "../../../shared/components/Spinner/Spinner";
+import {
+  authFormButtonLayout,
+  authFormItemLayout,
+} from "../../../shared/components/Auth/AuthLayout";
 import { useLoginResolver } from "./useLoginResolver";
 
 const { Title, Text } = Typography;
