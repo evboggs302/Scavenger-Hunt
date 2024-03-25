@@ -30,11 +30,11 @@ jobs:
           name: UI functional tests
           command: yarn test
       # - run:
+      #     name: UI component tests
+      #     command: yarn storybook
+      # - run:
       #     name: UI e2e tests
       #     command: yarn playwright
-      # - run:
-      #     name: Save storybook snapshots
-      #     command: yarn storybook
       - store_test_results:
           path: ui-test-results
   deploy-server-job:

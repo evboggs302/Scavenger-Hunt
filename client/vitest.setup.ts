@@ -5,21 +5,18 @@ import * as matchers from "@testing-library/jest-dom/matchers";
 
 expect.extend(matchers);
 
-afterEach(() => {
-  cleanup();
-});
-
 // Start worker before all tests
 beforeAll(async () => {
-  mockServer.listen();
+  mockServer.listen({ onUnhandledRequest: "bypass" });
+});
+
+// Reset handlers after each test `important for test isolation`
+afterEach(() => {
+  cleanup();
+  mockServer.resetHandlers();
 });
 
 //  Close worker after all tests
 afterAll(() => {
   mockServer.close();
-});
-
-// Reset handlers after each test `important for test isolation`
-afterEach(() => {
-  mockServer.resetHandlers();
 });

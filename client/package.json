@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "build": "vite build --emptyOutDir",
     "test:watch": "vitest --changed",
-    "test": "vitest --run -u",
+    "test": "vitest --run",
     "tsc-check": "npx tsc --noEmit",
     "compile": "npx tsc",
     "playwright": "playwright test",

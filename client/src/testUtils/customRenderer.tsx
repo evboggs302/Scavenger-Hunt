@@ -5,6 +5,7 @@ import { AntGlobalsWrapper } from "../shared/context/antGlobals/AntGlobalsWrappe
 import { TokenContext } from "../shared/context/tokenContext/TokenContext";
 import { ApolloClientProvider } from "../../apolloClient/apolloClient";
 import { BrowserRouter } from "react-router-dom";
+import { UserQryContextProvider } from "../shared/context/user/context/UserQryContextProvider";
 
 const AllTheProviders = ({ children }: PropsWithChildren) => {
   return (
@@ -16,7 +17,9 @@ const AllTheProviders = ({ children }: PropsWithChildren) => {
               token: "default-token",
               setToken: () => {},
             }}>
-            <BrowserRouter>{children}</BrowserRouter>
+            <BrowserRouter>
+              <UserQryContextProvider>{children}</UserQryContextProvider>
+            </BrowserRouter>
           </TokenContext.Provider>
         </AntGlobalsWrapper>
       </ApolloClientProvider>

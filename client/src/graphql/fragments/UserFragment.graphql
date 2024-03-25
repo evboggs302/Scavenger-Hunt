@@ -1,5 +1,4 @@
 fragment UserFragment on BaseUserPayload {
-  __typename
   _id
   user_name
   first_name

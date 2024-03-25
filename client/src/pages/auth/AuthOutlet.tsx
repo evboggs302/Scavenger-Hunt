@@ -13,7 +13,6 @@ const boxStyle: CSSProperties = {
 };
 
 export const AuthOutlet = () => {
-  console.log('hi')
   return (
     <Layout style={{ width: "100vw", height: "100vh", margin: 0 }}>
       <Content className="auth-outlet" style={boxStyle}>

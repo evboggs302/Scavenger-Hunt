@@ -23,11 +23,10 @@ export default defineConfig(({ mode }) => {
       environment: "jsdom",
       globals: true,
       root: "src/",
-      setupFiles: "./vitest.setup.ts",
-      resolveSnapshotPath: (path: string) => {
-        const finalPath = path.split("client/src")[1];
-        return "ui-test-results/" + finalPath;
-      },
+      // setupFiles: "./vitest.setup.ts", // for msw setup if needed
+    },
+    typecheck: {
+      include: ["**/*.{test,spec}-d.?(c|m)[jt]s?(x)"],
     },
     server: {
       open: true,

@@ -4,12 +4,14 @@ import { useLogoutMutation } from "./useLogoutMutation";
 import { Layout } from "antd";
 import { ApolloError } from "@apollo/client/errors";
 import { useToast } from "../../hooks/useToast";
+import { useUserContext } from "../../context/user/context/useUserContext";
 
 const { Header } = Layout;
 
 const AppHeader = () => {
   const { toastError } = useToast();
   const [logoutUser, { loading }] = useLogoutMutation();
+  const { } = useUserContext();
 
   const onClick = async () => {
     try {
@@ -26,6 +28,7 @@ const AppHeader = () => {
   return (
     <Header>
       <div className="header-col header-brand">
+        <h5>AUTH PAGE</h5>
         <h5>AUTH PAGE</h5>
       </div>
       <nav className="app-navigation">
