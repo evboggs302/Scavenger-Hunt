@@ -1,11 +1,5 @@
-import React from "react";
-import { graphql } from "msw";
-import {
-  Spinner as SpinnerComp,
-  SpinnerProps,
-} from "../components/Spinner/Spinner";
-import type { Meta, StoryFn } from "@storybook/react";
-import { ArgTypes } from "@storybook/blocks";
+import type { Meta } from "@storybook/react";
+import { Spinner as SpinnerComp } from "../components/Spinner/Spinner";
 
 const meta: Meta = {
   title: "Components/Spinner",
@@ -17,15 +11,11 @@ const meta: Meta = {
         summary: "md",
       },
       description: "Accepts any number or a predefined string.",
-      options: ["sm", "md", "lg", "xl"],
-      control: { type: "radio" },
+      options: ["sm", "md", "lg", "xl", 28],
+      control: { type: "select" },
     },
   },
 };
 export default meta;
 
-const Template: StoryFn<SpinnerProps> = (props) => <SpinnerComp {...props} />;
-
-export const Spinner = Template.bind({});
-
-<ArgTypes of={Spinner} />;
+export const Spinner = {};

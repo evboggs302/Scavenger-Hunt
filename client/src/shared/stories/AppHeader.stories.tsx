@@ -1,5 +1,4 @@
-import React from "react";
-import type { Meta, StoryFn } from "@storybook/react";
+import type { Meta } from "@storybook/react";
 import { AppHeader } from "../components/Header/AppHeader";
 
 const meta: Meta = {
@@ -9,6 +8,4 @@ const meta: Meta = {
 };
 export default meta;
 
-const Template: StoryFn = (props) => <AppHeader />;
-
-export const Header = Template.bind({});
+export const Header = {};
