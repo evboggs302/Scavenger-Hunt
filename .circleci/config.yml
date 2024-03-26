@@ -6,7 +6,7 @@ version: 2.1
 
 docker-node: &docker-node
   docker:
-    - image: cimg/node:20.11.1
+    - image: cimg/node:21.7.1
 
 git-checkout-root: &git-checkout-root
   checkout:
@@ -32,44 +32,44 @@ yarn-install-step: &yarn-install-step
 
 jobs:
   test-ui-job:
-    # <<: *docker-node
-    # working_directory: ~/scavenger-hunt/client
-    # parallelism: 2
-    # steps:
-    #   - <<: *git-checkout-root
-    #   - <<: *yarn-install-step
-    #   # - run:
-    #   #     name: UI functional tests
-    #   #     command: yarn test
-    #   - run:
-    #       name: UI component tests
-    #       # command: yarn chromatic --project-token=${CHROMATIC_PROJECT_TOKEN}
-    #       command: yarn build-storybook
-    #   # - run:
-    #   #     name: UI e2e tests
-    #   #     command: yarn playwright
-    #   - store_test_results:
-    #       path: ui-test-results
-    docker:
-      - image: cimg/node:21.7.1-browsers
+    <<: *docker-node
     working_directory: ~/scavenger-hunt/client
+    parallelism: 2
     steps:
       - <<: *git-checkout-root
       - <<: *yarn-install-step
-      - restore_cache:
-          keys:
-            # when lock file changes, use increasingly general patterns to restore cache
-            - yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - yarn-packages-v1-{{ .Branch }}-
-            - yarn-packages-v1-
-      - save_cache:
-          paths:
-            - ~/scavenger-hunt/client/.cache/yarn
-          key: yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
-        # 👇 Install dependencies with the same package manager used in the project (replace it as needed) e.g. yarn, npm, pnpm
-      - run: yarn install
-        # 👇 Runs the Chromatic CLI
-      - run: yarn chromatic
+      # - run:
+      #     name: UI functional tests
+      #     command: yarn test
+      - run:
+          name: UI component tests
+          # command: yarn chromatic --project-token=${CHROMATIC_PROJECT_TOKEN}
+          command: yarn build-storybook
+      # - run:
+      #     name: UI e2e tests
+      #     command: yarn playwright
+      - store_test_results:
+          path: ui-test-results
+    #############################################################
+    # docker:
+    #   - image: cimg/node:21.7.1-browsers
+    # working_directory: ~/scavenger-hunt/client
+    # steps:
+    #   - <<: *git-checkout-root
+    #   - restore_cache:
+    #       keys:
+    #         # when lock file changes, use increasingly general patterns to restore cache
+    #         - yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+    #         - yarn-packages-v1-{{ .Branch }}-
+    #         - yarn-packages-v1-
+    #   - save_cache:
+    #       paths:
+    #         - ~/scavenger-hunt/client/.cache/yarn
+    #       key: yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+    #     # 👇 Install dependencies with the same package manager used in the project (replace it as needed) e.g. yarn, npm, pnpm
+    #   - <<: *yarn-install-step
+    #     # 👇 Runs the Chromatic CLI
+    #   - run: yarn chromatic
 
   deploy-server-job:
     <<: *docker-node
