@@ -4,9 +4,17 @@
 # Stacks detected: deps:node:server,package_manager:yarn:
 version: 2.1
 
-execution-node: &execution-node
-  macos:
-    - xcode: "15.3.0"
+orbs:
+  node: circleci/node@5.2.0
+
+docker-node: &docker-node
+  docker:
+    - image: cimg/node:20.11.1
+
+executor: &executor
+  executor:
+    name: node/default
+    tag: "20.11.1"
 
 git-checkout-root: &git-checkout-root
   checkout:
@@ -25,14 +33,16 @@ save-cache: &save-cache
     key: v1-dependencies-{{ checksum "package.json" }}
 
 yarn-install-step: &yarn-install-step
-  run:
-    name: Yarn install
-    no_output_timeout: 30m
-    command: yarn install --frozen-lockfile
+  node/install-packages:
+    pkg-manager: yarn
+  # run:
+  #   name: Yarn install
+  #   no_output_timeout: 30m
+  #   command: yarn install --frozen-lockfile
 
 jobs:
   test-ui-job:
-    <<: *execution-node
+    <<: *docker-node
     working_directory: ~/scavenger-hunt/client
     parallelism: 2
     steps:
@@ -51,7 +61,7 @@ jobs:
           path: ui-test-results
 
   deploy-server-job:
-    <<: *execution-node
+    <<: *docker-node
     working_directory: ~/scavenger-hunt/server
     parallelism: 2
     steps:
@@ -69,7 +79,7 @@ jobs:
           name: Deploy server via webhook
           command: curl ${DEPLOY_SERVER_WEBHOOK}
   deploy-ui-job:
-    <<: *execution-node
+    <<: *docker-node
     working_directory: ~/scavenger-hunt/client
     parallelism: 5
     steps:
