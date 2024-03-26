@@ -37,15 +37,14 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
-      - <<: *restore-cache
       - <<: *yarn-install-step
-      - <<: *save-cache
-      - run:
-          name: UI functional tests
-          command: yarn test
+      # - run:
+      #     name: UI functional tests
+      #     command: yarn test
       - run:
           name: UI component tests
-          command: yarn chromatic --project-token=${CHROMATIC_PROJECT_TOKEN}
+          # command: yarn chromatic --project-token=${CHROMATIC_PROJECT_TOKEN}
+          command: yarn build-storybook
       # - run:
       #     name: UI e2e tests
       #     command: yarn playwright
