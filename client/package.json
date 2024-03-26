@@ -13,14 +13,7 @@
     "compile": "npx tsc",
     "codegen": "graphql-codegen --config codegen.json",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "e2e-local": "playwright test --project=e2e-local --ui",
-    "e2e-local:headed": "playwright test --project=e2e-local --headed",
-    "e2e-local:headless": "playwright test --project=e2e-local",
-    "e2e-prod": "playwright test --project=e2e-prod --ui",
-    "e2e-prod:headed": "playwright test --project=e2e-prod --headed",
-    "e2e-prod:headless": "playwright test --project=e2e-prod",
-    "prepare": "husky"
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@ant-design/cssinjs": "^1.18.4",
@@ -65,11 +58,9 @@
     "@types/react-dom": "^18.0.11",
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react-swc": "^3.3.0",
-    "husky": "^9.0.11",
     "jsdom": "^24.0.0",
     "msw": "^2.2.10",
     "msw-storybook-addon": "2.0.0--canary.122.06f0c92.0",
-    "pinst": "^3.0.0",
     "playwright": "^1.42.1",
     "storybook": "^8.0.4",
     "vite": "^5.2.6",
@@ -81,11 +72,5 @@
     "workerDirectory": [
       "public"
     ]
-  },
-  "husky": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "**/*.ts": "tsc-files --noEmit"
   }
 }
