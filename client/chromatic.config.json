@@ -4,7 +4,7 @@
   "exitZeroOnChanges": true,
   "onlyChanged": true,
   "storybookBaseDir": "client",
-  "storybookBuildDir": "client/storybook-static",
+  "outputDir": "storybook-static",
   "zip": true,
   "debug": true
 }
