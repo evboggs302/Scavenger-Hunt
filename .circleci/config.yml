@@ -6,7 +6,7 @@ version: 2.1
 
 execution-node: &execution-node
   macos:
-    - xcode: 15.3.0
+    - xcode: "15.3.0"
 
 git-checkout-root: &git-checkout-root
   checkout:
