@@ -54,7 +54,8 @@ jobs:
       - image: cimg/node:21.7.1-browsers
     working_directory: ~/scavenger-hunt/client
     steps:
-      - checkout
+      - <<: *git-checkout-root
+      - <<: *yarn-install-step
       - restore_cache:
           keys:
             # when lock file changes, use increasingly general patterns to restore cache
@@ -63,7 +64,7 @@ jobs:
             - yarn-packages-v1-
       - save_cache:
           paths:
-            - ~/.cache/yarn
+            - ~/scavenger-hunt/client/.cache/yarn
           key: yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
         # 👇 Install dependencies with the same package manager used in the project (replace it as needed) e.g. yarn, npm, pnpm
       - run: yarn install
