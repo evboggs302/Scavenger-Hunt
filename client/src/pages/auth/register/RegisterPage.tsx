@@ -21,7 +21,7 @@ type Inputs = {
   lastName: string;
 };
 
-export const RegisterPage = () => {
+export const RegisterPage: React.FC = () => {
   const [registerErr, setRegisterErr] = useState<null | string>(null);
   const [registerMutation, { loading }] = useRegisterMutation();
   const [resolver] = useRegisterResolver();
@@ -62,13 +62,14 @@ export const RegisterPage = () => {
         {...authFormItemLayout}
         onFinish={handleSubmit(onSubmit)}
         autoComplete="off">
-        <Title className="mb-15">Register</Title>
-        <Title className="font-regular text-muted" level={5}>
+        <Title data-testid="register-title">Register</Title>
+        <Title level={5}>
           Fill out the below information to create an acccount.
         </Title>
         {registerErr && (
           <Form.Item>
             <Alert
+              data-testid="register-alert-message"
               message={`${registerErr} Please try again later.`}
               type="error"
             />
@@ -80,30 +81,35 @@ export const RegisterPage = () => {
           label="First name"
           required>
           <Input
+            data-testid="register-firstname"
             status={firstNameErrMsg ? "error" : undefined}
             placeholder="Enter your first name"
           />
         </FormItem>
         <FormItem control={control} name="lastName" label="Last name" required>
           <Input
+            data-testid="register-lastname"
             status={lastNameErrMsg ? "error" : undefined}
             placeholder="Enter your last name"
           />
         </FormItem>
         <FormItem control={control} name="username" label="Username" required>
           <Input
+            data-testid="register-username"
             status={usernameErrMsg ? "error" : undefined}
             placeholder="Enter a username"
           />
         </FormItem>
         <FormItem control={control} name="password" label="Password" required>
           <Input.Password
+            data-testid="register-password"
             status={passwordErrMsg ? "error" : undefined}
             placeholder="Enter a password"
           />
         </FormItem>
         <Form.Item {...authFormButtonLayout}>
           <Button
+            data-testid="register-submit"
             type="primary"
             htmlType="submit"
             disabled={!isValid || loading}>
@@ -113,7 +119,7 @@ export const RegisterPage = () => {
         </Form.Item>
         <Text className="font-semibold text-muted">
           Already have an account?{" "}
-          <Link to="/login" className="text-dark font-bold">
+          <Link data-testid="" to="/login" className="text-dark font-bold">
             Login now
           </Link>
         </Text>

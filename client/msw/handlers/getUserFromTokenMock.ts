@@ -3,8 +3,7 @@ import { GetUserFromTokenDocument } from "../../src/generated/graphql";
 
 export const getUserFromTokenMock = graphql.query(
   GetUserFromTokenDocument,
-  (props) => {
-    // console.log(props);
+  () => {
     return HttpResponse.json({
       data: {
         getUserFromToken: {

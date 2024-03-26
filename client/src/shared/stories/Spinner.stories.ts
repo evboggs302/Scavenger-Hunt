@@ -1,7 +1,7 @@
 import type { Meta } from "@storybook/react";
 import { Spinner as SpinnerComp } from "../components/Spinner/Spinner";
 
-const meta: Meta = {
+const meta: Meta<typeof SpinnerComp> = {
   title: "Components/Spinner",
   component: SpinnerComp,
   tags: ["autodocs"],
