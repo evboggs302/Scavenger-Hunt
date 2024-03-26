@@ -28,10 +28,9 @@ export default defineConfig(({ mode }) => {
       environment: "jsdom",
       globals: true,
       root: "src/",
-      // setupFiles: "./vitest.setup.ts", // for msw setup if needed
-    },
-    typecheck: {
-      include: ["**/*.{test,spec}.?(c|m)[jt]s?(x)"], // allows for tests to test against types
+      typecheck: {
+        include: ["**/*.{test,spec}.?(c|m)[jt]s?(x)"], // allows for tests to test against types
+      },
     },
     server: {
       open: true,

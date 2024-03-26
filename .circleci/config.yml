@@ -45,7 +45,7 @@ jobs:
           command: yarn test
       - run:
           name: UI component tests
-          command: npx chromatic --project-token=${CHROMATIC_PROJECT_TOKEN}
+          command: yarn chromatic --project-token=${CHROMATIC_PROJECT_TOKEN}
       # - run:
       #     name: UI e2e tests
       #     command: yarn playwright
