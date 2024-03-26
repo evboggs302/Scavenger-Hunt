@@ -4,17 +4,17 @@
 # Stacks detected: deps:node:server,package_manager:yarn:
 version: 2.1
 
-orbs:
-  node: circleci/node@5.2.0
+# orbs:
+#   node: circleci/node@5.2.0
 
 docker-node: &docker-node
   docker:
     - image: cimg/node:20.11.1
 
-executor: &executor
-  executor:
-    name: node/default
-    tag: "20.11.1"
+# executor: &executor
+#   executor:
+#     name: node/default
+#     tag: "20.11.1"
 
 git-checkout-root: &git-checkout-root
   checkout:
@@ -33,12 +33,12 @@ save-cache: &save-cache
     key: v1-dependencies-{{ checksum "package.json" }}
 
 yarn-install-step: &yarn-install-step
-  node/install-packages:
-    pkg-manager: yarn
-  # run:
-  #   name: Yarn install
-  #   no_output_timeout: 30m
-  #   command: yarn install --frozen-lockfile
+  # node/install-packages:
+  # pkg-manager: yarn
+  run:
+    name: Yarn install
+    no_output_timeout: 30m
+    command: yarn install --frozen-lockfile
 
 jobs:
   test-ui-job:

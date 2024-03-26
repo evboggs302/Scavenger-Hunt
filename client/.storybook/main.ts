@@ -4,10 +4,9 @@ const config: StorybookConfig = {
   stories: ["../src/**/*.stories.@(ts|tsx)"],
   staticDirs: ["../public"],
   addons: [
-    "@storybook/addon-onboarding",
-    "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
+    // "@storybook/addon-links",
+    // "@storybook/addon-essentials",
+    // "@storybook/addon-interactions",
     "@chromatic-com/storybook",
     "msw-storybook-addon",
   ],
