@@ -4,8 +4,8 @@
 # Stacks detected: deps:node:server,package_manager:yarn:
 version: 2.1
 
-docker-node: &docker-node
-  docker:
+execution-node: &execution-node
+  macos:
     - image: cimg/node:20.11.1
 
 git-checkout-root: &git-checkout-root
@@ -32,7 +32,7 @@ yarn-install-step: &yarn-install-step
 
 jobs:
   test-ui-job:
-    <<: *docker-node
+    <<: *execution-node
     working_directory: ~/scavenger-hunt/client
     parallelism: 2
     steps:
@@ -51,7 +51,7 @@ jobs:
           path: ui-test-results
 
   deploy-server-job:
-    <<: *docker-node
+    <<: *execution-node
     working_directory: ~/scavenger-hunt/server
     parallelism: 2
     steps:
@@ -69,7 +69,7 @@ jobs:
           name: Deploy server via webhook
           command: curl ${DEPLOY_SERVER_WEBHOOK}
   deploy-ui-job:
-    <<: *docker-node
+    <<: *execution-node
     working_directory: ~/scavenger-hunt/client
     parallelism: 5
     steps:
