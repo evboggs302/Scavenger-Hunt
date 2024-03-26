@@ -1,13 +1,13 @@
 import React from "react";
 import { Layout } from "antd";
-import { Copyright } from "../copyright/Copyright";
+import { License } from "./License";
 
 const { Footer } = Layout;
 
 export const AppFooter = () => {
   return (
     <Footer>
-      <Copyright />
+      <License />
     </Footer>
   );
 };

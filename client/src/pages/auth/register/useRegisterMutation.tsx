@@ -1,9 +1,7 @@
-import { useMutation } from "@apollo/client";
-import {
-  LoginUserDocument,
-  RegisterUserDocument,
-} from "../../../generated/graphql";
 import { useCallback, useMemo } from "react";
+import { useMutation } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
+import { RegisterUserDocument } from "../../../generated/graphql";
 import { useTokenContext } from "../../../shared/context/tokenContext/useTokenContext";
 
 type RegisterUserCallbackProps = {
@@ -14,8 +12,9 @@ type RegisterUserCallbackProps = {
 };
 
 export const useRegisterMutation = () => {
-  const [registerUser] = useMutation(RegisterUserDocument);
+  const navigate = useNavigate();
   const { setToken } = useTokenContext();
+  const [registerUser, result] = useMutation(RegisterUserDocument);
 
   const handlRegisterUser = useCallback(
     async ({
@@ -24,7 +23,7 @@ export const useRegisterMutation = () => {
       firstName,
       lastName,
     }: RegisterUserCallbackProps) => {
-      const { data, errors } = await registerUser({
+      await registerUser({
         variables: {
           input: {
             user_name: username,
@@ -33,23 +32,21 @@ export const useRegisterMutation = () => {
             last_name: lastName,
           },
         },
+        onCompleted: ({ registerUser }) => {
+          localStorage.setItem("BEARER_TOKEN", registerUser.token);
+          setToken(registerUser.token);
+          navigate("/dashboard");
+        },
       });
-      if (data?.registerUser?.token) {
-        localStorage.setItem("BEARER_TOKEN", data.registerUser.token);
-        setToken(data.registerUser.token);
-        return data;
-      } else {
-        console.log("useRegisterMutation");
-        console.log(errors);
-      }
     },
-    []
+    [registerUser, navigate]
   );
 
   return useMemo(
-    () => ({
-      registerUser: handlRegisterUser,
-    }),
-    []
+    (): [typeof handlRegisterUser, typeof result] => [
+      handlRegisterUser,
+      result,
+    ],
+    [handlRegisterUser, result]
   );
 };

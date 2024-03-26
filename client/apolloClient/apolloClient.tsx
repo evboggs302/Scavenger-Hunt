@@ -25,7 +25,7 @@ const httpLink = createHttpLink({
 });
 
 export const client = new ApolloClient({
-  name: "scavenger-web-client",
+  name: "digital-scavenger-client",
   link: from([errorLink, httpLink]),
   cache: new InMemoryCache(),
   defaultOptions: {

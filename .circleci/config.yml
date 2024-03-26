@@ -32,11 +32,9 @@ jobs:
       # - run:
       #     name: UI e2e tests
       #     command: yarn playwright
-      # - run:
-      #     name: Save storybook snapshots
-      #     command: yarn storybook
       - store_test_results:
           path: ui-test-results
+
   deploy-server-job:
     <<: *docker-node
     working_directory: ~/scavenger-hunt/server
@@ -61,11 +59,14 @@ jobs:
       - <<: *git-checkout-root
       - <<: *yarn-install-step
       - run:
-          name: Build UI
-          command: yarn build
+          name: Build UI & Storybook
+          command: yarn build && yarn build-storybook
       - run:
           name: Deploy UI
           command: curl ${DEPLOY_UI_WEBHOOK}
+      - run:
+          name: Deploy Storybook
+          command: curl ${DEPLOY_STORYBOOK_WEBHOOK}
 
 workflows:
   test:

@@ -1,15 +1,18 @@
-import React, { memo } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { useLogoutMutation } from "./useLogoutMutation";
-import { Layout } from "antd";
+import { Layout, Typography } from "antd";
 import { ApolloError } from "@apollo/client/errors";
 import { useToast } from "../../hooks/useToast";
+import { useLogoutMutation } from "./useLogoutMutation";
+import { useUserContext } from "../../context/user/context/useUserContext";
 
 const { Header } = Layout;
+const { Title } = Typography;
 
-const AppHeader = () => {
+export const AppHeader: React.FC = () => {
   const { toastError } = useToast();
   const [logoutUser, { loading }] = useLogoutMutation();
+  const { first_name } = useUserContext();
 
   const onClick = async () => {
     try {
@@ -25,10 +28,8 @@ const AppHeader = () => {
 
   return (
     <Header>
-      <div className="header-col header-brand">
-        <h5>AUTH PAGE</h5>
-      </div>
-      <nav className="app-navigation">
+      <Title style={{ color: "white" }}>{first_name}</Title>
+      <nav>
         <h3>
           <Link to="/dashboard">Home</Link>
         </h3>
@@ -53,4 +54,3 @@ const AppHeader = () => {
     </Header>
   );
 };
-export default memo(AppHeader);

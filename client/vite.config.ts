@@ -19,6 +19,14 @@ export default defineConfig(({ mode }) => {
       viteTsconfigPaths(),
       splitVendorChunkPlugin(),
     ],
+    test: {
+      environment: "jsdom",
+      globals: true,
+      root: "src/",
+      typecheck: {
+        include: ["**/*.{test,spec}.?(c|m)[jt]s?(x)"], // allows for tests to test against types
+      },
+    },
     server: {
       open: true,
     },
