@@ -6,7 +6,7 @@ version: 2.1
 
 execution-node: &execution-node
   macos:
-    - image: cimg/node:20.11.1
+    - xcode: 15.3.0
 
 git-checkout-root: &git-checkout-root
   checkout:
