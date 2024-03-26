@@ -35,13 +35,13 @@ export default defineConfig(({ mode }) => {
     server: {
       open: true,
     },
-    resolve: {
-      alias: {
-        "msw/native": req.resolve(
-          path.resolve(__dirname, "./node_modules/msw/lib/native/index.mjs")
-        ),
-      },
-    },
+    // resolve: {
+    //   alias: {
+    //     "msw/native": req.resolve(
+    //       path.resolve(__dirname, "./node_modules/msw/lib/native/index.mjs")
+    //     ),
+    //   },
+    // },
     build: {
       outDir: "build",
       manifest: true,
