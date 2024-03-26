@@ -51,7 +51,7 @@ jobs:
     #   - store_test_results:
     #       path: ui-test-results
     docker:
-      - image: cimg/node:16
+      - image: cimg/node:21.7.1-browsers
     working_directory: ~/scavenger-hunt/client
     steps:
       - checkout
