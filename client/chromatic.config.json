@@ -3,7 +3,6 @@
   "autoAcceptChanges": "master",
   "exitZeroOnChanges": true,
   "onlyChanged": true,
-  "storybookBaseDir": "client",
   "outputDir": "storybook-static",
   "zip": true,
   "debug": true

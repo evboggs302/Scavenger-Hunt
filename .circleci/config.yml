@@ -85,12 +85,6 @@ jobs:
           name: Deploy UI
           command: curl ${DEPLOY_UI_WEBHOOK}
       - run:
-          name: Build Storybook
-          command: yarn build-storybook
-      - run:
-          name: Update chromatic
-          command: yarn chromatic --project-token=${CHROMATIC_PROJECT_TOKEN}
-      - run:
           name: Deploy Storybook
           command: curl ${DEPLOY_STORYBOOK_WEBHOOK}
 
