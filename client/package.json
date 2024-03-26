@@ -14,8 +14,7 @@
     "playwright": "playwright test",
     "codegen": "graphql-codegen --config codegen.json",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "chromatic": "npx chromatic"
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@ant-design/cssinjs": "^1.18.4",
@@ -34,7 +33,6 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^1.2.25",
     "@graphql-codegen/cli": "5.0.2",
     "@graphql-codegen/fragment-matcher": "^5.0.0",
     "@graphql-codegen/introspection": "4.0.3",

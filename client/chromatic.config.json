@@ -1,9 +1,0 @@
-{
-  "projectId": "Project:660196f2d7d9f94f508241ba",
-  "autoAcceptChanges": "master",
-  "exitZeroOnChanges": true,
-  "onlyChanged": true,
-  "outputDir": "storybook-static",
-  "zip": true,
-  "debug": true
-}
