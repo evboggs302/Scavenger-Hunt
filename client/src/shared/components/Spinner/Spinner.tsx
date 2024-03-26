@@ -6,7 +6,7 @@ export type SpinnerProps = {
   size: "sm" | "md" | "lg" | "xl" | number;
 };
 
-export const Spinner = ({ size }: Partial<SpinnerProps>) => {
+export const Spinner: React.FC = ({ size }: Partial<SpinnerProps>) => {
   if (!size || typeof size === "string") {
     switch (size) {
       case "xl":

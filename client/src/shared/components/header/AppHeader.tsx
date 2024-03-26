@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Layout, Typography } from "antd";
 import { ApolloError } from "@apollo/client/errors";
@@ -9,7 +9,7 @@ import { useUserContext } from "../../context/user/context/useUserContext";
 const { Header } = Layout;
 const { Title } = Typography;
 
-export const AppHeader = () => {
+export const AppHeader: React.FC = () => {
   const { toastError } = useToast();
   const [logoutUser, { loading }] = useLogoutMutation();
   const { first_name } = useUserContext();
