@@ -1,12 +1,10 @@
 {
   "projectId": "Project:660196f2d7d9f94f508241ba",
-  "configFile": "client/chromatic.config.json",
   "autoAcceptChanges": "master",
   "exitZeroOnChanges": true,
   "onlyChanged": true,
   "storybookBaseDir": "client",
   "storybookBuildDir": "client",
-  "workingDir": "client",
   "zip": true,
   "debug": true
 }
