@@ -11,10 +11,16 @@
     "test": "vitest --run",
     "tsc-check": "npx tsc --noEmit",
     "compile": "npx tsc",
-    "playwright": "playwright test",
     "codegen": "graphql-codegen --config codegen.json",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "e2e-local": "playwright test --project=e2e-local --ui",
+    "e2e-local:headed": "playwright test --project=e2e-local --headed",
+    "e2e-local:headless": "playwright test --project=e2e-local",
+    "e2e-prod": "playwright test --project=e2e-prod --ui",
+    "e2e-prod:headed": "playwright test --project=e2e-prod --headed",
+    "e2e-prod:headless": "playwright test --project=e2e-prod",
+    "prepare": "husky"
   },
   "dependencies": {
     "@ant-design/cssinjs": "^1.18.4",
@@ -23,6 +29,7 @@
     "@hookform/resolvers": "^3.3.4",
     "antd": "^5.15.3",
     "graphql": "^16.8.1",
+    "parse-duration": "^1.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.1",
@@ -43,6 +50,7 @@
     "@graphql-codegen/typescript-operations": "^4.0.0",
     "@graphql-codegen/typescript-react-apollo": "^4.3.0",
     "@graphql-codegen/typescript-resolvers": "4.0.6",
+    "@playwright/test": "^1.42.1",
     "@storybook/addon-essentials": "^8.0.0",
     "@storybook/addon-interactions": "^8.0.4",
     "@storybook/addon-links": "^8.0.4",
@@ -57,9 +65,11 @@
     "@types/react-dom": "^18.0.11",
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react-swc": "^3.3.0",
+    "husky": "^9.0.11",
     "jsdom": "^24.0.0",
     "msw": "^2.2.10",
     "msw-storybook-addon": "2.0.0--canary.122.06f0c92.0",
+    "pinst": "^3.0.0",
     "playwright": "^1.42.1",
     "storybook": "^8.0.4",
     "vite": "^5.2.6",
@@ -71,5 +81,11 @@
     "workerDirectory": [
       "public"
     ]
+  },
+  "husky": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "**/*.ts": "tsc-files --noEmit"
   }
 }
