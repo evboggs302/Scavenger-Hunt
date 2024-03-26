@@ -32,24 +32,38 @@ yarn-install-step: &yarn-install-step
 
 jobs:
   test-ui-job:
-    <<: *docker-node
+    # <<: *docker-node
+    # working_directory: ~/scavenger-hunt/client
+    # parallelism: 2
+    # steps:
+    #   - <<: *git-checkout-root
+    #   - <<: *yarn-install-step
+    #   # - run:
+    #   #     name: UI functional tests
+    #   #     command: yarn test
+    #   - run:
+    #       name: UI component tests
+    #       # command: yarn chromatic --project-token=${CHROMATIC_PROJECT_TOKEN}
+    #       command: yarn build-storybook
+    #   # - run:
+    #   #     name: UI e2e tests
+    #   #     command: yarn playwright
+    #   - store_test_results:
+    #       path: ui-test-results
+    docker:
+      - image: cimg/node:21.7.1-browsers
     working_directory: ~/scavenger-hunt/client
-    parallelism: 2
     steps:
-      - <<: *git-checkout-root
-      - <<: *yarn-install-step
-      # - run:
-      #     name: UI functional tests
-      #     command: yarn test
-      - run:
-          name: UI component tests
-          # command: yarn chromatic --project-token=${CHROMATIC_PROJECT_TOKEN}
-          command: yarn build-storybook
-      # - run:
-      #     name: UI e2e tests
-      #     command: yarn playwright
-      - store_test_results:
-          path: ui-test-results
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+        # 👇 Install dependencies with the same package manager used in the project (replace it as needed) e.g. yarn, npm, pnpm
+      - run: yarn install
+        # 👇 Runs the Chromatic CLI
+      - run: yarn chromatic
+
   deploy-server-job:
     <<: *docker-node
     working_directory: ~/scavenger-hunt/server
