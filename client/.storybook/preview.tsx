@@ -4,7 +4,7 @@ import { Decorator } from "@storybook/react";
 import { StyleProvider } from "@ant-design/cssinjs";
 import { MemoryRouter } from "react-router-dom";
 import { ApolloClientProvider } from "../apolloClient/apolloClient";
-import { UserQryContextProvider } from "../src/shared/context/user/context/UserQryContextProvider";
+import { UserQryContextProvider } from "../src/lib/context/user/context/UserQryContextProvider";
 import { mswHandlers } from "../msw/mswHandlers";
 
 // MSW Initialize

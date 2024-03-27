@@ -1,7 +1,7 @@
 import React, { CSSProperties } from "react";
 import { Outlet } from "react-router-dom";
 import { Divider, Flex, Layout, Typography, Col, Row } from "antd";
-import { AppFooter } from "../../shared/components/Footer/AppFooter";
+import { AppFooter } from "../../lib/components/Footer/AppFooter";
 
 const { Content } = Layout;
 const { Title } = Typography;
