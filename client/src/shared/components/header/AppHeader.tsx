@@ -9,7 +9,7 @@ import { useUserContext } from "../../context/user/context/useUserContext";
 const { Header } = Layout;
 const { Title } = Typography;
 
-export const AppHeader: React.FC = () => {
+export const AppHeader = () => {
   const { toastError } = useToast();
   const [logoutUser, { loading }] = useLogoutMutation();
   const { first_name } = useUserContext();
