@@ -54,7 +54,7 @@ jobs:
   deploy-ui-job:
     <<: *docker-node
     working_directory: ~/scavenger-hunt/client
-    parallelism: 5
+    parallelism: 2
     steps:
       - <<: *git-checkout-root
       - <<: *yarn-install-step
