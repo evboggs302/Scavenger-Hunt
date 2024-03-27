@@ -10,17 +10,18 @@ import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { apolloServerMiddlewareOptions } from "./utils/apolloServerMiddlewareOptions";
 
-const { MONGO_URI, PORT, GQL_SERVER_URL, CLIENT_URL } = config;
+const { MONGO_URI, PORT, GQL_SERVER_URL } = config;
 
 export async function startServer(
   listenOptions: ListenOptions = { port: PORT }
 ) {
+  console.log(process.env.CLIENT_URL);
   const app = express();
   const httpServer = http.createServer(app);
   const server = new ApolloServer({
     schema,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-    introspection: GQL_SERVER_URL.includes("localhost"),
+    introspection: process.env.GQL_SERVER_URL?.includes("localhost"),
   });
 
   await server.start();
@@ -32,7 +33,7 @@ export async function startServer(
       origin: [
         "http://localhost:5173", // vite dev build
         "http://localhost:8080", // vite preview build
-        CLIENT_URL,
+        `${process.env.CLIENT_URL}`,
         "https://studio.apollographql.com",
       ],
     }),
