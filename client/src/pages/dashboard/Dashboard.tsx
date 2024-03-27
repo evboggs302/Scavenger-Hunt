@@ -1,10 +1,10 @@
 import React from "react";
-import { AppHeader } from "../../shared/components/Header/AppHeader";
+import { AppHeader } from "../../lib/components/Header/AppHeader";
 import { Navigate, Outlet } from "react-router-dom";
-import { UserQryContextProvider } from "../../shared/context/user/context/UserQryContextProvider";
-import { useTokenContext } from "../../shared/context/tokenContext/useTokenContext";
+import { UserQryContextProvider } from "../../lib/context/user/context/UserQryContextProvider";
+import { useTokenContext } from "../../lib/context/tokenContext/useTokenContext";
 import { Layout } from "antd";
-import { AppFooter } from "../../shared/components/Footer/AppFooter";
+import { AppFooter } from "../../lib/components/Footer/AppFooter";
 
 const { Sider, Content } = Layout;
 
