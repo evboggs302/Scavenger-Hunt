@@ -21,7 +21,7 @@ type Inputs = {
   lastName: string;
 };
 
-export const RegisterPage: React.FC = () => {
+export const RegisterPage = () => {
   const [registerErr, setRegisterErr] = useState<null | string>(null);
   const [registerMutation, { loading }] = useRegisterMutation();
   const [resolver] = useRegisterResolver();
