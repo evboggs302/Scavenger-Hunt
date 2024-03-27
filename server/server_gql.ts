@@ -10,7 +10,7 @@ import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { apolloServerMiddlewareOptions } from "./utils/apolloServerMiddlewareOptions";
 
-const { MONGO_URI, PORT, GQL_SERVER_URL } = config;
+const { MONGO_URI, PORT, GQL_SERVER_URL, CLIENT_URL } = config;
 
 export async function startServer(
   listenOptions: ListenOptions = { port: PORT }
@@ -32,7 +32,7 @@ export async function startServer(
       origin: [
         "http://localhost:5173", // vite dev build
         "http://localhost:8080", // vite preview build
-        "https://scavenger-hunt-ui.onrender.com",
+        CLIENT_URL,
         "https://studio.apollographql.com",
       ],
     }),
