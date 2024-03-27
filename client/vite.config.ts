@@ -1,7 +1,12 @@
 import { defineConfig, loadEnv, splitVendorChunkPlugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
+import path from "path";
 import viteTsconfigPaths from "vite-tsconfig-paths";
 import svgrPlugin from "vite-plugin-svgr";
+import { createRequire } from "node:module";
+
+// @ts-ignore
+const req = createRequire(import.meta.url);
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, "../", "");
@@ -30,6 +35,13 @@ export default defineConfig(({ mode }) => {
     server: {
       open: true,
     },
+    // resolve: {
+    //   alias: {
+    //     "msw/native": req.resolve(
+    //       path.resolve(__dirname, "./node_modules/msw/lib/native/index.mjs")
+    //     ),
+    //   },
+    // },
     build: {
       outDir: "build",
       manifest: true,
