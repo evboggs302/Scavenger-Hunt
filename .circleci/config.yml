@@ -59,11 +59,14 @@ jobs:
       - <<: *git-checkout-root
       - <<: *yarn-install-step
       - run:
-          name: Build UI & Storybook
-          command: yarn build && yarn build-storybook
+          name: Build UI
+          command: yarn build
       - run:
           name: Deploy UI
           command: curl ${DEPLOY_UI_WEBHOOK}
+      - run:
+          name: Build Storybook
+          command: yarn build-storybook
       - run:
           name: Deploy Storybook
           command: curl ${DEPLOY_STORYBOOK_WEBHOOK}
