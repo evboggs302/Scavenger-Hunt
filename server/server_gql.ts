@@ -30,7 +30,8 @@ export async function startServer(
     cors<cors.CorsRequest>({
       credentials: true,
       origin: [
-        "http://localhost:5173",
+        "http://localhost:5173", // vite dev build
+        "http://localhost:8080", // vite preview build
         "https://scavenger-hunt-ui.onrender.com",
         "https://studio.apollographql.com",
       ],

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "preview": "vite preview",
+    "preview": "vite build && vite preview",
     "build": "vite build --emptyOutDir",
     "test:watch": "vitest --changed",
     "test": "vitest --run",
