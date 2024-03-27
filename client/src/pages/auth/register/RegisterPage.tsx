@@ -6,11 +6,11 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Input, Typography, Button, Alert, Form } from "antd";
 import { ApolloError } from "@apollo/client";
 import { useRegisterResolver } from "./useRegisterResolver";
-import { Spinner } from "../../../shared/components/Spinner/Spinner";
+import { Spinner } from "../../../lib/components/Spinner/Spinner";
 import {
   authFormButtonLayout,
   authFormItemLayout,
-} from "../../../shared/components/Auth/AuthLayout";
+} from "../../../lib/components/Auth/AuthLayout";
 
 const { Title, Text } = Typography;
 
