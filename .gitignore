@@ -2,19 +2,11 @@
 
 # dependencies
 node_modules/
-/.pnp
-.pnp.js
 .vscode
-
-# testing
-/coverage
-chromatic-diagnostics.json
-client/chromatic.log
 
 # production
 dist/
 build/
-storybook-static/
 
 
 # misc
@@ -26,11 +18,6 @@ config.env
 .env.test.local
 .env.production.local
 
-scavenger_key-pair.pem
-npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 /**/*yarn-error.log*
-
-
-*storybook.log

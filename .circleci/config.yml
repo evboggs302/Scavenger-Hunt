@@ -1,7 +1,10 @@
-# Couldn't automatically generate a config from your source code.
-# This is a generic template to serve as a base for your custom config
 # See: https://circleci.com/docs/configuration-reference
-# Stacks detected: deps:node:server,package_manager:yarn:
+# The DEPLOY jobs end with a deploy to Render.com via webhook.
+# The steps before the deploy webhook have no impact on the actual
+# deploy process, as Render will run those same commands during its
+# deploy process. Those steps are run here so I can potentially
+# catch any issues before the deploy webhook is called.
+
 version: 2.1
 
 docker-node: &docker-node
@@ -15,7 +18,7 @@ git-checkout-root: &git-checkout-root
 yarn-install-step: &yarn-install-step
   run:
     name: Yarn install
-    no_output_timeout: 30m
+    no_output_timeout: 30m # just in case Render has a slow environment
     command: yarn install --frozen-lockfile
 
 jobs:

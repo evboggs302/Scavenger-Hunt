@@ -31,36 +31,33 @@ export default defineConfig(({ mode }) => {
       outDir: "build",
       manifest: true,
       rollupOptions: {
+        treeshake: "recommended",
         output: {
           manualChunks: (id, { getModuleInfo }) => {
             if (
-              id.includes("react-router-dom") ||
-              id.includes("react-router") ||
-              id.includes("react-dom")
+              id.includes("/react-router-dom") ||
+              id.includes("/react-router")
             ) {
               // creating a @react-router chunk. Reducing the vendor chunk size
               return "@react-router";
-            } else if (
+            }
+            // creating a @apollo chunk. Reducing the vendor chunk size
+            else if (
               id.includes("node_modules/graphql/") ||
-              id.includes("@apollo/")
+              id.includes("node_modules/@apollo/")
             ) {
-              // creating a @apollo chunk. Reducing the vendor chunk size
               return "@apollo";
-            } else if (
-              id.includes("antd") ||
-              id.includes("ant-design") ||
-              id.includes("rc-") ||
-              id.includes("dayjs/")
-            ) {
-              // creating a @antd chunk. Reducing the vendor chunk size
+            }
+            // creating a @antd chunk. Reducing the vendor chunk size
+            else if (id.includes("antd") || id.includes("@ant-design")) {
               return "@antd";
             }
             // used to help with identifying packages
             // else {
             //   console.log(
-            //     id,
+            //     id
             //     // getModuleInfo(id),
-            //     "\n"
+            //     // "\n"
             //   );
             // }
           },
