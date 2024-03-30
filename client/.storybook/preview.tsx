@@ -1,6 +1,6 @@
 import React from "react";
 import { initialize, mswDecorator, mswLoader } from "msw-storybook-addon";
-import { Decorator, Parameters } from "@storybook/react";
+import { Decorator } from "@storybook/react";
 import { StyleProvider } from "@ant-design/cssinjs";
 import { MemoryRouter } from "react-router-dom";
 import { ApolloClientProvider } from "../apolloClient/apolloClient";

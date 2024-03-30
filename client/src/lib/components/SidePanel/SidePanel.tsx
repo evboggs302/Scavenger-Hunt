@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { AimOutlined } from "@ant-design/icons";
-import { Layout, Menu, MenuProps, Skeleton } from "antd";
+import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
-import { GetHuntsByUserIdDocument } from "../../../generated/graphql";
+import { Layout, Menu, Skeleton } from "antd";
 import { useNavigate } from "react-router-dom";
+import { AimOutlined, HomeOutlined } from "@ant-design/icons";
+import { GetHuntsByUserIdDocument } from "../../../generated/graphql";
 import { apolloContextHeaders } from "../../../../apolloClient/apolloContextHeaders";
 
 const { Sider } = Layout;
 
 export const SidePanel = () => {
-  const [panelItems, setPanelItems] = useState([
+  const homeItem = [
     {
       key: "home",
       label: "Home",
+      icon: <HomeOutlined />,
       onClick: () => navigate("/dashboard"),
     },
-  ]);
+  ];
+
+  const [panelItems, setPanelItems] = useState(homeItem);
   const navigate = useNavigate();
   const headers = apolloContextHeaders();
 
@@ -33,7 +36,7 @@ export const SidePanel = () => {
         };
       });
       if (huntItems) {
-        setPanelItems([...panelItems, ...huntItems]);
+        setPanelItems([...homeItem, ...huntItems]);
       }
     },
   });
@@ -48,7 +51,9 @@ export const SidePanel = () => {
       ];
 
   return (
-    <Sider width={200} style={{ height: 500, background: "white" }}>
+    <Sider
+      width={350}
+      style={{ height: "calc(100vh - 134px)", background: "white" }}>
       <Menu
         mode="inline"
         defaultSelectedKeys={["home"]}

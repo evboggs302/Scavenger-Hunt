@@ -4,7 +4,7 @@ import { Layout, Menu, MenuProps } from "antd";
 import { ApolloError } from "@apollo/client/errors";
 import { useToast } from "../../hooks/useToast";
 import { useLogoutMutation } from "./useLogoutMutation";
-import { HomeOutlined, LogoutOutlined } from "@ant-design/icons";
+import { LogoutOutlined } from "@ant-design/icons";
 import { MenuContainer, StyledTitle } from "./headerLayout";
 
 const { Header } = Layout;
@@ -29,13 +29,11 @@ export const AppHeader = () => {
   const menuItems: MenuProps["items"] = [
     {
       key: "dashboard",
-      icon: <HomeOutlined />,
       label: "Dashboard",
       onClick: () => navigate("/dashboard"),
     },
     // {
     //   key: "account-link",
-    //   icon: <UserOutlined />,
     //   label: "Account",
     //   onClick: () => navigate("/account"),
     // },

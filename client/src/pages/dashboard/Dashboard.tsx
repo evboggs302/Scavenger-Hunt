@@ -22,8 +22,18 @@ export const Dashboard = () => {
         <AppHeader />
         <Layout>
           <SidePanel />
-          <Content data-testid="dashboard-page">
-            <Outlet />
+          <Content
+            data-testid="dashboard-page"
+            style={{ margin: "24px 16px 0", overflow: "initial" }}>
+            <div
+              style={{
+                padding: 24,
+                minHeight: 360,
+                background: "white",
+                borderRadius: 8,
+              }}>
+              <Outlet />
+            </div>
           </Content>
         </Layout>
         <AppFooter />
