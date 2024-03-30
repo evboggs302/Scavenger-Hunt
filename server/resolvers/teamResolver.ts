@@ -69,10 +69,10 @@ export const teamResolver: Resolvers = {
         const hunt_id = createBsonObjectId(h_id);
         const mappedTeams = tms.map((tm) => ({ hunt_id, ...tm }));
 
-        const result = await TeamModel.insertMany(mappedTeams, {
+        await TeamModel.insertMany(mappedTeams, {
           includeResultMetadata: true,
         });
-        console.log(result);
+
         const teams = await TeamModel.find({ hunt_id }).exec();
         return teams.map(returnedItems);
       } catch {

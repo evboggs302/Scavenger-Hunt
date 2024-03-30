@@ -5,8 +5,9 @@ import { UserQryContextProvider } from "../../lib/context/user/context/UserQryCo
 import { useTokenContext } from "../../lib/context/tokenContext/useTokenContext";
 import { Layout } from "antd";
 import { AppFooter } from "../../lib/components/Footer/AppFooter";
+import { SidePanel } from "../../lib/components/SidePanel/SidePanel";
 
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 
 export const Dashboard = () => {
   const { token } = useTokenContext();
@@ -19,9 +20,22 @@ export const Dashboard = () => {
     <UserQryContextProvider>
       <Layout>
         <AppHeader />
-        <Content data-testid="dashboard-page">
-          <Outlet />
-        </Content>
+        <Layout>
+          <SidePanel />
+          <Content
+            data-testid="dashboard-page"
+            style={{ margin: "24px 16px 0", overflow: "initial" }}>
+            <div
+              style={{
+                padding: 24,
+                minHeight: 360,
+                background: "white",
+                borderRadius: 8,
+              }}>
+              <Outlet />
+            </div>
+          </Content>
+        </Layout>
         <AppFooter />
       </Layout>
     </UserQryContextProvider>
