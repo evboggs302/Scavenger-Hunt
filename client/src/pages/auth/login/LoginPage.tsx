@@ -90,7 +90,7 @@ export const LoginPage = () => {
             htmlType="submit"
             disabled={!isValid || loading}>
             Login
-            {loading && <Spinner />}
+            {loading && <Spinner style={{ paddingLeft: 8 }} />}
           </Button>
         </Form.Item>
         <Text type="secondary">

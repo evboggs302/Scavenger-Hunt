@@ -1,6 +1,6 @@
 import React from "react";
 import { initialize, mswDecorator, mswLoader } from "msw-storybook-addon";
-import { Decorator } from "@storybook/react";
+import { Decorator, Parameters } from "@storybook/react";
 import { StyleProvider } from "@ant-design/cssinjs";
 import { MemoryRouter } from "react-router-dom";
 import { ApolloClientProvider } from "../apolloClient/apolloClient";
@@ -26,15 +26,15 @@ export const parameters = {
       date: /Date$/i,
     },
   },
-  screenshot: {
-    viewport: {
-      width: 1250,
-      height: 1000,
-      deviceScaleFactor: 2,
-    },
-    fullPage: false,
-    captureBeyondViewport: true,
-  },
+  // screenshot: {
+  //   viewport: {
+  //     width: 1250,
+  //     height: 1000,
+  //     deviceScaleFactor: 2,
+  //   },
+  //   fullPage: false,
+  //   captureBeyondViewport: true,
+  // },
 };
 
 const AntStylesContextDecorator: Decorator = (Story, context) => {

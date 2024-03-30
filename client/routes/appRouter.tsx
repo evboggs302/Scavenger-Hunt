@@ -7,6 +7,7 @@ import { catchallRouteToParent } from "./catchAllRoutes/catchallRouteToParent";
 import { AuthOutlet } from "../src/pages/auth/AuthOutlet";
 import { LoginPage } from "../src/pages/auth/login/LoginPage";
 import { RegisterPage } from "../src/pages/auth/register/RegisterPage";
+import { HuntInfo } from "../src/pages/hunts/HuntsPage";
 
 const router = createBrowserRouter([
   {
@@ -36,25 +37,25 @@ const router = createBrowserRouter([
     element: <Dashboard />,
     children: [
       // { index: true, element: <App /> },
-      // {
-      //   path: "hunt",
-      //   element: <Outlet />,
-      //   children: [
-      //     { index: true, element: <Hunt /> },
-      //     {
-      //       path: "teams",
-      //       element: <Team />,
-      //     },
-      //     {
-      //       path: "clues",
-      //       element: <Team />,
-      //     },
-      //     {
-      //       path: "responses",
-      //       element: <Team />,
-      //     },
-      //   ],
-      // },
+      {
+        path: "hunt/:id",
+        element: <Outlet />,
+        children: [
+          { index: true, element: <HuntInfo /> },
+          // {
+          //   path: "teams",
+          //   element: <Team />,
+          // },
+          // {
+          //   path: "clues",
+          //   element: <Team />,
+          // },
+          // {
+          //   path: "responses",
+          //   element: <Team />,
+          // },
+        ],
+      },
       catchallRouteToParent,
     ],
   },

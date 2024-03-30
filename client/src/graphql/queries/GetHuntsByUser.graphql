@@ -1,0 +1,5 @@
+query GetHuntsByUserId {
+  getHuntsByUserId {
+    ...Hunt
+  }
+}
