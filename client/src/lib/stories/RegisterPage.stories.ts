@@ -12,7 +12,6 @@ type Story = StoryObj<typeof RegisterPage>;
 
 export const Register: Story = {
   play: async (props) => {
-    console.log(props);
     const { args, canvasElement, step } = props;
     const { getByTestId } = within(canvasElement);
     expect(getByTestId("register-title")).toBeInTheDocument();

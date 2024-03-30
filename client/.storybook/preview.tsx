@@ -26,15 +26,15 @@ export const parameters = {
       date: /Date$/i,
     },
   },
-  screenshot: {
-    viewport: {
-      width: 1250,
-      height: 1000,
-      deviceScaleFactor: 2,
-    },
-    fullPage: false,
-    captureBeyondViewport: true,
-  },
+  // screenshot: {
+  //   viewport: {
+  //     width: 1250,
+  //     height: 1000,
+  //     deviceScaleFactor: 2,
+  //   },
+  //   fullPage: false,
+  //   captureBeyondViewport: true,
+  // },
 };
 
 const AntStylesContextDecorator: Decorator = (Story, context) => {
