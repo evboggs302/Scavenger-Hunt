@@ -24,7 +24,7 @@ export const SidePanel = () => {
 
   const { loading, error } = useQuery(GetHuntsByUserIdDocument, {
     context: headers,
-    fetchPolicy: "network-only",
+    fetchPolicy: "cache-and-network",
     pollInterval: 30000,
     onCompleted: ({ getHuntsByUserId }) => {
       const huntItems = getHuntsByUserId?.map((hunt) => {
@@ -45,7 +45,15 @@ export const SidePanel = () => {
     ? panelItems
     : [
         {
-          key: "skeleton",
+          key: "skeleton01",
+          label: <Skeleton active />,
+        },
+        {
+          key: "skeleton02",
+          label: <Skeleton active />,
+        },
+        {
+          key: "skeleton03",
           label: <Skeleton active />,
         },
       ];

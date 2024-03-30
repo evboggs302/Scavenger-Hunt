@@ -7,7 +7,7 @@ import { catchallRouteToParent } from "./catchAllRoutes/catchallRouteToParent";
 import { AuthOutlet } from "../src/pages/auth/AuthOutlet";
 import { LoginPage } from "../src/pages/auth/login/LoginPage";
 import { RegisterPage } from "../src/pages/auth/register/RegisterPage";
-import { HuntInfo } from "../src/pages/hunts/HuntsPage";
+import { HuntInfo } from "../src/pages/hunts/HuntInfo";
 
 const router = createBrowserRouter([
   {
