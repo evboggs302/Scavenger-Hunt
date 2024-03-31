@@ -11,3 +11,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.ant-collapse-content-box {
+  background-color: rgb(192, 190, 190);
+}

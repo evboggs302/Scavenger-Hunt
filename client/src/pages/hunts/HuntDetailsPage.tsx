@@ -1,10 +1,10 @@
 import React from "react";
-import { Collapse, Descriptions, DescriptionsProps } from "antd";
-import { useHuntContext } from "../../../lib/context/huntContext/useHuntContext";
-import { formatDateString } from "../../../lib/utils/formatDateString";
-import { HuntStatus } from "../../../lib/components/Badge/HuntStatus";
+import { Descriptions, DescriptionsProps } from "antd";
+import { useHuntContext } from "../../lib/context/huntContext/useHuntContext";
+import { formatDateString } from "../../lib/utils/formatDateString";
+import { HuntStatus } from "../../lib/components/Badge/HuntStatus";
 
-export const DetailsSection = () => {
+export const HuntDetailsPage = () => {
   const {
     _id,
     name,
@@ -14,8 +14,6 @@ export const DetailsSection = () => {
     is_active,
     recall_message,
   } = useHuntContext();
-
-  if (created_date) console.log(formatDateString(created_date));
 
   const items: DescriptionsProps["items"] = [
     {
@@ -31,7 +29,6 @@ export const DetailsSection = () => {
     {
       key: "created_date",
       label: "Created date",
-      //   children: created_date ? created_date : "Unspecified",
       children: created_date ? formatDateString(created_date) : "Unspecified",
     },
     {
@@ -52,16 +49,14 @@ export const DetailsSection = () => {
   ];
 
   return (
-    <Collapse
-      collapsible="header"
-      defaultActiveKey={["DetailsSection"]}
-      items={[
-        {
-          key: "DetailsSection",
-          label: "Details",
-          children: <Descriptions title={name} items={items} />,
-        },
-      ]}
+    <Descriptions
+      style={{
+        backgroundColor: "white",
+        padding: 12,
+        borderRadius: 8,
+      }}
+      title={name}
+      items={items}
     />
   );
 };
