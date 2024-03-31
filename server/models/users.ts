@@ -1,9 +1,10 @@
-import * as mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-export const userSchema = new mongoose.Schema(
+export const userSchema = new Schema(
   {
     user_name: {
       type: String,
+      unique: true,
       required: true,
       trim: true,
     },
@@ -27,12 +28,25 @@ export const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    token: {
-      type: String,
-      required: true,
-    },
   },
-  { versionKey: false }
+  {
+    versionKey: false,
+    statics: {
+      async getUserForLogin(user_name: string) {
+        return await this.findOne({ user_name }).exec();
+      },
+      async findUsername(user_name: string) {
+        return await this.find({ user_name }).select({ hash: 0 }).exec();
+      },
+    },
+  }
 );
 
-export default mongoose.model("User", userSchema, "users"); // modelName, schemaName, collectionName
+userSchema.set("toObject", {
+  transform: (doc, ret) => {
+    delete ret.hash;
+    return ret;
+  },
+});
+
+export default model("User", userSchema, "users"); // modelName, schemaName, collectionName

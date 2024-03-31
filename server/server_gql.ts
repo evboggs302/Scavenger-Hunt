@@ -1,34 +1,71 @@
-import * as mongoose from "mongoose";
-import { ApolloServer } from "@apollo/server";
-import { startStandaloneServer } from "@apollo/server/standalone";
-import schema from "./graphql/schema";
+import mongoose from "mongoose";
+import express from "express";
+import http from "http";
+import cors from "cors";
 import config from "./config";
-import { context } from "./graphql/context";
-import { JwtPayload } from "jsonwebtoken";
+import schema from "./schema";
+import { ListenOptions } from "net";
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@apollo/server/express4";
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import { apolloServerMiddlewareOptions } from "./utils/apolloServerMiddlewareOptions";
 
-const { MONGO_URI, PORT } = config;
+const { MONGO_URI, PORT, GQL_SERVER_URL, CLIENT_URL } = config;
 
-async function startServer() {
+export async function startServer(
+  listenOptions: ListenOptions = { port: PORT }
+) {
+  const app = express();
+  const httpServer = http.createServer(app);
   const server = new ApolloServer({
     schema,
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    introspection: GQL_SERVER_URL?.includes("localhost"),
   });
-  const { url } = await startStandaloneServer(server, {
-    context,
-    listen: { port: PORT },
-  });
-  config.SERVER_URL = url;
-  console.log(`🚀 ApolloServer ready at: ${url}`);
+
+  await server.start();
+
+  app.use(
+    "/graphql",
+    cors<cors.CorsRequest>({
+      credentials: true,
+      origin: [
+        "http://localhost:5173", // vite dev build
+        "http://localhost:8080", // vite preview build
+        CLIENT_URL,
+        "https://studio.apollographql.com",
+      ],
+    }),
+    express.json(),
+    expressMiddleware(server, apolloServerMiddlewareOptions)
+  );
+
+  // health check
+  app.get("/healthz", (_, res) =>
+    res.send({
+      status: 200,
+      message:
+        'This end point is only for doing a "health check", making sure the server is running and listening.',
+    })
+  );
+
+  // RECEIVE TWILIO SMS
+  // app.post("/twilio/sms", findActiveTeamByDevice, saveSMS, saveMMS);
+
+  // MONGODB Connection
+  mongoose
+    .connect(MONGO_URI)
+    .then(async () => {
+      await new Promise<void>((resolve) => {
+        httpServer.listen(listenOptions, resolve);
+        console.log(
+          `\n✅ Connected to database. Server started listening on ${GQL_SERVER_URL}.\n`
+        );
+      });
+    })
+    .catch((err) =>
+      console.log(`\n🚫 Failed to connect to MongoDB. Server did not start.\n`)
+    );
 }
 
-// MONGODB Connection
-mongoose
-  .connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
-  .then(() => {
-    console.log(`✅ Connected to Database`);
-    return startServer();
-  })
-  .catch((err) => console.log(`🚫 Mongo failed\n`));
+startServer();

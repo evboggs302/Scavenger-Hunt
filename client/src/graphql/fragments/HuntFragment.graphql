@@ -1,0 +1,29 @@
+fragment Hunt on Hunt {
+  _id
+  created_by
+  name
+  created_date
+  start_date
+  end_date
+  is_active
+  recall_message
+}
+
+fragment FullHunt on Hunt {
+  _id
+  name
+  created_date
+  start_date
+  end_date
+  is_active
+  recall_message
+  created_by
+  teams {
+    _id
+    hunt_id
+    recall_sent
+    last_clue_sent
+    members
+    device_number
+  }
+}

@@ -2,17 +2,16 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "commonjs",
-    "moduleResolution": "node",
-    "outDir": "../tsdist/server",
+    "esModuleInterop": true,
+    "outDir": "dist",
     "allowJs": false,
-    "noEmit": true,
     "strict": true,
     "sourceMap": true,
     "declaration": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "types": ["node"],
+    "types": ["node", "jest"],
     "typeRoots": ["types/**/*", "node_modules/@types"]
   },
   "exclude": ["controllers/", "server_rest.ts"]

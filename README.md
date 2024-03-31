@@ -8,7 +8,7 @@ _The following may or may not be accurate at the time of you reading this._
 
 ---
 
-# Scavenger Hunt
+# Scavenger Hunt [![CircleCI](https://dl.circleci.com/status-badge/img/circleci/KaPY5DRacCDokmFK4eGLRe/TaQGeiEsqhUYuNcoDGRjDZ/tree/master.svg?style=svg&circle-token=8a9eb972ab8eff18bec8363e58cfa49ae9c3d01d)](https://dl.circleci.com/status-badge/redirect/circleci/KaPY5DRacCDokmFK4eGLRe/TaQGeiEsqhUYuNcoDGRjDZ/tree/master)
 
 - This repo will eventually hold a scavenger hunt app that will utilize the Twilio texting service.
 

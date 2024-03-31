@@ -1,9 +1,9 @@
-import * as mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const teamSchema = new mongoose.Schema(
+const teamSchema = new Schema(
   {
     hunt_id: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       required: true,
     },
     members: {
@@ -26,4 +26,4 @@ const teamSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-export default mongoose.model("Team", teamSchema, "teams"); // modelName, schemaName, collectionName
+export default model("Team", teamSchema, "teams"); // modelName, schemaName, collectionName

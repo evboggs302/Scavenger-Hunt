@@ -1,0 +1,47 @@
+type Query {
+  getTeamsByHuntId(h_id: ID!): [Team]
+  getTeam(id: ID!): Team
+}
+
+type Mutation {
+  createSingleTeam(input: CreateSingleTeamInput!): Team
+  createMultipleTeams(input: CreateMultipleTeamsInput!): [Team]
+  updateTeam(input: UpdateTeamInput!): Team
+  deleteTeam(input: DeleteTeamInput!): Boolean
+}
+
+type Team {
+  _id: ID!
+  hunt_id: ID!
+  recall_sent: Boolean
+  last_clue_sent: Int
+  members: [String]
+  device_number: String
+  responses: [ResponsePayload!]
+}
+
+input SingleTeam {
+  members: [String!]
+  device_number: String!
+}
+
+input CreateMultipleTeamsInput {
+  h_id: String!
+  teams: [SingleTeam]!
+}
+
+input CreateSingleTeamInput {
+  h_id: String!
+  members: [String]!
+  device_number: String!
+}
+
+input UpdateTeamInput {
+  team_id: ID!
+  members: [String]
+  device_number: String
+}
+
+input DeleteTeamInput {
+  team_id: ID!
+}
