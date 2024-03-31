@@ -1,6 +1,0 @@
-fragment Clue on CluePayload {
-  _id
-  hunt_id
-  order_number
-  description
-}
