@@ -1,24 +1,48 @@
 import React from "react";
-import { Divider, Skeleton, Space } from "antd";
+import { Segmented, Skeleton, Space } from "antd";
 import { useHuntContext } from "../../lib/context/huntContext/useHuntContext";
-import { DetailsSection } from "./sections/DetailsSection";
-import { CluesSection } from "./sections/CluesSection";
-import { TeamsSection } from "./sections/TeamsSection";
+import { ClueQryContextProvider } from "../../lib/context/clueContext/ClueQryContextProvider";
+import { Outlet, useNavigate } from "react-router-dom";
 
 export const HuntInfo = () => {
-  const { loading } = useHuntContext();
+  const { loading, is_active } = useHuntContext();
+  const navigate = useNavigate();
 
   if (loading) {
-    return <Skeleton active paragraph={{ rows: 5 }} />;
+    return <Skeleton active paragraph={{ rows: 8 }} />;
   }
+
+  const items = [
+    {
+      value: ".",
+      label: "Details",
+    },
+    {
+      value: "clues",
+      label: "Clues",
+    },
+    {
+      value: "teams",
+      label: "Teams",
+    },
+    {
+      value: "responses",
+      label: "Responses",
+      disabled: !is_active,
+    },
+  ];
 
   return (
     <Space direction="vertical" style={{ width: "100%" }}>
-      <DetailsSection />
-      <Divider />
-      <CluesSection />
-      <Divider />
-      <TeamsSection />
+      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+        <Segmented
+          options={items}
+          onChange={(value) => navigate(value, { relative: "path" })}
+        />
+      </div>
+      <ClueQryContextProvider>
+        <Outlet />
+      </ClueQryContextProvider>
     </Space>
   );
 };

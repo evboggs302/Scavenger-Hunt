@@ -18,12 +18,6 @@ fragment FullHunt on Hunt {
   is_active
   recall_message
   created_by
-  clues {
-    _id
-    hunt_id
-    order_number
-    description
-  }
   teams {
     _id
     hunt_id
