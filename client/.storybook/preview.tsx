@@ -6,6 +6,7 @@ import { MemoryRouter } from "react-router-dom";
 import { ApolloClientProvider } from "../apolloClient/apolloClient";
 import { UserQryContextProvider } from "../src/lib/context/userContext/context/UserQryContextProvider";
 import { HuntQryContextProvider } from "../src/lib/context/huntContext/HuntQryContextProvider";
+import { ClueQryContextProvider } from "../src/lib/context/clueContext/ClueQryContextProvider";
 import { mswHandlers } from "../msw/mswHandlers";
 
 // MSW Initialize
@@ -54,7 +55,10 @@ const ApolloClientContextDecorators: Decorator = (Story, context) => {
   return (
     <ApolloClientProvider>
       <UserQryContextProvider>
-        <HuntQryContextProvider>{Story()}</HuntQryContextProvider>
+        <HuntQryContextProvider>
+          <ClueQryContextProvider></ClueQryContextProvider>
+          {Story()}
+        </HuntQryContextProvider>
       </UserQryContextProvider>
     </ApolloClientProvider>
   );
