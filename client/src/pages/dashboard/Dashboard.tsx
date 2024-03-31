@@ -22,11 +22,15 @@ export const Dashboard = () => {
       <HuntQryContextProvider>
         <Layout>
           <AppHeader />
-          <Layout>
+          <Layout hasSider>
             <SidePanel />
             <Content
               data-testid="dashboard-page"
-              style={{ margin: "24px 16px 0", overflow: "initial" }}>
+              style={{
+                margin: 12,
+                overflow: "initial",
+                maxHeight: "calc(100vh - 158px)",
+              }}>
               <div
                 style={{
                   padding: 24,
