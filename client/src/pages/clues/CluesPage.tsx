@@ -1,15 +1,18 @@
 import React from "react";
-import { Skeleton } from "antd";
-import { useHuntContext } from "../../lib/context/huntContext/useHuntContext";
+import { Row } from "antd";
+import { useClueContext } from "../../lib/context/clueContext/useClueContext";
+import { CardComponent } from "../../lib/components/Card/Card";
 
 export const CluesPage = () => {
-  const { clues, loading } = useHuntContext();
+  const { clues } = useClueContext();
 
-  if (loading) {
-    return <Skeleton active paragraph={{ rows: 5 }} />;
-  }
+  const clueCards = clues?.map((cl) => (
+    <CardComponent
+      key={cl?._id}
+      title={`#${cl?.order_number}`}
+      content={cl?.description}
+    />
+  ));
 
-  const clueCards = clues?.map((clue) => <div>{clue.description}</div>);
-
-  return <div>{clueCards}</div>;
+  return <Row gutter={16}>{clueCards}</Row>;
 };
