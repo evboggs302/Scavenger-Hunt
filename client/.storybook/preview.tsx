@@ -4,7 +4,8 @@ import { Decorator } from "@storybook/react";
 import { StyleProvider } from "@ant-design/cssinjs";
 import { MemoryRouter } from "react-router-dom";
 import { ApolloClientProvider } from "../apolloClient/apolloClient";
-import { UserQryContextProvider } from "../src/lib/context/user/context/UserQryContextProvider";
+import { UserQryContextProvider } from "../src/lib/context/userContext/context/UserQryContextProvider";
+import { HuntQryContextProvider } from "../src/lib/context/huntContext/HuntQryContextProvider";
 import { mswHandlers } from "../msw/mswHandlers";
 
 // MSW Initialize
@@ -52,7 +53,9 @@ const RouterDecorator: Decorator = (Story, context) => {
 const ApolloClientContextDecorators: Decorator = (Story, context) => {
   return (
     <ApolloClientProvider>
-      <UserQryContextProvider>{Story()}</UserQryContextProvider>
+      <UserQryContextProvider>
+        <HuntQryContextProvider>{Story()}</HuntQryContextProvider>
+      </UserQryContextProvider>
     </ApolloClientProvider>
   );
 };

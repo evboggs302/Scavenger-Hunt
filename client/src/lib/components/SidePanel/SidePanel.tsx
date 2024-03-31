@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { Layout, Menu, Skeleton } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AimOutlined, HomeOutlined } from "@ant-design/icons";
 import { GetHuntsByUserIdDocument } from "../../../generated/graphql";
 import { apolloContextHeaders } from "../../../../apolloClient/apolloContextHeaders";
@@ -9,18 +9,23 @@ import { apolloContextHeaders } from "../../../../apolloClient/apolloContextHead
 const { Sider } = Layout;
 
 export const SidePanel = () => {
+  const navigate = useNavigate();
+  const headers = apolloContextHeaders();
+  const { id } = useParams();
+  const [selectedKey, setSelectedKey] = useState(id || "home");
   const homeItem = [
     {
       key: "home",
       label: "Home",
       icon: <HomeOutlined />,
-      onClick: () => navigate("/dashboard"),
+      onClick: () => {
+        setSelectedKey("home");
+        navigate(".", { relative: "path" });
+      },
     },
   ];
 
   const [panelItems, setPanelItems] = useState(homeItem);
-  const navigate = useNavigate();
-  const headers = apolloContextHeaders();
 
   const { loading, error } = useQuery(GetHuntsByUserIdDocument, {
     context: headers,
@@ -32,7 +37,10 @@ export const SidePanel = () => {
           key: hunt?._id as string,
           icon: <AimOutlined />,
           label: hunt?.name || "Unknown hunt",
-          onClick: () => navigate(`hunt/${hunt?._id}`, { relative: "path" }),
+          onClick: () => {
+            setSelectedKey(hunt?._id as string);
+            navigate(`hunt/${hunt?._id}`, { relative: "path" });
+          },
         };
       });
       if (huntItems) {
@@ -64,7 +72,8 @@ export const SidePanel = () => {
       style={{ height: "calc(100vh - 134px)", background: "white" }}>
       <Menu
         mode="inline"
-        defaultSelectedKeys={["home"]}
+        selectedKeys={[selectedKey]}
+        // defaultSelectedKeys={[selectedKey]}
         style={{ height: "100%", borderRight: 0 }}
         items={items}
       />

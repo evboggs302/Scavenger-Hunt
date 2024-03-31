@@ -1,0 +1,5 @@
+query GetOrderedClues($id: String!) {
+  getCluesByHuntId(id: $id) {
+    ...Clue
+  }
+}
