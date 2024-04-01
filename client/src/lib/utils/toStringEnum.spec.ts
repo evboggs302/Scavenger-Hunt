@@ -3,6 +3,7 @@ import { toStringEnum } from "./toStringEnum";
 describe("toStringEnum", () => {
   it("should produce an enum from input string[]", () => {
     expectTypeOf(toStringEnum).toBeFunction();
+
     // @ts-expect-error -- input array should contain strings
     assertType(toStringEnum([1, 2, 3]));
 

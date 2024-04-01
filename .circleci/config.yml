@@ -80,7 +80,7 @@ workflows:
       - test-ui-job
   deploy:
     when:
-      equal: [master, << pipeline.git.branch >>]
+      equal: [<< pipeline.git.branch >>, master]
     jobs:
       - deploy-server-job
       - deploy-ui-job:
