@@ -7,7 +7,7 @@ import {
 import { useQuery } from "@apollo/client";
 import { apolloContextHeaders } from "../../../apolloClient/apolloContextHeaders";
 import { useHuntContext } from "../../lib/context/huntContext/useHuntContext";
-import { useModal } from "../../lib/hooks/useModal";
+// import { useModal } from "../../lib/hooks/useModal";
 import { SmileOutlined, UserOutlined } from "@ant-design/icons";
 
 const { Paragraph, Text } = Typography;
@@ -17,7 +17,6 @@ const { Paragraph, Text } = Typography;
  */
 export const ResponsesPage = () => {
   const headers = apolloContextHeaders();
-  const { modalInfo } = useModal();
   const { _id } = useHuntContext();
   const [responses, setResponses] = useState<ResponsePayload[]>([]);
 

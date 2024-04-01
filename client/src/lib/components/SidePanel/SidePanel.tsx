@@ -27,7 +27,7 @@ export const SidePanel = () => {
 
   const [panelItems, setPanelItems] = useState(homeItem);
 
-  const { loading, error } = useQuery(GetHuntsByUserIdDocument, {
+  const { loading } = useQuery(GetHuntsByUserIdDocument, {
     context: headers,
     fetchPolicy: "cache-and-network",
     pollInterval: 30000,
@@ -73,7 +73,6 @@ export const SidePanel = () => {
       <Menu
         mode="inline"
         selectedKeys={[selectedKey]}
-        // defaultSelectedKeys={[selectedKey]}
         style={{ height: "100%", borderRight: 0 }}
         items={items}
       />
