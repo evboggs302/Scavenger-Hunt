@@ -17,6 +17,7 @@ export const ResponsesPage = () => {
   const { loading } = useQuery(GetResponsesByHuntDocument, {
     context: headers,
     fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-and-network",
     pollInterval: 30000,
     variables: { id: _id || "" },
     onCompleted: ({ getHunt }) => {
@@ -43,5 +44,5 @@ export const ResponsesPage = () => {
     />
   ));
 
-  return <div>{responseCards}</div>;
+  return responseCards;
 };

@@ -33,7 +33,7 @@ export const HuntInfo = () => {
   ];
 
   return (
-    <Space direction="vertical" style={{ width: "100%" }}>
+    <>
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
         <Segmented
           options={items}
@@ -43,6 +43,6 @@ export const HuntInfo = () => {
       <ClueQryContextProvider>
         <Outlet />
       </ClueQryContextProvider>
-    </Space>
+    </>
   );
 };
