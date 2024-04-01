@@ -293,6 +293,7 @@ export type ResponsePayload = {
   clue_id: Scalars['String']['output'];
   correct?: Maybe<Scalars['Boolean']['output']>;
   hint_sent?: Maybe<Scalars['Boolean']['output']>;
+  response_img?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   response_txt?: Maybe<Scalars['String']['output']>;
   team_id: Scalars['String']['output'];
   time_received?: Maybe<Scalars['String']['output']>;
@@ -620,6 +621,7 @@ export type ResponsePayloadResolvers<ContextType = any, ParentType extends Resol
   clue_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   correct?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   hint_sent?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  response_img?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   response_txt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   team_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   time_received?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

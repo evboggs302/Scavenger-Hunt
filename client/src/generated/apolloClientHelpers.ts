@@ -71,12 +71,13 @@ export type QueryFieldPolicy = {
 	getUserFromToken?: FieldPolicy<any> | FieldReadFunction<any>,
 	userNameExists?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ResponsePayloadKeySpecifier = ('_id' | 'clue_id' | 'correct' | 'hint_sent' | 'response_txt' | 'team_id' | 'time_received' | ResponsePayloadKeySpecifier)[];
+export type ResponsePayloadKeySpecifier = ('_id' | 'clue_id' | 'correct' | 'hint_sent' | 'response_img' | 'response_txt' | 'team_id' | 'time_received' | ResponsePayloadKeySpecifier)[];
 export type ResponsePayloadFieldPolicy = {
 	_id?: FieldPolicy<any> | FieldReadFunction<any>,
 	clue_id?: FieldPolicy<any> | FieldReadFunction<any>,
 	correct?: FieldPolicy<any> | FieldReadFunction<any>,
 	hint_sent?: FieldPolicy<any> | FieldReadFunction<any>,
+	response_img?: FieldPolicy<any> | FieldReadFunction<any>,
 	response_txt?: FieldPolicy<any> | FieldReadFunction<any>,
 	team_id?: FieldPolicy<any> | FieldReadFunction<any>,
 	time_received?: FieldPolicy<any> | FieldReadFunction<any>

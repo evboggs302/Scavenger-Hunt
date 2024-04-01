@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Skeleton } from "antd";
+import { Avatar, List, Skeleton, Typography } from "antd";
 import {
   GetResponsesByHuntDocument,
   ResponsePayload,
@@ -7,8 +7,14 @@ import {
 import { useQuery } from "@apollo/client";
 import { apolloContextHeaders } from "../../../apolloClient/apolloContextHeaders";
 import { useHuntContext } from "../../lib/context/huntContext/useHuntContext";
-import { CardComponent } from "../../lib/components/Card/Card";
+// import { useModal } from "../../lib/hooks/useModal";
+import { SmileOutlined, UserOutlined } from "@ant-design/icons";
 
+const { Paragraph, Text } = Typography;
+
+/**
+ * @todo Add support for MMS responses
+ */
 export const ResponsesPage = () => {
   const headers = apolloContextHeaders();
   const { _id } = useHuntContext();
@@ -17,6 +23,7 @@ export const ResponsesPage = () => {
   const { loading } = useQuery(GetResponsesByHuntDocument, {
     context: headers,
     fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-and-network",
     pollInterval: 30000,
     variables: { id: _id || "" },
     onCompleted: ({ getHunt }) => {
@@ -35,13 +42,63 @@ export const ResponsesPage = () => {
     return <Skeleton active paragraph={{ rows: 5 }} />;
   }
 
-  const responseCards = responses.map((res) => (
-    <CardComponent
-      key={res._id}
-      title={res.response_txt}
-      content={res.time_received}
+  return (
+    <List
+      size="large"
+      itemLayout="horizontal"
+      dataSource={responses}
+      renderItem={(resp, index) => {
+        const responseDate = new Date(+`${resp.time_received as string}`);
+        const resposeHasBody =
+          resp.response_txt && resp.response_txt?.trim().length > 0;
+        return (
+          <List.Item>
+            <List.Item.Meta
+              avatar={
+                <Avatar
+                  // src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`}
+                  icon={index % 2 === 0 ? <UserOutlined /> : <SmileOutlined />}
+                />
+              }
+              title={
+                <>
+                  <Text>{resp.team_id} </Text>
+                  <Text type="secondary">
+                    - {responseDate.toLocaleTimeString()}
+                  </Text>
+                </>
+              }
+              description={
+                <>
+                  {resp.response_txt && (
+                    <Paragraph>
+                      <Text strong>Body: </Text>
+                      <Text italic={!!!resposeHasBody}>
+                        {resposeHasBody ? resp.response_txt : "No content"}
+                      </Text>
+                    </Paragraph>
+                  )}
+                  {/* {resp.response_img && resp.response_img.length > 0 && (
+                    <Button
+                      onClick={() =>
+                        modalInfo({
+                          title: "Response Images",
+                          content: resp.response_img?.map((img) => {
+                            if (img) {
+                              return <Image key={img} src={img} />;
+                            }
+                          }),
+                        })
+                      }>
+                      See images
+                    </Button>
+                  )} */}
+                </>
+              }
+            />
+          </List.Item>
+        );
+      }}
     />
-  ));
-
-  return <div>{responseCards}</div>;
+  );
 };

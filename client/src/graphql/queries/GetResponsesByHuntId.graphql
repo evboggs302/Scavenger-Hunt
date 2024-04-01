@@ -7,6 +7,7 @@ query GetResponsesByHunt($id: ID!) {
         team_id
         time_received
         response_txt
+        response_img
         correct
         hint_sent
       }

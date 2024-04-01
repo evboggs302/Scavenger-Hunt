@@ -14,5 +14,9 @@ export const CluesPage = () => {
     />
   ));
 
-  return <Row gutter={16}>{clueCards}</Row>;
+  return (
+    <Row gutter={16} style={{ overflowY: "auto" }}>
+      {clueCards}
+    </Row>
+  );
 };
