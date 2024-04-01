@@ -1,0 +1,7 @@
+mutation CreateHunt($name: String!, $start_date: String!, $end_date: String!) {
+  createHunt(
+    input: { name: $name, start_date: $start_date, end_date: $end_date }
+  ) {
+    ...Hunt
+  }
+}

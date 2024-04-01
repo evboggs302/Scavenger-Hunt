@@ -112,9 +112,9 @@ export const RegisterPage = () => {
             data-testid="register-submit"
             type="primary"
             htmlType="submit"
+            loading={loading}
             disabled={!isValid || loading}>
             Register
-            {loading && <Spinner />}
           </Button>
         </Form.Item>
         <Text className="font-semibold text-muted">
