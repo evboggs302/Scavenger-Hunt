@@ -10,7 +10,8 @@ export const HuntInfo = () => {
   const childNavPath = useLocalPathname();
   const navigate = useNavigate();
 
-  const huntIsPassed = end_date && +end_date <= new Date().getTime();
+  const huntIsPassed =
+    !!(end_date && +end_date <= new Date().getTime()) || !!is_active;
 
   if (loading) {
     return <Skeleton active paragraph={{ rows: 8 }} />;
@@ -32,7 +33,7 @@ export const HuntInfo = () => {
     {
       value: "responses",
       label: "Responses",
-      disabled: !!huntIsPassed || !!is_active,
+      disabled: huntIsPassed,
     },
   ];
 
