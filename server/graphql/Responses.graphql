@@ -16,6 +16,7 @@ type ResponsePayload {
   team_id: String!
   time_received: String
   response_txt: String
+  response_img: [String]
   correct: Boolean
   hint_sent: Boolean
 }

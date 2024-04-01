@@ -5,7 +5,7 @@ import { ClueQryContextProvider } from "../../lib/context/clueContext/ClueQryCon
 import { Outlet, useNavigate } from "react-router-dom";
 
 export const HuntInfo = () => {
-  const { loading, is_active } = useHuntContext();
+  const { loading, is_active, end_date } = useHuntContext();
   const navigate = useNavigate();
 
   if (loading) {
@@ -37,6 +37,7 @@ export const HuntInfo = () => {
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
         <Segmented
           options={items}
+          defaultValue=""
           onChange={(value) => navigate(value, { relative: "path" })}
         />
       </div>
