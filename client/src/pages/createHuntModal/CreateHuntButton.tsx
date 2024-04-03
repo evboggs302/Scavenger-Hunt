@@ -3,7 +3,7 @@ import { Button, Flex } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { CreateHuntModal } from "./CreateHuntModal";
 
-export const CreateHuntPage = () => {
+export const CreateHuntButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>

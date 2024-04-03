@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AimOutlined, HomeOutlined } from "@ant-design/icons";
 import { GetHuntsByUserIdDocument } from "../../../generated/graphql";
 import { apolloContextHeaders } from "../../../../apolloClient/apolloContextHeaders";
-import { CreateHuntPage } from "../../../pages/createHuntModal/CreateHuntPage";
+import { CreateHuntButton } from "../../../pages/createHuntModal/CreateHuntButton";
 
 const { Sider } = Layout;
 
@@ -71,7 +71,7 @@ export const SidePanel = () => {
     <Sider
       width={350}
       style={{ height: "calc(100vh - 182px)", background: "white" }}>
-      <CreateHuntPage />
+      <CreateHuntButton />
       <Menu
         mode="inline"
         selectedKeys={[selectedKey]}

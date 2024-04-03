@@ -4,11 +4,11 @@ import { CreateHuntForm } from "./steps/HuntDetails/CreateHuntForm";
 import { CreateCluesForm } from "./steps/Clues/CreateCluesForm";
 import { CreateTeamsForm } from "./steps/Teams/CreateTeamsForm";
 
-type CreateHuntModalProps = {
+type CreateModalProps = {
   closeModal: () => void;
 };
 
-export const CreateHuntModal = ({ closeModal }: CreateHuntModalProps) => {
+export const CreateHuntModal = ({ closeModal }: CreateModalProps) => {
   const [current, setCurrent] = useState(0);
   const [huntId, setHuntId] = useState<string | null>(null);
 
