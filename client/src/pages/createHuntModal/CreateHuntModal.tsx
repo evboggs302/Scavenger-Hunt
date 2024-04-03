@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Modal, Steps } from "antd";
-import { CreateHuntForm } from "./CreateHuntForm";
+import { CreateHuntForm } from "./steps/HuntDetails/CreateHuntForm";
+import { CreateCluesForm } from "./steps/Clues/CreateCluesForm";
+import { CreateTeamsForm } from "./steps/Teams/CreateTeamsForm";
 
 type CreateHuntModalProps = {
   closeModal: () => void;
@@ -33,12 +35,12 @@ export const CreateHuntModal = ({ closeModal }: CreateHuntModalProps) => {
     {
       key: "clues",
       title: "Clues",
-      content: "Clues-content",
+      content: <CreateCluesForm />,
     },
     {
       key: "teams",
       title: "Teams",
-      content: "Teams-content",
+      content: <CreateTeamsForm />,
     },
   ];
 

@@ -27,7 +27,6 @@ type CreateHuntProps = {
 };
 
 const disabledDate: RangePickerProps["disabledDate"] = (current) => {
-  // Can not select days before today and today
   return current && current < dayjs().endOf("day");
 };
 
@@ -47,24 +46,22 @@ export const CreateHuntForm = ({
     resolver,
   });
   const [formErr, setFormErr] = useState<string | null>(null);
-  const [] = useState();
-  const [createHunt, { data, loading }] = useCreateHuntMutation();
+  const [createHunt, { loading }] = useCreateHuntMutation();
 
   const onSubmit: SubmitHandler<CreateHuntFormInputs> = async (formData) => {
-    console.log(formData);
-    // try {
-    //   await createHunt(formData);
-    //   setHuntId(data?.createHunt?._id as string);
-    //   nextStep();
-    //   // throw new Error("try try try");
-    // } catch (err) {
-    //   if (err instanceof ApolloError) {
-    //     setFormErr(err.message);
-    //   } else {
-    //     setFormErr("An unknown error occurred.");
-    //   }
-    //   reset();
-    // }
+    try {
+      const { data } = await createHunt(formData);
+      setHuntId(data?.createHunt?._id as string);
+      nextStep();
+      // throw new Error("try try try");
+    } catch (err) {
+      if (err instanceof ApolloError) {
+        setFormErr(err.message);
+      } else {
+        setFormErr("An unknown error occurred.");
+      }
+      reset();
+    }
   };
 
   const nameErrMsg = formErrors.name?.message;
@@ -76,7 +73,6 @@ export const CreateHuntForm = ({
       name="create-hunt"
       onFinish={handleSubmit(onSubmit)}
       autoComplete="off">
-      {/* <Title data-testid="create-hunt-title">Create new hunt</Title> */}
       <Title level={5}>
         Fill out the below information to create a new scavenger hunt.
       </Title>

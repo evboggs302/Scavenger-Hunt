@@ -1,8 +1,11 @@
 import { useCallback, useMemo } from "react";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
-import { CreateHuntDocument } from "../../generated/graphql";
-import { apolloContextHeaders } from "../../../apolloClient/apolloContextHeaders";
+import {
+  CreateHuntDocument,
+  GetHuntsByUserIdDocument,
+} from "../../../../generated/graphql";
+import { apolloContextHeaders } from "../../../../../apolloClient/apolloContextHeaders";
 
 type CreateHuntCallbackProps = {
   name: string;
@@ -19,13 +22,14 @@ export const useCreateHuntMutation = () => {
 
   const handlRegisterUser = useCallback(
     async ({ name, dateRange, recall_msg }: CreateHuntCallbackProps) => {
-      await registerUser({
+      return await registerUser({
         variables: {
           name,
           start_date: dateRange.start,
           end_date: dateRange.end,
           recall_message: recall_msg,
         },
+        refetchQueries: [GetHuntsByUserIdDocument],
       });
     },
     [registerUser, navigate]
