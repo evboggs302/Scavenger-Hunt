@@ -37,7 +37,7 @@ export const huntSchema = new Schema(
 );
 
 huntSchema.set("toObject", {
-  transform: (doc, ret) => {
+  transform: (_doc, ret) => {
     ret.start_date = ret.start_date.toISOString();
     ret.end_date = ret.end_date.toISOString();
     ret.created_date = ret.created_date.toISOString();

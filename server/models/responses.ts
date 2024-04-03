@@ -32,7 +32,7 @@ export const responseSchema = new Schema(
 );
 
 responseSchema.set("toObject", {
-  transform: (doc, ret) => {
+  transform: (_doc, ret) => {
     ret.time_received = ret.time_received.toISOString();
     return ret;
   },

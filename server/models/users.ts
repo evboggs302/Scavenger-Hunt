@@ -43,7 +43,7 @@ export const userSchema = new Schema(
 );
 
 userSchema.set("toObject", {
-  transform: (doc, ret) => {
+  transform: (_doc, ret) => {
     delete ret.hash;
     return ret;
   },
