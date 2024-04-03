@@ -54,6 +54,7 @@ export type CluesListItem = {
 export type CreateHuntInput = {
   end_date: Scalars['String']['input'];
   name: Scalars['String']['input'];
+  recall_message?: InputMaybe<Scalars['String']['input']>;
   start_date: Scalars['String']['input'];
 };
 

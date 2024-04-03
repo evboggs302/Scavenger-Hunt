@@ -6,7 +6,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Input, Typography, Button, Alert, Form } from "antd";
 import { ApolloError } from "@apollo/client";
 import { useRegisterResolver } from "./useRegisterResolver";
-import { Spinner } from "../../../lib/components/Spinner/Spinner";
 import {
   authFormButtonLayout,
   authFormItemLayout,
@@ -112,9 +111,9 @@ export const RegisterPage = () => {
             data-testid="register-submit"
             type="primary"
             htmlType="submit"
+            loading={loading}
             disabled={!isValid || loading}>
             Register
-            {loading && <Spinner />}
           </Button>
         </Form.Item>
         <Text className="font-semibold text-muted">

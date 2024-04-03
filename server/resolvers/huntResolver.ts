@@ -77,7 +77,7 @@ export const huntResolver: Resolvers = {
   Mutation: {
     createHunt: async (
       _: unknown,
-      { input: { name, start_date, end_date } },
+      { input: { name, start_date, end_date, recall_message } },
       { user },
       { operation: { name: opname } }
     ) => {
@@ -89,6 +89,7 @@ export const huntResolver: Resolvers = {
           name,
           start_date,
           end_date,
+          recall_message,
         });
         await hunt.save();
 
