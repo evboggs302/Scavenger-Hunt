@@ -3,14 +3,14 @@ import { useLoginMutation } from "./useLoginMutation";
 import { FormItem } from "react-hook-form-antd";
 import { Link } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Input, Typography, Button, Alert, Form } from "antd";
 import { ApolloError } from "@apollo/client";
-import { Spinner } from "../../../lib/components/Spinner/Spinner";
+import { Spinner } from "@lib/components/Spinner/Spinner";
 import {
   authFormButtonLayout,
   authFormItemLayout,
-} from "../../../lib/components/Auth/AuthLayout";
+} from "@lib/components/Auth/AuthLayout";
 import { useLoginResolver } from "./useLoginResolver";
+import { Alert, Button, Form, Input, Typography } from "antd";
 
 const { Title, Text } = Typography;
 

@@ -11,6 +11,9 @@ storybook-static/
 
 # VITE
 build/
+.swc/
+.deadfiles/
+stats.html
 
 # TYPESCRIPT
 dist/

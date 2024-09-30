@@ -1,8 +1,8 @@
 import React from "react";
 import { Descriptions, DescriptionsProps } from "antd";
-import { useHuntContext } from "../../lib/context/huntContext/useHuntContext";
-import { formatDateString } from "../../lib/utils/formatDateString";
-import { HuntStatus } from "../../lib/components/Badge/HuntStatus";
+import { useHuntContext } from "@lib/context/huntContext/useHuntContext";
+import { formatDateString } from "@lib/utils/formatDateString";
+import { HuntStatus } from "@lib/components/Badge/HuntStatus";
 
 export const HuntDetailsPage = () => {
   const {

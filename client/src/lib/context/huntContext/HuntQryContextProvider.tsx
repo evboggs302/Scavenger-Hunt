@@ -1,9 +1,9 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { GetHuntDocument } from "../../../generated/graphql";
+import { GetHuntDocument } from "@generated/graphql";
 import { Navigate, useParams } from "react-router-dom";
 import { HuntContext } from "./HuntContext";
-import { apolloContextHeaders } from "../../../../apolloClient/apolloContextHeaders";
+import { apolloContextHeaders } from "@apolloClient/apolloContextHeaders";
 
 interface HuntQryContextProviderProps {
   children: React.ReactNode;

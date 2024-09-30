@@ -1,17 +1,17 @@
 import React from "react";
-import "../index.css";
+import "../../index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Dashboard } from "../src/pages/dashboard/Dashboard";
+import { Dashboard } from "@pages/dashboard/Dashboard";
 import { catchallRouteToLogin } from "./catchAllRoutes/catchallRouteToLogin";
 import { catchallRouteToParent } from "./catchAllRoutes/catchallRouteToParent";
-import { AuthOutlet } from "../src/pages/auth/AuthOutlet";
-import { LoginPage } from "../src/pages/auth/login/LoginPage";
-import { RegisterPage } from "../src/pages/auth/register/RegisterPage";
-import { HuntInfo } from "../src/pages/hunts/HuntInfo";
-import { HuntDetailsPage } from "../src/pages/hunts/HuntDetailsPage";
-import { TeamsPage } from "../src/pages/teams/TeamsPage";
-import { CluesPage } from "../src/pages/clues/CluesPage";
-import { ResponsesPage } from "../src/pages/responses/ResponsesPage";
+import { AuthOutlet } from "@pages/auth/AuthOutlet";
+import { LoginPage } from "@pages/auth/login/LoginPage";
+import { RegisterPage } from "@pages/auth/register/RegisterPage";
+import { HuntInfo } from "@pages/hunts/HuntInfo";
+import { HuntDetailsPage } from "@pages/hunts/HuntDetailsPage";
+import { TeamsPage } from "@pages/teams/TeamsPage";
+import { CluesPage } from "@pages/clues/CluesPage";
+import { ResponsesPage } from "@pages/responses/ResponsesPage";
 
 const router = createBrowserRouter([
   {
@@ -67,3 +67,4 @@ const router = createBrowserRouter([
 ]);
 
 export const AppRouter = () => <RouterProvider router={router} />;
+export default router;

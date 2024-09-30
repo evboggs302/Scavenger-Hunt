@@ -1,5 +1,5 @@
+import App from "antd/es/app";
 import { ReactNode, useMemo } from "react";
-import { App } from "antd";
 
 type ModalProps = {
   title?: string;

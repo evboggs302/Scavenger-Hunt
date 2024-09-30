@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import {
   CreateHuntDocument,
   GetHuntsByUserIdDocument,
-} from "../../../../generated/graphql";
-import { apolloContextHeaders } from "../../../../../apolloClient/apolloContextHeaders";
+} from "@generated/graphql";
+import { apolloContextHeaders } from "@apolloClient/apolloContextHeaders";
 
 type CreateHuntCallbackProps = {
   name: string;

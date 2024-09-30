@@ -1,9 +1,9 @@
 import React from "react";
 import { initialize, mswDecorator, mswLoader } from "msw-storybook-addon";
 import { Decorator } from "@storybook/react";
+import { withRouter } from 'storybook-addon-remix-react-router';
 import { StyleProvider } from "@ant-design/cssinjs";
-import { MemoryRouter } from "react-router-dom";
-import { ApolloClientProvider } from "../apolloClient/apolloClient";
+import { ApolloClientProvider } from "../src/apolloClient/apolloClient";
 import { UserQryContextProvider } from "../src/lib/context/userContext/context/UserQryContextProvider";
 import { HuntQryContextProvider } from "../src/lib/context/huntContext/HuntQryContextProvider";
 import { ClueQryContextProvider } from "../src/lib/context/clueContext/ClueQryContextProvider";
@@ -47,17 +47,12 @@ const AntStylesContextDecorator: Decorator = (Story, context) => {
   );
 };
 
-const RouterDecorator: Decorator = (Story, context) => {
-  return <MemoryRouter>{Story()}</MemoryRouter>;
-};
-
 const ApolloClientContextDecorators: Decorator = (Story, context) => {
   return (
     <ApolloClientProvider>
       <UserQryContextProvider>
         <HuntQryContextProvider>
-          <ClueQryContextProvider></ClueQryContextProvider>
-          {Story()}
+          <ClueQryContextProvider>{Story()}</ClueQryContextProvider>
         </HuntQryContextProvider>
       </UserQryContextProvider>
     </ApolloClientProvider>
@@ -65,8 +60,8 @@ const ApolloClientContextDecorators: Decorator = (Story, context) => {
 };
 
 export const decorators: Decorator[] = [
+  withRouter,
   mswDecorator, // needed for specific stories to override existing mocks
   ApolloClientContextDecorators,
   AntStylesContextDecorator,
-  RouterDecorator,
 ];

@@ -1,6 +1,7 @@
-import { NotificationArgsProps, notification } from "antd";
+
+import { notification } from "antd";
 import { NotificationInstance } from "antd/es/notification/interface";
-import React, { PropsWithChildren, createContext, useMemo } from "react";
+import React, { PropsWithChildren, createContext } from "react";
 
 export type ToastContextType = {
   notify: NotificationInstance;

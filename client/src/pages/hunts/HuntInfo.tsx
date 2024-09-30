@@ -1,7 +1,7 @@
 import React from "react";
 import { Segmented, Skeleton } from "antd";
-import { useHuntContext } from "../../lib/context/huntContext/useHuntContext";
-import { ClueQryContextProvider } from "../../lib/context/clueContext/ClueQryContextProvider";
+import { useHuntContext } from "@lib/context/huntContext/useHuntContext";
+import { ClueQryContextProvider } from "@lib/context/clueContext/ClueQryContextProvider";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useLocalPathname } from "./useLocalPathname";
 

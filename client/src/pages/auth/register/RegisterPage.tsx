@@ -9,7 +9,7 @@ import { useRegisterResolver } from "./useRegisterResolver";
 import {
   authFormButtonLayout,
   authFormItemLayout,
-} from "../../../lib/components/Auth/AuthLayout";
+} from "@lib/components/Auth/AuthLayout";
 
 const { Title, Text } = Typography;
 

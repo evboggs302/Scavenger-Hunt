@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
-import { Layout, Menu, Skeleton } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
+import { GetHuntsByUserIdDocument } from "@generated/graphql";
+import { apolloContextHeaders } from "@apolloClient/apolloContextHeaders";
+import { CreateHuntButton } from "@pages/createHuntModal/CreateHuntButton";
+import { Layout, Menu, Skeleton } from "antd";
 import { AimOutlined, HomeOutlined } from "@ant-design/icons";
-import { GetHuntsByUserIdDocument } from "../../../generated/graphql";
-import { apolloContextHeaders } from "../../../../apolloClient/apolloContextHeaders";
-import { CreateHuntButton } from "../../../pages/createHuntModal/CreateHuntButton";
 
 const { Sider } = Layout;
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Row } from "antd";
-import { useHuntContext } from "../../lib/context/huntContext/useHuntContext";
-import { CardComponent } from "../../lib/components/Card/Card";
+import { useHuntContext } from "@lib/context/huntContext/useHuntContext";
+import { CardComponent } from "@lib/components/Card/Card";
 import { TeamCardContent } from "./TeamCardContent";
 
 export const TeamsPage = () => {

@@ -6,6 +6,7 @@ export const loginMock = graphql.mutation(LoginUserDocument, () => {
     data: {
       login: {
         __typename: "AuthPayload" as const,
+        _id: "msw-id-string",
         token: "token-from-log-in-mutation",
       },
     },
