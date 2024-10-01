@@ -1,10 +1,15 @@
 import React, { createContext, useContext } from "react";
-import { GetUserFromTokenDocument, GetUserFromTokenQuery, GetUserFromTokenQueryVariables } from "@generated/graphql";
+import {
+  GetUserFromTokenDocument,
+  GetUserFromTokenQuery,
+  GetUserFromTokenQueryVariables,
+} from "@generated/graphql";
 import { apolloContextHeaders } from "@apolloClient/apolloContextHeaders";
 import { QueryResult, useQuery } from "@apollo/client";
 import { useTokenContext } from "./TokenContext";
 
-export interface UserContextValue extends QueryResult<GetUserFromTokenQuery, GetUserFromTokenQueryVariables> {}
+export interface UserContextValue
+  extends QueryResult<GetUserFromTokenQuery, GetUserFromTokenQueryVariables> {}
 
 export const UserContext = createContext<UserContextValue | undefined>(
   undefined
@@ -24,11 +29,7 @@ export const UserQryContextProvider = ({
     pollInterval: 4500,
   });
 
-  return (
-    <UserContext.Provider value={result}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={result}>{children}</UserContext.Provider>;
 };
 
 export const useUserContext = () => {
