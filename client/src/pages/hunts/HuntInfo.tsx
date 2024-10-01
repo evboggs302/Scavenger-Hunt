@@ -1,14 +1,20 @@
 import React from "react";
 import { Segmented, Skeleton } from "antd";
-import { useHuntContext } from "@lib/context/huntContext/useHuntContext";
-import { ClueQryContextProvider } from "@lib/context/clueContext/ClueQryContextProvider";
+import { useHuntContext } from "@lib/context/HuntContext";
+import { ClueQryContextProvider } from "@lib/context/ClueContext";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useLocalPathname } from "./useLocalPathname";
 
 export const HuntInfo = () => {
-  const { loading, end_date, is_active } = useHuntContext();
+  const { loading, data } = useHuntContext();
   const childNavPath = useLocalPathname();
   const navigate = useNavigate();
+
+  if (!data?.getHunt) {
+    return null;
+  }
+
+  const { end_date, is_active } = data.getHunt;
 
   const huntIsPassed =
     !!(end_date && +end_date <= new Date().getTime()) || !!is_active;

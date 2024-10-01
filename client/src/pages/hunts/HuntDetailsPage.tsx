@@ -1,10 +1,16 @@
 import React from "react";
 import { Descriptions, DescriptionsProps } from "antd";
-import { useHuntContext } from "@lib/context/huntContext/useHuntContext";
+import { useHuntContext } from "@lib/context/HuntContext";
 import { formatDateString } from "@lib/utils/formatDateString";
 import { HuntStatus } from "@lib/components/Badge/HuntStatus";
 
 export const HuntDetailsPage = () => {
+  const { data } = useHuntContext();
+
+  if (!data?.getHunt) {
+    return null;
+  }
+
   const {
     _id,
     name,
@@ -13,7 +19,7 @@ export const HuntDetailsPage = () => {
     end_date,
     is_active,
     recall_message,
-  } = useHuntContext();
+  } = data.getHunt;
 
   const items: DescriptionsProps["items"] = [
     {
