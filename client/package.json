@@ -59,6 +59,7 @@
     "@types/react-dom": "^18.0.11",
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react-swc": "^3.3.0",
+    "husky": "^9.1.6",
     "jsdom": "^24.0.0",
     "msw": "^2.2.10",
     "msw-storybook-addon": "2.0.0--canary.122.06f0c92.0",
