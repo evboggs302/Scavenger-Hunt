@@ -1,6 +1,5 @@
 import React, { ReactNode } from "react";
-import { Card } from "antd";
-import { CardMetaProps } from "antd/es/card";
+import Card, { CardMetaProps } from "antd/es/card";
 
 export interface CardContainerProps extends CardMetaProps {
   content?: ReactNode;

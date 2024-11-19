@@ -1,6 +1,6 @@
 import React from "react";
-import { Layout } from "antd";
 import { License } from "./License";
+import Layout from "antd/es/layout";
 
 const { Footer } = Layout;
 

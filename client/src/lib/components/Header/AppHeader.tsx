@@ -1,11 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Layout, Menu, MenuProps } from "antd";
 import { ApolloError } from "@apollo/client/errors";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "@lib/hooks/useToast";
 import { useLogoutMutation } from "./useLogoutMutation";
 import { LogoutOutlined } from "@ant-design/icons";
 import { MenuContainer, StyledTitle } from "./headerLayout";
+import Layout from "antd/es/layout";
+import Menu, { MenuProps } from "antd/es/menu";
 
 const { Header } = Layout;
 

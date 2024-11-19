@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { userEvent, waitFor, within, expect } from "@storybook/test";
-import { RegisterPage } from "../../pages/auth/register/RegisterPage";
+import { userEvent, within, expect } from "@storybook/test";
+import { RegisterPage } from "@pages/auth/register/RegisterPage";
 
 const meta: Meta<typeof RegisterPage> = {
   title: "Pages/Regsiter",

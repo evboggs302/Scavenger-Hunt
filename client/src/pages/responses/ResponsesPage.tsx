@@ -3,11 +3,10 @@ import { Avatar, List, Skeleton, Typography } from "antd";
 import {
   GetResponsesByHuntDocument,
   ResponsePayload,
-} from "../../generated/graphql";
+} from "@generated/graphql";
 import { useQuery } from "@apollo/client";
-import { apolloContextHeaders } from "../../../apolloClient/apolloContextHeaders";
-import { useHuntContext } from "../../lib/context/huntContext/useHuntContext";
-// import { useModal } from "../../lib/hooks/useModal";
+import { apolloContextHeaders } from "@apolloClient/apolloContextHeaders";
+import { useHuntContext } from "@lib/context/HuntContext";
 import { SmileOutlined, UserOutlined } from "@ant-design/icons";
 
 const { Paragraph, Text } = Typography;
@@ -17,15 +16,19 @@ const { Paragraph, Text } = Typography;
  */
 export const ResponsesPage = () => {
   const headers = apolloContextHeaders();
-  const { _id } = useHuntContext();
+  const { data } = useHuntContext();
   const [responses, setResponses] = useState<ResponsePayload[]>([]);
+
+  if (!data?.getHunt) {
+    return null;
+  }
 
   const { loading } = useQuery(GetResponsesByHuntDocument, {
     context: headers,
     fetchPolicy: "network-only",
     nextFetchPolicy: "cache-and-network",
     pollInterval: 30000,
-    variables: { id: _id || "" },
+    variables: { id: data.getHunt._id || "" },
     onCompleted: ({ getHunt }) => {
       const res = getHunt?.teams?.reduce((allRes, team) => {
         if (!team?.responses) {
@@ -79,19 +82,7 @@ export const ResponsesPage = () => {
                     </Paragraph>
                   )}
                   {/* {resp.response_img && resp.response_img.length > 0 && (
-                    <Button
-                      onClick={() =>
-                        modalInfo({
-                          title: "Response Images",
-                          content: resp.response_img?.map((img) => {
-                            if (img) {
-                              return <Image key={img} src={img} />;
-                            }
-                          }),
-                        })
-                      }>
-                      See images
-                    </Button>
+                    <Image key={img} src={img} />
                   )} */}
                 </>
               }

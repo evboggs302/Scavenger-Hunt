@@ -1,16 +1,9 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "target": "esnext",
-    "module": "commonjs",
+    "baseUrl": "./",
     "esModuleInterop": true,
     "outDir": "dist",
-    "allowJs": false,
-    "strict": true,
-    "sourceMap": true,
-    "declaration": true,
-    "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
     "types": ["node", "jest"],
     "typeRoots": ["types/**/*", "node_modules/@types"]
   },

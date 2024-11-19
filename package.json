@@ -1,3 +1,11 @@
 {
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "typescript": "^5.6.3"
+  },
+  "scripts": {
+    "tsc-check-client": "cd client && yarn tsc-check",
+    "tsc-check-server": "cd server && yarn tsc-check"
+  }
 }

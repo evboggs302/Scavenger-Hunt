@@ -1,4 +1,4 @@
-import { Badge } from "antd";
+import Badge from "antd/es/badge";
 import React from "react";
 
 export const HuntStatus = ({ isActive }: { isActive: boolean }) => {

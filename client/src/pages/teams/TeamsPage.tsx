@@ -1,11 +1,13 @@
 import React from "react";
 import { Row } from "antd";
-import { useHuntContext } from "../../lib/context/huntContext/useHuntContext";
-import { CardComponent } from "../../lib/components/Card/Card";
+import { CardComponent } from "@lib/components/Card/Card";
 import { TeamCardContent } from "./TeamCardContent";
+import { useHuntContext } from "@/lib/context/HuntContext";
 
 export const TeamsPage = () => {
-  const { teams } = useHuntContext();
+  const { data } = useHuntContext();
+
+  const teams = data?.getHunt?.teams;
 
   const teamCards = teams?.map((tm, dex) => (
     <CardComponent

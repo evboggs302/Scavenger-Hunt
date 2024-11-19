@@ -1,6 +1,6 @@
 import React, { CSSProperties } from "react";
 import { LoadingOutlined } from "@ant-design/icons";
-import { Spin } from "antd";
+import Spin from "antd/es/spin";
 
 export type SpinnerProps = {
   size: "sm" | "md" | "lg" | "xl" | number;

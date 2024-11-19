@@ -1,10 +1,11 @@
 import React from "react";
+import { useClueContext } from "@lib/context/ClueContext";
+import { CardComponent } from "@lib/components/Card/Card";
 import { Row } from "antd";
-import { useClueContext } from "../../lib/context/clueContext/useClueContext";
-import { CardComponent } from "../../lib/components/Card/Card";
 
 export const CluesPage = () => {
-  const { clues } = useClueContext();
+  const { data } = useClueContext();
+  const clues = data?.getCluesByHuntId
 
   const clueCards = clues?.map((cl) => (
     <CardComponent

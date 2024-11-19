@@ -1,5 +1,5 @@
+import App from "antd/es/app";
 import React, { PropsWithChildren } from "react";
-import { App } from "antd";
 
 export const AntGlobalsWrapper = ({ children }: PropsWithChildren) => (
   <App
