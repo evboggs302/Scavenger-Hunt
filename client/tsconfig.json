@@ -1,22 +1,15 @@
 {
+    "extends": "../tsconfig.json",
     "compilerOptions": {
         "baseUrl": "./",
-        "target": "esnext",
         "lib": [
             "dom",
             "dom.iterable",
             "esnext"
         ],
-        "module": "CommonJS",
         "jsx": "react",
         "moduleResolution": "node",
         "outDir": "dist",
-        "allowJs": false,
-        "strict": true,
-        "declaration": true,
-        "allowSyntheticDefaultImports": true,
-        "skipLibCheck": true,
-        "resolveJsonModule": true,
         "types": [
             "vite/client",
             "vite-plugin-svgr/client",
