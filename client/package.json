@@ -9,11 +9,12 @@
     "build": "vite optimize && vite build --emptyOutDir",
     "test:watch": "vitest --changed",
     "test": "vitest --run",
-    "tsc-check": "npx tsc --noEmit",
-    "compile": "npx tsc",
+    "tsc-check": "tsc --noEmit",
+    "compile": "tsc",
     "codegen": "graphql-codegen --config codegen.json",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepare": "husky"
   },
   "dependencies": {
     "@ant-design/cssinjs": "^1.18.4",
@@ -61,7 +62,7 @@
     "@types/react-dom": "^18.0.11",
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react-swc": "^3.3.0",
-    "husky": "^9.1.6",
+    "husky": "^9.1.7",
     "jsdom": "^24.0.0",
     "msw": "^2.2.10",
     "msw-storybook-addon": "2.0.0--canary.122.06f0c92.0",
