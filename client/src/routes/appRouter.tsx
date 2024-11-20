@@ -1,20 +1,18 @@
 import React from "react";
 import "../../index.css";
-import CssBaseline from '@mui/material/CssBaseline';
+import CssBaseline from "@mui/material/CssBaseline";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Dashboard } from "@pages/dashboard/Dashboard";
 import { catchallRouteToLogin } from "./catchAllRoutes/catchallRouteToLogin";
 import { catchallRouteToParent } from "./catchAllRoutes/catchallRouteToParent";
 import { AuthOutlet } from "@pages/auth/AuthOutlet";
-import { LoginPage } from "@pages/auth/login/LoginPage";
-import { RegisterPage } from "@pages/auth/register/RegisterPage";
 import { HuntInfo } from "@pages/hunts/HuntInfo";
 import { HuntDetailsPage } from "@pages/hunts/HuntDetailsPage";
 import { TeamsPage } from "@pages/teams/TeamsPage";
 import { CluesPage } from "@pages/clues/CluesPage";
 import { ResponsesPage } from "@pages/responses/ResponsesPage";
 import { SignInCard } from "@pages/auth/login/SignInCard";
-// import { SignUp } from "@pages/auth/register/SignUpCard";
+import { SignUpCard } from "@pages/auth/register/SignUpCard";
 
 const router = createBrowserRouter([
   {
@@ -28,17 +26,17 @@ const router = createBrowserRouter([
       catchallRouteToParent,
     ],
   },
-  // {
-  //   path: "/register",
-  //   element: <AuthOutlet />,
-  //   children: [
-  //     {
-  //       index: true,
-  //       element: <SignUp />,
-  //     },
-  //     catchallRouteToParent,
-  //   ],
-  // },
+  {
+    path: "/register",
+    element: <AuthOutlet />,
+    children: [
+      {
+        index: true,
+        element: <SignUpCard />,
+      },
+      catchallRouteToParent,
+    ],
+  },
   // {
   //   path: "/dashboard",
   //   element: <Dashboard />,

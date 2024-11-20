@@ -37,7 +37,7 @@ const items = [
   },
 ];
 
-export const SignInSide = () => {
+export const AuthSidePanel = () => {
   return (
     <Stack
       sx={{
@@ -64,4 +64,4 @@ export const SignInSide = () => {
       ))}
     </Stack>
   );
-}
+};

@@ -1,12 +1,12 @@
 import React from "react";
 import { initialize, mswDecorator, mswLoader } from "msw-storybook-addon";
 import { Decorator } from "@storybook/react";
-import { withRouter } from 'storybook-addon-remix-react-router';
-import { StyleProvider } from "@ant-design/cssinjs";
+import { withRouter } from "storybook-addon-remix-react-router";
 import { ApolloClientProvider } from "../src/apolloClient/apolloClient";
-import { UserQryContextProvider } from "../src/lib/context/userContext/context/UserQryContextProvider";
-import { HuntQryContextProvider } from "../src/lib/context/huntContext/HuntQryContextProvider";
-import { ClueQryContextProvider } from "../src/lib/context/clueContext/ClueQryContextProvider";
+import { TokenContextProvider } from "../src/lib/context/TokenContext";
+// import { UserQryContextProvider } from "../src/lib/context/userContext/context/UserQryContextProvider";
+// import { HuntQryContextProvider } from "../src/lib/context/huntContext/HuntQryContextProvider";
+// import { ClueQryContextProvider } from "../src/lib/context/clueContext/ClueQryContextProvider";
 import { mswHandlers } from "../msw/mswHandlers";
 
 // MSW Initialize
@@ -39,22 +39,18 @@ export const parameters = {
   // },
 };
 
-const AntStylesContextDecorator: Decorator = (Story, context) => {
-  return (
-    <StyleProvider hashPriority="high">
-      <Story />
-    </StyleProvider>
-  );
-};
-
 const ApolloClientContextDecorators: Decorator = (Story, context) => {
   return (
     <ApolloClientProvider>
-      <UserQryContextProvider>
-        <HuntQryContextProvider>
-          <ClueQryContextProvider>{Story()}</ClueQryContextProvider>
-        </HuntQryContextProvider>
-      </UserQryContextProvider>
+      <TokenContextProvider>
+        {/* <UserQryContextProvider> */}
+        {/* <HuntQryContextProvider> */}
+        {/* <ClueQryContextProvider> */}
+        {Story()}
+        {/* </ClueQryContextProvider> */}
+        {/* </HuntQryContextProvider> */}
+        {/* </UserQryContextProvider> */}
+      </TokenContextProvider>
     </ApolloClientProvider>
   );
 };
@@ -63,5 +59,4 @@ export const decorators: Decorator[] = [
   withRouter,
   mswDecorator, // needed for specific stories to override existing mocks
   ApolloClientContextDecorators,
-  AntStylesContextDecorator,
 ];

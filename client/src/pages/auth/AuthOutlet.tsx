@@ -1,7 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { AppFooter } from "@lib/components/Footer/AppFooter";
-import { SignInSide } from "./SignInSide";
+import { AuthSidePanel } from "./AuthSidePanel";
 import styled from "styled-components";
 
 const StyledContainer = styled.div`
@@ -17,7 +16,7 @@ const StyledContainer = styled.div`
 export const AuthOutlet = () => {
   return (
     <StyledContainer>
-      <SignInSide />
+      <AuthSidePanel />
       <Outlet />
     </StyledContainer>
   );

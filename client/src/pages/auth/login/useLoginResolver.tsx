@@ -4,8 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 export const useLoginResolver = () => {
   const schema = z.object({
-    password: z.string({ required_error: "This field is required." }).trim(),
-    username: z.string({ required_error: "This field is required." }).trim(),
+    username: z
+      .string({ message: "A valid username is required." })
+      .trim()
+      .min(8, { message: "A valid username is required." }),
+    password: z
+      .string({ message: "A valid password is required." })
+      .trim()
+      .min(8, { message: "A valid password is required." }),
   });
 
   const resolver = zodResolver(schema);
