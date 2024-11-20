@@ -1,17 +1,9 @@
 import React, { useState } from "react";
 import { useRegisterMutation } from "./useRegisterMutation";
 import { Link } from "react-router-dom";
-import { FormItem } from "react-hook-form-antd";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Input, Typography, Button, Alert, Form } from "antd";
 import { ApolloError } from "@apollo/client";
 import { useRegisterResolver } from "./useRegisterResolver";
-import {
-  authFormButtonLayout,
-  authFormItemLayout,
-} from "@lib/components/Auth/AuthLayout";
-
-const { Title, Text } = Typography;
 
 type Inputs = {
   username: string;
@@ -56,7 +48,7 @@ export const RegisterPage = () => {
 
   return (
     <>
-      <Form
+      {/* <Form
         name="register"
         {...authFormItemLayout}
         onFinish={handleSubmit(onSubmit)}
@@ -122,7 +114,7 @@ export const RegisterPage = () => {
             Login now
           </Link>
         </Text>
-      </Form>
+      </Form> */}
     </>
   );
 };

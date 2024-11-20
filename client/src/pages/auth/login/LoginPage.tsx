@@ -1,18 +1,13 @@
 import React, { useState } from "react";
 import { useLoginMutation } from "./useLoginMutation";
-import { FormItem } from "react-hook-form-antd";
 import { Link } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ApolloError } from "@apollo/client";
-import { Spinner } from "@lib/components/Spinner/Spinner";
 import {
   authFormButtonLayout,
   authFormItemLayout,
 } from "@lib/components/Auth/AuthLayout";
 import { useLoginResolver } from "./useLoginResolver";
-import { Alert, Button, Form, Input, Typography } from "antd";
-
-const { Title, Text } = Typography;
 
 type Inputs = {
   username: string;
@@ -54,7 +49,7 @@ export const LoginPage = () => {
 
   return (
     <>
-      <Form
+      {/* <Form
         name="login"
         {...authFormItemLayout}
         onFinish={handleSubmit(onSubmit)}>
@@ -99,7 +94,7 @@ export const LoginPage = () => {
             Register now
           </Link>
         </Text>
-      </Form>
+      </Form> */}
     </>
   );
 };

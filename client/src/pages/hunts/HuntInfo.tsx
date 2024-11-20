@@ -1,5 +1,4 @@
 import React from "react";
-import { Segmented, Skeleton } from "antd";
 import { useHuntContext } from "@lib/context/HuntContext";
 import { ClueQryContextProvider } from "@lib/context/ClueContext";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -19,9 +18,9 @@ export const HuntInfo = () => {
   const huntIsPassed =
     !!(end_date && +end_date <= new Date().getTime()) || !!is_active;
 
-  if (loading) {
-    return <Skeleton active paragraph={{ rows: 8 }} />;
-  }
+  // if (loading) {
+  //   return <Skeleton active paragraph={{ rows: 8 }} />;
+  // }
 
   const items = [
     {
@@ -46,7 +45,7 @@ export const HuntInfo = () => {
   return (
     <>
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <Segmented
+        {/* <Segmented
           options={items}
           value={childNavPath}
           onChange={(value) =>
@@ -55,7 +54,7 @@ export const HuntInfo = () => {
               state: { hunt_info_selection: value },
             })
           }
-        />
+        /> */}
       </div>
       <ClueQryContextProvider>
         <Outlet />

@@ -16,11 +16,13 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@ant-design/cssinjs": "^1.18.4",
-    "@ant-design/icons": "^4.8.3",
     "@apollo/client": "^3.9.9",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@hookform/resolvers": "^3.3.4",
-    "antd": "^5.15.3",
+    "@mui/icons-material": "^6.1.7",
+    "@mui/material": "^6.1.7",
+    "@mui/styled-engine-sc": "^6.1.7",
     "dayjs": "^1.11.10",
     "graphql": "^16.8.1",
     "parse-duration": "^1.1.0",
@@ -29,9 +31,8 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.1",
-    "react-hook-form-antd": "^1.1.0",
     "react-router-dom": "^6.12.1",
-    "styled-components": "^6.0.0-rc.3",
+    "styled-components": "^6.1.13",
     "zod": "^3.22.4"
   },
   "devDependencies": {

@@ -2,12 +2,13 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "CommonJS",
+    "outDir": "dist",
     "strict": true,
     "allowJs": false,
     "sourceMap": true,
     "declaration": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
   },
 }

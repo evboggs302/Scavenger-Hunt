@@ -3,7 +3,6 @@ import { AppHeader } from "@lib/components/Header/AppHeader";
 import { Navigate } from "react-router-dom";
 import { UserQryContextProvider } from "@lib/context/UserContext";
 import { useTokenContext } from "@lib/context/TokenContext";
-import { Layout } from "antd";
 import { AppFooter } from "@lib/components/Footer/AppFooter";
 import { SidePanel } from "@lib/components/SidePanel/SidePanel";
 import { HuntQryContextProvider } from "@lib/context/HuntContext";
@@ -19,14 +18,14 @@ export const Dashboard = () => {
   return (
     <UserQryContextProvider>
       <HuntQryContextProvider>
-        <Layout>
+        {/* <Layout> */}
           <AppHeader />
-          <Layout hasSider>
+          {/* <Layout hasSider> */}
             <SidePanel />
             <DashBoardContent />
-          </Layout>
+          {/* </Layout> */}
           <AppFooter />
-        </Layout>
+        {/* </Layout> */}
       </HuntQryContextProvider>
     </UserQryContextProvider>
   );
