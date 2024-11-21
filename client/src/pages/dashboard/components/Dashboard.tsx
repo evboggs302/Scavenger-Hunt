@@ -19,7 +19,7 @@ export const Dashboard = () => {
   return (
     <UserQryContextProvider>
       <HuntQryContextProvider>
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex", width: "100%" }}>
           <SideMenu />
           <AppNavbar />
           {/* Main content */}
