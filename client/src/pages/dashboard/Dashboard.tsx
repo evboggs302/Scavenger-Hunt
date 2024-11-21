@@ -1,12 +1,13 @@
 import React from "react";
-import { AppHeader } from "@lib/components/Header/AppHeader";
-import { Navigate } from "react-router-dom";
+import { AppNavbar } from "@/pages/dashboard/components/AppNavbar";
+import { Navigate, Outlet } from "react-router-dom";
 import { UserQryContextProvider } from "@lib/context/UserContext";
 import { useTokenContext } from "@lib/context/TokenContext";
-import { AppFooter } from "@lib/components/Footer/AppFooter";
-import { SidePanel } from "@lib/components/SidePanel/SidePanel";
 import { HuntQryContextProvider } from "@lib/context/HuntContext";
-import { DashBoardContent } from "./DashBoardContent";
+import Box from "@mui/material/Box";
+import SideMenu from "./components/SideMenu";
+import Stack from "@mui/material/Stack";
+import Header from "./components/Header";
 
 export const Dashboard = () => {
   const { token } = useTokenContext();
@@ -18,14 +19,24 @@ export const Dashboard = () => {
   return (
     <UserQryContextProvider>
       <HuntQryContextProvider>
-        {/* <Layout> */}
-          <AppHeader />
-          {/* <Layout hasSider> */}
-            <SidePanel />
-            <DashBoardContent />
-          {/* </Layout> */}
-          <AppFooter />
-        {/* </Layout> */}
+        <Box sx={{ display: "flex" }}>
+          <SideMenu />
+          <AppNavbar />
+          {/* Main content */}
+          <Box component="main">
+            <Stack
+              spacing={2}
+              sx={{
+                alignItems: "center",
+                mx: 3,
+                pb: 5,
+                mt: { xs: 8, md: 0 },
+              }}>
+              <Header />
+              <Outlet />
+            </Stack>
+          </Box>
+        </Box>
       </HuntQryContextProvider>
     </UserQryContextProvider>
   );

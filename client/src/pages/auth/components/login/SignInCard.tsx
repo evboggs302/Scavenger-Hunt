@@ -8,8 +8,8 @@ import {
   SitemarkIcon,
 } from "@lib/components/Auth/CustomIcons";
 import { ForgotPassword } from "./ForgotPassword";
-import { useLoginMutation } from "./useLoginMutation";
-import { useLoginResolver } from "./useLoginResolver";
+import { useLoginMutation } from "../../hooks/useLoginMutation";
+import { useLoginResolver } from "../../hooks/useLoginResolver";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -49,9 +49,9 @@ type Inputs = {
 };
 
 export const SignInCard = () => {
-  const [isDilogOpen, setIsDilogOpen] = useState(false);
   const [loginMutation, { loading }] = useLoginMutation();
   const [showPassword, setShowPassword] = useState(false);
+  const [isDilogOpen, setIsDilogOpen] = useState(false);
   const [resolver] = useLoginResolver();
 
   const {
@@ -121,6 +121,7 @@ export const SignInCard = () => {
         <SitemarkIcon />
       </Box>
       <Typography
+        data-testid="login-title"
         component="h1"
         variant="h4"
         sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}>
@@ -131,6 +132,7 @@ export const SignInCard = () => {
       )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
+          data-testid="login-username"
           ref={usernameField.ref}
           name={usernameField.name}
           value={usernameField.value || ""}
@@ -146,6 +148,7 @@ export const SignInCard = () => {
         />
         <Box sx={{ margin: "14px auto" }}>
           <TextField
+            data-testid="login-password"
             ref={passwordField.ref}
             name={passwordField.name}
             value={passwordField.value || ""}
@@ -199,6 +202,7 @@ export const SignInCard = () => {
           handleClose={closeChangePasswordDialog}
         />
         <Button
+          data-testid="login-submit"
           type="submit"
           disabled={!isValid || loading}
           fullWidth
