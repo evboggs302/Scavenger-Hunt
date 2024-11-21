@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { Button, Flex } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
 import { CreateHuntModal } from "./CreateHuntModal";
 
 export const CreateHuntButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <Flex
+      {/* <Flex
         justify="flex-end"
         align="center"
         style={{
@@ -18,7 +16,7 @@ export const CreateHuntButton = () => {
           Create hunt
         </Button>
       </Flex>
-      {isOpen && <CreateHuntModal closeModal={() => setIsOpen(false)} />}
+      {isOpen && <CreateHuntModal closeModal={() => setIsOpen(false)} />} */}
     </>
   );
 };

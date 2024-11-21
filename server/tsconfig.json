@@ -3,7 +3,6 @@
   "compilerOptions": {
     "baseUrl": "./",
     "esModuleInterop": true,
-    "outDir": "dist",
     "types": ["node", "jest"],
     "typeRoots": ["types/**/*", "node_modules/@types"]
   },

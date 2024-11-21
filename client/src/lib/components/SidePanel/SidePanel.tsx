@@ -4,10 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { GetHuntsByUserIdDocument } from "@generated/graphql";
 import { apolloContextHeaders } from "@apolloClient/apolloContextHeaders";
 import { CreateHuntButton } from "@pages/createHuntModal/CreateHuntButton";
-import { Layout, Menu, Skeleton } from "antd";
-import { AimOutlined, HomeOutlined } from "@ant-design/icons";
-
-const { Sider } = Layout;
 
 export const SidePanel = () => {
   const navigate = useNavigate();
@@ -18,7 +14,7 @@ export const SidePanel = () => {
     {
       key: "home",
       label: "Home",
-      icon: <HomeOutlined />,
+      // icon: <HomeOutlined />,
       onClick: () => {
         setSelectedKey("home");
         navigate(".", { relative: "path" });
@@ -36,7 +32,7 @@ export const SidePanel = () => {
       const huntItems = getHuntsByUserId?.map((hunt) => {
         return {
           key: hunt?._id as string,
-          icon: <AimOutlined />,
+          // icon: <AimOutlined />,
           label: hunt?.name || "Unknown hunt",
           onClick: () => {
             setSelectedKey(hunt?._id as string);
@@ -50,34 +46,35 @@ export const SidePanel = () => {
     },
   });
 
-  const items = !loading
-    ? panelItems
-    : [
-        {
-          key: "skeleton01",
-          label: <Skeleton active />,
-        },
-        {
-          key: "skeleton02",
-          label: <Skeleton active />,
-        },
-        {
-          key: "skeleton03",
-          label: <Skeleton active />,
-        },
-      ];
+  // const items = !loading
+  //   ? panelItems
+  //   : [
+  //       {
+  //         key: "skeleton01",
+  //         label: <Skeleton active />,
+  //       },
+  //       {
+  //         key: "skeleton02",
+  //         label: <Skeleton active />,
+  //       },
+  //       {
+  //         key: "skeleton03",
+  //         label: <Skeleton active />,
+  //       },
+  //     ];
 
   return (
-    <Sider
-      width={350}
-      style={{ height: "calc(100vh - 182px)", background: "white" }}>
-      <CreateHuntButton />
-      <Menu
-        mode="inline"
-        selectedKeys={[selectedKey]}
-        style={{ height: "100%", borderRight: 0 }}
-        items={items}
-      />
-    </Sider>
+    <></>
+    // <Sider
+    //   width={350}
+    //   style={{ height: "calc(100vh - 182px)", background: "white" }}>
+    //   <CreateHuntButton />
+    //   <Menu
+    //     mode="inline"
+    //     selectedKeys={[selectedKey]}
+    //     style={{ height: "100%", borderRight: 0 }}
+    //     items={items}
+    //   />
+    // </Sider>
   );
 };

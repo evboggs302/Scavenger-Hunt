@@ -1,20 +1,18 @@
-import Typography from "antd/es/typography";
 import React from "react";
-
-const { Text, Link } = Typography;
+import { Link } from "react-router-dom";
 
 export const License = () => {
   return (
-    <Text type="secondary">
+    <>
       {"MIT License "}
-      <Link
+      <a
         color="inherit"
         href="https://github.com/evboggs302/Scavenger-Hunt/blob/master/LICENSE"
         target="_blank">
         "Digital Scavenger" by Evan Boggs
-      </Link>{" "}
+      </a>{" "}
       {new Date().getFullYear()}
       {"."}
-    </Text>
+    </>
   );
 };

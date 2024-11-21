@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within, expect } from "@storybook/test";
-import { RegisterPage } from "@pages/auth/register/RegisterPage";
+import { SignUpCard } from "@pages/auth/register/SignUpCard";
 
-const meta: Meta<typeof RegisterPage> = {
+const meta: Meta<typeof SignUpCard> = {
   title: "Pages/Regsiter",
-  component: RegisterPage,
+  component: SignUpCard,
   tags: ["autodocs"],
 };
 export default meta;
-type Story = StoryObj<typeof RegisterPage>;
+type Story = StoryObj<typeof SignUpCard>;
 
-export const Register: Story = {
+export const SignUp: Story = {
   play: async (props) => {
     const { args, canvasElement, step } = props;
     const { getByTestId } = within(canvasElement);

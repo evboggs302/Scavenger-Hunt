@@ -1,7 +1,4 @@
 import React from "react";
-import { Typography } from "antd";
-
-const { Paragraph, Text } = Typography;
 
 type TeamCardContentProps = {
   members?: (string | null)[] | null;
@@ -11,7 +8,7 @@ type TeamCardContentProps = {
 export const TeamCardContent = ({ members, number }: TeamCardContentProps) => {
   return (
     <>
-      <Paragraph>
+      {/* <Paragraph>
         <Text strong>Contact number: </Text>
         <Text italic={!!!number}>{number || "Not provided"}</Text>
       </Paragraph>
@@ -20,7 +17,7 @@ export const TeamCardContent = ({ members, number }: TeamCardContentProps) => {
         <Text italic={!!!members}>
           {members?.join(", ") || "None provided"}
         </Text>
-      </Paragraph>
+      </Paragraph> */}
     </>
   );
 };

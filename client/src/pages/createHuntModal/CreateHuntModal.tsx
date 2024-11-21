@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Modal, Steps } from "antd";
 import { CreateHuntForm } from "./steps/HuntDetails/CreateHuntForm";
 import { CreateCluesForm } from "./steps/Clues/CreateCluesForm";
 import { CreateTeamsForm } from "./steps/Teams/CreateTeamsForm";
@@ -45,9 +44,8 @@ export const CreateHuntModal = ({ closeModal }: CreateModalProps) => {
   ];
 
   return (
-    <Modal centered open={true} onCancel={closeModal} footer={[]} width={1000}>
-      <Steps style={{ paddingTop: 16 }} current={current} items={steps} />
+    // <Modal centered open={true} onCancel={closeModal} footer={[]} width={1000}>
+    //   <Steps style={{ paddingTop: 16 }} current={current} items={steps} />
       <div style={{}}>{steps[current].content}</div>
-    </Modal>
   );
 };

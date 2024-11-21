@@ -1,15 +1,9 @@
 import React, { useState } from "react";
-import { Alert, Button, DatePicker, Form, Input, Typography } from "antd";
-import type { RangePickerProps } from "antd/es/date-picker";
-import { FormItem } from "react-hook-form-antd";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useCreateHuntMutation } from "./useCreateHuntMutation";
 import { ApolloError } from "@apollo/client";
 import { useCreateHuntResolver } from "./useCreateHuntResolver";
 import dayjs from "dayjs";
-
-const { Title } = Typography;
-const { RangePicker } = DatePicker;
 
 type CreateHuntFormInputs = {
   name: string;
@@ -26,9 +20,9 @@ type CreateHuntProps = {
   setHuntId: (id: string) => void;
 };
 
-const disabledDate: RangePickerProps["disabledDate"] = (current) => {
-  return current && current < dayjs().endOf("day");
-};
+// const disabledDate: RangePickerProps["disabledDate"] = (current) => {
+//   return current && current < dayjs().endOf("day");
+// };
 
 export const CreateHuntForm = ({
   closeModal,
@@ -69,63 +63,64 @@ export const CreateHuntForm = ({
   const recallMsgErrMsg = formErrors.recall_msg?.message;
 
   return (
-    <Form
-      name="create-hunt"
-      onFinish={handleSubmit(onSubmit)}
-      autoComplete="off">
-      <Title level={5}>
-        Fill out the below information to create a new scavenger hunt.
-      </Title>
-      {formErr && (
-        <Form.Item>
-          <Alert
-            data-testid="create-hunt-alert-message"
-            message={`${formErr} Please try again later.`}
-            type="error"
-          />
-        </Form.Item>
-      )}
-      <FormItem control={control} name="name" label="Hunt name" required>
-        <Input
-          data-testid="create-hunt-firstname"
-          status={nameErrMsg ? "error" : undefined}
-          placeholder={`ie. "2012 Family Reunion"`}
-        />
-      </FormItem>
-      <FormItem control={control} name="dateRange" label="Date range" required>
-        <RangePicker
-          data-testid="create-hunt-start"
-          minDate={dayjs()}
-          disabledDate={disabledDate}
-          format="YYYY-MM-DD"
-          needConfirm={false}
-          status={dateRangeErrMsg ? "error" : undefined}
-        />
-      </FormItem>
-      <FormItem
-        control={control}
-        name="recall_msg"
-        label="Recall message"
-        tooltip="The message sent to teams upon completing their hunt.">
-        <Input
-          data-testid="create-hunt-recall"
-          status={recallMsgErrMsg ? "error" : undefined}
-          placeholder={`Default: "You've completed your hunt."`}
-        />
-      </FormItem>
-      <Button key="back" onClick={closeModal}>
-        Cancel
-      </Button>
-      <Form.Item>
-        <Button
-          data-testid="create-hunt-submit"
-          type="primary"
-          htmlType="submit"
-          loading={loading}
-          disabled={!isValid || loading}>
-          Create hunt
-        </Button>
-      </Form.Item>
-    </Form>
+    <></>
+    // <Form
+    //   name="create-hunt"
+    //   onFinish={handleSubmit(onSubmit)}
+    //   autoComplete="off">
+    //   <Title level={5}>
+    //     Fill out the below information to create a new scavenger hunt.
+    //   </Title>
+    //   {formErr && (
+    //     <Form.Item>
+    //       <Alert
+    //         data-testid="create-hunt-alert-message"
+    //         message={`${formErr} Please try again later.`}
+    //         type="error"
+    //       />
+    //     </Form.Item>
+    //   )}
+    //   <FormItem control={control} name="name" label="Hunt name" required>
+    //     <Input
+    //       data-testid="create-hunt-firstname"
+    //       status={nameErrMsg ? "error" : undefined}
+    //       placeholder={`ie. "2012 Family Reunion"`}
+    //     />
+    //   </FormItem>
+    //   <FormItem control={control} name="dateRange" label="Date range" required>
+    //     <RangePicker
+    //       data-testid="create-hunt-start"
+    //       minDate={dayjs()}
+    //       disabledDate={disabledDate}
+    //       format="YYYY-MM-DD"
+    //       needConfirm={false}
+    //       status={dateRangeErrMsg ? "error" : undefined}
+    //     />
+    //   </FormItem>
+    //   <FormItem
+    //     control={control}
+    //     name="recall_msg"
+    //     label="Recall message"
+    //     tooltip="The message sent to teams upon completing their hunt.">
+    //     <Input
+    //       data-testid="create-hunt-recall"
+    //       status={recallMsgErrMsg ? "error" : undefined}
+    //       placeholder={`Default: "You've completed your hunt."`}
+    //     />
+    //   </FormItem>
+    //   <Button key="back" onClick={closeModal}>
+    //     Cancel
+    //   </Button>
+    //   <Form.Item>
+    //     <Button
+    //       data-testid="create-hunt-submit"
+    //       type="primary"
+    //       htmlType="submit"
+    //       loading={loading}
+    //       disabled={!isValid || loading}>
+    //       Create hunt
+    //     </Button>
+    //   </Form.Item>
+    // </Form>
   );
 };

@@ -9,19 +9,19 @@ export const useRegisterResolver = () => {
 
   const schema = z.object({
     firstName: z
-      .string({ required_error: "This field is required." })
+      .string({ message: "This field is required." })
       .trim()
       .min(3, { message: "This field requires at least 3 characters." }),
     lastName: z
-      .string({ required_error: "This field is required." })
+      .string({ message: "This field is required." })
       .trim()
       .min(3, { message: "This field requires at least 3 characters." }),
     password: z
-      .string({ required_error: "This field is required." })
+      .string({ message: "This field is required." })
       .trim()
       .min(12, { message: "This field requires at least 12 characters." }),
     username: z
-      .string({ required_error: "This field is required." })
+      .string({ message: "This field is required." })
       .trim()
       .min(3, { message: "This field requires at least 3 characters." })
       .refine(async (val) => {
