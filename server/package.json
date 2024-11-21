@@ -7,7 +7,7 @@
     "start-server": "node --experimental-modules --es-module-specifier-resolution=node ./dist/server_gql.js",
     "tsc-check": "tsc --noEmit",
     "codegen": "graphql-codegen --config codegen.ts",
-    "compile": "rm -rf ./dist && npx tsc && cp -R /node_modules ./dist/node_modules && cp -R graphql ./dist/graphql"
+    "compile": "rm -rf ./dist && npx tsc && cp -R node_modules ./dist/node_modules && cp -R graphql ./dist/graphql"
   },
   "dependencies": {
     "@apollo/server": "^4.9.3",
