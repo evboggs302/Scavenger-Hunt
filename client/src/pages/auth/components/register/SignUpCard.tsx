@@ -1,67 +1,19 @@
 import React, { MouseEvent, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
 import Divider from "@mui/material/Divider";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
-import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import MuiCard from "@mui/material/Card";
 import { Link } from "react-router-dom";
-import { styled } from "@mui/material/styles";
 import { GoogleIcon, FacebookIcon } from "@lib/components/Auth/CustomIcons";
-import { useRegisterMutation } from "../../hooks/useRegisterMutation";
-import { useRegisterResolver } from "../../hooks/useRegisterResolver";
+import { useRegisterMutation } from "@pages/auth/hooks/useRegisterMutation";
+import { useRegisterResolver } from "@pages/auth/hooks/useRegisterResolver";
 import { SubmitHandler, useController, useForm } from "react-hook-form";
 import { ApolloError } from "@apollo/client";
 import Alert from "@mui/material/Alert";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { InputAdornment, IconButton } from "@mui/material";
-
-const Card = styled(MuiCard)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  alignSelf: "center",
-  width: "100%",
-  padding: theme.spacing(4),
-  gap: theme.spacing(2),
-  margin: "auto",
-  boxShadow:
-    "hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px",
-  [theme.breakpoints.up("sm")]: {
-    width: "450px",
-  },
-  ...theme.applyStyles("dark", {
-    boxShadow:
-      "hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px",
-  }),
-}));
-
-const SignUpContainer = styled(Stack)(({ theme }) => ({
-  height: "calc((1 - var(--template-frame-height, 0)) * 100dvh)",
-  minHeight: "100%",
-  padding: theme.spacing(2),
-  [theme.breakpoints.up("sm")]: {
-    padding: theme.spacing(4),
-  },
-  "&::before": {
-    content: '""',
-    display: "block",
-    position: "absolute",
-    zIndex: -1,
-    inset: 0,
-    backgroundImage:
-      "radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))",
-    backgroundRepeat: "no-repeat",
-    ...theme.applyStyles("dark", {
-      backgroundImage:
-        "radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))",
-    }),
-  },
-}));
+import { AuthCardContainer, AuthCard } from "../authLayout";
 
 type Inputs = {
   username: string;
@@ -138,8 +90,8 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
   };
 
   return (
-    <SignUpContainer direction="column" justifyContent="space-between">
-      <Card variant="outlined">
+    <AuthCardContainer direction="column" justifyContent="space-between">
+      <AuthCard variant="outlined">
         <Typography
           data-testid="register-title"
           component="h1"
@@ -284,7 +236,7 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
             </Link>
           </Typography>
         </Box>
-      </Card>
-    </SignUpContainer>
+      </AuthCard>
+    </AuthCardContainer>
   );
 };
