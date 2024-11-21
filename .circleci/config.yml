@@ -15,11 +15,21 @@ git-checkout-root: &git-checkout-root
   checkout:
     path: ~/scavenger-hunt
 
-yarn-install-step: &yarn-install-step
+yarn-install-step: &yarn-install-frozen
   run:
-    name: Yarn install
+    name: yarn install --frozen-lockfile
     no_output_timeout: 30m # just in case Render has a slow environment
     command: yarn install --frozen-lockfile
+
+# NOT YET USED
+yarn-install-for-production: &yarn-install-production
+  - run:
+      name: remove node_modules
+      command: rm -rf /node_modules
+  - run:
+      name: yarn install --production
+      no_output_timeout: 30m # just in case Render has a slow environment
+      command: yarn install --production
 
 jobs:
   test-ui-job:
@@ -28,7 +38,7 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
-      - <<: *yarn-install-step
+      - <<: *yarn-install-frozen
       - run:
           name: UI functional tests
           command: yarn test
@@ -44,7 +54,7 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
-      - <<: *yarn-install-step
+      - <<: *yarn-install-frozen
       - run:
           name: Graphql codegen
           command: yarn codegen
@@ -54,19 +64,28 @@ jobs:
       - run:
           name: Deploy server via webhook
           command: curl ${DEPLOY_SERVER_WEBHOOK}
+
   deploy-ui-job:
     <<: *docker-node
     working_directory: ~/scavenger-hunt/client
     parallelism: 2
     steps:
       - <<: *git-checkout-root
-      - <<: *yarn-install-step
+      - <<: *yarn-install-frozen
       - run:
           name: Build UI
           command: yarn build
       - run:
           name: Deploy UI
           command: curl ${DEPLOY_UI_WEBHOOK}
+
+  deploy-storybook-job:
+    <<: *docker-node
+    working_directory: ~/scavenger-hunt/client
+    parallelism: 2
+    steps:
+      - <<: *git-checkout-root
+      - <<: *yarn-install-frozen
       - run:
           name: Build Storybook
           command: yarn build-storybook
@@ -82,6 +101,7 @@ workflows:
     when:
       equal: [<< pipeline.git.branch >>, master]
     jobs:
+      - deploy-storybook-job
       - deploy-server-job
       - deploy-ui-job:
           requires:
