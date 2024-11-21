@@ -6,8 +6,8 @@ import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import MenuContent from "./MenuContent";
-import OptionsMenu from "./OptionsMenu";
+import { MenuContent } from "./MenuContent";
+import { OptionsMenu } from "./OptionsMenu";
 
 const drawerWidth = 240;
 
@@ -22,7 +22,7 @@ const Drawer = styled(MuiDrawer)({
   },
 });
 
-export default function SideMenu() {
+export const SideMenu = () => {
   return (
     <Drawer
       variant="permanent"
@@ -71,4 +71,4 @@ export default function SideMenu() {
       </Stack>
     </Drawer>
   );
-}
+};

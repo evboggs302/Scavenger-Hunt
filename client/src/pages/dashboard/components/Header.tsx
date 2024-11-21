@@ -1,10 +1,10 @@
 import React from "react";
 import Stack from "@mui/material/Stack";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
-import NavbarBreadcrumbs from "./NavbarBreadcrumbs";
-import MenuButton from "./MenuButton";
+import { NavbarBreadcrumbs } from "./NavbarBreadcrumbs";
+import { MenuButton } from "./MenuButton";
 
-export default function Header() {
+export const Header = () => {
   return (
     <Stack
       direction="row"
@@ -23,4 +23,4 @@ export default function Header() {
       </MenuButton>
     </Stack>
   );
-}
+};

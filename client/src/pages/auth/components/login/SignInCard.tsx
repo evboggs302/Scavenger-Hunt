@@ -17,6 +17,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { AuthCardContainer, AuthCard } from "../authLayout";
+import CircularProgress from "@mui/material/CircularProgress";
 
 type Inputs = {
   username: string;
@@ -182,7 +183,8 @@ export const SignInCard = () => {
             type="submit"
             disabled={!isValid || loading}
             fullWidth
-            variant="contained">
+            variant="contained"
+            endIcon={loading && <CircularProgress size={20} />}>
             Sign in
           </Button>
           <Typography sx={{ textAlign: "center" }}>

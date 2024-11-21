@@ -8,18 +8,15 @@ import Typography from "@mui/material/Typography";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 
-import MenuButton from "./MenuButton";
-import MenuContent from "./MenuContent";
+import { MenuButton } from "../MenuButton";
+import { MenuContent } from "./MenuContent";
 
 interface SideMenuMobileProps {
   open: boolean | undefined;
   toggleDrawer: (newOpen: boolean) => () => void;
 }
 
-export default function SideMenuMobile({
-  open,
-  toggleDrawer,
-}: SideMenuMobileProps) {
+export const SideMenuMobile = ({ open, toggleDrawer }: SideMenuMobileProps) => {
   return (
     <Drawer
       anchor="right"
@@ -71,4 +68,4 @@ export default function SideMenuMobile({
       </Stack>
     </Drawer>
   );
-}
+};

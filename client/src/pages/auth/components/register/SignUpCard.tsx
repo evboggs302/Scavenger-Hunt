@@ -12,7 +12,7 @@ import { SubmitHandler, useController, useForm } from "react-hook-form";
 import { ApolloError } from "@apollo/client";
 import Alert from "@mui/material/Alert";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
-import { InputAdornment, IconButton } from "@mui/material";
+import { InputAdornment, IconButton, CircularProgress } from "@mui/material";
 import { AuthCardContainer, AuthCard } from "../authLayout";
 
 type Inputs = {
@@ -207,7 +207,8 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
             type="submit"
             disabled={!isValid || loading}
             fullWidth
-            variant="contained">
+            variant="contained"
+            endIcon={loading && <CircularProgress size={20} />}>
             Sign up
           </Button>
         </form>

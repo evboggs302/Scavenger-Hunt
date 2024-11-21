@@ -9,11 +9,11 @@ export const HuntInfo = () => {
   const childNavPath = useLocalPathname();
   const navigate = useNavigate();
 
-  if (!data?.getHunt) {
+  if (!data?.hunt) {
     return null;
   }
 
-  const { end_date, is_active } = data.getHunt;
+  const { end_date, is_active } = data.hunt;
 
   const huntIsPassed =
     !!(end_date && +end_date <= new Date().getTime()) || !!is_active;

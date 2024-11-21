@@ -3,7 +3,7 @@ import { useClueContext } from "@lib/context/ClueContext";
 
 export const CluesPage = () => {
   const { data } = useClueContext();
-  const clues = data?.getCluesByHuntId
+  const clues = data?.clues;
 
   // const clueCards = clues?.map((cl) => (
   //   <CardComponent

@@ -5,7 +5,7 @@ import { useHuntContext } from "@/lib/context/HuntContext";
 export const TeamsPage = () => {
   const { data } = useHuntContext();
 
-  const teams = data?.getHunt?.teams;
+  const teams = data?.hunt?.teams;
 
   // const teamCards = teams?.map((tm, dex) => (
   //   <CardComponent
@@ -18,4 +18,5 @@ export const TeamsPage = () => {
   // ));
 
   // return <Row gutter={16}>{teamCards}</Row>;
+  return <></>;
 };

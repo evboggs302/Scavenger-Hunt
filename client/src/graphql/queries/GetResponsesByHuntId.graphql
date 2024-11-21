@@ -1,5 +1,5 @@
 query GetResponsesByHunt($id: ID!) {
-  getHunt(id: $id) {
+  hunt: getHunt(id: $id) {
     teams {
       responses {
         _id

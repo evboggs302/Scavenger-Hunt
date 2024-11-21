@@ -4,7 +4,7 @@ mutation CreateHunt(
   $end_date: String!
   $recall_message: String
 ) {
-  createHunt(
+  hunt: createHunt(
     input: {
       name: $name
       start_date: $start_date

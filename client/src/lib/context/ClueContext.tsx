@@ -25,7 +25,7 @@ export const ClueQryContextProvider = ({
   const result = useQuery(GetOrderedCluesDocument, {
     context: headers,
     fetchPolicy: "cache-and-network",
-    variables: { id: data?.getHunt?._id || "" },
+    variables: { id: data?.hunt?._id || "" },
   });
 
   return <ClueContext.Provider value={result}>{children}</ClueContext.Provider>;

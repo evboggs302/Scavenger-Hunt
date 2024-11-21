@@ -7,5 +7,6 @@
   "scripts": {
     "tsc-check-client": "cd client && yarn tsc-check",
     "tsc-check-server": "cd server && yarn tsc-check"
-  }
+  },
+  "dependencies": {}
 }
