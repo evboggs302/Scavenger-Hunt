@@ -74,8 +74,8 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
     await trigger();
 
     try {
-      // await registerMutation(formData);
-      throw new Error("try try try");
+      await registerMutation(formData);
+      // throw new Error("try try try");
     } catch (err) {
       reset();
       if (err instanceof ApolloError) {

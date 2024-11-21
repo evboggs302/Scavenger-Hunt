@@ -76,8 +76,8 @@ export const SignInCard = () => {
     await trigger();
 
     try {
-      // await loginMutation(formData);
-      throw new Error("try try try");
+      await loginMutation(formData);
+      // throw new Error("try try try");
     } catch (err) {
       reset();
       if (err instanceof ApolloError) {
