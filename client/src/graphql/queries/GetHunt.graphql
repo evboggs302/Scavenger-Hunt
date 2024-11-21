@@ -1,5 +1,5 @@
 query GetHunt($id: ID!) {
-  getHunt(id: $id) {
+  hunt: getHunt(id: $id) {
     ...FullHunt
   }
 }

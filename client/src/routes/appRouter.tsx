@@ -1,6 +1,5 @@
 import React from "react";
 import "../../index.css";
-import { createTheme } from "@mui/material/styles";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Dashboard } from "@pages/dashboard/components/Dashboard";
 import { catchallRouteToLogin } from "./catchAllRoutes/catchallRouteToLogin";
@@ -14,6 +13,7 @@ import { ResponsesPage } from "@pages/responses/ResponsesPage";
 import { SignInCard } from "@pages/auth/components/login/SignInCard";
 import { SignUpCard } from "@pages/auth/components/register/SignUpCard";
 import { DarkThemeProvider } from "@lib/context/DarkThemeProvider";
+import { HomePage } from "@pages/home/HomePage";
 
 const router = createBrowserRouter([
   {
@@ -42,26 +42,30 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <Dashboard />,
     children: [
-      // {
-      //       path: "hunt/:id",
-      //       element: <HuntInfo />,
-      //       children: [
-      //         { index: true, element: <HuntDetailsPage /> },
-      //         {
-      //           path: "teams",
-      //           // element: <TeamsPage />,
-      //         },
-      //         {
-      //           path: "clues",
-      //           element: <CluesPage />,
-      //         },
-      //         {
-      //           path: "responses",
-      //           element: <ResponsesPage />,
-      //         },
-      //         catchallRouteToParent,
-      //       ],
-      //     },
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: "hunt/:huntId",
+        element: <HuntInfo />,
+        children: [
+          { index: true, element: <HuntDetailsPage /> },
+          {
+            path: "teams",
+            element: <TeamsPage />,
+          },
+          {
+            path: "clues",
+            element: <CluesPage />,
+          },
+          {
+            path: "responses",
+            element: <ResponsesPage />,
+          },
+          catchallRouteToParent,
+        ],
+      },
       catchallRouteToParent,
     ],
   },

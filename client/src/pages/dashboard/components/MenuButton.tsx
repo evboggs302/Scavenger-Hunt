@@ -6,10 +6,10 @@ export interface MenuButtonProps extends IconButtonProps {
   showBadge?: boolean;
 }
 
-export default function MenuButton({
+export const MenuButton = ({
   showBadge = false,
   ...props
-}: MenuButtonProps) {
+}: MenuButtonProps) => {
   return (
     <Badge
       color="error"

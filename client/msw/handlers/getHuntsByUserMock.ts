@@ -8,7 +8,7 @@ export const getHuntsBuyUserIdMock = graphql.query(
   () => {
     return HttpResponse.json({
       data: {
-        getHuntsByUserId: [
+        hunts: [
           {
             __typename,
             _id: "1234567891011",

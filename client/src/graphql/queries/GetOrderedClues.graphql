@@ -1,5 +1,5 @@
 query GetOrderedClues($id: String!) {
-  getCluesByHuntId(id: $id) {
+  clues: getCluesByHuntId(id: $id) {
     ...Clue
   }
 }

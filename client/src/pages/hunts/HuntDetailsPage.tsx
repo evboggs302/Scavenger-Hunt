@@ -1,12 +1,12 @@
 import React from "react";
 import { useHuntContext } from "@lib/context/HuntContext";
 import { formatDateString } from "@lib/utils/formatDateString";
-import { HuntStatus } from "@lib/components/Badge/HuntStatus";
+// import { HuntStatus } from "@lib/components/Badge/HuntStatus";
 
 export const HuntDetailsPage = () => {
   const { data } = useHuntContext();
 
-  if (!data?.getHunt) {
+  if (!data?.hunt) {
     return null;
   }
 
@@ -18,7 +18,7 @@ export const HuntDetailsPage = () => {
     end_date,
     is_active,
     recall_message,
-  } = data.getHunt;
+  } = data.hunt;
 
   return (
     <></>

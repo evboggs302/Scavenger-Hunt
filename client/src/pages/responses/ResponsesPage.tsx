@@ -15,7 +15,7 @@ export const ResponsesPage = () => {
   const { data } = useHuntContext();
   const [responses, setResponses] = useState<ResponsePayload[]>([]);
 
-  if (!data?.getHunt) {
+  if (!data?.hunt) {
     return null;
   }
 
@@ -24,9 +24,9 @@ export const ResponsesPage = () => {
     fetchPolicy: "network-only",
     nextFetchPolicy: "cache-and-network",
     pollInterval: 30000,
-    variables: { id: data.getHunt._id || "" },
-    onCompleted: ({ getHunt }) => {
-      const res = getHunt?.teams?.reduce((allRes, team) => {
+    variables: { id: data.hunt._id || "" },
+    onCompleted: ({ hunt }) => {
+      const res = hunt?.teams?.reduce((allRes, team) => {
         if (!team?.responses) {
           return allRes;
         }

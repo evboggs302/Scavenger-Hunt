@@ -45,7 +45,7 @@ export const CreateHuntForm = ({
   const onSubmit: SubmitHandler<CreateHuntFormInputs> = async (formData) => {
     try {
       const { data } = await createHunt(formData);
-      setHuntId(data?.createHunt?._id as string);
+      setHuntId(data?.hunt?._id as string);
       nextStep();
       // throw new Error("try try try");
     } catch (err) {
