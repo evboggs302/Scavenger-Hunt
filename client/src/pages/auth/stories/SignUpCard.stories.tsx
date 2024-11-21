@@ -1,13 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within, expect } from "@storybook/test";
-import { SignUpCard } from "@pages/auth/register/SignUpCard";
+import { SignUpCard } from "@/pages/auth/components/register/SignUpCard";
 
 const meta: Meta<typeof SignUpCard> = {
-  title: "Pages/Regsiter",
+  title: "Pages/Auth/Regsiter",
   component: SignUpCard,
   tags: ["autodocs"],
 };
 export default meta;
+
 type Story = StoryObj<typeof SignUpCard>;
 
 export const SignUp: Story = {
