@@ -1,55 +1,23 @@
 {
-    "extends": "../tsconfig.json",
-    "compilerOptions": {
-        "baseUrl": "./",
-        "lib": [
-            "dom",
-            "dom.iterable",
-            "esnext"
-        ],
-        "jsx": "react",
-        "moduleResolution": "node",
-        "types": [
-            "vite/client",
-            "vite-plugin-svgr/client",
-            "vitest/globals"
-        ],
-        "typeRoots": [
-            "node_modules/@types"
-        ],
-        "paths": {
-            "@/*": [
-                "src/*"
-            ],
-            "@apolloClient/*": [
-                "src/apolloClient/*"
-            ],
-            "@dux/*": [
-                "src/dux/*"
-            ],
-            "@generated/*": [
-                "src/generated/*"
-            ],
-            "@graphql/*": [
-                "src/graphql/*"
-            ],
-            "@lib/*": [
-                "src/lib/*"
-            ],
-            "@pages/*": [
-                "src/pages/*"
-            ],
-            "@routes/*": [
-                "src/routes/*"
-            ],
-            "@mui/*": [
-                "src/mui/*"
-            ]
-        }
-    },
-    "exclude": [
-        "node_modules",
-        "src/dux",
-        "src/mui"
-    ]
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "baseUrl": "./",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "jsx": "react",
+    "moduleResolution": "node",
+    "types": ["vite/client", "vite-plugin-svgr/client", "vitest/globals"],
+    "typeRoots": ["node_modules/@types"],
+    "paths": {
+      "@/*": ["src/*"],
+      "@apolloClient/*": ["src/apolloClient/*"],
+      "@dux/*": ["src/dux/*"],
+      "@generated/*": ["src/generated/*"],
+      "@graphql/*": ["src/graphql/*"],
+      "@lib/*": ["src/lib/*"],
+      "@pages/*": ["src/pages/*"],
+      "@routes/*": ["src/routes/*"]
+    }
+  },
+  "exclude": ["node_modules", "src/dux"]
 }

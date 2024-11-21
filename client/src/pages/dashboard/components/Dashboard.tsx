@@ -5,9 +5,9 @@ import { UserQryContextProvider } from "@lib/context/UserContext";
 import { useTokenContext } from "@lib/context/TokenContext";
 import { HuntQryContextProvider } from "@lib/context/HuntContext";
 import Box from "@mui/material/Box";
-import SideMenu from "./components/SideMenu";
+import SideMenu from "./SideMenu";
 import Stack from "@mui/material/Stack";
-import Header from "./components/Header";
+import Header from "./Header";
 
 export const Dashboard = () => {
   const { token } = useTokenContext();
