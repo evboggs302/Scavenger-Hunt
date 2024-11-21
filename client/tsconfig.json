@@ -15,9 +15,8 @@
       "@graphql/*": ["src/graphql/*"],
       "@lib/*": ["src/lib/*"],
       "@pages/*": ["src/pages/*"],
-      "@routes/*": ["src/routes/*"],
-      "@mui/*": ["src/mui/*"]
+      "@routes/*": ["src/routes/*"]
     }
   },
-  "exclude": ["node_modules", "src/dux", "src/mui"]
+  "exclude": ["node_modules", "src/dux"]
 }
