@@ -2,7 +2,7 @@ import React from "react";
 import "../../index.css";
 import CssBaseline from "@mui/material/CssBaseline";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Dashboard } from "@pages/dashboard/Dashboard";
+import { Dashboard } from "@/pages/dashboard/components/Dashboard";
 import { catchallRouteToLogin } from "./catchAllRoutes/catchallRouteToLogin";
 import { catchallRouteToParent } from "./catchAllRoutes/catchallRouteToParent";
 import { AuthOutlet } from "@/pages/auth/components/AuthOutlet";
