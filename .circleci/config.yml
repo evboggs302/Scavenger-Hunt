@@ -49,7 +49,7 @@ jobs:
           name: Graphql codegen
           command: yarn codegen
       - run:
-          name: Compile
+          name: Compile TS
           command: yarn compile
       - run:
           name: Deploy server via webhook
