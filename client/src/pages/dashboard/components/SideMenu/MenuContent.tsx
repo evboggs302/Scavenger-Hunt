@@ -6,7 +6,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Stack from "@mui/material/Stack";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import AnalyticsRoundedIcon from "@mui/icons-material/AnalyticsRounded";
+import ExtensionRoundedIcon from "@mui/icons-material/ExtensionRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
@@ -43,13 +43,19 @@ export const MenuContent = () => {
   });
 
   const mappedHunts = data?.hunts?.map((hunt) => {
-    return {
-      id: hunt?._id,
-      name: hunt?.name || "Unknown hunt",
-      onClick: () => {
-        navigate(`hunt/${hunt?._id}`, { relative: "path" });
-      },
-    };
+    if (!hunt) return null;
+
+    return (
+      <ListItem key={hunt._id} disablePadding sx={{ pl: 3 }}>
+        <ListItemButton
+          selected={huntId === hunt._id}
+          onClick={() => {
+            navigate(`hunt/${hunt._id}`, { relative: "path" });
+          }}>
+          <ListItemText primary={hunt.name} />
+        </ListItemButton>
+      </ListItem>
+    );
   });
 
   return (
@@ -66,18 +72,12 @@ export const MenuContent = () => {
 
         <ListItem disablePadding sx={{ display: "block" }}>
           <ListItemButton onClick={handleHuntsClick}>
-            <ListItemIcon>{<AnalyticsRoundedIcon />}</ListItemIcon>
+            <ListItemIcon>{<ExtensionRoundedIcon />}</ListItemIcon>
             <ListItemText primary="Your hunts" />
             {isHuntsOpen ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
           <Collapse in={isHuntsOpen} timeout="auto" unmountOnExit>
-            {mappedHunts?.map(({ id, name, onClick }) => (
-              <ListItem key={id} disablePadding sx={{ pl: 3 }}>
-                <ListItemButton selected={huntId === id} onClick={onClick}>
-                  <ListItemText primary={name} />
-                </ListItemButton>
-              </ListItem>
-            ))}
+            {mappedHunts}
           </Collapse>
         </ListItem>
       </List>
