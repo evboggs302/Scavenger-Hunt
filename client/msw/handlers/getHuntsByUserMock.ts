@@ -1,5 +1,5 @@
 import { HttpResponse, graphql } from "msw";
-import { GetHuntsByUserIdDocument } from "../../src/generated/graphql";
+import { GetHuntsByUserIdDocument } from "@generated/graphql";
 
 const __typename = "Hunt" as const;
 

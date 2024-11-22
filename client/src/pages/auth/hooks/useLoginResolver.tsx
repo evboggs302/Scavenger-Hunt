@@ -11,7 +11,7 @@ export const useLoginResolver = () => {
     password: z
       .string({ message: "A valid password is required." })
       .trim()
-      .min(8, { message: "A valid password is required." }),
+      .min(12, { message: "A valid password is required." }),
   });
 
   const resolver = zodResolver(schema);

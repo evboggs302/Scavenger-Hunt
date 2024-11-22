@@ -5,19 +5,19 @@ import { Dashboard } from "@pages/dashboard/components/Dashboard";
 import { catchallRouteToLogin } from "./catchAllRoutes/catchallRouteToLogin";
 import { catchallRouteToParent } from "./catchAllRoutes/catchallRouteToParent";
 import { AuthOutlet } from "@pages/auth/components/AuthOutlet";
-import { HuntInfo } from "@pages/hunts/HuntInfo";
-import { HuntDetailsPage } from "@pages/hunts/HuntDetailsPage";
+import { HuntPage } from "@/pages/hunts/components/HuntPage";
+import { HuntDetails } from "@/pages/hunts/components/HuntDetails";
 import { TeamsPage } from "@pages/teams/TeamsPage";
 import { CluesPage } from "@pages/clues/CluesPage";
 import { ResponsesPage } from "@pages/responses/ResponsesPage";
 import { SignInCard } from "@pages/auth/components/login/SignInCard";
 import { SignUpCard } from "@pages/auth/components/register/SignUpCard";
 import { DarkThemeProvider } from "@lib/context/DarkThemeProvider";
-import { HomePage } from "@pages/home/HomePage";
+import { HomePage } from "@pages/home/components/HomePage";
 
 const router = createBrowserRouter([
   {
-    path: "/login",
+    path: "login",
     element: <AuthOutlet />,
     children: [
       {
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/register",
+    path: "register",
     element: <AuthOutlet />,
     children: [
       {
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/dashboard",
+    path: "dashboard",
     element: <Dashboard />,
     children: [
       {
@@ -47,10 +47,20 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
+        path: "profile",
+        element: null,
+        children: [catchallRouteToParent],
+      },
+      {
+        path: "settings",
+        element: null,
+        children: [catchallRouteToParent],
+      },
+      {
         path: "hunt/:huntId",
-        element: <HuntInfo />,
+        element: <HuntPage />,
         children: [
-          { index: true, element: <HuntDetailsPage /> },
+          { index: true, element: <HuntDetails /> },
           {
             path: "teams",
             element: <TeamsPage />,

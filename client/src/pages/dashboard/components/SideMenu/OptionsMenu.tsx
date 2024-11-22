@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { styled } from "@mui/material/styles";
 import Divider, { dividerClasses } from "@mui/material/Divider";
 import Menu from "@mui/material/Menu";
@@ -10,6 +10,7 @@ import ListItemIcon, { listItemIconClasses } from "@mui/material/ListItemIcon";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import { MenuButton } from "../MenuButton";
+import { useLogoutMutation } from "@pages/dashboard/hooks/useLogoutMutation";
 
 const MenuItem = styled(MuiMenuItem)({
   margin: "2px 0",
@@ -18,14 +19,24 @@ const MenuItem = styled(MuiMenuItem)({
 export const OptionsMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  const [logoutUser] = useLogoutMutation();
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLogout = useCallback(async () => {
+    try {
+      await logoutUser();
+    } catch (err) {}
+  }, []);
+
   return (
-    <React.Fragment>
+    <>
       <MenuButton
         aria-label="Open menu"
         onClick={handleClick}
@@ -58,7 +69,7 @@ export const OptionsMenu = () => {
         <MenuItem onClick={handleClose}>Settings</MenuItem>
         <Divider />
         <MenuItem
-          onClick={handleClose}
+          onClick={handleLogout}
           sx={{
             [`& .${listItemIconClasses.root}`]: {
               ml: "auto",
@@ -69,8 +80,9 @@ export const OptionsMenu = () => {
           <ListItemIcon>
             <LogoutRoundedIcon fontSize="small" />
           </ListItemIcon>
+
         </MenuItem>
       </Menu>
-    </React.Fragment>
+    </>
   );
 };
