@@ -15,7 +15,7 @@ export const useLogoutMutation = () => {
   });
   const { setToken } = useTokenContext();
 
-  const handlLogoutUser = useCallback(async () => {
+  const onLogout = useCallback(async () => {
     await logoutUser({
       onCompleted: () => {
         localStorage.clear();
@@ -27,7 +27,7 @@ export const useLogoutMutation = () => {
   }, [logoutUser, client, navigate]);
 
   return useMemo(
-    (): [typeof handlLogoutUser, typeof result] => [handlLogoutUser, result],
-    [handlLogoutUser, result]
+    (): [typeof onLogout, typeof result] => [onLogout, result],
+    [onLogout, result]
   );
 };

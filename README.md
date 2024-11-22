@@ -2,58 +2,68 @@
 
 This repo will eventually hold a scavenger hunt app that will utilize the Twilio texting service.
 
----
+### Production Links
 
-**_🚧 🚧 WARNING 🚧 🚧_**
+Application: https://digital-scavenger-ui.onrender.com/
 
-I'm currently transitioning the server from Express/Rest -> AolloGraphql... this will be a tad messy until I'm finished 😬
+Storybook: https://digital-scavenger-storybook.onrender.com
 
-_The following may or may not be accurate at the time of you reading this._
+### Local Development - `/client`
 
-**_🚧 🚧 WARNING 🚧 🚧_**
+- `yarn install` - installs dependencies
 
----
-
-### Storybook
-
-https://digital-scavenger-storybook.onrender.com
-
-### Available Scripts
+- `yarn storybook` - starts the storybook server locally
 
 - `yarn start` Runs the app in the development mode.<br />
   _Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
   The page will reload with edits. You will also see any lint errors in the console._
 
-- `yarn run serve` // `nodemon` Launches the server file.
-- `yarn test` starts the test suit; runs all test in the `__tests__` directory
+- `yarn test` starts the test suite
 
-### NGROK & POSTMAN
+### Local Development - `/server`
 
-- Ngrok is a tool used to expose your local node server to the outside world, namely for Twilio webhooks and Postman testing.
-- install ngrok from their website (free version works fine)
-- open a terminal, in the root dir run the below command.
+From the terminal in your local project:
 
-```bash
-./ngrok http 22306
+1. Make sure the `MONGO_URI` value in your .env file is accurate
+2. Go to the `/server/` dir, run this command:
+
+```zsh
+yarn dev
 ```
 
-- copy the provided url `http://<some_random_string>.ngrok.io/`
-- paste that into 2 places:
-  - the webhook field on the Twilio dashboard for your selected phone number
-  - saved to a variable in your PostMan environment
+After the server is running, do the following from inside Postman:
+
+1. Create a collection. This will allow you to store and use collection variables
+2. make sure the below variables are set:
+
+   - `baseURL` -- I have 2 of these I toggle between. One for `localhost` and one for my deployed server in prod
+   - `authToken` -- This will start out as empty
+
+3. Create a new query in the collection
+4. In the query input field, simply put `{{baseURL}}`
+5. On the "Authorization" tab for that query, make the below selections:
+
+   - Type: `Bearer Token`
+   - Token: `{{authToken}}`
+
+6. You must run the `login` mutation first. Copy the token value from the response object.
+7. Go back to your collection's variables. Pase the copied token value into the field for the `authToken` variable.
+8. Run any query or mutation as you please!!!
 
 ### .ENV example content
 
 ```txt
-ACCT_SID=< provided by Twilio >
-AUTH_TOKEN=< provided by Twilio >
+TWILIO_ACCT_SID=< provided by Twilio >
+TWILIO_AUTH_TOKEN=< provided by Twilio >
 TWILIO_NUMBER=< provided by Twilio >
 
-MONGO_URI=< provided by MongoDB >
+# FOR LOCAL DEV ONLY - PROD VALUES SET DURING CI PIPELINE
+CLIENT_URL=http://localhost:< port >
+GQL_SERVER_URL=http://localhost:< port >/graphql
+MONGO_URI=< constructed with MongoDB details >
 
 SESSION_SECRET=< randomly button smash a long value >
 PORT=< 5 digit number >
-SASS_PATH="node_modules"
 
 JWT_SECRET=< randomly button smash a long value >
 ACCESS_TOKEN_SECRET=< randomly button smash a long value >

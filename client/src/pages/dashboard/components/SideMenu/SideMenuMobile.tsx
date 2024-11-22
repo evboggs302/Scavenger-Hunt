@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
@@ -10,6 +10,8 @@ import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 
 import { MenuButton } from "../MenuButton";
 import { MenuContent } from "./MenuContent";
+import { useLogoutMutation } from "@pages/dashboard/hooks/useLogoutMutation";
+import { useUserContext } from "@lib/context/UserContext";
 
 interface SideMenuMobileProps {
   open: boolean | undefined;
@@ -17,6 +19,15 @@ interface SideMenuMobileProps {
 }
 
 export const SideMenuMobile = ({ open, toggleDrawer }: SideMenuMobileProps) => {
+  const { data } = useUserContext();
+  const [logoutUser] = useLogoutMutation();
+
+  const handleLogout = useCallback(async () => {
+    try {
+      await logoutUser();
+    } catch (err) {}
+  }, []);
+
   return (
     <Drawer
       anchor="right"
@@ -40,12 +51,12 @@ export const SideMenuMobile = ({ open, toggleDrawer }: SideMenuMobileProps) => {
             sx={{ gap: 1, alignItems: "center", flexGrow: 1, p: 1 }}>
             <Avatar
               sizes="small"
-              alt="Riley Carter"
+              alt={data?.user?.first_name}
               src="/static/images/avatar/7.jpg"
               sx={{ width: 24, height: 24 }}
             />
             <Typography component="p" variant="h6">
-              Riley Carter
+              {`${data?.user?.first_name} ${data?.user?.last_name}`}
             </Typography>
           </Stack>
           <MenuButton showBadge>
@@ -60,6 +71,7 @@ export const SideMenuMobile = ({ open, toggleDrawer }: SideMenuMobileProps) => {
         <Stack sx={{ p: 2 }}>
           <Button
             variant="outlined"
+            onClick={handleLogout}
             fullWidth
             startIcon={<LogoutRoundedIcon />}>
             Logout

@@ -8,8 +8,6 @@ import Stack from "@mui/material/Stack";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ExtensionRoundedIcon from "@mui/icons-material/ExtensionRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
-import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
-import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { apolloContextHeaders } from "@apolloClient/apolloContextHeaders";
 import { GetHuntsByUserIdDocument } from "@generated/graphql";
@@ -19,8 +17,6 @@ import Collapse from "@mui/material/Collapse";
 
 const secondaryListItems = [
   { text: "Settings", icon: <SettingsRoundedIcon /> },
-  { text: "About", icon: <InfoRoundedIcon /> },
-  { text: "Feedback", icon: <HelpRoundedIcon /> },
 ];
 
 export const MenuContent = () => {

@@ -1,5 +1,5 @@
 import { HttpResponse, graphql } from "msw";
-import { RegisterUserDocument } from "../../src/generated/graphql";
+import { RegisterUserDocument } from "@generated/graphql";
 
 export const registerMock = graphql.mutation(
   RegisterUserDocument,

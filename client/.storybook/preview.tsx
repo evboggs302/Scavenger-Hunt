@@ -3,11 +3,11 @@ import { initialize, mswDecorator, mswLoader } from "msw-storybook-addon";
 import { Decorator } from "@storybook/react";
 import { withRouter } from "storybook-addon-remix-react-router";
 import { ApolloClientProvider } from "../src/apolloClient/apolloClient";
-import { TokenContextProvider } from "../src/lib/context/TokenContext";
 import { DarkThemeProvider } from "../src/lib/context/DarkThemeProvider";
-// import { UserQryContextProvider } from "../src/lib/context/userContext/context/UserQryContextProvider";
-// import { HuntQryContextProvider } from "../src/lib/context/huntContext/HuntQryContextProvider";
-// import { ClueQryContextProvider } from "../src/lib/context/clueContext/ClueQryContextProvider";
+import { TokenContextProvider } from "../src/lib/context/TokenContext";
+import { UserQryContextProvider } from "../src/lib/context/UserContext";
+import { HuntQryContextProvider } from "../src/lib/context/HuntContext";
+import { ClueQryContextProvider } from "../src/lib/context/ClueContext";
 import { mswHandlers } from "../msw/mswHandlers";
 
 // MSW Initialize
@@ -45,10 +45,11 @@ const ApolloClientContextDecorators: Decorator = (Story, context) => {
     <DarkThemeProvider>
       <ApolloClientProvider>
         <TokenContextProvider>
-          {Story()}
-          {/* </ClueQryContextProvider> */}
-          {/* </HuntQryContextProvider> */}
-          {/* </UserQryContextProvider> */}
+          <UserQryContextProvider>
+            <HuntQryContextProvider>
+              <ClueQryContextProvider>{Story()}</ClueQryContextProvider>
+            </HuntQryContextProvider>
+          </UserQryContextProvider>
         </TokenContextProvider>
       </ApolloClientProvider>
     </DarkThemeProvider>

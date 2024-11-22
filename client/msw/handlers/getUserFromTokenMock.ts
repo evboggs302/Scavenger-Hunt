@@ -1,5 +1,5 @@
 import { HttpResponse, graphql } from "msw";
-import { GetUserFromTokenDocument } from "../../src/generated/graphql";
+import { GetUserFromTokenDocument } from "@generated/graphql";
 
 export const getUserFromTokenMock = graphql.query(
   GetUserFromTokenDocument,

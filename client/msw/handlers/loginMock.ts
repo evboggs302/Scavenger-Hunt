@@ -1,5 +1,5 @@
 import { HttpResponse, graphql } from "msw";
-import { LoginUserDocument } from "../../src/generated/graphql";
+import { LoginUserDocument } from "@generated/graphql";
 
 export const loginMock = graphql.mutation(LoginUserDocument, () => {
   return HttpResponse.json({

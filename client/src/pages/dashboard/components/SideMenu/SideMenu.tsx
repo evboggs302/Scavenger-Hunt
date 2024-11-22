@@ -8,6 +8,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { MenuContent } from "./MenuContent";
 import { OptionsMenu } from "./OptionsMenu";
+import { useUserContext } from "@/lib/context/UserContext";
 
 const drawerWidth = 240;
 
@@ -23,6 +24,7 @@ const Drawer = styled(MuiDrawer)({
 });
 
 export const SideMenu = () => {
+  const { data } = useUserContext();
   return (
     <Drawer
       variant="permanent"
@@ -53,7 +55,7 @@ export const SideMenu = () => {
         }}>
         <Avatar
           sizes="small"
-          alt="Riley Carter"
+          alt={data?.user?.first_name}
           src="/static/images/avatar/7.jpg"
           sx={{ width: 36, height: 36 }}
         />
@@ -61,10 +63,10 @@ export const SideMenu = () => {
           <Typography
             variant="body2"
             sx={{ fontWeight: 500, lineHeight: "16px" }}>
-            Riley Carter
+            {`${data?.user?.first_name} ${data?.user?.last_name}`}
           </Typography>
           <Typography variant="caption" sx={{ color: "text.secondary" }}>
-            riley@email.com
+            {data?.user?.user_name}
           </Typography>
         </Box>
         <OptionsMenu />
