@@ -87,4 +87,3 @@ export const AppRouter = () => (
     <RouterProvider router={router} />
   </DarkThemeProvider>
 );
-export default router;
