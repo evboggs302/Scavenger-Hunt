@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
       autoAlias(), // writes the aliases in tsconfig
       deadFile({
         include: ["src/**"],
-        exclude: ["**/*.graphql", "**/*.(spec|test|stories).ts"],
+        exclude: ["**/*.graphql", "**/*.(spec|test|stories).(ts|tsx)"],
         outputDir: "./.deadfiles",
         output: "dead-files.txt", // writes this txt file with all unused files
       }),
