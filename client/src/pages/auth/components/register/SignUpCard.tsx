@@ -7,19 +7,18 @@ import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import { GoogleIcon, FacebookIcon } from "@lib/components/Auth/CustomIcons";
 import { useRegisterMutation } from "@pages/auth/hooks/useRegisterMutation";
-import { useRegisterResolver } from "@pages/auth/hooks/useRegisterResolver";
+import {
+  RegisterSchema,
+  useRegisterResolver,
+} from "@pages/auth/hooks/useRegisterResolver";
 import { SubmitHandler, useController, useForm } from "react-hook-form";
 import { ApolloError } from "@apollo/client";
-import Alert from "@mui/material/Alert";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { InputAdornment, IconButton, CircularProgress } from "@mui/material";
 import { AuthCardContainer, AuthCard } from "../authLayout";
+import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 
-type Inputs = {
-  username: string;
-  password: string;
-  firstName: string;
-  lastName: string;
+type Inputs = RegisterSchema & {
   onSubmitError?: string;
 };
 
@@ -47,18 +46,22 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
   const { field: usernameField, fieldState: usernameState } = useController({
     name: "username",
     control,
+    defaultValue: "",
   });
   const { field: passwordField, fieldState: passwordState } = useController({
     name: "password",
     control,
+    defaultValue: "",
   });
   const { field: firstNameField, fieldState: firstNameState } = useController({
     name: "firstName",
     control,
+    defaultValue: "",
   });
   const { field: lastNameField, fieldState: lastNameState } = useController({
     name: "lastName",
     control,
+    defaultValue: "",
   });
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -99,15 +102,18 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
           sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}>
           Sign up
         </Typography>
-        {onSubmitError && (
-          <Alert severity="error">{`${onSubmitError.message} Please try again later.`}</Alert>
-        )}
+        {onSubmitError && <TryAgainAlert message={onSubmitError.message} />}
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
-            data-testid="register-username"
-            ref={usernameField.ref}
+            required
+            slotProps={{
+              htmlInput: {
+                "data-testid": "register-username",
+              },
+            }}
+            inputRef={usernameField.ref}
             name={usernameField.name}
-            value={usernameField.value || ""}
+            value={usernameField.value}
             onBlur={usernameField.onBlur}
             onChange={usernameField.onChange}
             label="Username"
@@ -122,10 +128,10 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
           />
           <Box sx={{ margin: "14px auto" }}>
             <TextField
-              data-testid="register-password"
-              ref={passwordField.ref}
+              required
+              inputRef={passwordField.ref}
               name={passwordField.name}
-              value={passwordField.value || ""}
+              value={passwordField.value}
               onBlur={passwordField.onBlur}
               onChange={passwordField.onChange}
               label="Password"
@@ -139,6 +145,9 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
               variant="outlined"
               type={showPassword ? "text" : "password"}
               slotProps={{
+                htmlInput: {
+                  "data-testid": "register-password",
+                },
                 input: {
                   endAdornment: (
                     <InputAdornment position="end">
@@ -162,10 +171,15 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
           </Box>
           <Box sx={{ margin: "14px auto" }}>
             <TextField
-              data-testid="register-firstname"
-              ref={firstNameField.ref}
+              required
+              slotProps={{
+                htmlInput: {
+                  "data-testid": "register-firstname",
+                },
+              }}
+              inputRef={firstNameField.ref}
               name={firstNameField.name}
-              value={firstNameField.value || ""}
+              value={firstNameField.value}
               onBlur={firstNameField.onBlur}
               onChange={firstNameField.onChange}
               label="First name"
@@ -181,10 +195,15 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
           </Box>
           <Box sx={{ margin: "14px auto" }}>
             <TextField
-              data-testid="register-lastname"
-              ref={lastNameField.ref}
+              required
+              slotProps={{
+                htmlInput: {
+                  "data-testid": "register-lastname",
+                },
+              }}
+              inputRef={lastNameField.ref}
               name={lastNameField.name}
-              value={lastNameField.value || ""}
+              value={lastNameField.value}
               onBlur={lastNameField.onBlur}
               onChange={lastNameField.onChange}
               label="Last name"

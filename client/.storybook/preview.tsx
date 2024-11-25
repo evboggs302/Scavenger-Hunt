@@ -1,7 +1,10 @@
 import React from "react";
 import { initialize, mswDecorator, mswLoader } from "msw-storybook-addon";
 import { Decorator } from "@storybook/react";
-import { withRouter } from "storybook-addon-remix-react-router";
+import {
+  reactRouterParameters,
+  withRouter,
+} from "storybook-addon-remix-react-router";
 import { ApolloClientProvider } from "../src/apolloClient/apolloClient";
 import { DarkThemeProvider } from "../src/lib/context/DarkThemeProvider";
 import { TokenContextProvider } from "../src/lib/context/TokenContext";
@@ -9,6 +12,7 @@ import { UserQryContextProvider } from "../src/lib/context/UserContext";
 import { HuntQryContextProvider } from "../src/lib/context/HuntContext";
 import { ClueQryContextProvider } from "../src/lib/context/ClueContext";
 import { mswHandlers } from "../msw/mswHandlers";
+import { AppLocalizationProvider } from "../src/lib/context/AppLocalizationProvider";
 
 // MSW Initialize
 initialize({
@@ -29,6 +33,9 @@ export const parameters = {
       date: /Date$/i,
     },
   },
+  reactRouter: reactRouterParameters({
+    routing: { path: "*" },
+  }),
   // screenshot: {
   //   viewport: {
   //     width: 1250,
@@ -44,13 +51,15 @@ const ApolloClientContextDecorators: Decorator = (Story, context) => {
   return (
     <DarkThemeProvider>
       <ApolloClientProvider>
-        <TokenContextProvider>
-          <UserQryContextProvider>
-            <HuntQryContextProvider>
-              <ClueQryContextProvider>{Story()}</ClueQryContextProvider>
-            </HuntQryContextProvider>
-          </UserQryContextProvider>
-        </TokenContextProvider>
+        <AppLocalizationProvider>
+          <TokenContextProvider>
+            <UserQryContextProvider>
+              <HuntQryContextProvider>
+                <ClueQryContextProvider>{Story()}</ClueQryContextProvider>
+              </HuntQryContextProvider>
+            </UserQryContextProvider>
+          </TokenContextProvider>
+        </AppLocalizationProvider>
       </ApolloClientProvider>
     </DarkThemeProvider>
   );

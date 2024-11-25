@@ -5,23 +5,24 @@ import { ApolloError } from "@apollo/client";
 import { GoogleIcon, FacebookIcon } from "@lib/components/Auth/CustomIcons";
 import { ForgotPassword } from "./ForgotPassword";
 import { useLoginMutation } from "@pages/auth/hooks/useLoginMutation";
-import { useLoginResolver } from "@pages/auth/hooks/useLoginResolver";
+import {
+  LoginSchema,
+  useLoginResolver,
+} from "@pages/auth/hooks/useLoginResolver";
+import { AuthCardContainer, AuthCard } from "../authLayout";
+import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import Alert from "@mui/material/Alert";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
-import { AuthCardContainer, AuthCard } from "../authLayout";
 import CircularProgress from "@mui/material/CircularProgress";
 
-type Inputs = {
-  username: string;
-  password: string;
+type Inputs = LoginSchema & {
   onSubmitError?: string;
 };
 
@@ -50,10 +51,12 @@ export const SignInCard = () => {
   const { field: usernameField, fieldState: usernameState } = useController({
     name: "username",
     control,
+    defaultValue: "",
   });
   const { field: passwordField, fieldState: passwordState } = useController({
     name: "password",
     control,
+    defaultValue: "",
   });
 
   const openChangePasswordDialog = () => {
@@ -102,15 +105,18 @@ export const SignInCard = () => {
           sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}>
           Sign in
         </Typography>
-        {onSubmitError && (
-          <Alert severity="error">{`${onSubmitError.message} Please try again later.`}</Alert>
-        )}
+        {onSubmitError && <TryAgainAlert message={onSubmitError.message} />}
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
-            data-testid="login-username"
-            ref={usernameField.ref}
+            required
+            slotProps={{
+              htmlInput: {
+                "data-testid": "login-username",
+              },
+            }}
+            inputRef={usernameField.ref}
             name={usernameField.name}
-            value={usernameField.value || ""}
+            value={usernameField.value}
             onBlur={usernameField.onBlur}
             onChange={usernameField.onChange}
             label="Username"
@@ -125,10 +131,10 @@ export const SignInCard = () => {
           />
           <Box sx={{ margin: "14px auto" }}>
             <TextField
-              data-testid="login-password"
-              ref={passwordField.ref}
+              required
+              inputRef={passwordField.ref}
               name={passwordField.name}
-              value={passwordField.value || ""}
+              value={passwordField.value}
               onBlur={passwordField.onBlur}
               onChange={passwordField.onChange}
               label="Password"
@@ -142,6 +148,9 @@ export const SignInCard = () => {
               variant="outlined"
               type={showPassword ? "text" : "password"}
               slotProps={{
+                htmlInput: {
+                  "data-testid": "login-password",
+                },
                 input: {
                   endAdornment: (
                     <InputAdornment position="end">

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import React from "react";
 import { userEvent, within, expect } from "@storybook/test";
 import { SignUpCard } from "@/pages/auth/components/register/SignUpCard";
 
@@ -12,6 +13,14 @@ export default meta;
 type Story = StoryObj<typeof SignUpCard>;
 
 export const SignUp: Story = {
+  render: () => {
+    return (
+      <>
+        A username of "story" already exists.
+        <SignUpCard />
+      </>
+    );
+  },
   play: async (props) => {
     const { args, canvasElement, step } = props;
     const { getByTestId } = within(canvasElement);
