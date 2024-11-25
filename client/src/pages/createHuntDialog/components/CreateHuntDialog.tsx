@@ -100,24 +100,24 @@ export const CreateHuntDialog = ({
   };
 
   const onSubmit: SubmitHandler<CreateHuntFormState> = async (formData) => {
-    // clearErrors("onSubmitError");
-    // await trigger();
+    // console.log(formData);
+    clearErrors("onSubmitError");
+    await trigger();
 
-    // try {
-    //   await createHunt(formData);
-    //   // throw new Error("try try try");
-    // } catch (err) {
-    //   reset();
-    //   if (err instanceof ApolloError) {
-    //     setError("onSubmitError", { type: "error", message: err.message });
-    //   } else {
-    //     setError("onSubmitError", {
-    //       type: "error",
-    //       message: "An unknown error occurred.",
-    //     });
-    //   }
-    // }
-    console.log(formData);
+    try {
+      await createHunt(formData);
+      // throw new Error("try try try");
+    } catch (err) {
+      reset();
+      if (err instanceof ApolloError) {
+        setError("onSubmitError", { type: "error", message: err.message });
+      } else {
+        setError("onSubmitError", {
+          type: "error",
+          message: "An unknown error occurred.",
+        });
+      }
+    }
   };
 
   return (
