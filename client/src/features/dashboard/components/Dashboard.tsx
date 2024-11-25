@@ -1,5 +1,5 @@
 import React from "react";
-import { AppNavbar } from "@/pages/dashboard/components/AppNavbar";
+import { AppNavbar } from "@/features/dashboard/components/AppNavbar";
 import { Navigate, Outlet } from "react-router-dom";
 import { UserQryContextProvider } from "@lib/context/UserContext";
 import { useTokenContext } from "@lib/context/TokenContext";

@@ -3,6 +3,7 @@ import Stack from "@mui/material/Stack";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import { NavbarBreadcrumbs } from "./NavbarBreadcrumbs";
 import { MenuButton } from "./MenuButton";
+import { CreateHuntButton } from "@/features/createHuntDialog/components/CreateHuntButton";
 
 export const Header = () => {
   return (
@@ -18,6 +19,7 @@ export const Header = () => {
       }}
       spacing={2}>
       <NavbarBreadcrumbs />
+      <CreateHuntButton />
       <MenuButton showBadge aria-label="Open notifications">
         <NotificationsRoundedIcon />
       </MenuButton>
