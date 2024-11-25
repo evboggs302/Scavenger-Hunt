@@ -13,10 +13,10 @@ import {
 } from "@pages/auth/hooks/useRegisterResolver";
 import { SubmitHandler, useController, useForm } from "react-hook-form";
 import { ApolloError } from "@apollo/client";
-import Alert from "@mui/material/Alert";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { InputAdornment, IconButton, CircularProgress } from "@mui/material";
 import { AuthCardContainer, AuthCard } from "../authLayout";
+import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 
 type Inputs = RegisterSchema & {
   onSubmitError?: string;
@@ -102,9 +102,7 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
           sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}>
           Sign up
         </Typography>
-        {onSubmitError && (
-          <Alert severity="error">{`${onSubmitError.message} Please try again later.`}</Alert>
-        )}
+        {onSubmitError && <TryAgainAlert message={onSubmitError.message} />}
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
             required

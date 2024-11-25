@@ -9,17 +9,17 @@ import {
   LoginSchema,
   useLoginResolver,
 } from "@pages/auth/hooks/useLoginResolver";
+import { AuthCardContainer, AuthCard } from "../authLayout";
+import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import Alert from "@mui/material/Alert";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
-import { AuthCardContainer, AuthCard } from "../authLayout";
 import CircularProgress from "@mui/material/CircularProgress";
 
 type Inputs = LoginSchema & {
@@ -105,9 +105,7 @@ export const SignInCard = () => {
           sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}>
           Sign in
         </Typography>
-        {onSubmitError && (
-          <Alert severity="error">{`${onSubmitError.message} Please try again later.`}</Alert>
-        )}
+        {onSubmitError && <TryAgainAlert message={onSubmitError.message} />}
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
             required
