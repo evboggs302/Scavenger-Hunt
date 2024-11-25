@@ -4,11 +4,11 @@ import { SubmitHandler, useController, useForm } from "react-hook-form";
 import { ApolloError } from "@apollo/client";
 import { GoogleIcon, FacebookIcon } from "@lib/components/Auth/CustomIcons";
 import { ForgotPassword } from "./ForgotPassword";
-import { useLoginMutation } from "@/features/auth/hooks/useLoginMutation";
+import { useLoginMutation } from "@features/auth/hooks/useLoginMutation";
 import {
   LoginSchema,
   useLoginResolver,
-} from "@/features/auth/hooks/useLoginResolver";
+} from "@features/auth/hooks/useLoginResolver";
 import { AuthCardContainer, AuthCard } from "../authLayout";
 import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 

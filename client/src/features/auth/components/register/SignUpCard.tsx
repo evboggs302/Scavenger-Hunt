@@ -6,11 +6,11 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import { GoogleIcon, FacebookIcon } from "@lib/components/Auth/CustomIcons";
-import { useRegisterMutation } from "@/features/auth/hooks/useRegisterMutation";
+import { useRegisterMutation } from "@features/auth/hooks/useRegisterMutation";
 import {
   RegisterSchema,
   useRegisterResolver,
-} from "@/features/auth/hooks/useRegisterResolver";
+} from "@features/auth/hooks/useRegisterResolver";
 import { SubmitHandler, useController, useForm } from "react-hook-form";
 import { ApolloError } from "@apollo/client";
 import { VisibilityOff, Visibility } from "@mui/icons-material";

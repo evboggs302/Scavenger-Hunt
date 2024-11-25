@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { AuthSidePanel } from "@/features/auth/components/AuthSidePanel";
+import { AuthSidePanel } from "@features/auth/components/AuthSidePanel";
 
 const meta: Meta<typeof AuthSidePanel> = {
   title: "Pages/Auth/Side Panel",
