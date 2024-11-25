@@ -1,6 +1,6 @@
 import React from "react";
 import { TeamCardContent } from "./TeamCardContent";
-import { useHuntContext } from "@/lib/context/HuntContext";
+import { useHuntContext } from "@lib/context/HuntContext";
 
 export const TeamsPage = () => {
   const { data } = useHuntContext();

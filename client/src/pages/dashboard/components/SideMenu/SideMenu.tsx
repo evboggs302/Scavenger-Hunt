@@ -8,7 +8,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { MenuContent } from "./MenuContent";
 import { OptionsMenu } from "./OptionsMenu";
-import { useUserContext } from "@/lib/context/UserContext";
+import { useUserContext } from "@lib/context/UserContext";
 
 const drawerWidth = 240;
 

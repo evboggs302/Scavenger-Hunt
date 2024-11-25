@@ -8,6 +8,7 @@ const config: StorybookConfig = {
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
     "msw-storybook-addon",
+    "storybook-addon-remix-react-router",
   ],
   framework: {
     name: "@storybook/react-vite",

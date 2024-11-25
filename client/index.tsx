@@ -1,13 +1,16 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { ApolloClientProvider } from "./src/apolloClient/apolloClient";
-import { AppRouter } from "./src/routes/ApplicationRouter";
-import { TokenContextProvider } from "./src/lib/context/TokenContext";
+import { ApolloClientProvider } from "@apolloClient/apolloClient";
+import { AppRouter } from "@routes/AppRouter";
+import { TokenContextProvider } from "@lib/context/TokenContext";
+import { AppLocalizationProvider } from "@lib/context/AppLocalizationProvider";
 
 createRoot(document.getElementById("root")!).render(
   <ApolloClientProvider>
-    <TokenContextProvider>
-      <AppRouter />
-    </TokenContextProvider>
+    <AppLocalizationProvider>
+      <TokenContextProvider>
+        <AppRouter />
+      </TokenContextProvider>
+    </AppLocalizationProvider>
   </ApolloClientProvider>
 );

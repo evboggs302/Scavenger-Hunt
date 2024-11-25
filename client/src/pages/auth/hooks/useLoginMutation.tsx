@@ -1,18 +1,18 @@
+import { useCallback, useMemo } from "react";
 import { useMutation } from "@apollo/client";
 import {
   LoginUserDocument,
   LoginUserMutationVariables,
 } from "@generated/graphql";
-import { useCallback, useMemo } from "react";
-import { useTokenContext } from "@lib/context/TokenContext";
 import { useNavigate } from "react-router-dom";
+import { useTokenContext } from "@lib/context/TokenContext";
 
 export const useLoginMutation = () => {
   const navigate = useNavigate();
   const { setToken } = useTokenContext();
   const [loginUser, result] = useMutation(LoginUserDocument);
 
-  const handlLoginUser = useCallback(
+  const handleLoginUser = useCallback(
     async (args: LoginUserMutationVariables) => {
       await loginUser({
         variables: args,
@@ -27,7 +27,7 @@ export const useLoginMutation = () => {
   );
 
   return useMemo(
-    (): [typeof handlLoginUser, typeof result] => [handlLoginUser, result],
-    [handlLoginUser, result]
+    (): [typeof handleLoginUser, typeof result] => [handleLoginUser, result],
+    [handleLoginUser, result]
   );
 };

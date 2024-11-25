@@ -23,6 +23,7 @@
     "@mui/icons-material": "^6.1.7",
     "@mui/material": "^6.1.7",
     "@mui/styled-engine-sc": "^6.1.7",
+    "@mui/x-date-pickers": "^7.22.3",
     "dayjs": "^1.11.10",
     "graphql": "^16.8.1",
     "parse-duration": "^1.1.0",
