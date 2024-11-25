@@ -1,7 +1,7 @@
 import React from "react";
 import SvgIcon from "@mui/material/SvgIcon";
 
-export function SitemarkIcon() {
+export const SitemarkIcon = () => {
   return (
     <SvgIcon sx={{ height: 21, width: 100 }}>
       <svg
@@ -49,9 +49,9 @@ export function SitemarkIcon() {
       </svg>
     </SvgIcon>
   );
-}
+};
 
-export function FacebookIcon() {
+export const FacebookIcon = () => {
   return (
     <SvgIcon>
       <svg
@@ -83,9 +83,9 @@ export function FacebookIcon() {
       </svg>
     </SvgIcon>
   );
-}
+};
 
-export function GoogleIcon() {
+export const GoogleIcon = () => {
   return (
     <SvgIcon>
       <svg
@@ -113,4 +113,4 @@ export function GoogleIcon() {
       </svg>
     </SvgIcon>
   );
-}
+};

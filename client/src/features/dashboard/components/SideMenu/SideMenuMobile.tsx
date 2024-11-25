@@ -10,7 +10,7 @@ import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 
 import { MenuButton } from "../MenuButton";
 import { MenuContent } from "./MenuContent";
-import { useLogoutMutation } from "@pages/dashboard/hooks/useLogoutMutation";
+import { useLogoutMutation } from "@/features/dashboard/hooks/useLogoutMutation";
 import { useUserContext } from "@lib/context/UserContext";
 
 interface SideMenuMobileProps {

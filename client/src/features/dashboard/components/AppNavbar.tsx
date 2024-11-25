@@ -92,7 +92,7 @@ export const AppNavbar = () => {
   );
 };
 
-export function CustomIcon() {
+export const CustomIcon = () => {
   return (
     <Box
       sx={{
@@ -114,4 +114,4 @@ export function CustomIcon() {
       <DashboardRoundedIcon color="inherit" sx={{ fontSize: "1rem" }} />
     </Box>
   );
-}
+};

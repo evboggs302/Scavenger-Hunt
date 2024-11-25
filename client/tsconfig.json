@@ -15,9 +15,9 @@
       "@generated/*": ["src/generated/*"],
       "@graphql/*": ["src/graphql/*"],
       "@lib/*": ["src/lib/*"],
-      "@pages/*": ["src/pages/*"],
-      "@routes/*": ["src/routes/*"]
+      "@routes/*": ["src/routes/*"],
+      "@features/*": ["src/features/*"]
     }
   },
-  "exclude": ["node_modules", "src/dux"]
+  "exclude": ["node_modules"]
 }
