@@ -47,7 +47,7 @@ module.exports = {
     const { team_id, clue_id, time_received, Body } = req.body;
     const t_id = mongoose.Types.ObjectId(team_id);
     const c_id = mongoose.Types.ObjectId(clue_id);
-    let timeStamp = new Date(time_received);
+    const timeStamp = new Date(time_received);
 
     const newRes = new Response({
       _id: new mongoose.Types.ObjectId(),
@@ -233,7 +233,7 @@ module.exports = {
       });
   },
   sendClue: (req, res, next) => {
-    let { team_id, nextClue, recall_sent, device_number, recallMessage } =
+    const { team_id, nextClue, recall_sent, device_number, recallMessage } =
       req.body;
     const t_id = mongoose.Types.ObjectId(team_id);
 
@@ -282,7 +282,7 @@ module.exports = {
     res.sendStatus(200);
   },
   sendHint: (req, res, next) => {
-    let { response_id, team_id, hint_body } = req.body;
+    const { response_id, team_id, hint_body } = req.body;
     const t_id = mongoose.Types.ObjectId(team_id);
     const r_id = mongoose.Types.ObjectId(response_id);
     Response.updateOne({ _id: r_id }, { hintSent: true }).then(() => {

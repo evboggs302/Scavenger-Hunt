@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 export const License = () => {
   return (
@@ -8,7 +7,9 @@ export const License = () => {
       <a
         color="inherit"
         href="https://github.com/evboggs302/Scavenger-Hunt/blob/master/LICENSE"
-        target="_blank">
+        target="_blank"
+        rel="noreferrer"
+      >
         "Digital Scavenger" by Evan Boggs
       </a>{" "}
       {new Date().getFullYear()}

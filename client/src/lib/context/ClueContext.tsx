@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from "react";
 import { QueryResult, useQuery } from "@apollo/client";
-import { apolloContextHeaders } from "@apolloClient/apolloContextHeaders";
+import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import {
   GetOrderedCluesDocument,
   GetOrderedCluesQuery,
@@ -8,8 +8,10 @@ import {
 } from "@generated/graphql";
 import { useHuntContext } from "./HuntContext";
 
-interface ClueContextValue
-  extends QueryResult<GetOrderedCluesQuery, GetOrderedCluesQueryVariables> {}
+type ClueContextValue = QueryResult<
+  GetOrderedCluesQuery,
+  GetOrderedCluesQueryVariables
+>;
 
 const ClueContext = createContext<ClueContextValue | undefined>(undefined);
 interface ClueQryContextProviderProps {
@@ -20,7 +22,7 @@ export const ClueQryContextProvider = ({
   children,
 }: ClueQryContextProviderProps) => {
   const { data } = useHuntContext();
-  const headers = apolloContextHeaders();
+  const headers = useApolloContextHeaders();
 
   const result = useQuery(GetOrderedCluesDocument, {
     context: headers,

@@ -84,9 +84,9 @@ export const verifyToken = (token: string) => {
   try {
     return verify(token, ACCESS_TOKEN_SECRET);
   } catch (error) {
-    // if (error instanceof Error && error.message !== "jwt expired") {
-    //   console.error(`Access token error: ${error.message}`);
-    // }
+    if (error instanceof Error && error.message !== "jwt expired") {
+      console.error(`Access token error: ${error.message}`);
+    }
     return null;
   }
 };

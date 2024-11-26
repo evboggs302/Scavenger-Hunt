@@ -4,12 +4,14 @@ import {
   GetUserFromTokenQuery,
   GetUserFromTokenQueryVariables,
 } from "@generated/graphql";
-import { apolloContextHeaders } from "@apolloClient/apolloContextHeaders";
+import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { QueryResult, useQuery } from "@apollo/client";
 import { useTokenContext } from "./TokenContext";
 
-export interface UserContextValue
-  extends QueryResult<GetUserFromTokenQuery, GetUserFromTokenQueryVariables> {}
+export type UserContextValue = QueryResult<
+  GetUserFromTokenQuery,
+  GetUserFromTokenQueryVariables
+>;
 
 export const UserContext = createContext<UserContextValue | undefined>(
   undefined
@@ -25,7 +27,7 @@ export const UserQryContextProvider = ({
   const { token } = useTokenContext();
   const result = useQuery(GetUserFromTokenDocument, {
     variables: { tkn: token || "invalid" },
-    context: apolloContextHeaders(),
+    context: useApolloContextHeaders(),
     pollInterval: 4500,
   });
 

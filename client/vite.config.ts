@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => {
         outputDir: "./.deadfiles",
         output: "dead-files.txt", // writes this txt file with all unused files
       }),
-      visualizer({ open: !!!process.env.PROD, gzipSize: !!!process.env.PROD }),
+      visualizer({ open: !process.env.PROD, gzipSize: !process.env.PROD }),
     ],
     preview: {
       port: 8080,

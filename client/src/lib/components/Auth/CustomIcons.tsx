@@ -1,7 +1,7 @@
 import React from "react";
 import SvgIcon from "@mui/material/SvgIcon";
 
-export function SitemarkIcon() {
+export const SitemarkIcon = () => {
   return (
     <SvgIcon sx={{ height: 21, width: 100 }}>
       <svg
@@ -9,7 +9,8 @@ export function SitemarkIcon() {
         height={19}
         viewBox="0 0 86 19"
         fill="none"
-        xmlns="http://www.w3.org/2000/svg">
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <path
           fill="#B4C0D3"
           d="m.787 12.567 6.055-2.675 3.485 2.006.704 6.583-4.295-.035.634-4.577-.74-.422-3.625 2.817-2.218-3.697Z"
@@ -49,9 +50,9 @@ export function SitemarkIcon() {
       </svg>
     </SvgIcon>
   );
-}
+};
 
-export function FacebookIcon() {
+export const FacebookIcon = () => {
   return (
     <SvgIcon>
       <svg
@@ -59,7 +60,8 @@ export function FacebookIcon() {
         height="16"
         viewBox="0 0 16 16"
         fill="none"
-        xmlns="http://www.w3.org/2000/svg">
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <path
           d="M6.68 15.92C2.88 15.24 0 11.96 0 8C0 3.6 3.6 0 8 0C12.4 0 16 3.6 16 8C16 11.96 13.12 15.24 9.32 15.92L8.88 15.56H7.12L6.68 15.92Z"
           fill="url(#paint0_linear_795_116)"
@@ -75,7 +77,8 @@ export function FacebookIcon() {
             y1="0"
             x2="8"
             y2="15.9991"
-            gradientUnits="userSpaceOnUse">
+            gradientUnits="userSpaceOnUse"
+          >
             <stop stopColor="#1AAFFF" />
             <stop offset="1" stopColor="#0163E0" />
           </linearGradient>
@@ -83,9 +86,9 @@ export function FacebookIcon() {
       </svg>
     </SvgIcon>
   );
-}
+};
 
-export function GoogleIcon() {
+export const GoogleIcon = () => {
   return (
     <SvgIcon>
       <svg
@@ -93,7 +96,8 @@ export function GoogleIcon() {
         height="16"
         viewBox="0 0 16 16"
         fill="none"
-        xmlns="http://www.w3.org/2000/svg">
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <path
           d="M15.68 8.18182C15.68 7.61455 15.6291 7.06909 15.5345 6.54545H8V9.64364H12.3055C12.1164 10.64 11.5491 11.4836 10.6982 12.0509V14.0655H13.2945C14.8073 12.6691 15.68 10.6182 15.68 8.18182Z"
           fill="#4285F4"
@@ -113,4 +117,4 @@ export function GoogleIcon() {
       </svg>
     </SvgIcon>
   );
-}
+};

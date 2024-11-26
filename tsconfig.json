@@ -9,5 +9,5 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "resolveJsonModule": true
-  },
+  }
 }

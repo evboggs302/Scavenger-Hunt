@@ -63,7 +63,7 @@ export async function startServer(
         );
       });
     })
-    .catch((err) =>
+    .catch(() =>
       console.log(`\n🚫 Failed to connect to MongoDB. Server did not start.\n`)
     );
 }

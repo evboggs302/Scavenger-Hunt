@@ -15,7 +15,12 @@ import {
 
 export const userResolver: Resolvers = {
   Query: {
-    getAllUsers: async (_: unknown, {}, { user }, { operation: { name } }) => {
+    getAllUsers: async (
+      _: unknown,
+      _args,
+      { user },
+      { operation: { name } }
+    ) => {
       if (!user) {
         return AuthenticationError({
           message: "No user stored on server.",
@@ -131,7 +136,7 @@ export const userResolver: Resolvers = {
     },
     logout: async (
       _: unknown,
-      {},
+      _args,
       { token, user },
       { operation: { name } }
     ) => {

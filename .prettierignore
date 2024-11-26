@@ -1,0 +1,7 @@
+.github/
+.vscode/
+**/node_modules/**/*
+**/generated/**/*
+**/graphql.schema.json
+**/dist/**/*
+**/build/**/*

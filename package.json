@@ -1,12 +1,28 @@
 {
+  "name": "@eboggs302/scavenger_hunt",
   "license": "MIT",
-  "devDependencies": {
-    "husky": "^9.1.7",
-    "typescript": "^5.6.3"
-  },
+  "type": "module",
   "scripts": {
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix",
+    "prettier": "prettier --log-level silent --write .",
+    "prettier-check": "prettier --check .",
     "tsc-check-client": "cd client && yarn tsc-check",
     "tsc-check-server": "cd server && yarn tsc-check"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.16.0",
+    "@typescript-eslint/parser": "^8.16.0",
+    "eslint": "^9.15.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-storybook": "^0.11.1",
+    "globals": "^15.12.0",
+    "husky": "^9.1.7",
+    "prettier": "^3.4.1",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.16.0"
+  }
 }

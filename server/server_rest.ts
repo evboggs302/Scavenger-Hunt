@@ -4,7 +4,7 @@ import http from "http";
 import dotenv from "dotenv";
 import path from "path";
 import mongoose from "mongoose";
-import config from "../config";
+import config from "./config";
 
 // const express = require("express");
 const app = express();
