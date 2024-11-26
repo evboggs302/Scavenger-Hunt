@@ -4,7 +4,7 @@ import {
   GetUserFromTokenQuery,
   GetUserFromTokenQueryVariables,
 } from "@generated/graphql";
-import { useApolloContextHeaders } from "@/apolloClient/useApolloContextHeaders";
+import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { QueryResult, useQuery } from "@apollo/client";
 import { useTokenContext } from "./TokenContext";
 

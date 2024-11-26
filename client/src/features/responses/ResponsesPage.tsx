@@ -4,7 +4,7 @@ import {
   ResponsePayload,
 } from "@generated/graphql";
 import { useQuery } from "@apollo/client";
-import { useApolloContextHeaders } from "@/apolloClient/useApolloContextHeaders";
+import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { useHuntContext } from "@lib/context/HuntContext";
 
 /**

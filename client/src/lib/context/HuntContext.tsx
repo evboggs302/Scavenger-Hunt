@@ -4,7 +4,7 @@ import {
   GetHuntQuery,
   GetHuntQueryVariables,
 } from "@generated/graphql";
-import { useApolloContextHeaders } from "@/apolloClient/useApolloContextHeaders";
+import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { QueryResult, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 

@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from "react";
 import { QueryResult, useQuery } from "@apollo/client";
-import { useApolloContextHeaders } from "@/apolloClient/useApolloContextHeaders";
+import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import {
   GetOrderedCluesDocument,
   GetOrderedCluesQuery,

@@ -9,7 +9,7 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ExtensionRoundedIcon from "@mui/icons-material/ExtensionRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useApolloContextHeaders } from "@/apolloClient/useApolloContextHeaders";
+import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { GetHuntsByUserIdDocument } from "@generated/graphql";
 import { useQuery } from "@apollo/client";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";

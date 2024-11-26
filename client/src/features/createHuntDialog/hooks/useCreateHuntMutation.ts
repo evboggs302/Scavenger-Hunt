@@ -5,7 +5,7 @@ import {
   GetHuntsByUserIdDocument,
 } from "@generated/graphql";
 import { useNavigate } from "react-router-dom";
-import { useApolloContextHeaders } from "@/apolloClient/useApolloContextHeaders";
+import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { CreateHuntFormState } from "../components/CreateHuntDialog";
 import dayjs from "dayjs";
 
