@@ -33,13 +33,15 @@ export const SideMenu = () => {
         [`& .${drawerClasses.paper}`]: {
           backgroundColor: "background.paper",
         },
-      }}>
+      }}
+    >
       <Box
         sx={{
           display: "flex",
           mt: "calc(var(--template-frame-height, 0px) + 4px)",
           p: 1.5,
-        }}>
+        }}
+      >
         {/* <SelectContent /> <-- INSERT WEBSITE NAME HERE --> */}
       </Box>
       <Divider />
@@ -52,7 +54,8 @@ export const SideMenu = () => {
           alignItems: "center",
           borderTop: "1px solid",
           borderColor: "divider",
-        }}>
+        }}
+      >
         <Avatar
           sizes="small"
           alt={data?.user?.first_name}
@@ -62,7 +65,8 @@ export const SideMenu = () => {
         <Box sx={{ mr: "auto" }}>
           <Typography
             variant="body2"
-            sx={{ fontWeight: 500, lineHeight: "16px" }}>
+            sx={{ fontWeight: 500, lineHeight: "16px" }}
+          >
             {`${data?.user?.first_name} ${data?.user?.last_name}`}
           </Typography>
           <Typography variant="caption" sx={{ color: "text.secondary" }}>

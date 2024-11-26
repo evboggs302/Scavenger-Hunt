@@ -35,7 +35,7 @@ export const OptionsMenu = () => {
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [logoutUser]);
 
   return (
     <>

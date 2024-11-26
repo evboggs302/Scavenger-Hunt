@@ -17,7 +17,8 @@ export const Header = () => {
         maxWidth: { sm: "100%", md: "1700px" },
         pt: 1.5,
       }}
-      spacing={2}>
+      spacing={2}
+    >
       <NavbarBreadcrumbs />
       <CreateHuntButton />
       <MenuButton showBadge aria-label="Open notifications">

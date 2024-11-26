@@ -1,4 +1,4 @@
-import React, {  } from "react";
+import React from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -124,7 +124,8 @@ export const CreateHuntDialog = ({
         PaperProps={{
           component: "form",
           onSubmit: handleSubmit(onSubmit),
-        }}>
+        }}
+      >
         <DialogTitle data-testid="create-hunt-title">
           Create New Hunt
         </DialogTitle>
@@ -167,7 +168,8 @@ export const CreateHuntDialog = ({
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
-            }}>
+            }}
+          >
             <Checkbox
               data-testid="create-hunt-multiple-days"
               inputRef={checkbox.ref}
@@ -216,7 +218,8 @@ export const CreateHuntDialog = ({
           <Button
             type="submit"
             disabled={!isValid || loading}
-            endIcon={loading && <CircularProgress size={20} />}>
+            endIcon={loading && <CircularProgress size={20} />}
+          >
             Create Hunt
           </Button>
         </DialogActions>

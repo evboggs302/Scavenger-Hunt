@@ -44,8 +44,8 @@ export const useRegisterResolver = () => {
       {
         path: ["username"],
         message: "This username is already in use.",
-      },
-    ),
+      }
+    )
   );
 
   return useMemo((): [typeof resolver] => [resolver], [resolver]);

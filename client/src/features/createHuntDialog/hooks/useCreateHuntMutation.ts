@@ -33,11 +33,11 @@ export const useCreateHuntMutation = () => {
         },
       });
     },
-    [createHunt, navigate],
+    [createHunt, navigate]
   );
 
   return useMemo(
     (): [typeof handleCreateHunt, typeof result] => [handleCreateHunt, result],
-    [handleCreateHunt, result],
+    [handleCreateHunt, result]
   );
 };

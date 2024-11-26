@@ -99,7 +99,8 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
           data-testid="register-title"
           component="h1"
           variant="h4"
-          sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}>
+          sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
+        >
           Sign up
         </Typography>
         {onSubmitError && <TryAgainAlert message={onSubmitError.message} />}
@@ -160,7 +161,8 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
                         onMouseUp={handleMouseUpPassword}
-                        edge="end">
+                        edge="end"
+                      >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
@@ -227,7 +229,8 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
             disabled={!isValid || loading}
             fullWidth
             variant="contained"
-            endIcon={loading && <CircularProgress size={20} />}>
+            endIcon={loading && <CircularProgress size={20} />}
+          >
             Sign up
           </Button>
         </form>
@@ -239,14 +242,16 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
             fullWidth
             variant="outlined"
             onClick={() => alert("Sign up with Google")}
-            startIcon={<GoogleIcon />}>
+            startIcon={<GoogleIcon />}
+          >
             Sign up with Google
           </Button>
           <Button
             fullWidth
             variant="outlined"
             onClick={() => alert("Sign up with Facebook")}
-            startIcon={<FacebookIcon />}>
+            startIcon={<FacebookIcon />}
+          >
             Sign up with Facebook
           </Button>
           <Typography sx={{ textAlign: "center" }}>

@@ -28,6 +28,6 @@ export const useLogoutMutation = () => {
 
   return useMemo(
     (): [typeof onLogout, typeof result] => [onLogout, result],
-    [onLogout, result],
+    [onLogout, result]
   );
 };

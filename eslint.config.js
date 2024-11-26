@@ -4,11 +4,13 @@ import tseslint from "typescript-eslint";
 import pluginReact from "eslint-plugin-react";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginStorybook from "eslint-plugin-storybook";
+import eslintConfigPrettier from "eslint-config-prettier";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
+  eslintConfigPrettier,
   {
     // GLOBAL PROJECT CONFIG
     ignores: [

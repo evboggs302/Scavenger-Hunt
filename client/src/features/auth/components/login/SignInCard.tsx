@@ -102,7 +102,8 @@ export const SignInCard = () => {
           data-testid="login-title"
           component="h1"
           variant="h4"
-          sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}>
+          sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
+        >
           Sign in
         </Typography>
         {onSubmitError && <TryAgainAlert message={onSubmitError.message} />}
@@ -163,7 +164,8 @@ export const SignInCard = () => {
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
                         onMouseUp={handleMouseUpPassword}
-                        edge="end">
+                        edge="end"
+                      >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
@@ -175,7 +177,8 @@ export const SignInCard = () => {
               component="button"
               type="button"
               onClick={openChangePasswordDialog}
-              sx={{ alignSelf: "baseline" }}>
+              sx={{ alignSelf: "baseline" }}
+            >
               Forgot your password?
             </Button>
           </Box>
@@ -193,7 +196,8 @@ export const SignInCard = () => {
             disabled={!isValid || loading}
             fullWidth
             variant="contained"
-            endIcon={loading && <CircularProgress size={20} />}>
+            endIcon={loading && <CircularProgress size={20} />}
+          >
             Sign in
           </Button>
           <Typography sx={{ textAlign: "center" }}>
@@ -211,14 +215,16 @@ export const SignInCard = () => {
             fullWidth
             variant="outlined"
             onClick={() => alert("Sign in with Google")}
-            startIcon={<GoogleIcon />}>
+            startIcon={<GoogleIcon />}
+          >
             Sign in with Google
           </Button>
           <Button
             fullWidth
             variant="outlined"
             onClick={() => alert("Sign in with Facebook")}
-            startIcon={<FacebookIcon />}>
+            startIcon={<FacebookIcon />}
+          >
             Sign in with Facebook
           </Button>
         </Box>

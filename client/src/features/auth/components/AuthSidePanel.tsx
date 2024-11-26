@@ -45,7 +45,8 @@ export const AuthSidePanel = () => {
         alignSelf: "center",
         gap: 4,
         maxWidth: 450,
-      }}>
+      }}
+    >
       <Box sx={{ display: { xs: "none", md: "flex" } }}>
         <SitemarkIcon />
       </Box>

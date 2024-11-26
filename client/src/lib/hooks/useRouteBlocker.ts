@@ -15,7 +15,7 @@ import { useBlocker } from "react-router-dom";
  *          confirmReroute={handleConfirm}
  *      />
  * );
- * 
+ *
  * <-- ALL CHILD COMPONENTS USING `navigate` FUNCTION WILL LOOK LIKE THIS TO AVOID THIS BLOCKER -->
  * navigate('path', {
  *      state: {

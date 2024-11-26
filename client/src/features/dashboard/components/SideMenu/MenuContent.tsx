@@ -29,7 +29,7 @@ export const MenuContent = () => {
   const navigateHome = () => navigate("/");
   const handleHuntsClick = useCallback(
     () => setHuntsOpen(!isHuntsOpen),
-    [isHuntsOpen, setHuntsOpen],
+    [isHuntsOpen, setHuntsOpen]
   );
 
   const { data, loading } = useQuery(GetHuntsByUserIdDocument, {

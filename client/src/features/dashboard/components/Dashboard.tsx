@@ -31,7 +31,8 @@ export const Dashboard = () => {
                 mx: 3,
                 pb: 5,
                 mt: { xs: 8, md: 0 },
-              }}>
+              }}
+            >
               <Header />
               <Outlet />
             </Stack>

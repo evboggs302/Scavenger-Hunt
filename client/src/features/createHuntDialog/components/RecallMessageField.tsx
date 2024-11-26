@@ -22,7 +22,8 @@ export const RecallMessageField = () => {
         Recall message{" "}
         <Tooltip
           placement="right"
-          title={`The message to be sent to teams at the end of your event. The default value is "You've completed your hunt."`}>
+          title={`The message to be sent to teams at the end of your event. The default value is "You've completed your hunt."`}
+        >
           <InfoRoundedIcon fontSize="small" />
         </Tooltip>
       </InputLabel>

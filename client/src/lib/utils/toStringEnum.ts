@@ -3,4 +3,4 @@ export const toStringEnum = <T extends string>(list: T[]) => {
     item[key] = key;
     return item;
   }, Object.create(null));
-}
+};

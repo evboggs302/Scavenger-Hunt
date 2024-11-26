@@ -38,7 +38,7 @@ export const useClueContext = () => {
 
   if (!context) {
     throw new Error(
-      "useClueContext must be used within a ClueContext provider",
+      "useClueContext must be used within a ClueContext provider"
     );
   }
 

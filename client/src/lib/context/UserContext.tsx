@@ -14,7 +14,7 @@ export type UserContextValue = QueryResult<
 >;
 
 export const UserContext = createContext<UserContextValue | undefined>(
-  undefined,
+  undefined
 );
 
 interface UserQryContextProviderProps {
@@ -39,7 +39,7 @@ export const useUserContext = () => {
 
   if (!context) {
     throw new Error(
-      "useUserContext must be used within a UserQryContextProvider",
+      "useUserContext must be used within a UserQryContextProvider"
     );
   }
 

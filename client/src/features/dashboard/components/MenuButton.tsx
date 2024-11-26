@@ -15,8 +15,9 @@ export const MenuButton = ({
       color="error"
       variant="dot"
       invisible={!showBadge}
-      sx={{ [`& .${badgeClasses.badge}`]: { right: 2, top: 2 } }}>
+      sx={{ [`& .${badgeClasses.badge}`]: { right: 2, top: 2 } }}
+    >
       <IconButton size="small" {...props} />
     </Badge>
   );
-}
+};

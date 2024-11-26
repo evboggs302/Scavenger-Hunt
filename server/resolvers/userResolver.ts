@@ -19,7 +19,7 @@ export const userResolver: Resolvers = {
       _: unknown,
       _args,
       { user },
-      { operation: { name } },
+      { operation: { name } }
     ) => {
       if (!user) {
         return AuthenticationError({
@@ -34,7 +34,7 @@ export const userResolver: Resolvers = {
       _: unknown,
       { tkn },
       _ctxt,
-      { operation: { name } },
+      { operation: { name } }
     ) => {
       const doc = await TokenStorageModel.findOne({ token: tkn })
         .select({ issuedToUser: 1 })
@@ -69,7 +69,7 @@ export const userResolver: Resolvers = {
       _: unknown,
       { input: { first_name, last_name, user_name, password } },
       _ctxt,
-      { operation: { name } },
+      { operation: { name } }
     ) => {
       const hashedPw = hashSync(password, 15);
       const u_id = createBsonObjectId();
@@ -107,7 +107,7 @@ export const userResolver: Resolvers = {
       _: unknown,
       { input: { user_name, password } },
       _ctxt,
-      { operation: { name } },
+      { operation: { name } }
     ) => {
       const user = await UserModel.getUserForLogin(user_name);
       if (!user) {
@@ -138,7 +138,7 @@ export const userResolver: Resolvers = {
       _: unknown,
       _args,
       { token, user },
-      { operation: { name } },
+      { operation: { name } }
     ) => {
       try {
         await TokenStorageModel.deleteOne({

@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 export type HuntContextValue = QueryResult<GetHuntQuery, GetHuntQueryVariables>;
 
 export const HuntContext = createContext<HuntContextValue | undefined>(
-  undefined,
+  undefined
 );
 
 export const HuntQryContextProvider = ({
@@ -34,7 +34,7 @@ export const useHuntContext = () => {
 
   if (!context) {
     throw new Error(
-      "useHuntContext must be used within a HuntContext provider",
+      "useHuntContext must be used within a HuntContext provider"
     );
   }
 
