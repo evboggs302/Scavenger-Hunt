@@ -5,13 +5,13 @@ import {
   GetHuntsByUserIdDocument,
 } from "@generated/graphql";
 import { useNavigate } from "react-router-dom";
-import { apolloContextHeaders } from "@apolloClient/apolloContextHeaders";
+import { useApolloContextHeaders } from "@/apolloClient/useApolloContextHeaders";
 import { CreateHuntFormState } from "../components/CreateHuntDialog";
 import dayjs from "dayjs";
 
 export const useCreateHuntMutation = () => {
   const navigate = useNavigate();
-  const headers = apolloContextHeaders();
+  const headers = useApolloContextHeaders();
   const [createHunt, result] = useMutation(CreateHuntDocument, {
     context: headers,
   });
@@ -33,11 +33,11 @@ export const useCreateHuntMutation = () => {
         },
       });
     },
-    [createHunt, navigate]
+    [createHunt, navigate],
   );
 
   return useMemo(
     (): [typeof handleCreateHunt, typeof result] => [handleCreateHunt, result],
-    [handleCreateHunt, result]
+    [handleCreateHunt, result],
   );
 };

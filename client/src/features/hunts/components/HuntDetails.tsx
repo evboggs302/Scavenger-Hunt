@@ -8,15 +8,15 @@ export const HuntDetails = () => {
     return null;
   }
 
-  const {
-    _id,
-    name,
-    created_date,
-    start_date,
-    end_date,
-    is_active,
-    recall_message,
-  } = data.hunt;
+  // const {
+  //   _id,
+  //   name,
+  //   created_date,
+  //   start_date,
+  //   end_date,
+  //   is_active,
+  //   recall_message,
+  // } = data.hunt;
 
   return <></>;
 };

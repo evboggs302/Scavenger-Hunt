@@ -25,7 +25,9 @@ export const SideMenuMobile = ({ open, toggleDrawer }: SideMenuMobileProps) => {
   const handleLogout = useCallback(async () => {
     try {
       await logoutUser();
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   }, []);
 
   return (
@@ -39,16 +41,19 @@ export const SideMenuMobile = ({ open, toggleDrawer }: SideMenuMobileProps) => {
           backgroundImage: "none",
           backgroundColor: "background.paper",
         },
-      }}>
+      }}
+    >
       <Stack
         sx={{
           maxWidth: "70dvw",
           height: "100%",
-        }}>
+        }}
+      >
         <Stack direction="row" sx={{ p: 2, pb: 0, gap: 1 }}>
           <Stack
             direction="row"
-            sx={{ gap: 1, alignItems: "center", flexGrow: 1, p: 1 }}>
+            sx={{ gap: 1, alignItems: "center", flexGrow: 1, p: 1 }}
+          >
             <Avatar
               sizes="small"
               alt={data?.user?.first_name}
@@ -73,7 +78,8 @@ export const SideMenuMobile = ({ open, toggleDrawer }: SideMenuMobileProps) => {
             variant="outlined"
             onClick={handleLogout}
             fullWidth
-            startIcon={<LogoutRoundedIcon />}>
+            startIcon={<LogoutRoundedIcon />}
+          >
             Logout
           </Button>
         </Stack>

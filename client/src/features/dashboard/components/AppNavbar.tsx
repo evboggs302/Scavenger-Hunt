@@ -39,9 +39,10 @@ export const AppNavbar = () => {
     try {
       await logoutUser();
     } catch (err) {
-      if (err instanceof ApolloError) {
-      } else {
-      }
+      console.log(err);
+      // if (err instanceof ApolloError) {
+      // } else {
+      // }
     }
   };
 
@@ -60,7 +61,8 @@ export const AppNavbar = () => {
         borderBottom: "1px solid",
         borderColor: "divider",
         top: "var(--template-frame-height, 0px)",
-      }}>
+      }}
+    >
       <Toolbar variant="regular">
         <Stack
           direction="row"
@@ -69,16 +71,19 @@ export const AppNavbar = () => {
             flexGrow: 1,
             width: "100%",
             gap: 1,
-          }}>
+          }}
+        >
           <Stack
             direction="row"
             spacing={1}
-            sx={{ justifyContent: "center", mr: "auto" }}>
+            sx={{ justifyContent: "center", mr: "auto" }}
+          >
             <CustomIcon />
             <Typography
               variant="h4"
               component="h1"
-              sx={{ color: "text.primary" }}>
+              sx={{ color: "text.primary" }}
+            >
               Dashboard
             </Typography>
           </Stack>
@@ -110,7 +115,8 @@ export const CustomIcon = () => {
         border: "1px solid",
         borderColor: "hsl(210, 100%, 55%)",
         boxShadow: "inset 0 2px 5px rgba(255, 255, 255, 0.3)",
-      }}>
+      }}
+    >
       <DashboardRoundedIcon color="inherit" sx={{ fontSize: "1rem" }} />
     </Box>
   );

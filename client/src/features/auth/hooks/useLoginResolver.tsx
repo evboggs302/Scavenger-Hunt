@@ -18,5 +18,5 @@ export type LoginSchema = z.infer<typeof schema>;
 export const useLoginResolver = () => {
   const resolver = zodResolver(schema);
 
-  return useMemo((): [typeof resolver] => [resolver], [resolver, schema]);
+  return useMemo((): [typeof resolver] => [resolver], [resolver]);
 };

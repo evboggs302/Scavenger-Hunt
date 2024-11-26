@@ -7,11 +7,11 @@ export const CreateHuntButton = () => {
 
   const handleClickOpen = useCallback(() => {
     setIsOpen(true);
-  }, [isOpen, setIsOpen]);
+  }, [setIsOpen]);
 
   const handleClose = useCallback(() => {
     setIsOpen(false);
-  }, [isOpen, setIsOpen]);
+  }, [setIsOpen]);
 
   return (
     <>

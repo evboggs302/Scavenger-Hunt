@@ -13,7 +13,7 @@ type Story = StoryObj<typeof SignInCard>;
 
 export const SignIn: Story = {
   play: async (props) => {
-    const { args, canvasElement, step } = props;
+    const { canvasElement, step } = props;
     const { getByTestId } = within(canvasElement);
     expect(getByTestId("login-title")).toBeInTheDocument();
 

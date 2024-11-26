@@ -32,7 +32,9 @@ export const OptionsMenu = () => {
   const handleLogout = useCallback(async () => {
     try {
       await logoutUser();
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   }, []);
 
   return (
@@ -40,7 +42,8 @@ export const OptionsMenu = () => {
       <MenuButton
         aria-label="Open menu"
         onClick={handleClick}
-        sx={{ borderColor: "transparent" }}>
+        sx={{ borderColor: "transparent" }}
+      >
         <MoreVertRoundedIcon />
       </MenuButton>
       <Menu
@@ -61,7 +64,8 @@ export const OptionsMenu = () => {
           [`& .${dividerClasses.root}`]: {
             margin: "4px -4px",
           },
-        }}>
+        }}
+      >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
         <Divider />
@@ -75,7 +79,8 @@ export const OptionsMenu = () => {
               ml: "auto",
               minWidth: 0,
             },
-          }}>
+          }}
+        >
           <ListItemText>Logout</ListItemText>
           <ListItemIcon>
             <LogoutRoundedIcon fontSize="small" />

@@ -5,9 +5,7 @@ import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
 
-type Props = {};
-
-export const NameField = (props: Props) => {
+export const NameField = () => {
   const { control } = useFormContext<CreateHuntFormState>();
 
   const { field, fieldState } = useController({

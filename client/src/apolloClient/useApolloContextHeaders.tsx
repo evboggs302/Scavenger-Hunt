@@ -1,6 +1,6 @@
 import { useTokenContext } from "@lib/context/TokenContext";
 
-export const apolloContextHeaders = () => {
+export const useApolloContextHeaders = () => {
   const { token } = useTokenContext();
   const context = {
     headers: {

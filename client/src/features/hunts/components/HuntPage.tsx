@@ -4,17 +4,17 @@ import { ClueQryContextProvider } from "@lib/context/ClueContext";
 import { Outlet, useNavigate } from "react-router-dom";
 
 export const HuntPage = () => {
-  const { loading, data } = useHuntContext();
-  const navigate = useNavigate();
+  // const { loading, data } = useHuntContext();
+  // const navigate = useNavigate();
 
-  if (!data?.hunt) {
-    return null;
-  }
+  // if (!data?.hunt) {
+  //   return null;
+  // }
 
-  const { end_date, is_active } = data.hunt;
+  // const { end_date, is_active } = data.hunt;
 
-  const huntIsPassed =
-    !!(end_date && +end_date <= new Date().getTime()) || !!is_active;
+  // const huntIsPassed =
+  //   !!(end_date && +end_date <= new Date().getTime()) || !!is_active;
 
   // if (loading) {
   //   return <Skeleton active paragraph={{ rows: 8 }} />;

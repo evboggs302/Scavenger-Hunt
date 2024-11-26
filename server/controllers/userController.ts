@@ -34,7 +34,7 @@ module.exports = {
   },
   addUser: (req, res, next) => {
     const { firstName, lastName, userName, password } = req.body;
-    let hashedPw = Bcrypt.hashSync(password, 10);
+    const hashedPw = Bcrypt.hashSync(password, 10);
     const user = new User({
       _id: new mongoose.Types.ObjectId(),
       userName: userName,
@@ -75,7 +75,7 @@ module.exports = {
   login: async (req, res, next) => {
     const { userName, password } = req.body;
     try {
-      var user = await User.findOne({
+      const user = await User.findOne({
         userName: userName,
       }).exec();
       if (!user) {

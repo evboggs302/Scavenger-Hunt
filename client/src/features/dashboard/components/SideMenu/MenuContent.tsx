@@ -9,7 +9,7 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ExtensionRoundedIcon from "@mui/icons-material/ExtensionRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { apolloContextHeaders } from "@apolloClient/apolloContextHeaders";
+import { useApolloContextHeaders } from "@/apolloClient/useApolloContextHeaders";
 import { GetHuntsByUserIdDocument } from "@generated/graphql";
 import { useQuery } from "@apollo/client";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
@@ -23,13 +23,13 @@ export const MenuContent = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { huntId } = useParams();
-  const headers = apolloContextHeaders();
+  const headers = useApolloContextHeaders();
   const [isHuntsOpen, setHuntsOpen] = useState(true);
 
   const navigateHome = () => navigate("/");
   const handleHuntsClick = useCallback(
     () => setHuntsOpen(!isHuntsOpen),
-    [isHuntsOpen, setHuntsOpen]
+    [isHuntsOpen, setHuntsOpen],
   );
 
   const { data, loading } = useQuery(GetHuntsByUserIdDocument, {
@@ -47,7 +47,8 @@ export const MenuContent = () => {
           selected={huntId === hunt._id}
           onClick={() => {
             navigate(`hunt/${hunt._id}`, { relative: "path" });
-          }}>
+          }}
+        >
           <ListItemText primary={hunt.name} />
         </ListItemButton>
       </ListItem>
@@ -60,7 +61,8 @@ export const MenuContent = () => {
         <ListItem disablePadding sx={{ display: "block" }}>
           <ListItemButton
             selected={location.pathname === "default"}
-            onClick={navigateHome}>
+            onClick={navigateHome}
+          >
             <ListItemIcon>{<HomeRoundedIcon />}</ListItemIcon>
             <ListItemText primary="Home" />
           </ListItemButton>

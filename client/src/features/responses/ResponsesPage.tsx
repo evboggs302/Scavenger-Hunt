@@ -4,27 +4,23 @@ import {
   ResponsePayload,
 } from "@generated/graphql";
 import { useQuery } from "@apollo/client";
-import { apolloContextHeaders } from "@apolloClient/apolloContextHeaders";
+import { useApolloContextHeaders } from "@/apolloClient/useApolloContextHeaders";
 import { useHuntContext } from "@lib/context/HuntContext";
 
 /**
  * @todo Add support for MMS responses
  */
 export const ResponsesPage = () => {
-  const headers = apolloContextHeaders();
+  const headers = useApolloContextHeaders();
   const { data } = useHuntContext();
   const [responses, setResponses] = useState<ResponsePayload[]>([]);
-
-  if (!data?.hunt) {
-    return null;
-  }
 
   const { loading } = useQuery(GetResponsesByHuntDocument, {
     context: headers,
     fetchPolicy: "network-only",
     nextFetchPolicy: "cache-and-network",
     pollInterval: 30000,
-    variables: { id: data.hunt._id || "" },
+    variables: { id: data?.hunt?._id || "" },
     onCompleted: ({ hunt }) => {
       const res = hunt?.teams?.reduce((allRes, team) => {
         if (!team?.responses) {

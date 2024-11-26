@@ -13,7 +13,7 @@ import { apolloServerMiddlewareOptions } from "./utils/apolloServerMiddlewareOpt
 const { MONGO_URI, PORT, GQL_SERVER_URL, CLIENT_URL } = config;
 
 export async function startServer(
-  listenOptions: ListenOptions = { port: PORT }
+  listenOptions: ListenOptions = { port: PORT },
 ) {
   const app = express();
   const httpServer = http.createServer(app);
@@ -37,7 +37,7 @@ export async function startServer(
       ],
     }),
     express.json(),
-    expressMiddleware(server, apolloServerMiddlewareOptions)
+    expressMiddleware(server, apolloServerMiddlewareOptions),
   );
 
   // health check
@@ -46,7 +46,7 @@ export async function startServer(
       status: 200,
       message:
         'This end point is only for doing a "health check", making sure the server is running and listening.',
-    })
+    }),
   );
 
   // RECEIVE TWILIO SMS
@@ -59,12 +59,12 @@ export async function startServer(
       await new Promise<void>((resolve) => {
         httpServer.listen(listenOptions, resolve);
         console.log(
-          `\n✅ Connected to database. Server started listening on ${GQL_SERVER_URL}.\n`
+          `\n✅ Connected to database. Server started listening on ${GQL_SERVER_URL}.\n`,
         );
       });
     })
-    .catch((err) =>
-      console.log(`\n🚫 Failed to connect to MongoDB. Server did not start.\n`)
+    .catch(() =>
+      console.log(`\n🚫 Failed to connect to MongoDB. Server did not start.\n`),
     );
 }
 

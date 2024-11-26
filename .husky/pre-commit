@@ -1,2 +1,3 @@
 yarn tsc-check-client
 yarn tsc-check-server
+yarn lint

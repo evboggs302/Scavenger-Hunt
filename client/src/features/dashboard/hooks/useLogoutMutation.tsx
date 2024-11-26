@@ -2,12 +2,12 @@ import { useApolloClient, useMutation } from "@apollo/client";
 import { LogoutUserDocument } from "@generated/graphql";
 import { useCallback, useMemo } from "react";
 import { useTokenContext } from "@lib/context/TokenContext";
-import { apolloContextHeaders } from "@apolloClient/apolloContextHeaders";
+import { useApolloContextHeaders } from "@/apolloClient/useApolloContextHeaders";
 import { useNavigate } from "react-router-dom";
 
 export const useLogoutMutation = () => {
   const navigate = useNavigate();
-  const headers = apolloContextHeaders();
+  const headers = useApolloContextHeaders();
   const client = useApolloClient();
   const [logoutUser, result] = useMutation(LogoutUserDocument, {
     context: headers,
@@ -28,6 +28,6 @@ export const useLogoutMutation = () => {
 
   return useMemo(
     (): [typeof onLogout, typeof result] => [onLogout, result],
-    [onLogout, result]
+    [onLogout, result],
   );
 };

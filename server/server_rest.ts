@@ -4,7 +4,7 @@ import http from "http";
 import dotenv from "dotenv";
 import path from "path";
 import mongoose from "mongoose";
-import config from "../config";
+import config from "./config";
 
 // const express = require("express");
 const app = express();
@@ -82,7 +82,7 @@ app.use(
       secure: "auto",
       maxAge: 1000 * 60 * 60 * 24, // 24 cookie
     },
-  })
+  }),
 );
 
 // MONGODB Connection
@@ -110,7 +110,7 @@ app.put(
   activateHunt,
   activateTeams,
   getFirstClue,
-  sendFirstClue
+  sendFirstClue,
 ); // Postman Confirmed ✅
 app.put("/api/hunt/deactivate", deactivateHunt, getHuntData); // Postman Confirmed ✅
 app.put("/api/hunt/updateOne", validateHuntNotActive, updateHunt, getHuntData); // Postman Confirmed ✅
@@ -121,7 +121,7 @@ app.delete(
   deleteAllTeamsByHunt,
   deleteAllCluesByHunt,
   deleteHunt,
-  removeHuntFromUser
+  removeHuntFromUser,
 ); // Postman Confirmed ✅
 
 // TEAMS ENDPOINTS
@@ -130,7 +130,7 @@ app.post(
   validateHuntNotActive,
   phoneValidation,
   createTeams,
-  getHuntData
+  getHuntData,
 ); // Postman Confirmed ✅
 app.get("/api/teams/byHunt/:id", getHuntData); // Postman Confirmed ✅
 app.put("/api/teams/updateOne", validateHuntNotActive, updateTeam, getHuntData); // Postman Confirmed ✅
@@ -138,14 +138,14 @@ app.delete(
   "/api/teams/deleteOne",
   validateHuntNotActive,
   deleteSingleTeam,
-  getHuntData
+  getHuntData,
 ); // Postman Confirmed ✅
 app.delete(
   "/api/teams/deleteAll",
   validateHuntNotActive,
   deleteAllTeamsByHunt,
   deleteAllResponsesByTeam,
-  getHuntData
+  getHuntData,
 ); // Postman Confirmed ✅
 
 // CLUES ENDPOINTS
@@ -155,25 +155,25 @@ app.put(
   "/api/clues/updateDesc",
   validateHuntNotActive,
   updateDesc,
-  getAllCluesByHunt
+  getAllCluesByHunt,
 ); // Postman Confirmed ✅
 app.put(
   "/api/clues/updateOrder",
   validateHuntNotActive,
   updateClueOrder,
-  getAllCluesByHunt
+  getAllCluesByHunt,
 ); // Postman Confirmed ✅
 app.delete(
   "/api/clues/deleteOne",
   validateHuntNotActive,
   deleteSingleClue,
-  getAllCluesByHunt
+  getAllCluesByHunt,
 ); // Postman Confirmed ✅
 app.delete(
   "/api/clues/deleteAll",
   validateHuntNotActive,
   deleteAllCluesByHunt,
-  getAllCluesByHunt
+  getAllCluesByHunt,
 ); // Postman Confirmed ✅
 
 // RESPONSES ENDPOINTS --> Twilio for responses
