@@ -8,28 +8,50 @@ Application: https://digital-scavenger-ui.onrender.com/
 
 Storybook: https://digital-scavenger-storybook.onrender.com
 
+### Local Development - Getting Started
+
+- Install root dependencies
+
+      yarn install
+
+- Configure pre-commit checks
+
+  _\*This only has to be run once after cloning the repo._
+
+      yarn prepare
+
 ### Local Development - `/client`
 
-- `yarn install` - installs dependencies
+- Install client dependencies
 
-- `yarn storybook` - starts the storybook server locally
+      yarn install
 
-- `yarn start` Runs the app in the development mode.<br />
+- To start the storybook server locally:
+
+      yarn storybook
+
+- To run the app in the development mode:<br />
+
+      yarn start
+
   _Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
   The page will reload with edits. You will also see any lint errors in the console._
 
-- `yarn test` starts the test suite
+- To start the test suite:
+
+      yarn test
 
 ### Local Development - `/server`
 
 From the terminal in your local project:
 
-1. Make sure the `MONGO_URI` value in your .env file is accurate
-2. Go to the `/server/` dir, run this command:
+1.  Make sure the `MONGO_URI` value in your .env file is accurate, then install dependencies
 
-```zsh
-yarn dev
-```
+         yarn install
+
+2.  Go to the `/server/` dir, run this command:
+
+         yarn dev
 
 After the server is running, do the following from inside Postman:
 
@@ -47,17 +69,17 @@ After the server is running, do the following from inside Postman:
    - Token: `{{authToken}}`
 
 6. You must run the `login` mutation first. Copy the token value from the response object.
-7. Go back to your collection's variables. Pase the copied token value into the field for the `authToken` variable.
+7. Go back to your collection's variables. Paste the copied token value into the field for the `authToken` variable.
 8. Run any query or mutation as you please!!!
 
-### .ENV example content
+### Example `.env` content
 
 ```txt
 TWILIO_ACCT_SID=< provided by Twilio >
 TWILIO_AUTH_TOKEN=< provided by Twilio >
 TWILIO_NUMBER=< provided by Twilio >
 
-# FOR LOCAL DEV ONLY - PROD VALUES SET DURING CI PIPELINE
+# FOR LOCAL DEV ONLY - PROD VALUES SET VIA CI PIPELINE
 CLIENT_URL=http://localhost:< port >
 GQL_SERVER_URL=http://localhost:< port >/graphql
 MONGO_URI=< constructed with MongoDB details >

@@ -1,6 +1,11 @@
 import React from "react";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import Box from "@mui/material/Box";
+import { HomeInfo } from "./HomeInfo";
 
 export const HomePage = () => {
-  return <HomeRoundedIcon />;
+  return (
+    <Box>
+      <HomeInfo />
+    </Box>
+  );
 };

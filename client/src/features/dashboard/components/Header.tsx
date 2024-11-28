@@ -20,10 +20,12 @@ export const Header = () => {
       spacing={2}
     >
       <NavbarBreadcrumbs />
-      <CreateHuntButton />
-      <MenuButton showBadge aria-label="Open notifications">
-        <NotificationsRoundedIcon />
-      </MenuButton>
+      <div>
+        <CreateHuntButton />
+        <MenuButton showBadge aria-label="Open notifications">
+          <NotificationsRoundedIcon />
+        </MenuButton>
+      </div>
     </Stack>
   );
 };

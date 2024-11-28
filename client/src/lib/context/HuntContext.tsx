@@ -17,13 +17,13 @@ export const HuntContext = createContext<HuntContextValue | undefined>(
 export const HuntQryContextProvider = ({
   children,
 }: PropsWithChildren<unknown>) => {
-  const { id } = useParams();
+  const { huntId } = useParams();
   const headers = useApolloContextHeaders();
 
   const result = useQuery(GetHuntDocument, {
     context: headers,
     fetchPolicy: "cache-and-network",
-    variables: { id: id || "" },
+    variables: { id: huntId || "" },
   });
 
   return <HuntContext.Provider value={result}>{children}</HuntContext.Provider>;
