@@ -78,7 +78,7 @@ export const CreateHuntDialog = ({
   const { field: endDateField, fieldState: endDateState } = useController({
     name: "endDate",
     control,
-    defaultValue: dayjs().add(1, "day"),
+    defaultValue: startDateField.value.add(1, "day"),
   });
   const { field: checkbox } = useController({
     name: "multipleDays",

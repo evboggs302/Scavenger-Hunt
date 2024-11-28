@@ -26,7 +26,7 @@ export const MenuContent = () => {
   const headers = useApolloContextHeaders();
   const [isHuntsOpen, setHuntsOpen] = useState(true);
 
-  const navigateHome = () => navigate("/");
+  const navigateHome = () => navigate("/dashboard");
   const handleHuntsClick = useCallback(
     () => setHuntsOpen(!isHuntsOpen),
     [isHuntsOpen, setHuntsOpen]

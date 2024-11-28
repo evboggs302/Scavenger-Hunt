@@ -5,6 +5,7 @@
   "scripts": {
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
+    "prepare": "husky",
     "prettier": "prettier --log-level silent --write .",
     "prettier-check": "prettier --check .",
     "tsc-check-client": "cd client && yarn tsc-check",
