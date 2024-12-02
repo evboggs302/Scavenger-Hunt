@@ -1,22 +1,22 @@
 type Query {
-  getResponsesByTeam(id: ID!): [ResponsePayload]
-  getResponsesByClue(id: ID!): [ResponsePayload]
+  getResponsesByTeam(id: ID!): [ResponsePayload]!
+  getResponsesByClue(id: ID!): [ResponsePayload]!
 }
 
 type Mutation {
-  markResponseCorrect(id: ID!): Boolean
-  sendHint(input: SendHintInput!): Boolean
-  deleteAllResponsesByTeam(id: ID!): Boolean
-  deleteAllResponsesByHunt(id: ID!): Boolean
+  markResponseCorrect(id: ID!): Boolean!
+  sendHint(input: SendHintInput!): Boolean!
+  deleteAllResponsesByTeam(id: ID!): Boolean!
+  deleteAllResponsesByHunt(id: ID!): Boolean!
 }
 
 type ResponsePayload {
   _id: ID!
   clue_id: String!
   team_id: String!
-  time_received: String
-  response_txt: String
-  response_img: [String]
+  time_received: String!
+  response_txt: String!
+  response_img: [String]!
   correct: Boolean
   hint_sent: Boolean
 }

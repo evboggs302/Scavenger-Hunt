@@ -2,9 +2,7 @@ import React, { ReactNode } from "react";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 
 type PreviewCardProps = {
@@ -12,21 +10,24 @@ type PreviewCardProps = {
   location: "teams" | "clues" | "responses";
 };
 
-export const PreviewCard = ({ children }: PreviewCardProps) => {
+export const PreviewCard = ({ children, location }: PreviewCardProps) => {
   const navigate = useNavigate();
+  const title = location[0].toUpperCase() + location.slice(1);
 
   return (
-    <Card sx={{ minWidth: 275 }}>
-      <CardHeader></CardHeader>
-      <CardContent>{children}</CardContent>
-      <CardActions>
-        <Box>
-          Go to the Teams page to create teams!
-          <Button onClick={() => navigate(location, { relative: "path" })}>
-            GO TO TEAMS
+    <Card variant="outlined" sx={{ minWidth: 275, margin: "14px auto" }}>
+      <CardHeader
+        title={title}
+        action={
+          <Button
+            variant="outlined"
+            onClick={() => navigate(location, { relative: "path" })}
+          >
+            GO TO {location.toUpperCase()}
           </Button>
-        </Box>
-      </CardActions>
+        }
+      />
+      <CardContent>{children}</CardContent>
     </Card>
   );
 };

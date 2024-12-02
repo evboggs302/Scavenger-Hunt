@@ -1,8 +1,16 @@
 import React, { useCallback, useState } from "react";
 import { CreateHuntDialog } from "./CreateHuntDialog";
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 
-export const CreateHuntButton = () => {
+type CreateHuntButtonProps = {
+  variant?: "small" | "normal";
+};
+
+export const CreateHuntButton = ({
+  variant = "normal",
+}: CreateHuntButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClickOpen = useCallback(() => {
@@ -15,9 +23,16 @@ export const CreateHuntButton = () => {
 
   return (
     <>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        New hunt
-      </Button>
+      {variant === "normal" && (
+        <Button variant="outlined" onClick={handleClickOpen}>
+          New hunt
+        </Button>
+      )}
+      {variant === "small" && (
+        <IconButton onClick={handleClickOpen}>
+          <AddBoxIcon />
+        </IconButton>
+      )}
       <CreateHuntDialog isOpen={isOpen} handleClose={handleClose} />
     </>
   );

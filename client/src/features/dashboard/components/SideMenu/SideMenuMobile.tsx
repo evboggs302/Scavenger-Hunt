@@ -6,12 +6,11 @@ import Drawer, { drawerClasses } from "@mui/material/Drawer";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 
-import { MenuButton } from "../MenuButton";
 import { MenuContent } from "./MenuContent";
 import { useLogoutMutation } from "@features/dashboard/hooks/useLogoutMutation";
 import { useUserContext } from "@lib/context/UserContext";
+import { CreateHuntButton } from "@features/createHuntDialog/components/CreateHuntButton";
 
 interface SideMenuMobileProps {
   open: boolean | undefined;
@@ -28,7 +27,7 @@ export const SideMenuMobile = ({ open, toggleDrawer }: SideMenuMobileProps) => {
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [logoutUser]);
 
   return (
     <Drawer
@@ -56,7 +55,7 @@ export const SideMenuMobile = ({ open, toggleDrawer }: SideMenuMobileProps) => {
           >
             <Avatar
               sizes="small"
-              alt={data?.user?.first_name}
+              alt={data?.user.first_name}
               src="/static/images/avatar/7.jpg"
               sx={{ width: 24, height: 24 }}
             />
@@ -64,9 +63,7 @@ export const SideMenuMobile = ({ open, toggleDrawer }: SideMenuMobileProps) => {
               {`${data?.user?.first_name} ${data?.user?.last_name}`}
             </Typography>
           </Stack>
-          <MenuButton showBadge>
-            <NotificationsRoundedIcon />
-          </MenuButton>
+          <CreateHuntButton variant="small" />
         </Stack>
         <Divider />
         <Stack sx={{ flexGrow: 1 }}>
