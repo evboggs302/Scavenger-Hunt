@@ -63,8 +63,5 @@ export const useCreateHuntResolver = () => {
     )
   );
 
-  return useMemo(
-    (): [typeof resolver] => [resolver],
-    [resolver, schemaMultipleDaysFalse, schemaMultipleDaysTrue]
-  );
+  return useMemo((): [typeof resolver] => [resolver], [resolver]);
 };
