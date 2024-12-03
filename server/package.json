@@ -20,7 +20,7 @@
     "graphql": "^16.8.1",
     "gridfs-stream": "^1.1.1",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^8.2.1",
+    "mongoose": "^8.8.3",
     "parse-duration": "^1.1.0",
     "twilio": "^5.0.1"
   },
