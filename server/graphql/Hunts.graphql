@@ -1,26 +1,26 @@
 type Query {
-  getHuntsByUserId: [Hunt]
-  getHunt(id: ID!): Hunt
-  deleteAllHuntsByUser: Boolean
+  getHuntsByUserId: [Hunt]!
+  getHunt(id: ID!): Hunt!
+  deleteAllHuntsByUser: Boolean!
 }
 
 type Mutation {
-  createHunt(input: CreateHuntInput!): Hunt
-  activateHunt(id: ID!): Hunt
-  updateHunt(input: UpdateHuntInput!): Hunt
-  deactivateHunt(id: ID!): Hunt
-  deleteHuntById(h_id: ID!): Boolean
+  createHunt(input: CreateHuntInput!): Hunt!
+  activateHunt(id: ID!): Hunt!
+  updateHunt(input: UpdateHuntInput!): Hunt!
+  deactivateHunt(id: ID!): Hunt!
+  deleteHuntById(h_id: ID!): Boolean!
 }
 
 type Hunt {
   _id: ID!
   created_by: ID!
-  name: String
-  created_date: String
-  start_date: String
-  end_date: String
-  is_active: Boolean
-  recall_message: String
+  name: String!
+  created_date: String!
+  start_date: String!
+  end_date: String!
+  is_active: Boolean!
+  recall_message: String!
   clues: [CluePayload!]
   teams: [Team!]
 }

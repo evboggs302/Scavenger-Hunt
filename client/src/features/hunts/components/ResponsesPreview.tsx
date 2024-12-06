@@ -12,22 +12,10 @@ import Skeleton from "@mui/material/Skeleton";
 import { PreviewCard } from "@lib/components/PreviewCard/PreviewCard";
 import Box from "@mui/material/Box";
 
-export const TeamsPreview = () => {
-  const { data, loading, error } = useHuntContext();
-
-  if (loading) {
-    return <Skeleton variant="rectangular" width={210} height={60} />;
-  }
-
-  if (error || !data?.hunt.teams) {
-    return <TryAgainAlert />;
-  }
-
-  const teamsExist = data.hunt.teams.length > 0;
-
+export const ResponsesPreview = () => {
   return (
-    <PreviewCard location="teams">
-      {teamsExist && (
+    <PreviewCard location="responses">
+      {/* {teamsExist && (
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -56,11 +44,11 @@ export const TeamsPreview = () => {
           </Table>
         </TableContainer>
       )}
-      {!teamsExist && (
-        <Box sx={{ minWidth: 650 }}>
-          <i>No teams to show.</i>
-        </Box>
-      )}
+      {!teamsExist && ( */}
+      <Box sx={{ minWidth: 650 }}>
+        <i>No responses to show.</i>
+      </Box>
+      {/* )} */}
     </PreviewCard>
   );
 };

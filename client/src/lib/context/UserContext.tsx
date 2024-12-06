@@ -7,6 +7,7 @@ import {
 import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { QueryResult, useQuery } from "@apollo/client";
 import { useTokenContext } from "./TokenContext";
+import { useNavigate } from "react-router-dom";
 
 export type UserContextValue = QueryResult<
   GetUserFromTokenQuery,
@@ -25,10 +26,13 @@ export const UserQryContextProvider = ({
   children,
 }: UserQryContextProviderProps) => {
   const { token } = useTokenContext();
+  const navigate = useNavigate();
+
   const result = useQuery(GetUserFromTokenDocument, {
     variables: { tkn: token || "invalid" },
     context: useApolloContextHeaders(),
     pollInterval: 4500,
+    onError: () => navigate("/login", { replace: true }),
   });
 
   return <UserContext.Provider value={result}>{children}</UserContext.Provider>;
