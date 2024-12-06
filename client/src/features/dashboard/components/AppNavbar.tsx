@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router";
 import { ApolloError } from "@apollo/client/errors";
 import { useLogoutMutation } from "../hooks/useLogoutMutation";
 import { styled } from "@mui/material/styles";
@@ -79,13 +79,15 @@ export const AppNavbar = () => {
             sx={{ justifyContent: "center", mr: "auto" }}
           >
             <CustomIcon />
-            <Typography
-              variant="h4"
-              component="h1"
-              sx={{ color: "text.primary" }}
-            >
-              Dashboard
-            </Typography>
+            <Link to="/dashboard">
+              <Typography
+                variant="h4"
+                component="h1"
+                sx={{ color: "text.primary" }}
+              >
+                Dashboard
+              </Typography>
+            </Link>
           </Stack>
           <MenuButton aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuRoundedIcon />

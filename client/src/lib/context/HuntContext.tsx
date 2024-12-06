@@ -6,7 +6,7 @@ import {
 } from "@generated/graphql";
 import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { QueryResult, useQuery } from "@apollo/client";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 export type HuntContextValue = QueryResult<GetHuntQuery, GetHuntQueryVariables>;
 

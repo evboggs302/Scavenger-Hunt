@@ -1,5 +1,5 @@
 import React, { MouseEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { SubmitHandler, useController, useForm } from "react-hook-form";
 import { ApolloError } from "@apollo/client";
 import { GoogleIcon, FacebookIcon } from "@lib/components/Auth/CustomIcons";

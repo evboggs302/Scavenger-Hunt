@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, RouteObject } from "react-router-dom";
+import { Navigate, RouteObject } from "react-router";
 
 /**
  * @required The nearest parent route must have an index route or content to render

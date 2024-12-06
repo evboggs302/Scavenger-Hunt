@@ -1,6 +1,6 @@
 import React from "react";
 import "../../index.css";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router";
 import { Dashboard } from "@features/dashboard/components/Dashboard";
 import { catchallRouteToLogin } from "./catchAllRoutes/catchallRouteToLogin";
 import { catchallRouteToParent } from "./catchAllRoutes/catchallRouteToParent";

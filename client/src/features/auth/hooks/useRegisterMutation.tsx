@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { useMutation } from "@apollo/client";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { RegisterUserDocument } from "@generated/graphql";
 import { useTokenContext } from "@lib/context/TokenContext";
 
