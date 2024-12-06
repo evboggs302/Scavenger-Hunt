@@ -51,7 +51,7 @@ export default defineConfig(({ mode }) => {
           minifyInternalExports: true,
           // manualChunks: (id, { getModuleInfo }) => {
           //   if (
-          //     id.includes("/react-router-dom") ||
+          //     id.includes("/react-router") ||
           //     id.includes("/react-router") ||
           //     id.includes("/@remix")
           //   ) {

@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { GoogleIcon, FacebookIcon } from "@lib/components/Auth/CustomIcons";
 import { useRegisterMutation } from "@features/auth/hooks/useRegisterMutation";
 import {

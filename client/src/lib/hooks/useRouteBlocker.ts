@@ -1,4 +1,4 @@
-import { useBlocker } from "react-router-dom";
+import { useBlocker } from "react-router";
 
 /**
  * @description When this hook is used, all `navigate` functions will need the "forceClose" value passed to the navigate state. Otherwise, thos blocker will fire and prevent the route from being executed.

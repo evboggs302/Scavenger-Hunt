@@ -7,7 +7,7 @@ import {
 import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { QueryResult, useQuery } from "@apollo/client";
 import { useTokenContext } from "./TokenContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export type UserContextValue = QueryResult<
   GetUserFromTokenQuery,

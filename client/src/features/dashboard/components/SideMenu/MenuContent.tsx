@@ -8,7 +8,7 @@ import Stack from "@mui/material/Stack";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ExtensionRoundedIcon from "@mui/icons-material/ExtensionRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { GetHuntsByUserIdDocument } from "@generated/graphql";
 import { useQuery } from "@apollo/client";

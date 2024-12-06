@@ -4,7 +4,7 @@ import {
   LoginUserDocument,
   LoginUserMutationVariables,
 } from "@generated/graphql";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useTokenContext } from "@lib/context/TokenContext";
 
 export const useLoginMutation = () => {
