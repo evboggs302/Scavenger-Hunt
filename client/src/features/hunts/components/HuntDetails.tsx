@@ -15,6 +15,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import CircularProgress from "@mui/material/CircularProgress";
 import dayjs from "dayjs";
+import { ResponsesPreview } from "./ResponsesPreview";
 
 export const HuntDetails = () => {
   const { data, loading, error } = useHuntContext();
@@ -37,6 +38,8 @@ export const HuntDetails = () => {
     recall_message,
   } = data.hunt;
 
+  const isInPast = dayjs().isAfter(end_date);
+
   return (
     <Box
       sx={{
@@ -53,8 +56,14 @@ export const HuntDetails = () => {
               <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>Created date</TableCell>
-                <TableCell>Start date</TableCell>
-                <TableCell>End date</TableCell>
+                {isInPast ? (
+                  <TableCell>End date</TableCell>
+                ) : (
+                  <>
+                    <TableCell>Start date</TableCell>
+                    <TableCell>End date</TableCell>
+                  </>
+                )}
                 <TableCell>Completed</TableCell>
                 <TableCell>Is active</TableCell>
                 <TableCell>Recall message</TableCell>
@@ -69,12 +78,20 @@ export const HuntDetails = () => {
                 <TableCell component="th" scope="row">
                   {dayjs(created_date).format("LL")}
                 </TableCell>
-                <TableCell component="th" scope="row">
-                  {dayjs(start_date).format("LL")}
-                </TableCell>
-                <TableCell component="th" scope="row">
-                  {dayjs(end_date).format("LL")}
-                </TableCell>
+                {isInPast ? (
+                  <TableCell component="th" scope="row">
+                    {dayjs(end_date).format("LL")}
+                  </TableCell>
+                ) : (
+                  <>
+                    <TableCell component="th" scope="row">
+                      {dayjs(start_date).format("LL")}
+                    </TableCell>
+                    <TableCell component="th" scope="row">
+                      {dayjs(end_date).format("LL")}
+                    </TableCell>
+                  </>
+                )}
                 <TableCell component="th" scope="row">
                   {dayjs(end_date).isAfter(start_date) ? (
                     <DoneIcon color="success" />
@@ -99,6 +116,7 @@ export const HuntDetails = () => {
       </Box>
       <CluesPreview />
       <TeamsPreview />
+      <ResponsesPreview />
     </Box>
   );
 };
