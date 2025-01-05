@@ -7,7 +7,7 @@ export const getUserFromTokenMock = graphql.query(
     return HttpResponse.json({
       data: {
         user: {
-          __typename: "BaseUserPayload" as const,
+          __typename: "UserPayload" as const,
           _id: "string-id",
           user_name: "vitey",
           first_name: "vite-man",
