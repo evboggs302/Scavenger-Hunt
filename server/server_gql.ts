@@ -20,7 +20,8 @@ export async function startServer(
   const server = new ApolloServer({
     schema,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-    introspection: GQL_SERVER_URL?.includes("localhost"),
+    introspection: GQL_SERVER_URL.includes("localhost"),
+    csrfPrevention: !GQL_SERVER_URL.includes("localhost"),
   });
 
   await server.start();
@@ -41,7 +42,7 @@ export async function startServer(
   );
 
   // health check
-  app.get("/healthz", (_, res) =>
+  app.get("/healthz", (_req, res) =>
     res.send({
       status: 200,
       message:

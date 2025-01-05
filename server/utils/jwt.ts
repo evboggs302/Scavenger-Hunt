@@ -1,11 +1,11 @@
-import config from "../config";
-import UserModel from "../models/users";
-import TokenStorageModel from "../models/token_storage";
+import config from "@/config";
+import { UserModel } from "@models/users";
+import { TokenModel } from "@models/token_storage";
 import { Types } from "mongoose";
 import { GraphQLError } from "graphql";
 import parseDuration from "parse-duration";
 import { sign, verify } from "jsonwebtoken";
-import { BaseUserPayload } from "../generated/graphql";
+import { UserPayload } from "@generated/graphql";
 import { throwResolutionError } from "./apolloErrorHandlers";
 
 const { ACCESS_TOKEN_SECRET, ACCESS_TOKEN_DURATION } = config;
@@ -20,7 +20,7 @@ export const createAndSaveToken = async (id: Types.ObjectId) => {
     const today = new Date();
     const expiresInMs = parseDuration("2d") as number;
 
-    const newToken = new TokenStorageModel({
+    const newToken = new TokenModel({
       token,
       issuedToUser: id,
       issuedAt: today,
@@ -42,12 +42,12 @@ export const createAndSaveToken = async (id: Types.ObjectId) => {
 
 export const getUserFromToken = async (
   token: string
-): Promise<BaseUserPayload | null> => {
+): Promise<UserPayload | null> => {
   // authenticate token via decryption
   const verifiedToken = verifyToken(token);
 
   // the user the token is assigned to
-  const storedToken = await TokenStorageModel.findOne({ token })
+  const storedToken = await TokenModel.findOne({ token })
     .select({ issuedToUser: 1 })
     .exec();
 
@@ -65,7 +65,7 @@ export const getUserFromToken = async (
       });
     }
 
-    return user.toObject();
+    return user.transformWithTypename();
   }
   return null;
 };

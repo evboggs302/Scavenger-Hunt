@@ -1,5 +1,5 @@
-import ResponseModel from "../models/responses";
-import { createBsonObjectId } from "../utils/createBsonObjectId";
+import { ResponseModel } from "@models/responses";
+import { createBsonObjectId } from "@/utils/transforms/createBsonObjectId";
 
 type AggregateResult = {
   hunt_id: string;

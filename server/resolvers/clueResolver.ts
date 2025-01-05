@@ -1,12 +1,12 @@
-import ClueModel from "../models/clues";
-import ResponseModel from "../models/responses";
-import { returnedItems } from "../utils/returnedItems";
-import { CluePayload, Resolvers } from "../generated/graphql";
-import { createBsonObjectId } from "../utils/createBsonObjectId";
+import { ClueModel } from "@models/clues";
+import { ResponseModel } from "@models/responses";
+import { returnedItems } from "@/utils/transforms/returnedItems";
+import { CluePayload, Resolvers } from "@generated/graphql";
+import { createBsonObjectId } from "@/utils/transforms/createBsonObjectId";
 import {
   throwResolutionError,
   throwServerError,
-} from "../utils/apolloErrorHandlers";
+} from "@utils/apolloErrorHandlers";
 
 export const clueResolver: Resolvers = {
   Query: {
@@ -104,7 +104,7 @@ export const clueResolver: Resolvers = {
           });
         }
 
-        return updatedClue.toObject();
+        return updatedClue.transformWithTypename();
       } catch (err) {
         return throwServerError({
           message: "Unable to update the clue description at this time.",

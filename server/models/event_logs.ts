@@ -1,7 +1,13 @@
 import { Schema, model } from "mongoose";
 
+const { ObjectId, Mixed } = Schema.Types;
 const logSchema = new Schema(
   {
+    _id: {
+      type: ObjectId,
+      auto: true,
+      required: true,
+    },
     type: {
       type: String,
       required: true,
@@ -11,7 +17,7 @@ const logSchema = new Schema(
       required: true,
     },
     body: {
-      type: Schema.Types.Mixed,
+      type: Mixed,
       required: true,
     },
     time_stamp: {
@@ -19,8 +25,18 @@ const logSchema = new Schema(
       required: true,
     },
   },
-  { versionKey: false }
+  {
+    versionKey: false,
+    methods: {
+      transformId: () => {
+        const obj = Object(this);
+        obj._id.toString();
+        return obj;
+      },
+    },
+  }
 );
 
 logSchema.index({ time_stamp: 1 }, { expires: "2y" });
-export default model("Log", logSchema, "event_logs"); // modelName, schemaName, collectionName
+
+export const LogModel = model("Log", logSchema, "event_logs"); // modelName, schemaName, collectionName

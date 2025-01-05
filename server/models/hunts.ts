@@ -1,14 +1,20 @@
 import { Schema, model } from "mongoose";
 
+const { ObjectId } = Schema.Types;
 export const huntSchema = new Schema(
   {
+    _id: {
+      type: ObjectId,
+      auto: true,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
       trim: true,
     },
     created_by: {
-      type: Schema.Types.ObjectId,
+      type: ObjectId,
       required: true,
     },
     start_date: {
@@ -33,16 +39,33 @@ export const huntSchema = new Schema(
       trim: true,
     },
   },
-  { versionKey: false }
+  {
+    versionKey: false,
+    methods: {
+      /**
+       * @returns HuntType with Date and ObjectId fields stringified
+       */
+      stringifyDatesAndObjectIds: () => {
+        const obj = Object(this);
+        obj._id.toString();
+        obj.created_by.toString();
+        obj.start_date.toISOString();
+        obj.end_date.toISOString();
+        obj.created_date.toISOString();
+        return obj;
+      },
+      /**
+       * @returns HuntType with `__typename: "Hunt"`
+       */
+      transformWithTypename: () => {
+        const obj = Object(this);
+        return {
+          ...obj.stringifyDatesAndObjectIds(),
+          __typename: "Hunt" as const,
+        };
+      },
+    },
+  }
 );
 
-huntSchema.set("toObject", {
-  transform: (_doc, ret) => {
-    ret.start_date = ret.start_date.toISOString();
-    ret.end_date = ret.end_date.toISOString();
-    ret.created_date = ret.created_date.toISOString();
-    return ret;
-  },
-});
-
-export default model("Hunt", huntSchema, "hunts"); // modelName, schemaName, collectionName
+export const HuntModel = model("Hunt", huntSchema, "hunts"); // modelName, schemaName, collectionName

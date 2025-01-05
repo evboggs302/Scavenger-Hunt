@@ -1,15 +1,16 @@
 import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
+export type AllUsersPayloadKeySpecifier = ('_id' | 'first_name' | 'hunts' | 'last_name' | 'user_name' | AllUsersPayloadKeySpecifier)[];
+export type AllUsersPayloadFieldPolicy = {
+	_id?: FieldPolicy<any> | FieldReadFunction<any>,
+	first_name?: FieldPolicy<any> | FieldReadFunction<any>,
+	hunts?: FieldPolicy<any> | FieldReadFunction<any>,
+	last_name?: FieldPolicy<any> | FieldReadFunction<any>,
+	user_name?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type AuthPayloadKeySpecifier = ('_id' | 'token' | AuthPayloadKeySpecifier)[];
 export type AuthPayloadFieldPolicy = {
 	_id?: FieldPolicy<any> | FieldReadFunction<any>,
 	token?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type BaseUserPayloadKeySpecifier = ('_id' | 'first_name' | 'last_name' | 'user_name' | BaseUserPayloadKeySpecifier)[];
-export type BaseUserPayloadFieldPolicy = {
-	_id?: FieldPolicy<any> | FieldReadFunction<any>,
-	first_name?: FieldPolicy<any> | FieldReadFunction<any>,
-	last_name?: FieldPolicy<any> | FieldReadFunction<any>,
-	user_name?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type CluePayloadKeySpecifier = ('_id' | 'description' | 'hunt_id' | 'order_number' | 'responses' | CluePayloadKeySpecifier)[];
 export type CluePayloadFieldPolicy = {
@@ -92,22 +93,21 @@ export type TeamFieldPolicy = {
 	recall_sent?: FieldPolicy<any> | FieldReadFunction<any>,
 	responses?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserPayloadKeySpecifier = ('_id' | 'first_name' | 'hunts' | 'last_name' | 'user_name' | UserPayloadKeySpecifier)[];
+export type UserPayloadKeySpecifier = ('_id' | 'first_name' | 'last_name' | 'user_name' | UserPayloadKeySpecifier)[];
 export type UserPayloadFieldPolicy = {
 	_id?: FieldPolicy<any> | FieldReadFunction<any>,
 	first_name?: FieldPolicy<any> | FieldReadFunction<any>,
-	hunts?: FieldPolicy<any> | FieldReadFunction<any>,
 	last_name?: FieldPolicy<any> | FieldReadFunction<any>,
 	user_name?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type StrictTypedTypePolicies = {
+	AllUsersPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | AllUsersPayloadKeySpecifier | (() => undefined | AllUsersPayloadKeySpecifier),
+		fields?: AllUsersPayloadFieldPolicy,
+	},
 	AuthPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | AuthPayloadKeySpecifier | (() => undefined | AuthPayloadKeySpecifier),
 		fields?: AuthPayloadFieldPolicy,
-	},
-	BaseUserPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | BaseUserPayloadKeySpecifier | (() => undefined | BaseUserPayloadKeySpecifier),
-		fields?: BaseUserPayloadFieldPolicy,
 	},
 	CluePayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | CluePayloadKeySpecifier | (() => undefined | CluePayloadKeySpecifier),

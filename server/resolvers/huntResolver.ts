@@ -1,13 +1,13 @@
-import HuntModel from "../models/hunts";
-import ClueModel from "../models/clues";
-import TeamModel from "../models/teams";
-import { Hunt, Resolvers } from "../generated/graphql";
-import { returnedItems } from "../utils/returnedItems";
-import { createBsonObjectId } from "../utils/createBsonObjectId";
+import { HuntModel } from "@models/hunts";
+import { ClueModel } from "@models/clues";
+import { TeamModel } from "@models/teams";
+import { Hunt, Resolvers } from "@generated/graphql";
+import { returnedItems } from "@/utils/transforms/returnedItems";
+import { createBsonObjectId } from "@/utils/transforms/createBsonObjectId";
 import {
   throwResolutionError,
   throwServerError,
-} from "../utils/apolloErrorHandlers";
+} from "@utils/apolloErrorHandlers";
 
 export const huntResolver: Resolvers = {
   Query: {
@@ -42,7 +42,7 @@ export const huntResolver: Resolvers = {
           });
         }
 
-        return hunt.toObject();
+        return hunt.transformWithTypename();
       } catch (err) {
         return throwServerError({
           message: "Unable to get hunts at the moment",
@@ -51,8 +51,8 @@ export const huntResolver: Resolvers = {
         });
       }
     },
-    // activateHunt: async (_: unknown, { id }) => {},
-    // deactivateHunt: async (_: unknown, { id }) => {},
+    // activateHunt: async (_: unknown, { id }, _ctxt, {operation: {name}}) => {},
+    // deactivateHunt: async (_: unknown, { id }, _ctxt, {operation: {name}}) => {},
     deleteAllHuntsByUser: async (
       _: unknown,
       _args,
@@ -101,7 +101,7 @@ export const huntResolver: Resolvers = {
           });
         }
 
-        return createdHunt.toObject();
+        return createdHunt.transformWithTypename();
       } catch (err) {
         return throwServerError({
           message: "Unable to create hunts at the moment.",
@@ -187,7 +187,7 @@ export const huntResolver: Resolvers = {
           });
         }
 
-        return hunt.toObject();
+        return hunt.transformWithTypename();
       } catch (err) {
         return throwServerError({
           message: "Unable to update hunts at this time.",

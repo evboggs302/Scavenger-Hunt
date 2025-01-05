@@ -1,7 +1,13 @@
 import { Schema, model } from "mongoose";
 
+const { ObjectId } = Schema.Types;
 const tokenStorageSchema = new Schema(
   {
+    _id: {
+      type: ObjectId,
+      auto: true,
+      required: true,
+    },
     token: {
       type: String,
       required: true,
@@ -19,8 +25,24 @@ const tokenStorageSchema = new Schema(
       required: true,
     },
   },
-  { versionKey: false }
+  {
+    versionKey: false,
+    methods: {
+      /**
+       * @returns Token with `__typename: "AuthPayload"`
+       */
+      transformWithTypename: () => {
+        const obj = Object(this);
+        obj._id.toString();
+        return {
+          ...obj,
+          __typename: "AuthPayload" as const,
+        };
+      },
+    },
+  }
 );
 
 tokenStorageSchema.index({ expireAt: 1 }, { expireAfterSeconds: 0 });
-export default model("Token", tokenStorageSchema, "token_storage"); // modelName, schemaName, collectionName
+
+export const TokenModel = model("Token", tokenStorageSchema, "token_storage"); // modelName, schemaName, collectionName

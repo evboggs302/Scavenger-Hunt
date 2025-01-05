@@ -1,9 +1,15 @@
 import { Schema, model } from "mongoose";
 
+const { ObjectId } = Schema.Types;
 const teamSchema = new Schema(
   {
+    _id: {
+      type: ObjectId,
+      auto: true,
+      required: true,
+    },
     hunt_id: {
-      type: Schema.Types.ObjectId,
+      type: ObjectId,
       required: true,
     },
     members: {
@@ -23,7 +29,30 @@ const teamSchema = new Schema(
       default: false,
     },
   },
-  { versionKey: false }
+  {
+    versionKey: false,
+    methods: {
+      /**
+       * @returns TeamType with Date and ObjectId fields stringified
+       */
+      stringifyDatesAndObjectIds: () => {
+        const obj = Object(this);
+        obj._id.toString();
+        obj.hunt_id.toString();
+        return obj;
+      },
+      /**
+       * @returns TeamType with `__typename: "Team"`
+       */
+      transformWithTypename: () => {
+        const obj = Object(this);
+        return {
+          ...obj.stringifyDatesAndObjectIds(),
+          __typename: "Team" as const,
+        };
+      },
+    },
+  }
 );
 
-export default model("Team", teamSchema, "teams"); // modelName, schemaName, collectionName
+export const TeamModel = model("Team", teamSchema, "teams"); // modelName, schemaName, collectionName

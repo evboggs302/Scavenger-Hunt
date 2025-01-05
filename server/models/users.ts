@@ -1,7 +1,13 @@
 import { Schema, model } from "mongoose";
 
+const { ObjectId } = Schema.Types;
 export const userSchema = new Schema(
   {
+    _id: {
+      type: ObjectId,
+      auto: true,
+      required: true,
+    },
     user_name: {
       type: String,
       unique: true,
@@ -31,6 +37,27 @@ export const userSchema = new Schema(
   },
   {
     versionKey: false,
+    methods: {
+      /**
+       * @returns UserType without the hash field
+       */
+      transformWithoutHash: () => {
+        const obj = Object(this);
+        delete obj.hash;
+        obj._id.toString();
+        return obj;
+      },
+      /**
+       * @returns UserType without the hash field and with `__typename: "UserPayload"`
+       */
+      transformWithTypename: () => {
+        const obj = Object(this);
+        return {
+          ...obj.stringifyWithoutHash(),
+          __typename: "UserPayload" as const,
+        };
+      },
+    },
     statics: {
       async getUserForLogin(user_name: string) {
         return await this.findOne({ user_name }).exec();
@@ -42,11 +69,4 @@ export const userSchema = new Schema(
   }
 );
 
-userSchema.set("toObject", {
-  transform: (_doc, ret) => {
-    delete ret.hash;
-    return ret;
-  },
-});
-
-export default model("User", userSchema, "users"); // modelName, schemaName, collectionName
+export const UserModel = model("User", userSchema, "users"); // modelName, schemaName, collectionName

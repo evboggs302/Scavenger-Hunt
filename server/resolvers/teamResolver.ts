@@ -1,12 +1,12 @@
-import TeamModel from "../models/teams";
-import ResponseModel from "../models/responses";
-import { Resolvers, Team } from "../generated/graphql";
-import { returnedItems } from "../utils/returnedItems";
-import { createBsonObjectId } from "../utils/createBsonObjectId";
+import { TeamModel } from "@models/teams";
+import { ResponseModel } from "@models/responses";
+import { Resolvers, Team } from "@generated/graphql";
+import { returnedItems } from "@/utils/transforms/returnedItems";
+import { createBsonObjectId } from "@/utils/transforms/createBsonObjectId";
 import {
   throwResolutionError,
   throwServerError,
-} from "../utils/apolloErrorHandlers";
+} from "@utils/apolloErrorHandlers";
 
 export const teamResolver: Resolvers = {
   Query: {
@@ -25,7 +25,7 @@ export const teamResolver: Resolvers = {
           });
         }
 
-        return team.toObject();
+        return team.transformWithTypename();
       } catch {
         return throwServerError({
           message: "Unable to get teams at the moment.",
@@ -57,7 +57,7 @@ export const teamResolver: Resolvers = {
         });
       }
 
-      return team.toObject();
+      return team.transformWithTypename();
     },
     createMultipleTeams: async (
       _: unknown,
@@ -104,7 +104,7 @@ export const teamResolver: Resolvers = {
         });
       }
 
-      return updatedTeam.toObject();
+      return updatedTeam.transformWithTypename();
     },
     deleteTeam: async (
       _: unknown,

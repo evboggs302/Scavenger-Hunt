@@ -1,6 +1,6 @@
 type Query {
-  getAllUsers: [UserPayload]
-  getUserFromToken(tkn: String!): BaseUserPayload!
+  getAllUsers: [AllUsersPayload]
+  getUserFromToken(tkn: String!): UserPayload!
   userNameExists(user_name: String!): Boolean!
 }
 
@@ -10,14 +10,14 @@ type Mutation {
   logout: Boolean!
 }
 
-type BaseUserPayload {
+type UserPayload {
   _id: ID!
   user_name: String!
   first_name: String!
   last_name: String!
 }
 
-type UserPayload {
+type AllUsersPayload {
   _id: ID!
   user_name: String!
   first_name: String!
