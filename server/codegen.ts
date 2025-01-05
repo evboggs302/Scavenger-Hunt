@@ -17,6 +17,7 @@ const config: CodegenConfig = {
         preResolveTypes: true,
         nonOptionalTypename: true,
         skipTypeNameForRoot: true,
+        useIndexSignature: true,
       },
     },
     "./graphql.schema.json": {

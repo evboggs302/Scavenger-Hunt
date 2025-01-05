@@ -1,6 +1,6 @@
 import { BaseContext } from "@apollo/server";
 import { getUserFromToken } from "./jwt";
-import TokenStorageModel from "../models/token_storage";
+import { TokenModel } from "../models/token_storage";
 import { AuthenticationError } from "./apolloErrorHandlers";
 import { ExpressMiddlewareOptions } from "@apollo/server/express4";
 
@@ -21,7 +21,7 @@ export const apolloServerMiddlewareOptions: ExpressMiddlewareOptions<BaseContext
       } else {
         const tokenHeader = req.headers.authorization;
         const token = tokenHeader.replace("Bearer ", "");
-        const tokenExists = await TokenStorageModel.findOne({
+        const tokenExists = await TokenModel.findOne({
           token,
         }).exec();
         const user = await getUserFromToken(token);

@@ -1,6 +1,6 @@
-import EventLogModel from "../models/event_logs";
+import { LogModel } from "@models/event_logs";
 import { throwServerError } from "./apolloErrorHandlers";
-import { createBsonObjectId } from "./createBsonObjectId";
+import { createBsonObjectId } from "./transforms/createBsonObjectId";
 
 export type EventLogProps = {
   err: unknown;
@@ -14,7 +14,7 @@ export const createErrLog = async ({
   message,
 }: EventLogProps) => {
   const timeStamp = new Date();
-  const newLog = new EventLogModel({
+  const newLog = new LogModel({
     _id: createBsonObjectId(),
     type: "ERROR",
     location,

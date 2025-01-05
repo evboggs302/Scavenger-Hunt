@@ -1,17 +1,16 @@
-import UserModel from "../models/users";
-import TokenStorageModel from "../models/token_storage";
-import HuntModel from "../models/hunts";
-import { GraphQLError } from "graphql";
+import { UserModel } from "@models/users";
+import { TokenModel } from "@models/token_storage";
+import { HuntModel } from "@models/hunts";
 import { compareSync, hashSync } from "bcryptjs";
-import { createAndSaveToken } from "../utils/jwt";
-import { returnedItems } from "../utils/returnedItems";
-import { Resolvers, UserPayload } from "../generated/graphql";
-import { createBsonObjectId } from "../utils/createBsonObjectId";
+import { createAndSaveToken } from "@utils/jwt";
+import { returnedItems } from "@/utils/transforms/returnedItems";
+import { Resolvers, UserPayload } from "@generated/graphql";
+import { createBsonObjectId } from "@/utils/transforms/createBsonObjectId";
 import {
   AuthenticationError,
   throwResolutionError,
   throwServerError,
-} from "../utils/apolloErrorHandlers";
+} from "@utils/apolloErrorHandlers";
 
 export const userResolver: Resolvers = {
   Query: {
@@ -36,7 +35,7 @@ export const userResolver: Resolvers = {
       _ctxt,
       { operation: { name } }
     ) => {
-      const doc = await TokenStorageModel.findOne({ token: tkn })
+      const doc = await TokenModel.findOne({ token: tkn })
         .select({ issuedToUser: 1 })
         .exec();
       if (!doc) {
@@ -54,11 +53,8 @@ export const userResolver: Resolvers = {
         });
       }
 
-      return user.toObject();
+      return user.transformWithTypename();
     },
-    // checkForToken: async (_: unknown, {}, { token }) => {
-    //   return token || false;
-    // },
     userNameExists: async (_: unknown, { user_name }) => {
       const matches = await UserModel.findUsername(user_name);
       return matches.length > 0;
@@ -92,7 +88,7 @@ export const userResolver: Resolvers = {
         });
       }
 
-      const tkn = await TokenStorageModel.findOne({ token });
+      const tkn = await TokenModel.findOne({ token });
 
       if (!tkn) {
         return throwResolutionError({
@@ -101,7 +97,7 @@ export const userResolver: Resolvers = {
         });
       }
 
-      return tkn.toObject();
+      return tkn.transformWithTypename();
     },
     login: async (
       _: unknown,
@@ -122,7 +118,7 @@ export const userResolver: Resolvers = {
         });
       } else {
         const token = await createAndSaveToken(user._id);
-        const tkn = await TokenStorageModel.findOne({ token });
+        const tkn = await TokenModel.findOne({ token });
 
         if (!tkn) {
           return throwResolutionError({
@@ -131,7 +127,7 @@ export const userResolver: Resolvers = {
           });
         }
 
-        return tkn.toObject();
+        return tkn.transformWithTypename();
       }
     },
     logout: async (
@@ -141,13 +137,14 @@ export const userResolver: Resolvers = {
       { operation: { name } }
     ) => {
       try {
-        await TokenStorageModel.deleteOne({
+        await TokenModel.deleteOne({
           token,
           issuedToUser: user._id.toString(),
         });
         return true;
       } catch (err) {
         return throwServerError({
+          err,
           message: "Unable to logout at this time.",
           location: name?.value,
         });

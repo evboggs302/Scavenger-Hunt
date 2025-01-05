@@ -5,7 +5,14 @@
     "baseUrl": "./",
     "esModuleInterop": true,
     "types": ["node", "jest"],
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["node_modules/@types"],
+    "paths": {
+      "@/*": ["./*"],
+      "@generated/*": ["./generated/*"],
+      "@models/*": ["./models/*"],
+      "@resolvers/*": ["./resolvers/*"],
+      "@utils/*": ["./utils/*"]
+    }
   },
   "exclude": ["controllers/", "server_rest.ts"]
 }
