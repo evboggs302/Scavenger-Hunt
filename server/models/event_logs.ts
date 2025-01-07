@@ -28,9 +28,9 @@ const logSchema = new Schema(
   {
     versionKey: false,
     methods: {
-      transformId: () => {
-        const obj = Object(this);
-        obj._id.toString();
+      transformId: function () {
+        const obj = Object(this.toObject());
+        obj._id = obj._id.toString();
         return obj;
       },
     },

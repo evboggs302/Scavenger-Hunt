@@ -1,1 +1,1 @@
-export const returnedItems = (item: any) => item.transformWithTypename();
+export const returnedItems = (item: any) => item.toObject({ transform: true });

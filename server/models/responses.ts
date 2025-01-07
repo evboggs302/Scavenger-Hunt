@@ -41,19 +41,19 @@ export const responseSchema = new Schema(
       /**
        * @returns ResponseType with Date and ObjectId fields stringified
        */
-      stringifyDatesAndObjectIds: () => {
-        const obj = Object(this);
-        obj._id.toString();
-        obj.team_id.toString();
-        obj.clue_id.toString();
-        obj.time_received.toISOString();
+      stringifyDatesAndObjectIds: function () {
+        const obj = Object(this.toObject());
+        obj._id = obj._id.toString();
+        obj.team_id = obj.team_id.toString();
+        obj.clue_id = obj.clue_id.toString();
+        obj.time_received = obj.time_received.toISOString();
         return obj;
       },
       /**
        * @returns ResponseType with `__typename: "ResponsePayload"`
        */
-      transformWithTypename: () => {
-        const obj = Object(this);
+      transformWithTypename: function () {
+        const obj = Object(this.toObject());
         return {
           ...obj.stringifyDatesAndObjectIds(),
           __typename: "ResponsePayload" as const,

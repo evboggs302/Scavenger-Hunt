@@ -1,32 +1,20 @@
-import "graphql-import-node";
+import path from "path";
 import { GraphQLSchema } from "graphql";
-import { makeExecutableSchema } from "@graphql-tools/schema";
-import { clueResolver } from "@resolvers/clueResolver";
-import { huntResolver } from "@resolvers/huntResolver";
-import { responseResolver } from "@resolvers/responseResolver";
-import { teamResolver } from "@resolvers/teamResolver";
-import { userResolver } from "@resolvers/userResolver";
-import * as ClueTypeDefs from "./graphql/Clues.graphql";
-import * as HuntTypeDefs from "./graphql/Hunts.graphql";
-import * as ResponseTypeDefs from "./graphql/Responses.graphql";
-import * as TeamTypeDefs from "./graphql/Teams.graphql";
-import * as UserTypeDefs from "./graphql/Users.graphql";
+import { loadSchemaSync } from "@graphql-tools/load";
+import { loadFilesSync } from "@graphql-tools/load-files";
+import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
+import { addResolversToSchema } from "@graphql-tools/schema";
+import { mergeResolvers } from "@graphql-tools/merge";
 
-const schema: GraphQLSchema = makeExecutableSchema({
-  typeDefs: [
-    UserTypeDefs,
-    HuntTypeDefs,
-    TeamTypeDefs,
-    ClueTypeDefs,
-    ResponseTypeDefs,
-  ],
-  resolvers: [
-    userResolver,
-    huntResolver,
-    teamResolver,
-    clueResolver,
-    responseResolver,
-  ],
+export const schema: GraphQLSchema = loadSchemaSync("./graphql/**/*.graphql", {
+  loaders: [new GraphQLFileLoader()],
 });
 
-export default schema;
+export const resolvers = mergeResolvers(
+  loadFilesSync(path.join(__dirname, "./resolvers"))
+);
+
+export const schemaWithResolvers: GraphQLSchema = addResolversToSchema({
+  schema,
+  resolvers,
+});

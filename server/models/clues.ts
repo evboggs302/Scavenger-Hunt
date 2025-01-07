@@ -28,17 +28,17 @@ export const clueSchema = new Schema(
       /**
        * @returns ClueType with Date and ObjectId fields stringified
        */
-      stringifyDatesAndObjectIds: () => {
-        const obj = Object(this);
-        obj._id.toString();
-        obj.hunt_id.toString();
+      stringifyDatesAndObjectIds: function () {
+        const obj = Object(this.toObject());
+        obj._id = obj._id.toString();
+        obj.hunt_id = obj.hunt_id.toString();
         return obj;
       },
       /**
        * @returns ClueType with `__typename: "Clue"`
        */
-      transformWithTypename: () => {
-        const obj = Object(this);
+      transformWithTypename: function () {
+        const obj = Object(this.toObject());
         return {
           ...obj.stringifyDatesAndObjectIds(),
           __typename: "Clue" as const,

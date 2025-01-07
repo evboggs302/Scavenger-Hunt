@@ -1,14 +1,14 @@
-import { ClueModel } from "@models/clues";
-import { ResponseModel } from "@models/responses";
-import { returnedItems } from "@/utils/transforms/returnedItems";
-import { CluePayload, Resolvers } from "@generated/graphql";
-import { createBsonObjectId } from "@/utils/transforms/createBsonObjectId";
+import { ClueModel } from "../models/clues";
+import { ResponseModel } from "../models/responses";
+import { returnedItems } from "../utils/transforms/returnedItems";
+import { CluePayload, Resolvers } from "../generated/graphql";
+import { createBsonObjectId } from "../utils/transforms/createBsonObjectId";
 import {
   throwResolutionError,
   throwServerError,
-} from "@utils/apolloErrorHandlers";
+} from "../utils/apolloErrorHandlers";
 
-export const clueResolver: Resolvers = {
+const clueResolver: Resolvers = {
   Query: {
     getCluesByHuntId: async (
       _: unknown,
@@ -220,3 +220,5 @@ export const clueResolver: Resolvers = {
     },
   },
 };
+
+export default { ...clueResolver };

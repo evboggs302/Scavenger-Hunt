@@ -41,21 +41,11 @@ export const userSchema = new Schema(
       /**
        * @returns UserType without the hash field
        */
-      transformWithoutHash: () => {
-        const obj = Object(this);
+      transformWithoutHash: function () {
+        const obj = Object(this.toObject());
+        obj._id = obj._id.toString();
         delete obj.hash;
-        obj._id.toString();
         return obj;
-      },
-      /**
-       * @returns UserType without the hash field and with `__typename: "UserPayload"`
-       */
-      transformWithTypename: () => {
-        const obj = Object(this);
-        return {
-          ...obj.stringifyWithoutHash(),
-          __typename: "UserPayload" as const,
-        };
       },
     },
     statics: {
