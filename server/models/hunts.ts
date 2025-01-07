@@ -45,20 +45,20 @@ export const huntSchema = new Schema(
       /**
        * @returns HuntType with Date and ObjectId fields stringified
        */
-      stringifyDatesAndObjectIds: () => {
-        const obj = Object(this);
-        obj._id.toString();
-        obj.created_by.toString();
-        obj.start_date.toISOString();
-        obj.end_date.toISOString();
-        obj.created_date.toISOString();
+      stringifyDatesAndObjectIds: function () {
+        const obj = Object(this.toObject());
+        obj._id = obj._id.toString();
+        obj.created_by = obj.created_by.toString();
+        obj.start_date = obj.start_date.toISOString();
+        obj.end_date = obj.end_date.toISOString();
+        obj.created_date = obj.created_date.toISOString();
         return obj;
       },
       /**
        * @returns HuntType with `__typename: "Hunt"`
        */
-      transformWithTypename: () => {
-        const obj = Object(this);
+      transformWithTypename: function () {
+        const obj = Object(this.toObject());
         return {
           ...obj.stringifyDatesAndObjectIds(),
           __typename: "Hunt" as const,

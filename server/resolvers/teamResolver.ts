@@ -1,14 +1,14 @@
-import { TeamModel } from "@models/teams";
-import { ResponseModel } from "@models/responses";
-import { Resolvers, Team } from "@generated/graphql";
-import { returnedItems } from "@/utils/transforms/returnedItems";
-import { createBsonObjectId } from "@/utils/transforms/createBsonObjectId";
+import { TeamModel } from "../models/teams";
+import { ResponseModel } from "../models/responses";
+import { Resolvers, Team } from "../generated/graphql";
+import { returnedItems } from "../utils/transforms/returnedItems";
+import { createBsonObjectId } from "../utils/transforms/createBsonObjectId";
 import {
   throwResolutionError,
   throwServerError,
-} from "@utils/apolloErrorHandlers";
+} from "../utils/apolloErrorHandlers";
 
-export const teamResolver: Resolvers = {
+const teamResolver: Resolvers = {
   Query: {
     getTeamsByHuntId: async (_: unknown, { h_id }) => {
       const hunt_id = createBsonObjectId(h_id);
@@ -132,3 +132,5 @@ export const teamResolver: Resolvers = {
     },
   },
 };
+
+export default { ...teamResolver };

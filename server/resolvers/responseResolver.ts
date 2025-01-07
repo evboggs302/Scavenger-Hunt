@@ -1,20 +1,20 @@
 import twilio from "twilio";
-import config from "@/config";
-import { TeamModel } from "@models/teams";
-import { ResponseModel } from "@models/responses";
-import { Resolvers } from "@generated/graphql";
-import { returnedItems } from "@/utils/transforms/returnedItems";
-import { markResponseCorrect } from "./markResponseCorrect";
-import { createBsonObjectId } from "@/utils/transforms/createBsonObjectId";
+import config from "../config";
+import { TeamModel } from "../models/teams";
+import { ResponseModel } from "../models/responses";
+import { Resolvers } from "../generated/graphql";
+import { returnedItems } from "../utils/transforms/returnedItems";
+import { markResponseCorrect } from "../utils/transforms/markResponseCorrect";
+import { createBsonObjectId } from "../utils/transforms/createBsonObjectId";
 import {
   throwResolutionError,
   throwServerError,
-} from "@utils/apolloErrorHandlers";
+} from "../utils/apolloErrorHandlers";
 
 const { TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN, TWILIO_NUMBER } = config;
 const client = twilio(TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN);
 
-export const responseResolver: Resolvers = {
+const responseResolver: Resolvers = {
   Query: {
     getResponsesByTeam: async (
       _: unknown,
@@ -156,3 +156,5 @@ export const responseResolver: Resolvers = {
     },
   },
 };
+
+export default { ...responseResolver };

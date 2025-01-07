@@ -1,18 +1,18 @@
-import { UserModel } from "@models/users";
-import { TokenModel } from "@models/token_storage";
-import { HuntModel } from "@models/hunts";
+import { UserModel } from "../models/users";
+import { TokenModel } from "../models/token_storage";
+import { HuntModel } from "../models/hunts";
 import { compareSync, hashSync } from "bcryptjs";
-import { createAndSaveToken } from "@utils/jwt";
-import { returnedItems } from "@/utils/transforms/returnedItems";
-import { Resolvers, UserPayload } from "@generated/graphql";
-import { createBsonObjectId } from "@/utils/transforms/createBsonObjectId";
+import { createAndSaveToken } from "../utils/jwt";
+import { returnedItems } from "../utils/transforms/returnedItems";
+import { AllUsersPayload, Resolvers } from "../generated/graphql";
+import { createBsonObjectId } from "../utils/transforms/createBsonObjectId";
 import {
   AuthenticationError,
   throwResolutionError,
   throwServerError,
-} from "@utils/apolloErrorHandlers";
+} from "../utils/apolloErrorHandlers";
 
-export const userResolver: Resolvers = {
+const userResolver: Resolvers = {
   Query: {
     getAllUsers: async (
       _: unknown,
@@ -53,7 +53,7 @@ export const userResolver: Resolvers = {
         });
       }
 
-      return user.transformWithTypename();
+      return user.transformWithoutHash();
     },
     userNameExists: async (_: unknown, { user_name }) => {
       const matches = await UserModel.findUsername(user_name);
@@ -151,8 +151,8 @@ export const userResolver: Resolvers = {
       }
     },
   },
-  UserPayload: {
-    hunts: async (parent: UserPayload) => {
+  AllUsersPayload: {
+    hunts: async (parent: AllUsersPayload) => {
       const _id = createBsonObjectId(parent._id);
       return await HuntModel.find({
         created_by: _id,
@@ -160,3 +160,5 @@ export const userResolver: Resolvers = {
     },
   },
 };
+
+export default { ...userResolver };

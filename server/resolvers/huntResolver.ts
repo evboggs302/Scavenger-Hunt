@@ -1,15 +1,15 @@
-import { HuntModel } from "@models/hunts";
-import { ClueModel } from "@models/clues";
-import { TeamModel } from "@models/teams";
-import { Hunt, Resolvers } from "@generated/graphql";
-import { returnedItems } from "@/utils/transforms/returnedItems";
-import { createBsonObjectId } from "@/utils/transforms/createBsonObjectId";
+import { HuntModel } from "../models/hunts";
+import { ClueModel } from "../models/clues";
+import { TeamModel } from "../models/teams";
+import { Hunt, Resolvers } from "../generated/graphql";
+import { returnedItems } from "../utils/transforms/returnedItems";
+import { createBsonObjectId } from "../utils/transforms/createBsonObjectId";
 import {
   throwResolutionError,
   throwServerError,
-} from "@utils/apolloErrorHandlers";
+} from "../utils/apolloErrorHandlers";
 
-export const huntResolver: Resolvers = {
+const huntResolver: Resolvers = {
   Query: {
     getHuntsByUserId: async (
       _: unknown,
@@ -231,3 +231,5 @@ export const huntResolver: Resolvers = {
     },
   },
 };
+
+export default { ...huntResolver };

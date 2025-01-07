@@ -31,9 +31,9 @@ const tokenStorageSchema = new Schema(
       /**
        * @returns Token with `__typename: "AuthPayload"`
        */
-      transformWithTypename: () => {
-        const obj = Object(this);
-        obj._id.toString();
+      transformWithTypename: function () {
+        const obj = Object(this.toObject());
+        obj._id = obj._id.toString();
         return {
           ...obj,
           __typename: "AuthPayload" as const,

@@ -4,15 +4,8 @@
     "outDir": "dist",
     "baseUrl": "./",
     "esModuleInterop": true,
-    "types": ["node", "jest"],
-    "typeRoots": ["node_modules/@types"],
-    "paths": {
-      "@/*": ["./*"],
-      "@generated/*": ["./generated/*"],
-      "@models/*": ["./models/*"],
-      "@resolvers/*": ["./resolvers/*"],
-      "@utils/*": ["./utils/*"]
-    }
+    "types": ["node"],
+    "typeRoots": ["node_modules/@types"]
   },
   "exclude": ["controllers/", "server_rest.ts"]
 }

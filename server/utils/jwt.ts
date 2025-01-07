@@ -1,11 +1,11 @@
-import config from "@/config";
-import { UserModel } from "@models/users";
-import { TokenModel } from "@models/token_storage";
+import config from "../config";
+import { UserModel } from "../models/users";
+import { TokenModel } from "../models/token_storage";
 import { Types } from "mongoose";
 import { GraphQLError } from "graphql";
 import parseDuration from "parse-duration";
 import { sign, verify } from "jsonwebtoken";
-import { UserPayload } from "@generated/graphql";
+import { UserPayload } from "../generated/graphql";
 import { throwResolutionError } from "./apolloErrorHandlers";
 
 const { ACCESS_TOKEN_SECRET, ACCESS_TOKEN_DURATION } = config;
@@ -65,7 +65,7 @@ export const getUserFromToken = async (
       });
     }
 
-    return user.transformWithTypename();
+    return user.transformWithoutHash();
   }
   return null;
 };

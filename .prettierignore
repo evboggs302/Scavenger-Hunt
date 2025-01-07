@@ -5,3 +5,4 @@
 **/graphql.schema.json
 **/dist/**/*
 **/build/**/*
+client/storybook-static/**/*
