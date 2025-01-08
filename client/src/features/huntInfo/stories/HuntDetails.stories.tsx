@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { HuntDetails as Component } from "../components/HuntDetails";
+import { HuntDetails as Component } from "../../huntInfo/components/HuntDetails";
 
 const meta: Meta<typeof Component> = {
   title: "Pages/Hunt Details",

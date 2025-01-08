@@ -1,0 +1,5 @@
+mutation CreateMultipleClues($input: CreateMultipleCluesInput!) {
+  clues: createMultipleClues(input: $input) {
+    ...Clue
+  }
+}

@@ -242,6 +242,7 @@ export type Query = {
   getHunt: Hunt;
   getHuntsByUserId: Array<Maybe<Hunt>>;
   getResponsesByClue: Array<Maybe<ResponsePayload>>;
+  getResponsesByHunt: ResponsesByHunt;
   getResponsesByTeam: Array<Maybe<ResponsePayload>>;
   getTeam: Team;
   getTeamsByHuntId: Array<Maybe<Team>>;
@@ -261,6 +262,11 @@ export type QueryGetHuntArgs = {
 
 
 export type QueryGetResponsesByClueArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryGetResponsesByHuntArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -295,10 +301,16 @@ export type ResponsePayload = {
   clue_id: Scalars['String']['output'];
   correct?: Maybe<Scalars['Boolean']['output']>;
   hint_sent?: Maybe<Scalars['Boolean']['output']>;
-  response_img: Array<Maybe<Scalars['String']['output']>>;
-  response_txt: Scalars['String']['output'];
+  response_img?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  response_txt?: Maybe<Scalars['String']['output']>;
   team_id: Scalars['String']['output'];
   time_received: Scalars['String']['output'];
+};
+
+export type ResponsesByHunt = {
+  __typename: 'ResponsesByHunt';
+  count: Scalars['Int']['output'];
+  responses?: Maybe<Array<Maybe<ResponsePayload>>>;
 };
 
 export type SendHintInput = {
@@ -451,6 +463,7 @@ export type ResolversTypes = ResolversObject<{
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   ResponsePayload: ResolverTypeWrapper<ResponsePayload>;
+  ResponsesByHunt: ResolverTypeWrapper<ResponsesByHunt>;
   SendHintInput: SendHintInput;
   SingleTeam: SingleTeam;
   Team: ResolverTypeWrapper<Team>;
@@ -484,6 +497,7 @@ export type ResolversParentTypes = ResolversObject<{
   Mutation: {};
   Query: {};
   ResponsePayload: ResponsePayload;
+  ResponsesByHunt: ResponsesByHunt;
   SendHintInput: SendHintInput;
   SingleTeam: SingleTeam;
   Team: Team;
@@ -612,6 +626,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getHunt?: Resolver<ResolversTypes['Hunt'], ParentType, ContextType, RequireFields<QueryGetHuntArgs, 'id'>>;
   getHuntsByUserId?: Resolver<Array<Maybe<ResolversTypes['Hunt']>>, ParentType, ContextType>;
   getResponsesByClue?: Resolver<Array<Maybe<ResolversTypes['ResponsePayload']>>, ParentType, ContextType, RequireFields<QueryGetResponsesByClueArgs, 'id'>>;
+  getResponsesByHunt?: Resolver<ResolversTypes['ResponsesByHunt'], ParentType, ContextType, RequireFields<QueryGetResponsesByHuntArgs, 'id'>>;
   getResponsesByTeam?: Resolver<Array<Maybe<ResolversTypes['ResponsePayload']>>, ParentType, ContextType, RequireFields<QueryGetResponsesByTeamArgs, 'id'>>;
   getTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<QueryGetTeamArgs, 'id'>>;
   getTeamsByHuntId?: Resolver<Array<Maybe<ResolversTypes['Team']>>, ParentType, ContextType, RequireFields<QueryGetTeamsByHuntIdArgs, 'h_id'>>;
@@ -624,10 +639,16 @@ export type ResponsePayloadResolvers<ContextType = any, ParentType extends Resol
   clue_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   correct?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   hint_sent?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  response_img?: Resolver<Array<Maybe<ResolversTypes['String']>>, ParentType, ContextType>;
-  response_txt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  response_img?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  response_txt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   team_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   time_received?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ResponsesByHuntResolvers<ContextType = any, ParentType extends ResolversParentTypes['ResponsesByHunt'] = ResolversParentTypes['ResponsesByHunt']> = ResolversObject<{
+  count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  responses?: Resolver<Maybe<Array<Maybe<ResolversTypes['ResponsePayload']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -658,6 +679,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   ResponsePayload?: ResponsePayloadResolvers<ContextType>;
+  ResponsesByHunt?: ResponsesByHuntResolvers<ContextType>;
   Team?: TeamResolvers<ContextType>;
   UserPayload?: UserPayloadResolvers<ContextType>;
 }>;

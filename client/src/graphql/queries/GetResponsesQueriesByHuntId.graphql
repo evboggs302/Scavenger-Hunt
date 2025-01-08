@@ -1,0 +1,22 @@
+query GetResponseCountByHuntId($id: ID!) {
+  result: getResponsesByHunt(id: $id) {
+    count
+  }
+}
+
+query GetResponsesByHuntId($id: ID!) {
+  result: getResponsesByHunt(id: $id) {
+    responses {
+      ...Response
+    }
+  }
+}
+
+query GetALLResponsesByHuntId($id: ID!) {
+  result: getResponsesByHunt(id: $id) {
+    count
+    responses {
+      ...Response
+    }
+  }
+}

@@ -1,4 +1,5 @@
 type Query {
+  getResponsesByHunt(id: ID!): ResponsesByHunt!
   getResponsesByTeam(id: ID!): [ResponsePayload]!
   getResponsesByClue(id: ID!): [ResponsePayload]!
 }
@@ -15,10 +16,15 @@ type ResponsePayload {
   clue_id: String!
   team_id: String!
   time_received: String!
-  response_txt: String!
-  response_img: [String]!
+  response_txt: String
+  response_img: [String]
   correct: Boolean
   hint_sent: Boolean
+}
+
+type ResponsesByHunt {
+  count: Int!
+  responses: [ResponsePayload]
 }
 
 input SendHintInput {

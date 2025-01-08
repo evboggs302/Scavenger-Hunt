@@ -1,15 +1,20 @@
-import React, { SyntheticEvent, useCallback, useState } from "react";
-import { useHuntContext } from "@lib/context/HuntContext";
+import React, { SyntheticEvent, useCallback } from "react";
 import { ClueQryContextProvider } from "@lib/context/ClueContext";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import Tabs from "@mui/material/Tabs";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
+import { useResponseCount } from "@/features/responses/hooks/useResponseCount";
 
 export const HuntPage = () => {
-  // const { loading, data } = useHuntContext();
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const {
+    count: resCount,
+    loading: resLoading,
+    error: resError,
+  } = useResponseCount();
+  const isResponseTabDisabled = resCount === 0 || resLoading || !!resError;
 
   let location: "" | "clues" | "teams" | "responses";
   if (pathname.includes("clues")) {
@@ -54,7 +59,11 @@ export const HuntPage = () => {
           <Tab label="Info" value="" />
           <Tab label="Clues" value="clues" />
           <Tab label="Teams" value="teams" />
-          <Tab label="Responses" value="responses" />
+          <Tab
+            label="Responses"
+            value="responses"
+            disabled={isResponseTabDisabled}
+          />
         </Tabs>
       </Box>
       <Outlet />

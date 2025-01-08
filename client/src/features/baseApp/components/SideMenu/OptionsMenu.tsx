@@ -10,7 +10,7 @@ import ListItemIcon, { listItemIconClasses } from "@mui/material/ListItemIcon";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import { MenuButton } from "../MenuButton";
-import { useLogoutMutation } from "@features/dashboard/hooks/useLogoutMutation";
+import { useLogoutMutation } from "@/features/baseApp/hooks/useLogoutMutation";
 
 const MenuItem = styled(MuiMenuItem)({
   margin: "2px 0",

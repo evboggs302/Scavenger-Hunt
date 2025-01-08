@@ -1,5 +1,5 @@
 query GetUserFromToken($tkn: String!) {
   user: getUserFromToken(tkn: $tkn) {
-    ...UserFragment
+    ...User
   }
 }

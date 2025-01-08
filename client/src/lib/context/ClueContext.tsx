@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, PropsWithChildren, useContext } from "react";
 import { QueryResult, useQuery } from "@apollo/client";
 import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import {
@@ -14,13 +14,8 @@ type ClueContextValue = QueryResult<
 >;
 
 const ClueContext = createContext<ClueContextValue | undefined>(undefined);
-interface ClueQryContextProviderProps {
-  children: React.ReactNode;
-}
 
-export const ClueQryContextProvider = ({
-  children,
-}: ClueQryContextProviderProps) => {
+export const ClueQryContextProvider = ({ children }: PropsWithChildren) => {
   const { data } = useHuntContext();
   const headers = useApolloContextHeaders();
 

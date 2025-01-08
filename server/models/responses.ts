@@ -1,4 +1,13 @@
-import { Schema, model } from "mongoose";
+import { Document, Schema, model } from "mongoose";
+
+function stringifyResponse(doc: Document) {
+  const obj = Object(doc.toObject());
+  obj._id = obj._id.toString();
+  obj.team_id = obj.team_id.toString();
+  obj.clue_id = obj.clue_id.toString();
+  obj.time_received = obj.time_received.toISOString();
+  return obj;
+}
 
 const { ObjectId, Mixed } = Schema.Types;
 export const responseSchema = new Schema(
@@ -42,20 +51,14 @@ export const responseSchema = new Schema(
        * @returns ResponseType with Date and ObjectId fields stringified
        */
       stringifyDatesAndObjectIds: function () {
-        const obj = Object(this.toObject());
-        obj._id = obj._id.toString();
-        obj.team_id = obj.team_id.toString();
-        obj.clue_id = obj.clue_id.toString();
-        obj.time_received = obj.time_received.toISOString();
-        return obj;
+        return stringifyResponse(this);
       },
       /**
        * @returns ResponseType with `__typename: "ResponsePayload"`
        */
       transformWithTypename: function () {
-        const obj = Object(this.toObject());
         return {
-          ...obj.stringifyDatesAndObjectIds(),
+          ...stringifyResponse(this),
           __typename: "ResponsePayload" as const,
         };
       },

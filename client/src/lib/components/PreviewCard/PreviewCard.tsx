@@ -1,16 +1,20 @@
-import React, { ReactNode } from "react";
+import React, { PropsWithChildren } from "react";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import { useNavigate } from "react-router";
 
-type PreviewCardProps = {
-  children: ReactNode;
+type PreviewCardProps = PropsWithChildren & {
   location: "teams" | "clues" | "responses";
+  isLocationDisabled?: boolean;
 };
 
-export const PreviewCard = ({ children, location }: PreviewCardProps) => {
+export const PreviewCard = ({
+  children,
+  location,
+  isLocationDisabled = false,
+}: PreviewCardProps) => {
   const navigate = useNavigate();
   const title = location[0].toUpperCase() + location.slice(1);
 
@@ -21,6 +25,7 @@ export const PreviewCard = ({ children, location }: PreviewCardProps) => {
         action={
           <Button
             variant="outlined"
+            disabled={isLocationDisabled}
             onClick={() => navigate(location, { relative: "path" })}
           >
             GO TO {location.toUpperCase()}

@@ -1,8 +1,8 @@
-import React, { ReactNode } from "react";
+import React, { PropsWithChildren } from "react";
 import { UserContext } from "./UserContext.template";
 import { useCreateUserContextValue } from "./useCreateUserContext.template";
 
-export const UserContextProvider = ({ children }: { children: ReactNode }) => {
+export const UserContextProvider = ({ children }: PropsWithChildren) => {
   const contextValue = useCreateUserContextValue({
     _id: "test-id-replace-with-gql-value",
     firstName: "firstName",

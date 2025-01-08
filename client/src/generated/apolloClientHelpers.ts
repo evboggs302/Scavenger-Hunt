@@ -58,7 +58,7 @@ export type MutationFieldPolicy = {
 	updateHunt?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateTeam?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('deleteAllHuntsByUser' | 'getAllUsers' | 'getCluesByHuntId' | 'getHunt' | 'getHuntsByUserId' | 'getResponsesByClue' | 'getResponsesByTeam' | 'getTeam' | 'getTeamsByHuntId' | 'getUserFromToken' | 'userNameExists' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('deleteAllHuntsByUser' | 'getAllUsers' | 'getCluesByHuntId' | 'getHunt' | 'getHuntsByUserId' | 'getResponsesByClue' | 'getResponsesByHunt' | 'getResponsesByTeam' | 'getTeam' | 'getTeamsByHuntId' | 'getUserFromToken' | 'userNameExists' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	deleteAllHuntsByUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	getAllUsers?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -66,6 +66,7 @@ export type QueryFieldPolicy = {
 	getHunt?: FieldPolicy<any> | FieldReadFunction<any>,
 	getHuntsByUserId?: FieldPolicy<any> | FieldReadFunction<any>,
 	getResponsesByClue?: FieldPolicy<any> | FieldReadFunction<any>,
+	getResponsesByHunt?: FieldPolicy<any> | FieldReadFunction<any>,
 	getResponsesByTeam?: FieldPolicy<any> | FieldReadFunction<any>,
 	getTeam?: FieldPolicy<any> | FieldReadFunction<any>,
 	getTeamsByHuntId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -82,6 +83,11 @@ export type ResponsePayloadFieldPolicy = {
 	response_txt?: FieldPolicy<any> | FieldReadFunction<any>,
 	team_id?: FieldPolicy<any> | FieldReadFunction<any>,
 	time_received?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type ResponsesByHuntKeySpecifier = ('count' | 'responses' | ResponsesByHuntKeySpecifier)[];
+export type ResponsesByHuntFieldPolicy = {
+	count?: FieldPolicy<any> | FieldReadFunction<any>,
+	responses?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type TeamKeySpecifier = ('_id' | 'device_number' | 'hunt_id' | 'last_clue_sent' | 'members' | 'recall_sent' | 'responses' | TeamKeySpecifier)[];
 export type TeamFieldPolicy = {
@@ -128,6 +134,10 @@ export type StrictTypedTypePolicies = {
 	ResponsePayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ResponsePayloadKeySpecifier | (() => undefined | ResponsePayloadKeySpecifier),
 		fields?: ResponsePayloadFieldPolicy,
+	},
+	ResponsesByHunt?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ResponsesByHuntKeySpecifier | (() => undefined | ResponsesByHuntKeySpecifier),
+		fields?: ResponsesByHuntFieldPolicy,
 	},
 	Team?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | TeamKeySpecifier | (() => undefined | TeamKeySpecifier),
