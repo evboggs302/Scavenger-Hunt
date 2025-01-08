@@ -1,16 +1,12 @@
 import React from "react";
-import { useController, useFormContext } from "react-hook-form";
-import { CreateHuntFormState } from "./CreateHuntDialog";
+import { useController } from "react-hook-form";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
 
 export const NameField = () => {
-  const { control } = useFormContext<CreateHuntFormState>();
-
   const { field, fieldState } = useController({
     name: "name",
-    control,
     defaultValue: "",
   });
 

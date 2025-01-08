@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, PropsWithChildren, useContext } from "react";
 import {
   GetUserFromTokenDocument,
   GetUserFromTokenQuery,
@@ -18,13 +18,7 @@ export const UserContext = createContext<UserContextValue | undefined>(
   undefined
 );
 
-interface UserQryContextProviderProps {
-  children: React.ReactNode;
-}
-
-export const UserQryContextProvider = ({
-  children,
-}: UserQryContextProviderProps) => {
+export const UserQryContextProvider = ({ children }: PropsWithChildren) => {
   const { token } = useTokenContext();
   const navigate = useNavigate();
 

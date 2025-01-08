@@ -1,0 +1,10 @@
+fragment Response on ResponsePayload {
+  _id
+  clue_id
+  team_id
+  time_received
+  response_txt
+  response_img
+  correct
+  hint_sent
+}

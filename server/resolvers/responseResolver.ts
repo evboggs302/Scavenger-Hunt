@@ -16,6 +16,33 @@ const client = twilio(TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN);
 
 const responseResolver: Resolvers = {
   Query: {
+    getResponsesByHunt: async (
+      _: unknown,
+      { id },
+      _ctxt,
+      { operation: { name } }
+    ) => {
+      try {
+        const h_id = createBsonObjectId(id);
+        const teams = await TeamModel.find({ hunt_id: h_id }, "_id").exec();
+
+        const responses = await ResponseModel.find({
+          team_id: { $in: teams },
+        }).exec();
+
+        return {
+          count: responses.length || 0,
+          responses: responses.map((res) => res.transformWithTypename()),
+          __typename: "ResponsesByHunt" as const,
+        };
+      } catch (err) {
+        return throwServerError({
+          message: "",
+          location: name?.value,
+          err: new Object(err),
+        });
+      }
+    },
     getResponsesByTeam: async (
       _: unknown,
       { id },

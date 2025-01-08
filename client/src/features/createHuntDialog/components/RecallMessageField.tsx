@@ -8,11 +8,8 @@ import { useController, useFormContext } from "react-hook-form";
 import { CreateHuntFormState } from "./CreateHuntDialog";
 
 export const RecallMessageField = () => {
-  const { control } = useFormContext<CreateHuntFormState>();
-
   const { field, fieldState } = useController({
     name: "recallMessage",
-    control,
     defaultValue: undefined,
   });
 

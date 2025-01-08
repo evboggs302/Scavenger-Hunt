@@ -1,4 +1,14 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Document } from "mongoose";
+
+function stringifyHunt(doc: Document) {
+  const obj = Object(doc.toObject());
+  obj._id = obj._id.toString();
+  obj.created_by = obj.created_by.toString();
+  obj.start_date = obj.start_date.toISOString();
+  obj.end_date = obj.end_date.toISOString();
+  obj.created_date = obj.created_date.toISOString();
+  return obj;
+}
 
 const { ObjectId } = Schema.Types;
 export const huntSchema = new Schema(
@@ -46,21 +56,14 @@ export const huntSchema = new Schema(
        * @returns HuntType with Date and ObjectId fields stringified
        */
       stringifyDatesAndObjectIds: function () {
-        const obj = Object(this.toObject());
-        obj._id = obj._id.toString();
-        obj.created_by = obj.created_by.toString();
-        obj.start_date = obj.start_date.toISOString();
-        obj.end_date = obj.end_date.toISOString();
-        obj.created_date = obj.created_date.toISOString();
-        return obj;
+        return stringifyHunt(this);
       },
       /**
        * @returns HuntType with `__typename: "Hunt"`
        */
       transformWithTypename: function () {
-        const obj = Object(this.toObject());
         return {
-          ...obj.stringifyDatesAndObjectIds(),
+          ...stringifyHunt(this),
           __typename: "Hunt" as const,
         };
       },

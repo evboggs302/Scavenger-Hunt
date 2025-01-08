@@ -7,7 +7,6 @@ import {
 import { useNavigate } from "react-router";
 import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { CreateHuntFormState } from "../components/CreateHuntDialog";
-import dayjs from "dayjs";
 
 export const useCreateHuntMutation = () => {
   const navigate = useNavigate();

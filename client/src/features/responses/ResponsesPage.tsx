@@ -1,41 +1,31 @@
 import React, { useState } from "react";
 import {
-  GetResponsesByHuntDocument,
+  GetResponsesByHuntIdDocument,
   ResponsePayload,
 } from "@generated/graphql";
 import { useQuery } from "@apollo/client";
 import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
-import { useHuntContext } from "@lib/context/HuntContext";
+import { useHuntFragment } from "../huntInfo/hooks/useHuntFragment";
+import Skeleton from "@mui/material/Skeleton";
 
 /**
  * @todo Add support for MMS responses
  */
 export const ResponsesPage = () => {
   const headers = useApolloContextHeaders();
-  const { data } = useHuntContext();
-  const [responses, setResponses] = useState<ResponsePayload[]>([]);
+  const { data: hunt } = useHuntFragment();
 
-  const { loading } = useQuery(GetResponsesByHuntDocument, {
+  const { data: responses, loading } = useQuery(GetResponsesByHuntIdDocument, {
     context: headers,
     fetchPolicy: "network-only",
     nextFetchPolicy: "cache-and-network",
-    pollInterval: 30000,
-    variables: { id: data?.hunt?._id || "" },
-    onCompleted: ({ hunt }) => {
-      const res = hunt?.teams?.reduce((allRes, team) => {
-        if (!team?.responses) {
-          return allRes;
-        }
-        return [...allRes, ...team.responses];
-      }, [] as ResponsePayload[]);
-
-      if (res) setResponses(res);
-    },
+    pollInterval: 30_000,
+    variables: { id: hunt?._id || "" },
   });
 
-  // if (loading) {
-  //   return <Skeleton active paragraph={{ rows: 5 }} />;
-  // }
+  if (loading) {
+    return <Skeleton variant="rectangular" width={210} height={60} />;
+  }
 
   return (
     <></>

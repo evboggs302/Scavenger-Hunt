@@ -1,4 +1,11 @@
-import { Schema, model } from "mongoose";
+import { Document, Schema, model } from "mongoose";
+
+function stringifyTeam(doc: Document) {
+  const obj = Object(doc.toObject());
+  obj._id = obj._id.toString();
+  obj.hunt_id = obj.hunt_id.toString();
+  return obj;
+}
 
 const { ObjectId } = Schema.Types;
 const teamSchema = new Schema(
@@ -36,18 +43,14 @@ const teamSchema = new Schema(
        * @returns TeamType with Date and ObjectId fields stringified
        */
       stringifyDatesAndObjectIds: function () {
-        const obj = Object(this.toObject());
-        obj._id = obj._id.toString();
-        obj.hunt_id = obj.hunt_id.toString();
-        return obj;
+        return stringifyTeam(this);
       },
       /**
        * @returns TeamType with `__typename: "Team"`
        */
       transformWithTypename: function () {
-        const obj = Object(this.toObject());
         return {
-          ...obj.stringifyDatesAndObjectIds(),
+          ...stringifyTeam(this),
           __typename: "Team" as const,
         };
       },
