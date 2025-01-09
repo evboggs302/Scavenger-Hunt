@@ -65,7 +65,7 @@ export type CreateMultipleCluesInput = {
 };
 
 export type CreateMultipleTeamsInput = {
-  h_id: Scalars['String']['input'];
+  hunt_id: Scalars['String']['input'];
   teams: Array<InputMaybe<SingleTeam>>;
 };
 
@@ -76,7 +76,7 @@ export type CreateSingleClueInput = {
 
 export type CreateSingleTeamInput = {
   device_number: Scalars['String']['input'];
-  h_id: Scalars['String']['input'];
+  hunt_id: Scalars['String']['input'];
   members: Array<InputMaybe<Scalars['String']['input']>>;
 };
 
@@ -115,6 +115,7 @@ export type Mutation = {
   deleteAllCluesByHuntId: Scalars['Boolean']['output'];
   deleteAllResponsesByHunt: Scalars['Boolean']['output'];
   deleteAllResponsesByTeam: Scalars['Boolean']['output'];
+  deleteAllTeamsByHuntId: Scalars['Boolean']['output'];
   deleteClueById: Scalars['Boolean']['output'];
   deleteHuntById: Scalars['Boolean']['output'];
   deleteTeam: Scalars['Boolean']['output'];
@@ -180,6 +181,11 @@ export type MutationDeleteAllResponsesByTeamArgs = {
 };
 
 
+export type MutationDeleteAllTeamsByHuntIdArgs = {
+  hunt_id: Scalars['ID']['input'];
+};
+
+
 export type MutationDeleteClueByIdArgs = {
   clue_id: Scalars['ID']['input'];
 };
@@ -191,7 +197,7 @@ export type MutationDeleteHuntByIdArgs = {
 
 
 export type MutationDeleteTeamArgs = {
-  input: DeleteTeamInput;
+  team_id: Scalars['ID']['input'];
 };
 
 
@@ -605,9 +611,10 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteAllCluesByHuntId?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteAllCluesByHuntIdArgs, 'hunt_id'>>;
   deleteAllResponsesByHunt?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteAllResponsesByHuntArgs, 'id'>>;
   deleteAllResponsesByTeam?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteAllResponsesByTeamArgs, 'id'>>;
+  deleteAllTeamsByHuntId?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteAllTeamsByHuntIdArgs, 'hunt_id'>>;
   deleteClueById?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteClueByIdArgs, 'clue_id'>>;
   deleteHuntById?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteHuntByIdArgs, 'h_id'>>;
-  deleteTeam?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteTeamArgs, 'input'>>;
+  deleteTeam?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteTeamArgs, 'team_id'>>;
   login?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>;
   logout?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   markResponseCorrect?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationMarkResponseCorrectArgs, 'id'>>;

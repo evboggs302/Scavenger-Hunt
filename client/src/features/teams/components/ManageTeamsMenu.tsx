@@ -6,10 +6,10 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import { Cloud, ContentCopy } from "@mui/icons-material";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
-import { CreateCluesDialog } from "./CreateCluesDialog/CreateCluesDialog";
-import { DeleteAllCluesDialog } from "./DeleteCluesDialog/DeleteAllCluesDialog";
+import { CreateTeamsDialog } from "./CreateTeamsDialog/CreateTeamsDialog";
+import { DeleteAllTeamsDialog } from "./DeleteTeamsDialog/DeleteAllTeamsDialog";
 
-export const ManageCluesMenu = () => {
+export const ManageTeamsMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleTriggerClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -20,7 +20,6 @@ export const ManageCluesMenu = () => {
   };
 
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
-
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   return (
@@ -32,7 +31,7 @@ export const ManageCluesMenu = () => {
         aria-expanded={open ? "true" : undefined}
         onClick={handleTriggerClick}
       >
-        Manage clues
+        Manage Teams
       </Button>
       <Menu
         id="basic-menu"
@@ -68,10 +67,10 @@ export const ManageCluesMenu = () => {
         </MenuItem>
       </Menu>
       {createDialogOpen && (
-        <CreateCluesDialog handleClose={() => setCreateDialogOpen(false)} />
+        <CreateTeamsDialog handleClose={() => setCreateDialogOpen(false)} />
       )}
       {deleteDialogOpen && (
-        <DeleteAllCluesDialog handleClose={() => setDeleteDialogOpen(false)} />
+        <DeleteAllTeamsDialog handleClose={() => setDeleteDialogOpen(false)} />
       )}
     </>
   );
