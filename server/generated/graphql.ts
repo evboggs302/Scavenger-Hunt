@@ -49,7 +49,7 @@ export type CluePayload = {
 
 export type CluesListItem = {
   description: Scalars['String']['input'];
-  order_number: Scalars['Int']['input'];
+  orderNumber: Scalars['Int']['input'];
 };
 
 export type CreateHuntInput = {

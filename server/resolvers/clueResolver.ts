@@ -69,12 +69,14 @@ const clueResolver: Resolvers = {
         const hunt_id = createBsonObjectId(h_id);
         const clue = new ClueModel({
           hunt_id,
-          ...clueItem,
+          order_number: clueItem.orderNumber,
+          description: clueItem.description,
         });
         await clue.save();
 
         const allClues = await ClueModel.find({ hunt_id }).exec();
-        return allClues.map(returnedItems);
+
+        return allClues.map((clu) => clu.transformWithTypename());
       } catch (err) {
         return throwResolutionError({
           message: "Unable to create clues at this time.",

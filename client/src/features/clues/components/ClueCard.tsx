@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { CluePayload } from "@generated/graphql";
+import { useDeleteSingleClueMutation } from "../hooks/useDeleteSingleClueMutation";
 // import CardMedia from "@mui/material/CardMedia";
 
 type ClueCardProps = { clue: CluePayload };
@@ -15,8 +16,18 @@ type ClueCardProps = { clue: CluePayload };
 export const ClueCard = ({
   clue: { _id, order_number, description },
 }: ClueCardProps) => {
+  const [deleteClue, { loading, error }] = useDeleteSingleClueMutation();
+
+  const handleDelete = useCallback(async () => {
+    try {
+      await deleteClue(_id);
+    } catch (err) {
+      throw Error();
+    }
+  }, [_id, deleteClue]);
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, margin: "10px auto" }}>
       {/* <CardMedia
         component="img"
         alt="green iguana"
@@ -35,8 +46,12 @@ export const ClueCard = ({
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Delete</Button>
-        <Button size="small">Edit</Button>
+        <Button size="small" onClick={handleDelete}>
+          Delete
+        </Button>
+        <Button size="small" disabled>
+          Edit
+        </Button>
       </CardActions>
     </Card>
   );

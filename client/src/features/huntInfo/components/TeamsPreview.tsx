@@ -32,7 +32,7 @@ export const TeamsPreview = () => {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Device Number</TableCell>
+                <TableCell sx={{ width: 150 }}>Device Number</TableCell>
                 <TableCell>Members</TableCell>
                 <TableCell>Recall Sent</TableCell>
               </TableRow>

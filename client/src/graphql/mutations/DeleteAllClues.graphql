@@ -1,0 +1,3 @@
+mutation DeleteAllCluesByHuntId($hunt_id: ID!) {
+  wasDeleted: deleteAllCluesByHuntId(hunt_id: $hunt_id)
+}

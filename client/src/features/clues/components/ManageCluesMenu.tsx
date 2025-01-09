@@ -3,12 +3,12 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import { Cloud, ContentCopy, ContentPaste } from "@mui/icons-material";
+import { Cloud, ContentCopy } from "@mui/icons-material";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import { CreateCluesDialog } from "./CreateCluesDialog/CreateCluesDialog";
-import { DeleteCluesDialog } from "./DeleteCluesDialog/DeleteCluesDialog";
+import { DeleteAllCluesDialog } from "./DeleteCluesDialog/DeleteAllCluesDialog";
 
 export const ManageCluesMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -71,14 +71,12 @@ export const ManageCluesMenu = () => {
           <ListItemText>Delete all</ListItemText>
         </MenuItem>
       </Menu>
-      <CreateCluesDialog
-        isOpen={createDialogOpen}
-        handleClose={() => setCreateDialogOpen(false)}
-      />
-      <DeleteCluesDialog
-        isOpen={deleteDialogOpen}
-        handleClose={() => setDeleteDialogOpen(false)}
-      />
+      {createDialogOpen && (
+        <CreateCluesDialog handleClose={() => setCreateDialogOpen(false)} />
+      )}
+      {deleteDialogOpen && (
+        <DeleteAllCluesDialog handleClose={() => setDeleteDialogOpen(false)} />
+      )}
     </>
   );
 };

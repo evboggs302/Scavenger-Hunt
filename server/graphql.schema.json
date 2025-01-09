@@ -353,7 +353,7 @@
             "deprecationReason": null
           },
           {
-            "name": "order_number",
+            "name": "orderNumber",
             "description": null,
             "type": {
               "kind": "NON_NULL",

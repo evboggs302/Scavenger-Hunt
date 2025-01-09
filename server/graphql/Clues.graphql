@@ -20,7 +20,7 @@ type CluePayload {
 }
 
 input CluesListItem {
-  order_number: Int!
+  orderNumber: Int!
   description: String!
 }
 

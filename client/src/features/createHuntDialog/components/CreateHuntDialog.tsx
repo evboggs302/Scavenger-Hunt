@@ -30,6 +30,7 @@ import {
 import { NameField } from "./NameField";
 import { RecallMessageField } from "./RecallMessageField";
 import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
+import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
 
 type CreateDialogProps = {
   isOpen: boolean;
@@ -137,7 +138,7 @@ export const CreateHuntDialog = ({
             <i>Required fields are marked.</i>
           </DialogContentText>
           <NameField />
-          <Box sx={{ margin: "14px auto" }}>
+          <FieldWrapper>
             <InputLabel required>Start date</InputLabel>
             <DatePicker
               disablePast
@@ -161,7 +162,7 @@ export const CreateHuntDialog = ({
                 },
               }}
             />
-          </Box>
+          </FieldWrapper>
           <Box
             sx={{
               margin: "14px auto",
@@ -181,7 +182,7 @@ export const CreateHuntDialog = ({
             <InputLabel>This hunt spans multiple days.</InputLabel>
           </Box>
           {checkbox.value === true && (
-            <Box sx={{ margin: "14px auto" }}>
+            <FieldWrapper>
               <InputLabel required>End date</InputLabel>
               <DatePicker
                 disablePast
@@ -209,7 +210,7 @@ export const CreateHuntDialog = ({
                   },
                 }}
               />
-            </Box>
+            </FieldWrapper>
           )}
           <RecallMessageField />
         </DialogContent>
