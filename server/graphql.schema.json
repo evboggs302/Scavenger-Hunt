@@ -501,7 +501,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "h_id",
+            "name": "hunt_id",
             "description": null,
             "type": {
               "kind": "NON_NULL",
@@ -609,7 +609,7 @@
             "deprecationReason": null
           },
           {
-            "name": "h_id",
+            "name": "hunt_id",
             "description": null,
             "type": {
               "kind": "NON_NULL",
@@ -1272,6 +1272,39 @@
             "deprecationReason": null
           },
           {
+            "name": "deleteAllTeamsByHuntId",
+            "description": null,
+            "args": [
+              {
+                "name": "hunt_id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "deleteClueById",
             "description": null,
             "args": [
@@ -1342,14 +1375,14 @@
             "description": null,
             "args": [
               {
-                "name": "input",
+                "name": "team_id",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "DeleteTeamInput",
+                    "kind": "SCALAR",
+                    "name": "ID",
                     "ofType": null
                   }
                 },

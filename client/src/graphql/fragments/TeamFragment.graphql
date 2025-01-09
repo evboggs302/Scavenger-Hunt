@@ -1,0 +1,8 @@
+fragment Team on Team {
+  _id
+  hunt_id
+  recall_sent
+  last_clue_sent
+  members
+  device_number
+}

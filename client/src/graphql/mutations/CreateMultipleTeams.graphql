@@ -1,0 +1,5 @@
+mutation CreateMultipleTeams($input: CreateMultipleTeamsInput!) {
+  teams: createMultipleTeams(input: $input) {
+    ...Team
+  }
+}

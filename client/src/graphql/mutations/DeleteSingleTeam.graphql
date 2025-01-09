@@ -1,0 +1,3 @@
+mutation DeleteTeamById($team_id: ID!) {
+  wasDeleted: deleteTeam(team_id: $team_id)
+}

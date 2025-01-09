@@ -19,29 +19,29 @@ import pluralize from "pluralize";
 import { ApolloError } from "@apollo/client/errors";
 import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 import {
-  CreateCluesFormSchemaType,
-  useCreateCluesResolver,
-} from "@/features/clues/hooks/useCluesResolver";
-import { useCreateSingleClueMutation } from "@features/clues/hooks/useCreateSingleClueMutation";
-import { useCreateMultipleCluesMutation } from "@features/clues/hooks/useCreateMultipleCluesMutation";
-import { SingleClueDialogContent } from "./SingleClueDialogContent";
-import { MultipleCluesDialogContent } from "./MultipleCluesDialogContent";
+  CreateTeamsFormSchemaType,
+  useTeamsResolver,
+} from "@features/teams/hooks/useTeamsResolver";
+import { SingleTeamDialogContent } from "./SingleTeamDialogContent";
+import { MultipleTeamsDialogContent } from "./MultipleTeamsDialogContent";
+import { useCreateSingleTeamMutation } from "@features/teams/hooks/useCreateSingleTeamMutation";
+import { useCreateMultipleTeamsMutation } from "@features/teams/hooks/useCreateMultipleTeamsMutation";
 
 type CreateDialogProps = {
   handleClose: () => void;
 };
 
-export type CreateCluesFormState = CreateCluesFormSchemaType & {
+export type CreateTeamsFormState = CreateTeamsFormSchemaType & {
   onSubmitError?: string;
 };
 
-export const CreateCluesDialog = ({ handleClose }: CreateDialogProps) => {
-  const [resolver] = useCreateCluesResolver();
-  const [createSingle, singleClueResult] = useCreateSingleClueMutation();
-  const [createMultiple, mutlipleCluesResult] =
-    useCreateMultipleCluesMutation();
+export const CreateTeamsDialog = ({ handleClose }: CreateDialogProps) => {
+  const [resolver] = useTeamsResolver();
+  const [createSingle, singleTeamResult] = useCreateSingleTeamMutation();
+  const [createMultiple, mutlipleTeamsResult] =
+    useCreateMultipleTeamsMutation();
 
-  const methods = useForm<CreateCluesFormState>({
+  const methods = useForm<CreateTeamsFormState>({
     mode: "onTouched",
     resolver,
   });
@@ -65,7 +65,7 @@ export const CreateCluesDialog = ({ handleClose }: CreateDialogProps) => {
     defaultValue: false,
   });
 
-  const onSubmit: SubmitHandler<CreateCluesFormState> = async (formData) => {
+  const onSubmit: SubmitHandler<CreateTeamsFormState> = async (formData) => {
     clearErrors("onSubmitError");
     await trigger();
 
@@ -89,8 +89,8 @@ export const CreateCluesDialog = ({ handleClose }: CreateDialogProps) => {
     }
   };
 
-  const loading = singleClueResult.loading || mutlipleCluesResult.loading;
-  const toPluralizeClue = +!toggleSwitch.value;
+  const loading = singleTeamResult.loading || mutlipleTeamsResult.loading;
+  const toPluralizeTeam = +!toggleSwitch.value;
 
   return (
     <FormProvider {...methods}>
@@ -102,11 +102,11 @@ export const CreateCluesDialog = ({ handleClose }: CreateDialogProps) => {
           onSubmit: handleSubmit(onSubmit),
         }}
       >
-        <DialogTitle data-testid="create-hunt-title">{`Create ${pluralize("Clue", toPluralizeClue)}`}</DialogTitle>
+        <DialogTitle data-testid="create-team-title">{`Create ${pluralize("Team", toPluralizeTeam)}`}</DialogTitle>
         <DialogContent>
           {onSubmitError && <TryAgainAlert message={onSubmitError.message} />}
           <DialogContentText>
-            {`To create ${!toggleSwitch.value ? `a` : ""} new ${pluralize("clue", toPluralizeClue)}, please provide the below information.`}
+            {`To create ${!toggleSwitch.value ? `a` : ""} new ${pluralize("team", toPluralizeTeam)}, please provide the below information.`}
             <br />
             <i>Required fields are marked.</i>
           </DialogContentText>
@@ -128,11 +128,11 @@ export const CreateCluesDialog = ({ handleClose }: CreateDialogProps) => {
               //   disabled
             />
             <InputLabel>
-              Creating multiple clues <i>(COMING SOON!)</i>
+              Creating multiple teams <i>(COMING SOON!)</i>
             </InputLabel>
           </Box>
-          {toggleSwitch.value === false && <SingleClueDialogContent />}
-          {toggleSwitch.value === true && <MultipleCluesDialogContent />}
+          {toggleSwitch.value === false && <SingleTeamDialogContent />}
+          {toggleSwitch.value === true && <MultipleTeamsDialogContent />}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

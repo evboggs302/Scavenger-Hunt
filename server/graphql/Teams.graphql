@@ -7,7 +7,8 @@ type Mutation {
   createSingleTeam(input: CreateSingleTeamInput!): Team!
   createMultipleTeams(input: CreateMultipleTeamsInput!): [Team]!
   updateTeam(input: UpdateTeamInput!): Team!
-  deleteTeam(input: DeleteTeamInput!): Boolean!
+  deleteTeam(team_id: ID!): Boolean!
+  deleteAllTeamsByHuntId(hunt_id: ID!): Boolean!
 }
 
 type Team {
@@ -26,12 +27,12 @@ input SingleTeam {
 }
 
 input CreateMultipleTeamsInput {
-  h_id: String!
+  hunt_id: String!
   teams: [SingleTeam]!
 }
 
 input CreateSingleTeamInput {
-  h_id: String!
+  hunt_id: String!
   members: [String]!
   device_number: String!
 }

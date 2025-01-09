@@ -206,11 +206,10 @@ const clueResolver: Resolvers = {
         }).exec();
 
         return deletedCount > 0;
-      } catch (err) {
+      } catch {
         return throwServerError({
           message: "Unable to delete clues at this time.",
           location: name?.value,
-          err,
         });
       }
     },

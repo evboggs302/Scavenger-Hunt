@@ -37,7 +37,7 @@ const teamResolver: Resolvers = {
   Mutation: {
     createSingleTeam: async (
       _: unknown,
-      { input: { h_id, members, device_number } },
+      { input: { hunt_id: h_id, members, device_number } },
       _ctxt,
       { operation: { name } }
     ) => {
@@ -61,7 +61,7 @@ const teamResolver: Resolvers = {
     },
     createMultipleTeams: async (
       _: unknown,
-      { input: { h_id, teams: tms } },
+      { input: { hunt_id: h_id, teams: tms } },
       _ctxt,
       { operation: { name } }
     ) => {
@@ -108,7 +108,7 @@ const teamResolver: Resolvers = {
     },
     deleteTeam: async (
       _: unknown,
-      { input: { team_id } },
+      { team_id },
       _ctxt,
       { operation: { name } }
     ) => {
@@ -117,6 +117,26 @@ const teamResolver: Resolvers = {
         const { deletedCount } = await TeamModel.deleteOne({ _id }).exec();
 
         return deletedCount === 1;
+      } catch {
+        return throwResolutionError({
+          message: "Unable to delete teams at the moment.",
+          location: name?.value,
+        });
+      }
+    },
+    deleteAllTeamsByHuntId: async (
+      _: unknown,
+      { hunt_id },
+      _ctxt,
+      { operation: { name } }
+    ) => {
+      try {
+        const _id = createBsonObjectId(hunt_id);
+        const { deletedCount } = await TeamModel.deleteMany({
+          hunt_id: _id,
+        }).exec();
+
+        return deletedCount > 0;
       } catch {
         return throwResolutionError({
           message: "Unable to delete teams at the moment.",

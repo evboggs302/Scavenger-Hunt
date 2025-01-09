@@ -33,7 +33,7 @@ export type HuntFieldPolicy = {
 	start_date?: FieldPolicy<any> | FieldReadFunction<any>,
 	teams?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('activateHunt' | 'createHunt' | 'createMultipleClues' | 'createMultipleTeams' | 'createSingleClue' | 'createSingleTeam' | 'deactivateHunt' | 'deleteAllCluesByHuntId' | 'deleteAllResponsesByHunt' | 'deleteAllResponsesByTeam' | 'deleteClueById' | 'deleteHuntById' | 'deleteTeam' | 'login' | 'logout' | 'markResponseCorrect' | 'registerUser' | 'sendHint' | 'updateClueDescription' | 'updateClueOrder' | 'updateHunt' | 'updateTeam' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('activateHunt' | 'createHunt' | 'createMultipleClues' | 'createMultipleTeams' | 'createSingleClue' | 'createSingleTeam' | 'deactivateHunt' | 'deleteAllCluesByHuntId' | 'deleteAllResponsesByHunt' | 'deleteAllResponsesByTeam' | 'deleteAllTeamsByHuntId' | 'deleteClueById' | 'deleteHuntById' | 'deleteTeam' | 'login' | 'logout' | 'markResponseCorrect' | 'registerUser' | 'sendHint' | 'updateClueDescription' | 'updateClueOrder' | 'updateHunt' | 'updateTeam' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	activateHunt?: FieldPolicy<any> | FieldReadFunction<any>,
 	createHunt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -45,6 +45,7 @@ export type MutationFieldPolicy = {
 	deleteAllCluesByHuntId?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteAllResponsesByHunt?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteAllResponsesByTeam?: FieldPolicy<any> | FieldReadFunction<any>,
+	deleteAllTeamsByHuntId?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteClueById?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteHuntById?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteTeam?: FieldPolicy<any> | FieldReadFunction<any>,
