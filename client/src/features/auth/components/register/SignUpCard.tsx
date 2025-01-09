@@ -17,6 +17,7 @@ import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { InputAdornment, IconButton, CircularProgress } from "@mui/material";
 import { AuthCardContainer, AuthCard } from "../authLayout";
 import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
+import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
 
 type Inputs = RegisterSchema & {
   onSubmitError?: string;
@@ -127,7 +128,7 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
             fullWidth
             variant="outlined"
           />
-          <Box sx={{ margin: "14px auto" }}>
+          <FieldWrapper>
             <TextField
               required
               inputRef={passwordField.ref}
@@ -170,8 +171,8 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
                 },
               }}
             />
-          </Box>
-          <Box sx={{ margin: "14px auto" }}>
+          </FieldWrapper>
+          <FieldWrapper>
             <TextField
               required
               slotProps={{
@@ -194,8 +195,8 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
               fullWidth
               variant="outlined"
             />
-          </Box>
-          <Box sx={{ margin: "14px auto" }}>
+          </FieldWrapper>
+          <FieldWrapper>
             <TextField
               required
               slotProps={{
@@ -218,7 +219,7 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
               fullWidth
               variant="outlined"
             />
-          </Box>
+          </FieldWrapper>
           {/* <FormControlLabel
             control={<Checkbox value="allowExtraEmails" color="primary" />}
             label="I want to receive updates via email."

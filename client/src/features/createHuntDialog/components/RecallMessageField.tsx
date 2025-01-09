@@ -1,11 +1,10 @@
 import React from "react";
-import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import Tooltip from "@mui/material/Tooltip";
 import TextField from "@mui/material/TextField";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
-import { useController, useFormContext } from "react-hook-form";
-import { CreateHuntFormState } from "./CreateHuntDialog";
+import { useController } from "react-hook-form";
+import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
 
 export const RecallMessageField = () => {
   const { field, fieldState } = useController({
@@ -14,7 +13,7 @@ export const RecallMessageField = () => {
   });
 
   return (
-    <Box sx={{ margin: "14px auto" }}>
+    <FieldWrapper>
       <InputLabel data-testid="create-hunt-recall-info">
         Recall message{" "}
         <Tooltip
@@ -42,6 +41,6 @@ export const RecallMessageField = () => {
         fullWidth
         variant="outlined"
       />
-    </Box>
+    </FieldWrapper>
   );
 };

@@ -5,7 +5,7 @@ import { GetResponseCountByHuntIdDocument } from "@generated/graphql";
 
 export const useResponseCount = () => {
   const headers = useApolloContextHeaders();
-  const { data: hunt } = useHuntFragment();
+  const { hunt } = useHuntFragment();
   const {
     data: responses,
     error,

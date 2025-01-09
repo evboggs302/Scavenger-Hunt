@@ -32,12 +32,12 @@ export const CluesPreview = () => {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Order Number</TableCell>
+                <TableCell sx={{ width: 80 }}>Order</TableCell>
                 <TableCell>Description</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.clues.map((clue) => (
+              {data.clues.slice(0, 8).map((clue) => (
                 <TableRow
                   key={clue?._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

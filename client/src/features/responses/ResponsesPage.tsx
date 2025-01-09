@@ -13,7 +13,7 @@ import Skeleton from "@mui/material/Skeleton";
  */
 export const ResponsesPage = () => {
   const headers = useApolloContextHeaders();
-  const { data: hunt } = useHuntFragment();
+  const { hunt } = useHuntFragment();
 
   const { data: responses, loading } = useQuery(GetResponsesByHuntIdDocument, {
     context: headers,

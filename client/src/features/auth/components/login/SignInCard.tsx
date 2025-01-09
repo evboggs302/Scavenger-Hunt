@@ -11,6 +11,7 @@ import {
 } from "@features/auth/hooks/useLoginResolver";
 import { AuthCardContainer, AuthCard } from "../authLayout";
 import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
+import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -130,7 +131,7 @@ export const SignInCard = () => {
             fullWidth
             variant="outlined"
           />
-          <Box sx={{ margin: "14px auto" }}>
+          <FieldWrapper>
             <TextField
               required
               inputRef={passwordField.ref}
@@ -181,7 +182,7 @@ export const SignInCard = () => {
             >
               Forgot your password?
             </Button>
-          </Box>
+          </FieldWrapper>
           {/* <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
           label="Remember me"

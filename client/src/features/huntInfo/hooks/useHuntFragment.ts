@@ -12,5 +12,5 @@ export const useHuntFragment = () => {
     },
   });
 
-  return { complete, data };
+  return { complete, hunt: data };
 };

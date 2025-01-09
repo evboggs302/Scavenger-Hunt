@@ -1,0 +1,3 @@
+mutation DeleteClueById($clue_id: ID!) {
+  wasDeleted: deleteClueById(clue_id: $clue_id)
+}
