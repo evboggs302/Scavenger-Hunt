@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router";
-import { AppNavbar } from "@/features/baseApp/components/AppNavbar";
+import { AppNavbar } from "@features/baseApp/components/AppNavbar";
 import { UserQryContextProvider } from "@lib/context/UserContext";
 import { HuntQryContextProvider } from "@lib/context/HuntContext";
 import Box from "@mui/material/Box";
@@ -14,11 +14,14 @@ export const BaseApp = () => {
     <UserQryContextProvider>
       <HuntQryContextProvider>
         <ClueQryContextProvider>
-          <Box sx={{ display: "flex", width: "100%" }}>
+          <Box sx={{ display: "flex", width: "100vw", height: "100vh" }}>
             <SideMenu />
             <AppNavbar />
             {/* Main content */}
-            <Box component="main">
+            <Box
+              component="main"
+              sx={{ display: "flex", width: "100%", height: "100%" }}
+            >
               <Stack
                 spacing={2}
                 sx={{

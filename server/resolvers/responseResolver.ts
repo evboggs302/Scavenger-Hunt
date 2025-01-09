@@ -10,11 +10,26 @@ import {
   throwResolutionError,
   throwServerError,
 } from "../utils/apolloErrorHandlers";
+import { withFilter } from "graphql-subscriptions";
+import { pubsub } from "../utils/pubSub";
 
 const { TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN, TWILIO_NUMBER } = config;
+
 const client = twilio(TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN);
 
 const responseResolver: Resolvers = {
+  Subscription: {
+    responseReceived: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterableIterator(["responseReceived"]),
+        (payload, value) => {
+          console.log(payload);
+          console.log(value);
+          return true;
+        }
+      ),
+    },
+  },
   Query: {
     getResponsesByHunt: async (
       _: unknown,

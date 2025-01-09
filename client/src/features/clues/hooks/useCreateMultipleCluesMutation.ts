@@ -6,7 +6,7 @@ import {
 } from "@generated/graphql";
 import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { CreateCluesFormState } from "../components/CreateCluesDialog/CreateCluesDialog";
-import { useHuntFragment } from "@features/huntInfo/hooks/useHuntFragment";
+import { useHuntFragment } from "@/lib/hooks/useHuntFragment";
 
 type RequiredFormState = CreateCluesFormState & { isMulti: true };
 

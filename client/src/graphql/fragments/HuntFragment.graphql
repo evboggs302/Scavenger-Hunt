@@ -6,6 +6,7 @@ fragment Hunt on Hunt {
   start_date
   end_date
   is_active
+  marked_complete
   recall_message
 }
 
@@ -16,6 +17,7 @@ fragment FullHunt on Hunt {
   start_date
   end_date
   is_active
+  marked_complete
   recall_message
   created_by
   teams {

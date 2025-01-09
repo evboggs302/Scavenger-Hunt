@@ -92,6 +92,7 @@ export type Hunt = {
   created_date: Scalars['String']['output'];
   end_date: Scalars['String']['output'];
   is_active: Scalars['Boolean']['output'];
+  marked_complete: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
   recall_message: Scalars['String']['output'];
   start_date: Scalars['String']['output'];
@@ -105,13 +106,12 @@ export type LoginInput = {
 
 export type Mutation = {
   __typename: 'Mutation';
-  activateHunt: Hunt;
+  activateHunt: Scalars['Boolean']['output'];
   createHunt: Hunt;
   createMultipleClues: Array<Maybe<CluePayload>>;
   createMultipleTeams: Array<Maybe<Team>>;
   createSingleClue: Array<Maybe<CluePayload>>;
   createSingleTeam: Team;
-  deactivateHunt: Hunt;
   deleteAllCluesByHuntId: Scalars['Boolean']['output'];
   deleteAllResponsesByHunt: Scalars['Boolean']['output'];
   deleteAllResponsesByTeam: Scalars['Boolean']['output'];
@@ -121,6 +121,7 @@ export type Mutation = {
   deleteTeam: Scalars['Boolean']['output'];
   login: AuthPayload;
   logout: Scalars['Boolean']['output'];
+  markHuntComplete: Scalars['Boolean']['output'];
   markResponseCorrect: Scalars['Boolean']['output'];
   registerUser: AuthPayload;
   sendHint: Scalars['Boolean']['output'];
@@ -161,11 +162,6 @@ export type MutationCreateSingleTeamArgs = {
 };
 
 
-export type MutationDeactivateHuntArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type MutationDeleteAllCluesByHuntIdArgs = {
   hunt_id: Scalars['ID']['input'];
 };
@@ -203,6 +199,11 @@ export type MutationDeleteTeamArgs = {
 
 export type MutationLoginArgs = {
   input: LoginInput;
+};
+
+
+export type MutationMarkHuntCompleteArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -328,6 +329,16 @@ export type SendHintInput = {
 export type SingleTeam = {
   device_number: Scalars['String']['input'];
   members?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type Subscription = {
+  __typename: 'Subscription';
+  responseReceived?: Maybe<ResponsePayload>;
+};
+
+
+export type SubscriptionResponseReceivedArgs = {
+  hunt_id: Scalars['ID']['input'];
 };
 
 export type Team = {
@@ -472,6 +483,7 @@ export type ResolversTypes = ResolversObject<{
   ResponsesByHunt: ResolverTypeWrapper<ResponsesByHunt>;
   SendHintInput: SendHintInput;
   SingleTeam: SingleTeam;
+  Subscription: ResolverTypeWrapper<{}>;
   Team: ResolverTypeWrapper<Team>;
   UpdateClueDescriptionInput: UpdateClueDescriptionInput;
   UpdateClueOrderInput: UpdateClueOrderInput;
@@ -506,6 +518,7 @@ export type ResolversParentTypes = ResolversObject<{
   ResponsesByHunt: ResponsesByHunt;
   SendHintInput: SendHintInput;
   SingleTeam: SingleTeam;
+  Subscription: {};
   Team: Team;
   UpdateClueDescriptionInput: UpdateClueDescriptionInput;
   UpdateClueOrderInput: UpdateClueOrderInput;
@@ -593,6 +606,7 @@ export type HuntResolvers<ContextType = any, ParentType extends ResolversParentT
   created_date?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   end_date?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   is_active?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  marked_complete?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   recall_message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   start_date?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -601,13 +615,12 @@ export type HuntResolvers<ContextType = any, ParentType extends ResolversParentT
 }>;
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  activateHunt?: Resolver<ResolversTypes['Hunt'], ParentType, ContextType, RequireFields<MutationActivateHuntArgs, 'id'>>;
+  activateHunt?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationActivateHuntArgs, 'id'>>;
   createHunt?: Resolver<ResolversTypes['Hunt'], ParentType, ContextType, RequireFields<MutationCreateHuntArgs, 'input'>>;
   createMultipleClues?: Resolver<Array<Maybe<ResolversTypes['CluePayload']>>, ParentType, ContextType, RequireFields<MutationCreateMultipleCluesArgs, 'input'>>;
   createMultipleTeams?: Resolver<Array<Maybe<ResolversTypes['Team']>>, ParentType, ContextType, RequireFields<MutationCreateMultipleTeamsArgs, 'input'>>;
   createSingleClue?: Resolver<Array<Maybe<ResolversTypes['CluePayload']>>, ParentType, ContextType, RequireFields<MutationCreateSingleClueArgs, 'input'>>;
   createSingleTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationCreateSingleTeamArgs, 'input'>>;
-  deactivateHunt?: Resolver<ResolversTypes['Hunt'], ParentType, ContextType, RequireFields<MutationDeactivateHuntArgs, 'id'>>;
   deleteAllCluesByHuntId?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteAllCluesByHuntIdArgs, 'hunt_id'>>;
   deleteAllResponsesByHunt?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteAllResponsesByHuntArgs, 'id'>>;
   deleteAllResponsesByTeam?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteAllResponsesByTeamArgs, 'id'>>;
@@ -617,6 +630,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteTeam?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteTeamArgs, 'team_id'>>;
   login?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>;
   logout?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  markHuntComplete?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationMarkHuntCompleteArgs, 'id'>>;
   markResponseCorrect?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationMarkResponseCorrectArgs, 'id'>>;
   registerUser?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationRegisterUserArgs, 'input'>>;
   sendHint?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendHintArgs, 'input'>>;
@@ -659,6 +673,10 @@ export type ResponsesByHuntResolvers<ContextType = any, ParentType extends Resol
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
+  responseReceived?: SubscriptionResolver<Maybe<ResolversTypes['ResponsePayload']>, "responseReceived", ParentType, ContextType, RequireFields<SubscriptionResponseReceivedArgs, 'hunt_id'>>;
+}>;
+
 export type TeamResolvers<ContextType = any, ParentType extends ResolversParentTypes['Team'] = ResolversParentTypes['Team']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   device_number?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -687,6 +705,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   Query?: QueryResolvers<ContextType>;
   ResponsePayload?: ResponsePayloadResolvers<ContextType>;
   ResponsesByHunt?: ResponsesByHuntResolvers<ContextType>;
+  Subscription?: SubscriptionResolvers<ContextType>;
   Team?: TeamResolvers<ContextType>;
   UserPayload?: UserPayloadResolvers<ContextType>;
 }>;

@@ -5,7 +5,7 @@ import {
 } from "@generated/graphql";
 import { useQuery } from "@apollo/client";
 import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
-import { useHuntFragment } from "../huntInfo/hooks/useHuntFragment";
+import { useHuntFragment } from "../../../lib/hooks/useHuntFragment";
 import Skeleton from "@mui/material/Skeleton";
 
 /**

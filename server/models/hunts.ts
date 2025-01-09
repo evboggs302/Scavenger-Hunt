@@ -43,6 +43,10 @@ export const huntSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    marked_complete: {
+      type: Boolean,
+      default: false,
+    },
     recall_message: {
       type: String,
       default: "You've completed your hunt.",

@@ -21,7 +21,7 @@ import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 import {
   CreateCluesFormSchemaType,
   useCreateCluesResolver,
-} from "@/features/clues/hooks/useCluesResolver";
+} from "@features/clues/hooks/useCluesResolver";
 import { useCreateSingleClueMutation } from "@features/clues/hooks/useCreateSingleClueMutation";
 import { useCreateMultipleCluesMutation } from "@features/clues/hooks/useCreateMultipleCluesMutation";
 import { SingleClueDialogContent } from "./SingleClueDialogContent";

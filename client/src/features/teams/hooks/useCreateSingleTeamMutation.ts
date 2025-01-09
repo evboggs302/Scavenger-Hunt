@@ -2,7 +2,7 @@ import { useCallback, useMemo } from "react";
 import { useMutation } from "@apollo/client";
 import { CreateSingleTeamDocument, GetHuntDocument } from "@generated/graphql";
 import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
-import { useHuntFragment } from "@features/huntInfo/hooks/useHuntFragment";
+import { useHuntFragment } from "@/lib/hooks/useHuntFragment";
 import { CreateTeamsFormState } from "../components/CreateTeamsDialog/CreateTeamsDialog";
 
 type RequiredFormState = CreateTeamsFormState & { isMulti: false };

@@ -51,8 +51,6 @@ const huntResolver: Resolvers = {
         });
       }
     },
-    // activateHunt: async (_: unknown, { id }, _ctxt, {operation: {name}}) => {},
-    // deactivateHunt: async (_: unknown, { id }, _ctxt, {operation: {name}}) => {},
     deleteAllHuntsByUser: async (
       _: unknown,
       _args,
@@ -193,6 +191,84 @@ const huntResolver: Resolvers = {
           message: "Unable to update hunts at this time.",
           location: name?.value,
           err,
+        });
+      }
+    },
+    activateHunt: async (
+      _: unknown,
+      { id },
+      _ctxt,
+      { operation: { name } }
+    ) => {
+      try {
+        const hunt_id = createBsonObjectId(id);
+        const teams = await TeamModel.find({ hunt_id }, [
+          "_id",
+          "device_number",
+        ]).exec();
+
+        const huntsWithActiveDeviceNumbers = await HuntModel.aggregate(
+          [
+            { $match: { is_active: true } },
+            {
+              $lookup: {
+                from: "teams",
+                localField: "_id",
+                foreignField: "hunt_id",
+                as: "teams",
+              },
+            },
+            { $project: { teams: 1 } },
+            { $unwind: { path: "$teams" } },
+            {
+              $match: {
+                "teams.device_number": {
+                  $in: teams.map((tm) => tm.device_number),
+                },
+              },
+            },
+          ],
+          { maxTimeMS: 60000, allowDiskUse: true }
+        ).exec();
+
+        if (huntsWithActiveDeviceNumbers.length > 0) {
+          return throwResolutionError({
+            location: name?.value,
+            message: `Unable to activate at this time. The following device numbers are currently associated with an active event: ${huntsWithActiveDeviceNumbers.map((team) => team.device_number).join("\n")}`,
+          });
+        }
+
+        await HuntModel.updateOne({ _id: hunt_id }, { is_active: true }).exec();
+        /**
+         * SEND FIRST CLUE USING TWILIO
+         */
+        return true;
+      } catch {
+        return throwServerError({
+          location: name?.value,
+          message: "Unable to activate this event.",
+        });
+      }
+    },
+    markHuntComplete: async (
+      _: unknown,
+      { id },
+      _ctxt,
+      { operation: { name } }
+    ) => {
+      try {
+        const hunt_id = createBsonObjectId(id);
+
+        await HuntModel.updateOne(
+          { _id: hunt_id },
+          { is_active: true, marked_complete: true }
+        ).exec();
+
+        return true;
+      } catch {
+        return throwServerError({
+          location: name?.value,
+          message: "Unable to deactivate this event.",
         });
       }
     },

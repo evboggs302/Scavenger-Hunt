@@ -6,9 +6,9 @@ type Query {
 
 type Mutation {
   createHunt(input: CreateHuntInput!): Hunt!
-  activateHunt(id: ID!): Hunt!
+  activateHunt(id: ID!): Boolean!
   updateHunt(input: UpdateHuntInput!): Hunt!
-  deactivateHunt(id: ID!): Hunt!
+  markHuntComplete(id: ID!): Boolean!
   deleteHuntById(h_id: ID!): Boolean!
 }
 
@@ -20,6 +20,7 @@ type Hunt {
   start_date: String!
   end_date: String!
   is_active: Boolean!
+  marked_complete: Boolean!
   recall_message: String!
   clues: [CluePayload!]
   teams: [Team!]

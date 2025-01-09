@@ -1,0 +1,5 @@
+subscription ResponseReceived($hunt_id: ID!) {
+  responseReceived(hunt_id: $hunt_id) {
+    ...Response
+  }
+}
