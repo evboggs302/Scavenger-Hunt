@@ -7,7 +7,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { styled } from "@mui/system";
 import IconButton from "@mui/material/IconButton";
-import { useClueContext } from "@/lib/context/ClueContext";
+import { useClueContext } from "@lib/context/ClueContext";
 
 const digitsOnlyRegex = /^\d+$/;
 

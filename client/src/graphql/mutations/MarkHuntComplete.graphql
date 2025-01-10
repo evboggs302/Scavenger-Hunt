@@ -1,0 +1,3 @@
+mutation MarkHuntComplete($hunt_id: ID!) {
+  markHuntComplete(id: $hunt_id)
+}

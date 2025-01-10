@@ -1,33 +1,30 @@
 import { useCallback, useMemo } from "react";
 import { useMutation } from "@apollo/client";
-import {
-  DeleteAllTeamsByHuntIdDocument,
-  GetHuntDocument,
-} from "@generated/graphql";
+import { GetHuntDocument, MarkHuntCompleteDocument } from "@generated/graphql";
 import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 
-export const useDeleteAllTeamsMutation = () => {
+export const useMarkHuntCompleted = () => {
   const headers = useApolloContextHeaders();
   const { hunt } = useHuntFragment();
-  const [deleteAllTeam, result] = useMutation(DeleteAllTeamsByHuntIdDocument, {
+  const [markHuntComplete, result] = useMutation(MarkHuntCompleteDocument, {
     context: headers,
   });
 
-  const handleDeleteAllTeam = useCallback(async () => {
-    await deleteAllTeam({
+  const handleMarkHuntComplete = useCallback(async () => {
+    await markHuntComplete({
       refetchQueries: [GetHuntDocument],
       variables: {
         hunt_id: hunt._id || "",
       },
     });
-  }, [deleteAllTeam, hunt._id]);
+  }, [markHuntComplete, hunt._id]);
 
   return useMemo(
-    (): [typeof handleDeleteAllTeam, typeof result] => [
-      handleDeleteAllTeam,
+    (): [typeof handleMarkHuntComplete, typeof result] => [
+      handleMarkHuntComplete,
       result,
     ],
-    [handleDeleteAllTeam, result]
+    [handleMarkHuntComplete, result]
   );
 };

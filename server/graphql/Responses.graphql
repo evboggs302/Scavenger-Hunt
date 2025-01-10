@@ -4,6 +4,10 @@ type Query {
   getResponsesByClue(id: ID!): [ResponsePayload]!
 }
 
+type Subscription {
+  responseReceived(hunt_id: ID!): ResponsePayload
+}
+
 type Mutation {
   markResponseCorrect(id: ID!): Boolean!
   sendHint(input: SendHintInput!): Boolean!

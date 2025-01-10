@@ -15,7 +15,7 @@ import {
 const userResolver: Resolvers = {
   Query: {
     getAllUsers: async (
-      _: unknown,
+      _parent: unknown,
       _args,
       { user },
       { operation: { name } }
@@ -30,7 +30,7 @@ const userResolver: Resolvers = {
       return users.map(returnedItems);
     },
     getUserFromToken: async (
-      _: unknown,
+      _parent: unknown,
       { tkn },
       _ctxt,
       { operation: { name } }
@@ -55,14 +55,14 @@ const userResolver: Resolvers = {
 
       return user.transformWithoutHash();
     },
-    userNameExists: async (_: unknown, { user_name }) => {
+    userNameExists: async (_parent: unknown, { user_name }) => {
       const matches = await UserModel.findUsername(user_name);
       return matches.length > 0;
     },
   },
   Mutation: {
     registerUser: async (
-      _: unknown,
+      _parent: unknown,
       { input: { first_name, last_name, user_name, password } },
       _ctxt,
       { operation: { name } }
@@ -100,7 +100,7 @@ const userResolver: Resolvers = {
       return tkn.transformWithTypename();
     },
     login: async (
-      _: unknown,
+      _parent: unknown,
       { input: { user_name, password } },
       _ctxt,
       { operation: { name } }
@@ -131,7 +131,7 @@ const userResolver: Resolvers = {
       }
     },
     logout: async (
-      _: unknown,
+      _parent: unknown,
       _args,
       { token, user },
       { operation: { name } }
@@ -153,9 +153,9 @@ const userResolver: Resolvers = {
   },
   AllUsersPayload: {
     hunts: async (parent: AllUsersPayload) => {
-      const _id = createBsonObjectId(parent._id);
+      const created_by = createBsonObjectId(parent._id);
       return await HuntModel.find({
-        created_by: _id,
+        created_by,
       });
     },
   },

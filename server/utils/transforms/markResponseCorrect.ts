@@ -15,9 +15,9 @@ type AggregateResult = {
 };
 
 export const markResponseCorrect = async (
-  r_id: string
+  response_id: string
 ): Promise<AggregateResult> => {
-  const res_id = createBsonObjectId(r_id);
+  const res_id = createBsonObjectId(response_id);
 
   await ResponseModel.findOneAndUpdate(
     { _id: res_id },

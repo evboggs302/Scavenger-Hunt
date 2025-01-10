@@ -1,0 +1,3 @@
+mutation ActivateHunt($hunt_id: ID!) {
+  activateHunt(id: $hunt_id)
+}

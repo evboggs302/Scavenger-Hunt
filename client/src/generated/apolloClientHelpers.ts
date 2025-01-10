@@ -20,7 +20,7 @@ export type CluePayloadFieldPolicy = {
 	order_number?: FieldPolicy<any> | FieldReadFunction<any>,
 	responses?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type HuntKeySpecifier = ('_id' | 'clues' | 'created_by' | 'created_date' | 'end_date' | 'is_active' | 'name' | 'recall_message' | 'start_date' | 'teams' | HuntKeySpecifier)[];
+export type HuntKeySpecifier = ('_id' | 'clues' | 'created_by' | 'created_date' | 'end_date' | 'is_active' | 'marked_complete' | 'name' | 'recall_message' | 'start_date' | 'teams' | HuntKeySpecifier)[];
 export type HuntFieldPolicy = {
 	_id?: FieldPolicy<any> | FieldReadFunction<any>,
 	clues?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -28,12 +28,13 @@ export type HuntFieldPolicy = {
 	created_date?: FieldPolicy<any> | FieldReadFunction<any>,
 	end_date?: FieldPolicy<any> | FieldReadFunction<any>,
 	is_active?: FieldPolicy<any> | FieldReadFunction<any>,
+	marked_complete?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	recall_message?: FieldPolicy<any> | FieldReadFunction<any>,
 	start_date?: FieldPolicy<any> | FieldReadFunction<any>,
 	teams?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('activateHunt' | 'createHunt' | 'createMultipleClues' | 'createMultipleTeams' | 'createSingleClue' | 'createSingleTeam' | 'deactivateHunt' | 'deleteAllCluesByHuntId' | 'deleteAllResponsesByHunt' | 'deleteAllResponsesByTeam' | 'deleteAllTeamsByHuntId' | 'deleteClueById' | 'deleteHuntById' | 'deleteTeam' | 'login' | 'logout' | 'markResponseCorrect' | 'registerUser' | 'sendHint' | 'updateClueDescription' | 'updateClueOrder' | 'updateHunt' | 'updateTeam' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('activateHunt' | 'createHunt' | 'createMultipleClues' | 'createMultipleTeams' | 'createSingleClue' | 'createSingleTeam' | 'deleteAllCluesByHuntId' | 'deleteAllResponsesByHunt' | 'deleteAllResponsesByTeam' | 'deleteAllTeamsByHuntId' | 'deleteClueById' | 'deleteHuntById' | 'deleteTeam' | 'login' | 'logout' | 'markHuntComplete' | 'markResponseCorrect' | 'registerUser' | 'sendHint' | 'updateClueDescription' | 'updateClueOrder' | 'updateHunt' | 'updateTeam' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	activateHunt?: FieldPolicy<any> | FieldReadFunction<any>,
 	createHunt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -41,7 +42,6 @@ export type MutationFieldPolicy = {
 	createMultipleTeams?: FieldPolicy<any> | FieldReadFunction<any>,
 	createSingleClue?: FieldPolicy<any> | FieldReadFunction<any>,
 	createSingleTeam?: FieldPolicy<any> | FieldReadFunction<any>,
-	deactivateHunt?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteAllCluesByHuntId?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteAllResponsesByHunt?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteAllResponsesByTeam?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -51,6 +51,7 @@ export type MutationFieldPolicy = {
 	deleteTeam?: FieldPolicy<any> | FieldReadFunction<any>,
 	login?: FieldPolicy<any> | FieldReadFunction<any>,
 	logout?: FieldPolicy<any> | FieldReadFunction<any>,
+	markHuntComplete?: FieldPolicy<any> | FieldReadFunction<any>,
 	markResponseCorrect?: FieldPolicy<any> | FieldReadFunction<any>,
 	registerUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	sendHint?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -89,6 +90,10 @@ export type ResponsesByHuntKeySpecifier = ('count' | 'responses' | ResponsesByHu
 export type ResponsesByHuntFieldPolicy = {
 	count?: FieldPolicy<any> | FieldReadFunction<any>,
 	responses?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SubscriptionKeySpecifier = ('responseReceived' | SubscriptionKeySpecifier)[];
+export type SubscriptionFieldPolicy = {
+	responseReceived?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type TeamKeySpecifier = ('_id' | 'device_number' | 'hunt_id' | 'last_clue_sent' | 'members' | 'recall_sent' | 'responses' | TeamKeySpecifier)[];
 export type TeamFieldPolicy = {
@@ -139,6 +144,10 @@ export type StrictTypedTypePolicies = {
 	ResponsesByHunt?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ResponsesByHuntKeySpecifier | (() => undefined | ResponsesByHuntKeySpecifier),
 		fields?: ResponsesByHuntFieldPolicy,
+	},
+	Subscription?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SubscriptionKeySpecifier | (() => undefined | SubscriptionKeySpecifier),
+		fields?: SubscriptionFieldPolicy,
 	},
 	Team?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | TeamKeySpecifier | (() => undefined | TeamKeySpecifier),

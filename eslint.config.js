@@ -19,7 +19,6 @@ export default [
       "**/build/**/*",
       "**/generated/**/*",
       "client/storybook-static/**/*",
-      "server/controllers/**/*",
       "server/server_rest.ts",
     ],
   },

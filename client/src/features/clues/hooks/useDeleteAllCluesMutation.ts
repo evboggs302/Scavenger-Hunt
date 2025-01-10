@@ -5,7 +5,7 @@ import {
   GetOrderedCluesDocument,
 } from "@generated/graphql";
 import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
-import { useHuntFragment } from "@features/huntInfo/hooks/useHuntFragment";
+import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 
 export const useDeleteAllCluesMutation = () => {
   const headers = useApolloContextHeaders();

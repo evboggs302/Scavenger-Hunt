@@ -1,8 +1,7 @@
-import twilio from "twilio";
 import config from "../config";
 import { TeamModel } from "../models/teams";
 import { ResponseModel } from "../models/responses";
-import { Resolvers } from "../generated/graphql";
+import { Resolvers, ResponsePayload } from "../generated/graphql";
 import { returnedItems } from "../utils/transforms/returnedItems";
 import { markResponseCorrect } from "../utils/transforms/markResponseCorrect";
 import { createBsonObjectId } from "../utils/transforms/createBsonObjectId";
@@ -10,14 +9,46 @@ import {
   throwResolutionError,
   throwServerError,
 } from "../utils/apolloErrorHandlers";
+import { withFilter } from "graphql-subscriptions";
+import { mongodbPubSub } from "../utils/pubSub";
+import { twilioClient } from "../utils/twilioClient";
 
-const { TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN, TWILIO_NUMBER } = config;
-const client = twilio(TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN);
+const { TWILIO_NUMBER } = config;
+
+export const RESPONSE_RECEIVED_TOPIC = "RESPONSE_RECEIVED_TOPIC";
 
 const responseResolver: Resolvers = {
+  Subscription: {
+    responseReceived: {
+      subscribe: withFilter<unknown, { hunt_id: string }>(
+        () => mongodbPubSub.asyncIterator(RESPONSE_RECEIVED_TOPIC),
+        async (payload, variables) => {
+          console.log("payload: ", payload);
+          console.log("variables: ", variables);
+          try {
+            const team_id = createBsonObjectId(
+              (payload as ResponsePayload).team_id
+            );
+            const team = await TeamModel.findOne<{
+              hunt_id: ReturnType<typeof createBsonObjectId>;
+            }>(
+              {
+                _id: team_id,
+              },
+              "hunt_id"
+            ).exec();
+
+            return team?.hunt_id === variables?.hunt_id;
+          } catch {
+            return false;
+          }
+        }
+      ),
+    },
+  },
   Query: {
     getResponsesByHunt: async (
-      _: unknown,
+      _parent: unknown,
       { id },
       _ctxt,
       { operation: { name } }
@@ -44,7 +75,7 @@ const responseResolver: Resolvers = {
       }
     },
     getResponsesByTeam: async (
-      _: unknown,
+      _parent: unknown,
       { id },
       _ctxt,
       { operation: { name } }
@@ -63,7 +94,7 @@ const responseResolver: Resolvers = {
       }
     },
     getResponsesByClue: async (
-      _: unknown,
+      _parent: unknown,
       { id },
       _ctxt,
       { operation: { name } }
@@ -85,35 +116,38 @@ const responseResolver: Resolvers = {
     },
   },
   Mutation: {
-    markResponseCorrect: async (_, { id }, _ctxt, { operation: { name } }) => {
+    markResponseCorrect: async (
+      _parent,
+      { id },
+      _ctxt,
+      { operation: { name } }
+    ) => {
       try {
-        const result = await markResponseCorrect(id);
-
-        const { device_number, recall_message, team_id, next_clue } = result;
+        const { device_number, recall_message, team_id, next_clue } =
+          await markResponseCorrect(id);
 
         if (next_clue) {
           const { description, order_number } = next_clue;
 
-          // await client.messages
-          // .create({
-          //   body: `${description}`,
-          //   from: `${TWILIO_NUMBER}`,
-          //   to: device_number,
-          // })
-          // .then(async () => {
+          await twilioClient.messages.create({
+            body: `${description}`,
+            from: `${TWILIO_NUMBER}`,
+            to: device_number,
+          });
+
           await TeamModel.findByIdAndUpdate(team_id, {
             last_clue_sent: order_number,
           }).exec();
-          // });
         } else {
-          // await client.messages.create({
-          //   body: `${recall_message}`,
-          //   from: `${TWILIO_NUMBER}`,
-          //   to: device_number,
+          await twilioClient.messages.create({
+            body: `${recall_message}`,
+            from: `${TWILIO_NUMBER}`,
+            to: device_number,
+          });
+
           await TeamModel.findByIdAndUpdate(team_id, {
             recall_sent: true,
           }).exec();
-          // });
         }
 
         return true;
@@ -126,7 +160,7 @@ const responseResolver: Resolvers = {
       }
     },
     sendHint: async (
-      _,
+      _parent,
       { input: { response_id, team_id, hint_body } },
       _ctxt,
       { operation: { name } }
@@ -167,7 +201,7 @@ const responseResolver: Resolvers = {
             location: name?.value,
           });
 
-        await client.messages.create({
+        await twilioClient.messages.create({
           body: `${hint_body}`,
           from: `${TWILIO_NUMBER}`,
           to: activeTeam[0].device_number,
@@ -178,6 +212,54 @@ const responseResolver: Resolvers = {
         return throwServerError({
           message: "Unable to send hints at this time.",
           location: name?.value,
+          err,
+        });
+      }
+    },
+    deleteAllResponsesByHunt: async (
+      _parent: unknown,
+      { id },
+      _ctxt,
+      { operation: { name } }
+    ) => {
+      try {
+        const hunt_id = createBsonObjectId(id);
+
+        const teams = await TeamModel.find<{ _id: typeof hunt_id }>(
+          { hunt_id },
+          "_id"
+        ).exec();
+
+        const { acknowledged } = await ResponseModel.deleteMany({
+          team_id: { $in: teams },
+        }).exec();
+
+        return acknowledged;
+      } catch {
+        return throwServerError({
+          location: name?.value,
+          message: "There was a problem deleing responses by hunt.",
+        });
+      }
+    },
+    deleteAllResponsesByTeam: async (
+      _parent: unknown,
+      { id },
+      _ctxt,
+      { operation: { name } }
+    ) => {
+      try {
+        const team_id = createBsonObjectId(id);
+
+        const { acknowledged } = await ResponseModel.deleteMany({
+          team_id,
+        }).exec();
+
+        return acknowledged;
+      } catch {
+        return throwServerError({
+          location: name?.value,
+          message: "There was a problem deleing responses by team.",
         });
       }
     },

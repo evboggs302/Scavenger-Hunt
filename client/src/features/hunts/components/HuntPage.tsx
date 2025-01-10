@@ -4,7 +4,8 @@ import { Outlet, useLocation, useNavigate } from "react-router";
 import Tabs from "@mui/material/Tabs";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
-import { useResponseCount } from "@/features/responses/hooks/useResponseCount";
+import { useResponseCount } from "@features/responses/hooks/useResponseCount";
+import Button from "@mui/material/Button";
 
 export const HuntPage = () => {
   const navigate = useNavigate();
@@ -50,21 +51,36 @@ export const HuntPage = () => {
 
   return (
     <ClueQryContextProvider>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={location}
-          onChange={handleChange}
-          aria-label="lab API tabs example"
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: "80vw",
+        }}
+      >
+        <br />
+        <Box
+          sx={{
+            borderBottom: 1,
+            borderColor: "divider",
+          }}
         >
-          <Tab label="Info" value="" />
-          <Tab label="Clues" value="clues" />
-          <Tab label="Teams" value="teams" />
-          <Tab
-            label="Responses"
-            value="responses"
-            disabled={isResponseTabDisabled}
-          />
-        </Tabs>
+          <Tabs
+            value={location}
+            onChange={handleChange}
+            aria-label="lab API tabs example"
+          >
+            <Tab label="Info" value="" />
+            <Tab label="Clues" value="clues" />
+            <Tab label="Teams" value="teams" />
+            <Tab
+              label="Responses"
+              value="responses"
+              disabled={isResponseTabDisabled}
+            />
+          </Tabs>
+        </Box>
+        <Button>Activate hunt</Button>
       </Box>
       <Outlet />
     </ClueQryContextProvider>

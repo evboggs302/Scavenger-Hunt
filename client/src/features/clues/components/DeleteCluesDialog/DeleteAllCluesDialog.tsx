@@ -7,7 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import { useDeleteAllCluesMutation } from "../../hooks/useDeleteAllCluesMutation";
 import CircularProgress from "@mui/material/CircularProgress";
-import { TryAgainAlert } from "@/lib/components/Alerts/TryAgainAlert";
+import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 
 type DeleteDialogProps = {
   handleClose: () => void;
