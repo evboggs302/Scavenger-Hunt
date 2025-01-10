@@ -153,9 +153,9 @@ const userResolver: Resolvers = {
   },
   AllUsersPayload: {
     hunts: async (parent: AllUsersPayload) => {
-      const _id = createBsonObjectId(parent._id);
+      const created_by = createBsonObjectId(parent._id);
       return await HuntModel.find({
-        created_by: _id,
+        created_by,
       });
     },
   },

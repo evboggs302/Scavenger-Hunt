@@ -1,6 +1,9 @@
+import { Types } from "mongoose";
+import config from "../config";
 import { HuntModel } from "../models/hunts";
 import { ClueModel } from "../models/clues";
 import { TeamModel } from "../models/teams";
+import { ResponseModel } from "../models/responses";
 import { Hunt, Resolvers } from "../generated/graphql";
 import { returnedItems } from "../utils/transforms/returnedItems";
 import { createBsonObjectId } from "../utils/transforms/createBsonObjectId";
@@ -8,6 +11,9 @@ import {
   throwResolutionError,
   throwServerError,
 } from "../utils/apolloErrorHandlers";
+import { twilioClient } from "../utils/twilioClient";
+
+const { TWILIO_NUMBER } = config;
 
 const huntResolver: Resolvers = {
   Query: {
@@ -61,6 +67,10 @@ const huntResolver: Resolvers = {
         const { deletedCount } = await HuntModel.deleteMany({
           created_by: user._id,
         }).exec();
+
+        // delete clues
+        // delete teams
+        // delete responses
 
         return deletedCount > 0;
       } catch (err) {
@@ -202,10 +212,10 @@ const huntResolver: Resolvers = {
     ) => {
       try {
         const hunt_id = createBsonObjectId(id);
-        const teams = await TeamModel.find({ hunt_id }, [
-          "_id",
-          "device_number",
-        ]).exec();
+        const teams = await TeamModel.find<{
+          _id: Types.ObjectId;
+          device_number: string;
+        }>({ hunt_id }, ["_id", "device_number"]).exec();
 
         const huntsWithActiveDeviceNumbers = await HuntModel.aggregate(
           [
@@ -242,6 +252,28 @@ const huntResolver: Resolvers = {
         /**
          * SEND FIRST CLUE USING TWILIO
          */
+        const firstClue = await ClueModel.findOne({
+          hunt_id,
+          order_number: 1,
+        }).exec();
+
+        if (!firstClue) {
+          return throwResolutionError({
+            location: name?.value,
+            message: "No first clue esists.",
+          });
+        }
+
+        Promise.all(
+          teams.map((tm) =>
+            twilioClient.messages.create({
+              body: `CLUE: ${firstClue.description}`,
+              from: `${TWILIO_NUMBER}`,
+              to: tm.device_number,
+            })
+          )
+        );
+
         return true;
       } catch {
         return throwServerError({
@@ -279,10 +311,33 @@ const huntResolver: Resolvers = {
       { operation: { name } }
     ) => {
       try {
-        const _id = createBsonObjectId(h_id);
-        const { deletedCount } = await HuntModel.deleteOne({ _id }).exec();
+        const hunt_id = createBsonObjectId(h_id);
+        const teamsIDs = (await TeamModel.find({ hunt_id }, "_id").exec()).map(
+          (tm) => tm._id
+        );
 
-        return deletedCount === 1;
+        // delete responses
+        const { acknowledged: resDeleteAck } = await ResponseModel.deleteMany({
+          team_id: { $in: teamsIDs },
+        }).exec();
+
+        // delete teams
+        const { acknowledged: teamDeleteAck } = await TeamModel.deleteMany({
+          _id: { $in: teamsIDs },
+        }).exec();
+
+        // delete clues
+        const { acknowledged: clueDeleteAck } = await ClueModel.deleteMany({
+          hunt_id,
+        }).exec();
+
+        const { deletedCount } = await HuntModel.deleteOne({
+          _id: hunt_id,
+        }).exec();
+
+        return (
+          resDeleteAck && teamDeleteAck && clueDeleteAck && deletedCount === 1
+        );
       } catch (err) {
         return throwServerError({
           message: "Unable to delete hunts at this time.",

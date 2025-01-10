@@ -37,7 +37,7 @@ export const responseSchema = new Schema(
     },
     correct: {
       type: Boolean,
-      required: true,
+      default: false,
     },
     hintSent: {
       type: Boolean,

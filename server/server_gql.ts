@@ -9,11 +9,13 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { apolloServerMiddlewareOptions } from "./utils/apolloServerMiddlewareOptions";
+import { responseController } from "./controllers/responseController";
 
 import { WebSocketServer } from "ws";
 import { useServer } from "graphql-ws/lib/use/ws";
 
 const { MONGO_URI, PORT, GQL_SERVER_URL, CLIENT_URL } = config;
+const { findActiveTeamByDevice, saveSMS, saveMMS } = responseController;
 
 export const startServer = async (
   MongoUri: string = MONGO_URI,
@@ -78,7 +80,7 @@ export const startServer = async (
   );
 
   // RECEIVE TWILIO SMS
-  // app.post("/twilio/sms", findActiveTeamByDevice, saveSMS, saveMMS);
+  app.post("/twilio/sms", findActiveTeamByDevice, saveSMS, saveMMS);
 
   try {
     await mongoose.connect(MongoUri);
