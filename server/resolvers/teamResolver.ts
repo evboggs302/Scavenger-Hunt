@@ -10,11 +10,16 @@ import {
 
 const teamResolver: Resolvers = {
   Query: {
-    getTeamsByHuntId: async (_: unknown, { h_id }) => {
+    getTeamsByHuntId: async (_parent: unknown, { h_id }) => {
       const hunt_id = createBsonObjectId(h_id);
       return await TeamModel.find({ hunt_id });
     },
-    getTeam: async (_: unknown, { id }, _ctxt, { operation: { name } }) => {
+    getTeam: async (
+      _parent: unknown,
+      { id },
+      _ctxt,
+      { operation: { name } }
+    ) => {
       try {
         const team = await TeamModel.findById(id);
 
@@ -36,7 +41,7 @@ const teamResolver: Resolvers = {
   },
   Mutation: {
     createSingleTeam: async (
-      _: unknown,
+      _parent: unknown,
       { input: { hunt_id: h_id, members, device_number } },
       _ctxt,
       { operation: { name } }
@@ -60,7 +65,7 @@ const teamResolver: Resolvers = {
       return team.transformWithTypename();
     },
     createMultipleTeams: async (
-      _: unknown,
+      _parent: unknown,
       { input: { hunt_id: h_id, teams: tms } },
       _ctxt,
       { operation: { name } }
@@ -83,7 +88,7 @@ const teamResolver: Resolvers = {
       }
     },
     updateTeam: async (
-      _: unknown,
+      _parent: unknown,
       { input },
       _ctxt,
       { operation: { name } }
@@ -107,7 +112,7 @@ const teamResolver: Resolvers = {
       return updatedTeam.transformWithTypename();
     },
     deleteTeam: async (
-      _: unknown,
+      _parent: unknown,
       { team_id },
       _ctxt,
       { operation: { name } }
@@ -125,7 +130,7 @@ const teamResolver: Resolvers = {
       }
     },
     deleteAllTeamsByHuntId: async (
-      _: unknown,
+      _parent: unknown,
       { hunt_id },
       _ctxt,
       { operation: { name } }

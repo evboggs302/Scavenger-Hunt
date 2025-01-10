@@ -11,7 +11,7 @@ import {
 const clueResolver: Resolvers = {
   Query: {
     getCluesByHuntId: async (
-      _: unknown,
+      _parent: unknown,
       { id },
       _ctxt,
       { operation: { name } }
@@ -36,7 +36,7 @@ const clueResolver: Resolvers = {
   },
   Mutation: {
     createMultipleClues: async (
-      _: unknown,
+      _parent: unknown,
       { input: { cluesList, h_id } },
       _ctxt,
       { operation: { name } }
@@ -60,7 +60,7 @@ const clueResolver: Resolvers = {
       }
     },
     createSingleClue: async (
-      _: unknown,
+      _parent: unknown,
       { input: { clueItem, h_id } },
       _ctxt,
       { operation: { name } }
@@ -86,7 +86,7 @@ const clueResolver: Resolvers = {
       }
     },
     updateClueDescription: async (
-      _: unknown,
+      _parent: unknown,
       { input: { clue_id, newDescription } },
       _ctxt,
       { operation: { name } }
@@ -116,7 +116,7 @@ const clueResolver: Resolvers = {
       }
     },
     updateClueOrder: async (
-      _: unknown,
+      _parent: unknown,
       { input: { hunt_id: h_id, newOrder } },
       _ctxt,
       { operation: { name } }
@@ -147,7 +147,7 @@ const clueResolver: Resolvers = {
       }
     },
     deleteClueById: async (
-      _: unknown,
+      _parent: unknown,
       { clue_id },
       _ctxt,
       { operation: { name } }
@@ -194,7 +194,7 @@ const clueResolver: Resolvers = {
       }
     },
     deleteAllCluesByHuntId: async (
-      _: unknown,
+      _parent: unknown,
       { hunt_id },
       _ctxt,
       { operation: { name } }

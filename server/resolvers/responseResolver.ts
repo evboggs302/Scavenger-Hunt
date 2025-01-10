@@ -75,7 +75,7 @@ const responseResolver: Resolvers = {
       }
     },
     getResponsesByTeam: async (
-      _: unknown,
+      _parent: unknown,
       { id },
       _ctxt,
       { operation: { name } }
@@ -94,7 +94,7 @@ const responseResolver: Resolvers = {
       }
     },
     getResponsesByClue: async (
-      _: unknown,
+      _parent: unknown,
       { id },
       _ctxt,
       { operation: { name } }
@@ -116,7 +116,12 @@ const responseResolver: Resolvers = {
     },
   },
   Mutation: {
-    markResponseCorrect: async (_, { id }, _ctxt, { operation: { name } }) => {
+    markResponseCorrect: async (
+      _parent,
+      { id },
+      _ctxt,
+      { operation: { name } }
+    ) => {
       try {
         const { device_number, recall_message, team_id, next_clue } =
           await markResponseCorrect(id);

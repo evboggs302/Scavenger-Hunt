@@ -18,7 +18,7 @@ const { TWILIO_NUMBER } = config;
 const huntResolver: Resolvers = {
   Query: {
     getHuntsByUserId: async (
-      _: unknown,
+      _parent: unknown,
       _args,
       { user },
       { operation: { name } }
@@ -37,7 +37,12 @@ const huntResolver: Resolvers = {
         });
       }
     },
-    getHunt: async (_: unknown, { id }, _ctxt, { operation: { name } }) => {
+    getHunt: async (
+      _parent: unknown,
+      { id },
+      _ctxt,
+      { operation: { name } }
+    ) => {
       try {
         const hunt = await HuntModel.findById(id).exec();
 
@@ -58,7 +63,7 @@ const huntResolver: Resolvers = {
       }
     },
     deleteAllHuntsByUser: async (
-      _: unknown,
+      _parent: unknown,
       _args,
       { user },
       { operation: { name } }
@@ -84,7 +89,7 @@ const huntResolver: Resolvers = {
   },
   Mutation: {
     createHunt: async (
-      _: unknown,
+      _parent: unknown,
       { input: { name, start_date, end_date, recall_message } },
       { user },
       { operation: { name: opname } }
@@ -119,7 +124,7 @@ const huntResolver: Resolvers = {
       }
     },
     updateHunt: async (
-      _: unknown,
+      _parent: unknown,
       {
         input: {
           hunt_id,
@@ -205,7 +210,7 @@ const huntResolver: Resolvers = {
       }
     },
     activateHunt: async (
-      _: unknown,
+      _parent: unknown,
       { id },
       _ctxt,
       { operation: { name } }
@@ -283,7 +288,7 @@ const huntResolver: Resolvers = {
       }
     },
     markHuntComplete: async (
-      _: unknown,
+      _parent: unknown,
       { id },
       _ctxt,
       { operation: { name } }
@@ -305,7 +310,7 @@ const huntResolver: Resolvers = {
       }
     },
     deleteHuntById: async (
-      _: unknown,
+      _parent: unknown,
       { h_id },
       _ctxt,
       { operation: { name } }
