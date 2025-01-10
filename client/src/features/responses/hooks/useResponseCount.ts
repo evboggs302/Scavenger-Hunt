@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
-import { useHuntFragment } from "@/lib/hooks/useHuntFragment";
+import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 import { GetResponseCountByHuntIdDocument } from "@generated/graphql";
 
 export const useResponseCount = () => {

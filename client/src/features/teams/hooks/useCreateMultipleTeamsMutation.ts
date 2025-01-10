@@ -5,7 +5,7 @@ import {
   GetHuntDocument,
 } from "@generated/graphql";
 import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
-import { useHuntFragment } from "@/lib/hooks/useHuntFragment";
+import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 import { CreateTeamsFormState } from "../components/CreateTeamsDialog/CreateTeamsDialog";
 
 type RequiredFormState = CreateTeamsFormState & { isMulti: true };

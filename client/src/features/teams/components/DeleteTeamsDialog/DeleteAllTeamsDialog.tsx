@@ -6,7 +6,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
-import { TryAgainAlert } from "@/lib/components/Alerts/TryAgainAlert";
+import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 import { useDeleteAllTeamsMutation } from "../../hooks/useDeleteAllTeamsMutation";
 
 type DeleteDialogProps = {

@@ -5,7 +5,7 @@ import {
   GetHuntDocument,
 } from "@generated/graphql";
 import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
-import { useHuntFragment } from "@/lib/hooks/useHuntFragment";
+import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 
 export const useDeleteAllTeamsMutation = () => {
   const headers = useApolloContextHeaders();
