@@ -13,14 +13,13 @@ docker-node: &docker-node
 
 enable-corepack: &enable-corepack
   run:
-    name: enable-corepack
+    name: enable corepack
     no_output_timeout: 30m # just in case Render has a slow environment
     command: corepack enable
 
 git-checkout-root: &git-checkout-root
-  - checkout:
+  checkout:
     path: ~/scavenger-hunt
-  - <<: *enable-corepack
 
 yarn-install-step: &yarn-install
   run:
@@ -45,6 +44,7 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
+      - <<: *enable-corepack
       - <<: *yarn-install
       - run:
           name: UI functional tests
@@ -61,6 +61,7 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
+      - <<: *enable-corepack
       - <<: *yarn-install-prod
       - run:
           name: Graphql codegen
@@ -78,6 +79,7 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
+      - <<: *enable-corepack
       - <<: *yarn-install-prod
       - run:
           name: Build UI
@@ -92,6 +94,7 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
+      - <<: *enable-corepack
       - <<: *yarn-install
       - run:
           name: Build Storybook
