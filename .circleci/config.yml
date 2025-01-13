@@ -9,13 +9,13 @@ version: 2.1
 
 docker-node: &docker-node
   docker:
-    - image: cimg/node:22.12.0
+    - image: cimg/node:22.13.0
 
 enable-corepack: &enable-corepack
   run:
     name: enable corepack
     no_output_timeout: 30m # just in case Render has a slow environment
-    command: corepack enable
+    command: corepack enable --install-directory="/home/circleci/bin"
 
 git-checkout-root: &git-checkout-root
   checkout:
