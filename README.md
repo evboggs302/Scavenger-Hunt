@@ -81,7 +81,7 @@ TWILIO_NUMBER=< provided by Twilio >
 
 # FOR LOCAL DEV ONLY - PROD VALUES SET VIA CI PIPELINE
 CLIENT_URL=http://localhost:< port >
-GQL_SERVER_URL=http://localhost:< port >/graphql
+SERVER_URL_GQL=http://localhost:< port >/graphql
 MONGO_URI=< constructed with MongoDB details >
 
 SESSION_SECRET=< randomly button smash a long value >

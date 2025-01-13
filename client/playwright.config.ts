@@ -40,7 +40,7 @@ export default defineConfig({
     {
       name: "e2e-local",
       use: {
-        baseURL: "http://localhost:5173/",
+        baseURL: process.env.CLIENT_URL,
       },
     },
     {

@@ -9,7 +9,7 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { apolloServerMiddlewareOptions } from "./utils/serverSetup/apolloServerMiddlewareOptions";
-// import { responseController } from "./controllers/responseController";
+import { responseController } from "./controllers/responseController";
 
 import { WebSocketServer } from "ws";
 import { useServer } from "graphql-ws/lib/use/ws";
@@ -17,7 +17,7 @@ import { createSubscriptionContext } from "./utils/serverSetup/subscriptionConte
 
 const { MONGO_URI, PORT, CLIENT_URL, SERVER_URL_GQL, SERVER_URL_SUBSCRIPTION } =
   config;
-// const { findActiveTeamByDevice, saveSMS, saveMMS } = responseController;
+const { findActiveTeamByDevice, saveSMS, saveMMS } = responseController;
 
 export const startServer = async (
   MongoUri: string = MONGO_URI,
@@ -68,6 +68,7 @@ export const startServer = async (
       origin: [
         "http://localhost:8080", // vite preview build
         CLIENT_URL,
+        SERVER_URL_GQL,
         SERVER_URL_SUBSCRIPTION,
         "https://studio.apollographql.com",
       ],
@@ -86,7 +87,7 @@ export const startServer = async (
   );
 
   // RECEIVE TWILIO SMS
-  // app.post("/twilio/sms", findActiveTeamByDevice, saveSMS, saveMMS);
+  app.post("/twilio/sms", findActiveTeamByDevice, saveSMS, saveMMS);
 
   try {
     await mongoose.connect(MongoUri);
