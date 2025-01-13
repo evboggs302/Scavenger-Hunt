@@ -11,9 +11,16 @@ docker-node: &docker-node
   docker:
     - image: cimg/node:22.12.0
 
+enable-corepack: &enable-corepack
+  run:
+    name: enable-corepack
+    no_output_timeout: 30m # just in case Render has a slow environment
+    command: corepack enable
+
 git-checkout-root: &git-checkout-root
   checkout:
     path: ~/scavenger-hunt
+  <<: *enable-corepack
 
 yarn-install-step: &yarn-install
   run:
