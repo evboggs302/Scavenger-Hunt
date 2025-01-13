@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@apollo/server": "^4.11.3",
+    "@graphql-codegen/cli": "^5.0.3",
     "@graphql-tools/graphql-file-loader": "^8.0.11",
     "@graphql-tools/load": "^8.0.12",
     "@graphql-tools/load-files": "^7.0.0",
@@ -33,7 +34,6 @@
     "twilio": "^5.3.7"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^5.0.3",
     "@graphql-codegen/fragment-matcher": "^5.0.2",
     "@graphql-codegen/introspection": "^4.0.3",
     "@graphql-codegen/typescript": "^4.1.2",
