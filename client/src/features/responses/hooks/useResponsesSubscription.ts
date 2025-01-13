@@ -11,15 +11,17 @@ export const useResponsesSubscription = () => {
   const [accumulatedData, setAccumulatedData] = useState<
     ResponseReceivedSubscription["responseReceived"][]
   >([]);
+
   const { error, loading } = useSubscription(ResponseReceivedDocument, {
     variables: {
       hunt_id: hunt._id || "",
     },
     onData({ data: { data } }) {
-      console.log(data);
+      console.log("useSubscription data: ", data);
       setAccumulatedData((prev) => [...prev, data?.responseReceived]);
     },
   });
+
   return {
     accumulatedData,
     error,

@@ -21,7 +21,7 @@ export const ResponsesPage = () => {
     error,
     loading: subscriptionLoading,
   } = useResponsesSubscription();
-  console.log(accumulatedData);
+  console.log("accumulatedData: ", accumulatedData);
 
   // const { data, loading } = useQuery(GetAllResponsesByHuntIdDocument, {
   //   fetchPolicy: "network-only",
