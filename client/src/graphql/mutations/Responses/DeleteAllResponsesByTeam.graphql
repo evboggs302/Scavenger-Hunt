@@ -1,0 +1,3 @@
+mutation DeleteAllResponsesByTeam($id: ID!) {
+  deleteAllResponsesByTeam(id: $id)
+}

@@ -9,7 +9,7 @@ type Mutation {
   activateHunt(id: ID!): Boolean!
   updateHunt(input: UpdateHuntInput!): Hunt!
   markHuntComplete(id: ID!): Boolean!
-  deleteHuntById(h_id: ID!): Boolean!
+  deleteHuntById(id: ID!): Boolean!
 }
 
 type Hunt {

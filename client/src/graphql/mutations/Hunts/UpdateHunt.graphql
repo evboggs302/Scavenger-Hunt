@@ -1,0 +1,5 @@
+mutation UpdateHunt($input: UpdateHuntInput!) {
+  hunt: updateHunt(input: $input) {
+    ...Hunt
+  }
+}

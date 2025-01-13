@@ -1,0 +1,5 @@
+mutation UpdateClueOrder($input: UpdateClueOrderInput!) {
+  updateClueOrder(input: $input) {
+    ...Clue
+  }
+}

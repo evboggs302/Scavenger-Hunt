@@ -19,7 +19,9 @@ export default defineConfig(({ mode }) => {
       ),
     },
     plugins: [
-      react({ plugins: [["@swc/plugin-styled-components", {}]] }),
+      react({
+        plugins: [["@swc/plugin-styled-components", {}]],
+      }),
       svgrPlugin(),
       viteTsconfigPaths(),
       autoAlias(), // writes the aliases in tsconfig

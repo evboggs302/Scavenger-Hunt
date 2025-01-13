@@ -311,12 +311,12 @@ const huntResolver: Resolvers = {
     },
     deleteHuntById: async (
       _parent: unknown,
-      { h_id },
+      { id },
       _ctxt,
       { operation: { name } }
     ) => {
       try {
-        const hunt_id = createBsonObjectId(h_id);
+        const hunt_id = createBsonObjectId(id);
         const teamsIDs = (await TeamModel.find({ hunt_id }, "_id").exec()).map(
           (tm) => tm._id
         );
