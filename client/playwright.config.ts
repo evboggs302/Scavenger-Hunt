@@ -13,7 +13,7 @@ import "dotenv/config";
 export default defineConfig({
   testDir: "./playwright",
   /* Default timeout for test object */
-  timeout: parseDuration("5m"),
+  timeout: parseDuration("5m") || undefined,
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
