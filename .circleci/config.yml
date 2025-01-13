@@ -9,7 +9,7 @@ version: 2.1
 
 docker-node: &docker-node
   docker:
-    - image: cimg/node:20.11.1
+    - image: cimg/node:22.12.0
 
 git-checkout-root: &git-checkout-root
   checkout:
