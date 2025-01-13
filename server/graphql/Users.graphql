@@ -1,6 +1,10 @@
 type Query {
   getAllUsers: [AllUsersPayload]
+<<<<<<< HEAD
   getUserFromToken(tkn: String!): UserPayload!
+=======
+  getUserFromToken: UserPayload!
+>>>>>>> subscriptions-and-things
   userNameExists(user_name: String!): Boolean!
 }
 

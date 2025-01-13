@@ -5,15 +5,11 @@ import {
   GetHuntsByUserIdDocument,
 } from "@generated/graphql";
 import { useNavigate } from "react-router";
-import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { CreateHuntFormState } from "../components/CreateHuntDialog";
 
 export const useCreateHuntMutation = () => {
   const navigate = useNavigate();
-  const headers = useApolloContextHeaders();
-  const [createHunt, result] = useMutation(CreateHuntDocument, {
-    context: headers,
-  });
+  const [createHunt, result] = useMutation(CreateHuntDocument);
 
   const handleCreateHunt = useCallback(
     async (formData: CreateHuntFormState) => {

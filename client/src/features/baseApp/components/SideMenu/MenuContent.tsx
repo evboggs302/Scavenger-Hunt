@@ -9,7 +9,6 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ExtensionRoundedIcon from "@mui/icons-material/ExtensionRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import { useLocation, useNavigate, useParams } from "react-router";
-import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { GetHuntsByUserIdDocument } from "@generated/graphql";
 import { useQuery } from "@apollo/client";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
@@ -23,7 +22,6 @@ export const MenuContent = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { huntId } = useParams();
-  const headers = useApolloContextHeaders();
   const [isHuntsOpen, setHuntsOpen] = useState(true);
 
   const navigateHome = () => navigate("/dashboard");
@@ -33,7 +31,6 @@ export const MenuContent = () => {
   );
 
   const { data, loading } = useQuery(GetHuntsByUserIdDocument, {
-    context: headers,
     fetchPolicy: "cache-and-network",
     pollInterval: 30000,
   });

@@ -2020,6 +2020,7 @@
           {
             "name": "getUserFromToken",
             "description": null,
+<<<<<<< HEAD
             "args": [
               {
                 "name": "tkn",
@@ -2038,6 +2039,9 @@
                 "deprecationReason": null
               }
             ],
+=======
+            "args": [],
+>>>>>>> subscriptions-and-things
             "type": {
               "kind": "NON_NULL",
               "name": null,

@@ -8,7 +8,12 @@ type ENV = {
   MONGO_URI: string | undefined;
   SESSION_SECRET: string | undefined;
   CLIENT_URL: string | undefined;
+<<<<<<< HEAD
   GQL_SERVER_URL: string | undefined;
+=======
+  SERVER_URL_GQL: string | undefined;
+  SERVER_URL_SUBSCRIPTION: string | undefined;
+>>>>>>> subscriptions-and-things
   PORT: number | undefined;
   JWT_SECRET: string | undefined;
   ACCESS_TOKEN_SECRET: string | undefined;
@@ -23,7 +28,12 @@ type Config = {
   TWILIO_NUMBER: string;
   MONGO_URI: string;
   SESSION_SECRET: string;
+<<<<<<< HEAD
   GQL_SERVER_URL: string;
+=======
+  SERVER_URL_GQL: string;
+  SERVER_URL_SUBSCRIPTION: string;
+>>>>>>> subscriptions-and-things
   CLIENT_URL: string;
   PORT: number;
   JWT_SECRET: Secret;
@@ -46,7 +56,12 @@ const getConfig = (): ENV => {
     TWILIO_NUMBER: process.env.TWILIO_NUMBER,
     SESSION_SECRET: process.env.SESSION_SECRET,
     CLIENT_URL: process.env.CLIENT_URL,
+<<<<<<< HEAD
     GQL_SERVER_URL: process.env.GQL_SERVER_URL,
+=======
+    SERVER_URL_GQL: process.env.SERVER_URL_GQL,
+    SERVER_URL_SUBSCRIPTION: process.env.SERVER_URL_SUBSCRIPTION,
+>>>>>>> subscriptions-and-things
     JWT_SECRET: process.env.JWT_SECRET,
     ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET,
     REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET,

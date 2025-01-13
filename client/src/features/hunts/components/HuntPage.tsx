@@ -1,11 +1,14 @@
 import React, { SyntheticEvent, useCallback } from "react";
-import { ClueQryContextProvider } from "@lib/context/ClueContext";
 import { Outlet, useLocation, useNavigate } from "react-router";
+import { ClueQryContextProvider } from "@lib/context/ClueContext";
 import Tabs from "@mui/material/Tabs";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import { useResponseCount } from "@features/responses/hooks/useResponseCount";
 import Button from "@mui/material/Button";
+import { useActivateHuntMutation } from "../hooks/useActivateHuntMutation";
+import { useHuntFragment } from "@lib/hooks/useHuntFragment";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export const HuntPage = () => {
   const navigate = useNavigate();
@@ -15,7 +18,8 @@ export const HuntPage = () => {
     loading: resLoading,
     error: resError,
   } = useResponseCount();
-  const isResponseTabDisabled = resCount === 0 || resLoading || !!resError;
+  const { hunt } = useHuntFragment();
+  const [activateHunt, { data, error, loading }] = useActivateHuntMutation();
 
   let location: "" | "clues" | "teams" | "responses";
   if (pathname.includes("clues")) {
@@ -28,19 +32,6 @@ export const HuntPage = () => {
     location = "";
   }
 
-  // if (!data?.hunt) {
-  //   return null;
-  // }
-
-  // const { end_date, is_active } = data.hunt;
-
-  // const huntIsPassed =
-  //   !!(end_date && +end_date <= new Date().getTime()) || !!is_active;
-
-  // if (loading) {
-  //   return <Skeleton active paragraph={{ rows: 8 }} />;
-  // }
-
   const handleChange = useCallback(
     (event: SyntheticEvent, value: string) => {
       event?.preventDefault();
@@ -48,6 +39,9 @@ export const HuntPage = () => {
     },
     [navigate]
   );
+
+  const isResponseTabDisabled =
+    !hunt.is_active && (resCount === 0 || resLoading || !!resError);
 
   return (
     <ClueQryContextProvider>
@@ -58,7 +52,7 @@ export const HuntPage = () => {
           width: "80vw",
         }}
       >
-        <br />
+        {/* <br /> */}
         <Box
           sx={{
             borderBottom: 1,
@@ -80,7 +74,13 @@ export const HuntPage = () => {
             />
           </Tabs>
         </Box>
-        <Button>Activate hunt</Button>
+        <Button
+          onClick={activateHunt}
+          disabled={loading || hunt.is_active}
+          startIcon={loading && <CircularProgress size={20} />}
+        >
+          Activate hunt
+        </Button>
       </Box>
       <Outlet />
     </ClueQryContextProvider>

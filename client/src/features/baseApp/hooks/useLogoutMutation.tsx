@@ -2,15 +2,12 @@ import { useApolloClient, useMutation } from "@apollo/client";
 import { LogoutUserDocument } from "@generated/graphql";
 import { useCallback, useMemo } from "react";
 import { useTokenContext } from "@lib/context/TokenContext";
-import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { useNavigate } from "react-router";
 
 export const useLogoutMutation = () => {
   const navigate = useNavigate();
-  const headers = useApolloContextHeaders();
   const client = useApolloClient();
   const [logoutUser, result] = useMutation(LogoutUserDocument, {
-    context: headers,
     fetchPolicy: "network-only",
   });
   const { setToken } = useTokenContext();
@@ -24,7 +21,7 @@ export const useLogoutMutation = () => {
         return navigate("/");
       },
     });
-  }, [logoutUser, client, navigate]);
+  }, [logoutUser, client, setToken, navigate]);
 
   return useMemo(
     (): [typeof onLogout, typeof result] => [onLogout, result],
