@@ -1,0 +1,41 @@
+# Exported from Render on 2025-01-13T19:49:44Z
+services:
+  - type: web
+    name: digital-scavenger-ui
+    runtime: static
+    repo: https://github.com/evboggs302/Scavenger-Hunt
+    envVars:
+      - fromGroup: scavenger_env
+    buildCommand: corepack enable; yarn install --frozen-lockfile; yarn build
+    staticPublishPath: build
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    rootDir: client
+  - type: web
+    name: digital-scavenger-gql
+    runtime: node
+    repo: https://github.com/evboggs302/Scavenger-Hunt
+    plan: free
+    envVars:
+      - fromGroup: scavenger_env
+    region: ohio
+    buildCommand: corepack enable; yarn install --frozen-lockfile && yarn codegen && yarn compile
+    startCommand: yarn start-server
+    autoDeploy: false
+    buildFilter:
+      paths:
+        - server/**/*
+      ignoredPaths:
+        - "**/__tests__/**/*"
+    rootDir: server
+  - type: web
+    name: digital-scavenger-storybook
+    runtime: static
+    repo: https://github.com/evboggs302/Scavenger-Hunt
+    buildCommand: corepack enable; yarn --frozen-lockfile install; yarn build-storybook
+    staticPublishPath: storybook-static
+    autoDeploy: false
+    rootDir: client
+version: "1"
