@@ -1,31 +1,44 @@
 import React, { useState } from "react";
 import {
+  GetAllResponsesByHuntIdDocument,
   GetResponsesByHuntIdDocument,
   ResponsePayload,
 } from "@generated/graphql";
 import { useQuery } from "@apollo/client";
-import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { useHuntFragment } from "../../../lib/hooks/useHuntFragment";
 import Skeleton from "@mui/material/Skeleton";
+import { useResponsesSubscription } from "../hooks/useResponsesSubscription";
+import { Navigate, useNavigate } from "react-router";
 
 /**
  * @todo Add support for MMS responses
  */
 export const ResponsesPage = () => {
-  const headers = useApolloContextHeaders();
   const { hunt } = useHuntFragment();
 
-  const { data: responses, loading } = useQuery(GetResponsesByHuntIdDocument, {
-    context: headers,
-    fetchPolicy: "network-only",
-    nextFetchPolicy: "cache-and-network",
-    pollInterval: 30_000,
-    variables: { id: hunt?._id || "" },
-  });
+  const {
+    accumulatedData,
+    error,
+    loading: subscriptionLoading,
+  } = useResponsesSubscription();
+  console.log("accumulatedData: ", accumulatedData);
 
-  if (loading) {
-    return <Skeleton variant="rectangular" width={210} height={60} />;
-  }
+  // const { data, loading } = useQuery(GetAllResponsesByHuntIdDocument, {
+  //   fetchPolicy: "network-only",
+  //   nextFetchPolicy: "cache-and-network",
+  //   pollInterval: 30_000,
+  //   variables: { id: hunt?._id || "" },
+  // });
+
+  // const shouldNavAway = !hunt.is_active && !data?.result.responses;
+
+  // if (shouldNavAway) {
+  //   return <Navigate to="" replace />;
+  // }
+
+  // if (loading) {
+  //   return <Skeleton variant="rectangular" width={210} height={60} />;
+  // }
 
   return (
     <></>

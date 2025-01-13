@@ -4,15 +4,11 @@ import {
   DeleteAllCluesByHuntIdDocument,
   GetOrderedCluesDocument,
 } from "@generated/graphql";
-import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 
 export const useDeleteAllCluesMutation = () => {
-  const headers = useApolloContextHeaders();
   const { hunt } = useHuntFragment();
-  const [deleteAllClues, result] = useMutation(DeleteAllCluesByHuntIdDocument, {
-    context: headers,
-  });
+  const [deleteAllClues, result] = useMutation(DeleteAllCluesByHuntIdDocument);
 
   const handleDeleteAllClues = useCallback(async () => {
     await deleteAllClues({

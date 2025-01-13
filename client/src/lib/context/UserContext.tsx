@@ -4,9 +4,7 @@ import {
   GetUserFromTokenQuery,
   GetUserFromTokenQueryVariables,
 } from "@generated/graphql";
-import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { QueryResult, useQuery } from "@apollo/client";
-import { useTokenContext } from "./TokenContext";
 import { useNavigate } from "react-router";
 
 export type UserContextValue = QueryResult<
@@ -19,14 +17,14 @@ export const UserContext = createContext<UserContextValue | undefined>(
 );
 
 export const UserQryContextProvider = ({ children }: PropsWithChildren) => {
-  const { token } = useTokenContext();
   const navigate = useNavigate();
 
   const result = useQuery(GetUserFromTokenDocument, {
-    variables: { tkn: token || "invalid" },
-    context: useApolloContextHeaders(),
-    pollInterval: 4500,
-    onError: () => navigate("/login", { replace: true }),
+    pollInterval: 10_000,
+    onError: () => {
+      localStorage.removeItem("BEARER_TOKEN");
+      return navigate("/login", { replace: true });
+    },
   });
 
   return <UserContext.Provider value={result}>{children}</UserContext.Provider>;

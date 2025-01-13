@@ -12,6 +12,7 @@ import {
 import { withFilter } from "graphql-subscriptions";
 import { mongodbPubSub } from "../utils/pubSub";
 import { twilioClient } from "../utils/twilioClient";
+import { SubscriptionContext } from "../utils/serverSetup/subscriptionContext";
 
 const { TWILIO_NUMBER } = config;
 
@@ -20,11 +21,12 @@ export const RESPONSE_RECEIVED_TOPIC = "RESPONSE_RECEIVED_TOPIC";
 const responseResolver: Resolvers = {
   Subscription: {
     responseReceived: {
-      subscribe: withFilter<unknown, { hunt_id: string }>(
+      subscribe: withFilter<unknown, { hunt_id: string }, SubscriptionContext>(
         () => mongodbPubSub.asyncIterator(RESPONSE_RECEIVED_TOPIC),
-        async (payload, variables) => {
+        async (payload, variables, context) => {
           console.log("payload: ", payload);
           console.log("variables: ", variables);
+          console.log("context: ", context);
           try {
             const team_id = createBsonObjectId(
               (payload as ResponsePayload).team_id

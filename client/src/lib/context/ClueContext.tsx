@@ -1,6 +1,5 @@
 import React, { createContext, PropsWithChildren, useContext } from "react";
 import { QueryResult, useQuery } from "@apollo/client";
-import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import {
   GetOrderedCluesDocument,
   GetOrderedCluesQuery,
@@ -17,10 +16,8 @@ const ClueContext = createContext<ClueContextValue | undefined>(undefined);
 
 export const ClueQryContextProvider = ({ children }: PropsWithChildren) => {
   const { data } = useHuntContext();
-  const headers = useApolloContextHeaders();
 
   const result = useQuery(GetOrderedCluesDocument, {
-    context: headers,
     fetchPolicy: "cache-and-network",
     variables: { id: data?.hunt?._id || "" },
   });

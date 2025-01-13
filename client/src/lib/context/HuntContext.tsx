@@ -4,7 +4,6 @@ import {
   GetHuntQuery,
   GetHuntQueryVariables,
 } from "@generated/graphql";
-import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { QueryResult, useQuery } from "@apollo/client";
 import { useParams } from "react-router";
 
@@ -18,10 +17,8 @@ export const HuntQryContextProvider = ({
   children,
 }: PropsWithChildren<unknown>) => {
   const { huntId } = useParams();
-  const headers = useApolloContextHeaders();
 
   const result = useQuery(GetHuntDocument, {
-    context: headers,
     fetchPolicy: "cache-and-network",
     variables: { id: huntId || "" },
   });

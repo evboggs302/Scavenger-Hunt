@@ -31,11 +31,11 @@ const userResolver: Resolvers = {
     },
     getUserFromToken: async (
       _parent: unknown,
-      { tkn },
-      _ctxt,
+      _args,
+      { token },
       { operation: { name } }
     ) => {
-      const doc = await TokenModel.findOne({ token: tkn })
+      const doc = await TokenModel.findOne({ token })
         .select({ issuedToUser: 1 })
         .exec();
       if (!doc) {

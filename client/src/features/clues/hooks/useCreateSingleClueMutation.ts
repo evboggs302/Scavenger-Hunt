@@ -4,18 +4,14 @@ import {
   CreateSingleClueDocument,
   GetOrderedCluesDocument,
 } from "@generated/graphql";
-import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { CreateCluesFormState } from "../components/CreateCluesDialog/CreateCluesDialog";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 
 type RequiredFormState = CreateCluesFormState & { isMulti: false };
 
 export const useCreateSingleClueMutation = () => {
-  const headers = useApolloContextHeaders();
   const { hunt } = useHuntFragment();
-  const [createSingleClue, result] = useMutation(CreateSingleClueDocument, {
-    context: headers,
-  });
+  const [createSingleClue, result] = useMutation(CreateSingleClueDocument);
 
   const handleCreateSingleClue = useCallback(
     async ({ clueItem }: RequiredFormState) => {

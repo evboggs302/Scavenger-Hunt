@@ -1,18 +1,14 @@
 import { useCallback, useMemo } from "react";
 import { useMutation } from "@apollo/client";
 import { CreateSingleTeamDocument, GetHuntDocument } from "@generated/graphql";
-import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 import { CreateTeamsFormState } from "../components/CreateTeamsDialog/CreateTeamsDialog";
 
 type RequiredFormState = CreateTeamsFormState & { isMulti: false };
 
 export const useCreateSingleTeamMutation = () => {
-  const headers = useApolloContextHeaders();
   const { hunt } = useHuntFragment();
-  const [createSingleTeam, result] = useMutation(CreateSingleTeamDocument, {
-    context: headers,
-  });
+  const [createSingleTeam, result] = useMutation(CreateSingleTeamDocument);
 
   const handleCreateSingleTeam = useCallback(
     async ({ team }: RequiredFormState) => {

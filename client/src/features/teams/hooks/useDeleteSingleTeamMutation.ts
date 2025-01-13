@@ -1,13 +1,9 @@
 import { useCallback, useMemo } from "react";
 import { useMutation } from "@apollo/client";
 import { DeleteTeamByIdDocument, GetHuntDocument } from "@generated/graphql";
-import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 
 export const useDeleteSingleTeamMutation = () => {
-  const headers = useApolloContextHeaders();
-  const [deleteSingleTeam, result] = useMutation(DeleteTeamByIdDocument, {
-    context: headers,
-  });
+  const [deleteSingleTeam, result] = useMutation(DeleteTeamByIdDocument);
 
   const handleDeleteSingleTeam = useCallback(
     async (team_id: string) => {

@@ -4,13 +4,9 @@ import {
   DeleteClueByIdDocument,
   GetOrderedCluesDocument,
 } from "@generated/graphql";
-import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 
 export const useDeleteSingleClueMutation = () => {
-  const headers = useApolloContextHeaders();
-  const [deleteSingleClue, result] = useMutation(DeleteClueByIdDocument, {
-    context: headers,
-  });
+  const [deleteSingleClue, result] = useMutation(DeleteClueByIdDocument);
 
   const handleDeleteSingleClue = useCallback(
     async (clue_id: string) => {

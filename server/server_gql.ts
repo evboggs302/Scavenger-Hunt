@@ -8,14 +8,16 @@ import { schemaWithResolvers } from "./schema";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
-import { apolloServerMiddlewareOptions } from "./utils/apolloServerMiddlewareOptions";
-import { responseController } from "./controllers/responseController";
+import { apolloServerMiddlewareOptions } from "./utils/serverSetup/apolloServerMiddlewareOptions";
+// import { responseController } from "./controllers/responseController";
 
 import { WebSocketServer } from "ws";
 import { useServer } from "graphql-ws/lib/use/ws";
+import { createSubscriptionContext } from "./utils/serverSetup/subscriptionContext";
 
-const { MONGO_URI, PORT, GQL_SERVER_URL, CLIENT_URL } = config;
-const { findActiveTeamByDevice, saveSMS, saveMMS } = responseController;
+const { MONGO_URI, PORT, CLIENT_URL, SERVER_URL_GQL, SERVER_URL_SUBSCRIPTION } =
+  config;
+// const { findActiveTeamByDevice, saveSMS, saveMMS } = responseController;
 
 export const startServer = async (
   MongoUri: string = MONGO_URI,
@@ -25,8 +27,8 @@ export const startServer = async (
   const httpServer = http.createServer(app);
   const server = new ApolloServer({
     schema: schemaWithResolvers,
-    introspection: GQL_SERVER_URL.includes("localhost"),
-    csrfPrevention: !GQL_SERVER_URL.includes("localhost"),
+    introspection: SERVER_URL_GQL.includes("localhost"),
+    csrfPrevention: !SERVER_URL_GQL.includes("localhost"),
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
       {
@@ -44,13 +46,17 @@ export const startServer = async (
   // Creating the WebSocket server
   const wsServer = new WebSocketServer({
     server: httpServer,
-    // Pass a different path here if app.use
-    // serves expressMiddleware at a different path
     path: "/subscriptions",
   });
 
   // Hand in the schema we just created and have the WebSocketServer start listening.
-  const serverCleanup = useServer({ schema: schemaWithResolvers }, wsServer);
+  const serverCleanup = useServer(
+    {
+      schema: schemaWithResolvers,
+      context: createSubscriptionContext,
+    },
+    wsServer
+  );
 
   await server.start();
 
@@ -60,9 +66,9 @@ export const startServer = async (
     cors<cors.CorsRequest>({
       credentials: true,
       origin: [
-        "http://localhost:5173", // vite dev build
         "http://localhost:8080", // vite preview build
         CLIENT_URL,
+        SERVER_URL_SUBSCRIPTION,
         "https://studio.apollographql.com",
       ],
     }),
@@ -80,7 +86,7 @@ export const startServer = async (
   );
 
   // RECEIVE TWILIO SMS
-  app.post("/twilio/sms", findActiveTeamByDevice, saveSMS, saveMMS);
+  // app.post("/twilio/sms", findActiveTeamByDevice, saveSMS, saveMMS);
 
   try {
     await mongoose.connect(MongoUri);
@@ -88,7 +94,10 @@ export const startServer = async (
     await new Promise<void>((resolve) => {
       return httpServer.listen(listenOptions, () => {
         console.log(
-          `\n✅ Connected to database. Server started listening on ${GQL_SERVER_URL}.\n`
+          `
+✅ Connected to database.
+Server started listening on ${SERVER_URL_GQL}
+Socket started listening on ${SERVER_URL_SUBSCRIPTION}\n`
         );
         resolve();
       });

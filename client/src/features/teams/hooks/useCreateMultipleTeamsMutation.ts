@@ -4,20 +4,15 @@ import {
   CreateMultipleTeamsDocument,
   GetHuntDocument,
 } from "@generated/graphql";
-import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 import { CreateTeamsFormState } from "../components/CreateTeamsDialog/CreateTeamsDialog";
 
 type RequiredFormState = CreateTeamsFormState & { isMulti: true };
 
 export const useCreateMultipleTeamsMutation = () => {
-  const headers = useApolloContextHeaders();
   const { hunt } = useHuntFragment();
   const [createMultipleTeams, result] = useMutation(
-    CreateMultipleTeamsDocument,
-    {
-      context: headers,
-    }
+    CreateMultipleTeamsDocument
   );
 
   const handleCreateMultipleTeams = useCallback(

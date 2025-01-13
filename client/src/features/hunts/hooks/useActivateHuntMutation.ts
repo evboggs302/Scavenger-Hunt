@@ -1,15 +1,11 @@
 import { useCallback, useMemo } from "react";
 import { useMutation } from "@apollo/client";
 import { ActivateHuntDocument, GetHuntDocument } from "@generated/graphql";
-import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 
 export const useActivateHuntMutation = () => {
-  const headers = useApolloContextHeaders();
   const { hunt } = useHuntFragment();
-  const [activateHunt, result] = useMutation(ActivateHuntDocument, {
-    context: headers,
-  });
+  const [activateHunt, result] = useMutation(ActivateHuntDocument);
 
   const handleActivateHunt = useCallback(async () => {
     await activateHunt({

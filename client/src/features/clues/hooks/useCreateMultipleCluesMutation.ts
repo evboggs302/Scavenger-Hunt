@@ -4,20 +4,15 @@ import {
   CreateMultipleCluesDocument,
   GetOrderedCluesDocument,
 } from "@generated/graphql";
-import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { CreateCluesFormState } from "../components/CreateCluesDialog/CreateCluesDialog";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 
 type RequiredFormState = CreateCluesFormState & { isMulti: true };
 
 export const useCreateMultipleCluesMutation = () => {
-  const headers = useApolloContextHeaders();
   const { hunt } = useHuntFragment();
   const [createMultipleClues, result] = useMutation(
-    CreateMultipleCluesDocument,
-    {
-      context: headers,
-    }
+    CreateMultipleCluesDocument
   );
 
   const handleCreateMultipleClues = useCallback(

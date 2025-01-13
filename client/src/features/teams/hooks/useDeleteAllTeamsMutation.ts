@@ -4,15 +4,11 @@ import {
   DeleteAllTeamsByHuntIdDocument,
   GetHuntDocument,
 } from "@generated/graphql";
-import { useApolloContextHeaders } from "@apolloClient/useApolloContextHeaders";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 
 export const useDeleteAllTeamsMutation = () => {
-  const headers = useApolloContextHeaders();
   const { hunt } = useHuntFragment();
-  const [deleteAllTeam, result] = useMutation(DeleteAllTeamsByHuntIdDocument, {
-    context: headers,
-  });
+  const [deleteAllTeam, result] = useMutation(DeleteAllTeamsByHuntIdDocument);
 
   const handleDeleteAllTeam = useCallback(async () => {
     await deleteAllTeam({

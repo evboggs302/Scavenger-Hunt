@@ -39,7 +39,7 @@ export const useRegisterMutation = () => {
         },
       });
     },
-    [registerUser, navigate]
+    [registerUser, setToken, navigate]
   );
 
   return useMemo(
