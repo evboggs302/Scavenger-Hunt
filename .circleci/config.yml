@@ -15,21 +15,21 @@ git-checkout-root: &git-checkout-root
   checkout:
     path: ~/scavenger-hunt
 
-yarn-install-step: &yarn-install-frozen
+yarn-install-step: &yarn-install
   run:
-    name: yarn install --frozen-lockfile
+    name: yarn install
     no_output_timeout: 30m # just in case Render has a slow environment
-    command: yarn install --frozen-lockfile
+    command: yarn install
 
 # NOT YET USED
-yarn-install-for-production: &yarn-install-production
+yarn-install-for-production: &yarn-install-prod
   - run:
       name: remove node_modules
       command: rm -rf /node_modules
   - run:
-      name: yarn install --production
+      name: yarn install --prod
       no_output_timeout: 30m # just in case Render has a slow environment
-      command: yarn install --production
+      command: yarn install --prod
 
 jobs:
   test-ui-job:
@@ -38,7 +38,7 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
-      - <<: *yarn-install-production
+      - <<: *yarn-install
       - run:
           name: UI functional tests
           command: yarn test
@@ -54,7 +54,7 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
-      - <<: *yarn-install-production
+      - <<: *yarn-install-prod
       - run:
           name: Graphql codegen
           command: yarn codegen
@@ -71,7 +71,7 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
-      - <<: *yarn-install-production
+      - <<: *yarn-install-prod
       - run:
           name: Build UI
           command: yarn build
@@ -85,7 +85,7 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
-      - <<: *yarn-install-production
+      - <<: *yarn-install
       - run:
           name: Build Storybook
           command: yarn build-storybook
