@@ -293,14 +293,6 @@ export type QueryGetTeamsByHuntIdArgs = {
 };
 
 
-<<<<<<< HEAD
-export type QueryGetUserFromTokenArgs = {
-  tkn: Scalars['String']['input'];
-};
-
-
-=======
->>>>>>> subscriptions-and-things
 export type QueryUserNameExistsArgs = {
   user_name: Scalars['String']['input'];
 };
@@ -654,11 +646,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getResponsesByTeam?: Resolver<Array<Maybe<ResolversTypes['ResponsePayload']>>, ParentType, ContextType, RequireFields<QueryGetResponsesByTeamArgs, 'id'>>;
   getTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<QueryGetTeamArgs, 'id'>>;
   getTeamsByHuntId?: Resolver<Array<Maybe<ResolversTypes['Team']>>, ParentType, ContextType, RequireFields<QueryGetTeamsByHuntIdArgs, 'h_id'>>;
-<<<<<<< HEAD
-  getUserFromToken?: Resolver<ResolversTypes['UserPayload'], ParentType, ContextType, RequireFields<QueryGetUserFromTokenArgs, 'tkn'>>;
-=======
   getUserFromToken?: Resolver<ResolversTypes['UserPayload'], ParentType, ContextType>;
->>>>>>> subscriptions-and-things
   userNameExists?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryUserNameExistsArgs, 'user_name'>>;
 }>;
 

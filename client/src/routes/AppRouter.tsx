@@ -20,10 +20,7 @@ const ProtectedBaseApp = () => {
   const { token } = useTokenContext();
 
   if (!token || token?.length === 0) {
-<<<<<<< HEAD
-=======
     localStorage.removeItem("BEARER_TOKEN");
->>>>>>> subscriptions-and-things
     return <Navigate to="/" replace />;
   }
 
