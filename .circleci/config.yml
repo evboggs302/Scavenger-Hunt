@@ -19,7 +19,7 @@ yarn-install-step: &yarn-install
   run:
     name: yarn install
     no_output_timeout: 30m # just in case Render has a slow environment
-    command: yarn install
+    command: yarn install --frozen-lockfile
 
 # NOT YET USED
 yarn-install-for-production: &yarn-install-prod
@@ -54,7 +54,7 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
-      - <<: *yarn-install-prod
+      - <<: *yarn-install
       - run:
           name: Graphql codegen
           command: yarn codegen
@@ -71,7 +71,7 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
-      - <<: *yarn-install-prod
+      - <<: *yarn-install
       - run:
           name: Build UI
           command: yarn build
