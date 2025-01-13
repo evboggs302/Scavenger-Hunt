@@ -38,7 +38,7 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
-      - <<: *yarn-install-frozen
+      - <<: *yarn-install-production
       - run:
           name: UI functional tests
           command: yarn test
@@ -54,7 +54,7 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
-      - <<: *yarn-install-frozen
+      - <<: *yarn-install-production
       - run:
           name: Graphql codegen
           command: yarn codegen
@@ -71,7 +71,7 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
-      - <<: *yarn-install-frozen
+      - <<: *yarn-install-production
       - run:
           name: Build UI
           command: yarn build
@@ -85,7 +85,7 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
-      - <<: *yarn-install-frozen
+      - <<: *yarn-install-production
       - run:
           name: Build Storybook
           command: yarn build-storybook
