@@ -8,10 +8,15 @@ import { visualizer } from "rollup-plugin-visualizer";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, "../", "");
+  const clientPort = +env.CLIENT_PORT;
+
   return {
     define: {
-      "process.env.GQL_SERVER_URL": JSON.stringify(env.GQL_SERVER_URL),
       "process.env.CLIENT_URL": JSON.stringify(env.CLIENT_URL),
+      "process.env.SERVER_URL_GQL": JSON.stringify(env.SERVER_URL_GQL),
+      "process.env.SERVER_URL_SUBSCRIPTION": JSON.stringify(
+        env.SERVER_URL_SUBSCRIPTION
+      ),
     },
     plugins: [
       react({ plugins: [["@swc/plugin-styled-components", {}]] }),
@@ -31,6 +36,7 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       open: true,
+      port: clientPort || 8585,
     },
     test: {
       environment: "jsdom",

@@ -4,7 +4,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, "../", "");
   return {
     define: {
-      "process.env.GQL_SERVER_URL": JSON.stringify(env.GQL_SERVER_URL),
+      "process.env.SERVER_URL_GQL": JSON.stringify(env.SERVER_URL_GQL),
       "process.env.CLIENT_URL": JSON.stringify(env.CLIENT_URL),
     },
     test: {

@@ -21,3 +21,4 @@ config.env
 yarn-debug.log*
 yarn-error.log*
 /**/*yarn-error.log*
+/**/*.yarn
