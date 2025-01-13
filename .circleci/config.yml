@@ -18,9 +18,9 @@ enable-corepack: &enable-corepack
     command: corepack enable
 
 git-checkout-root: &git-checkout-root
-  checkout:
+  - checkout:
     path: ~/scavenger-hunt
-  <<: *enable-corepack
+  - <<: *enable-corepack
 
 yarn-install-step: &yarn-install
   run:
