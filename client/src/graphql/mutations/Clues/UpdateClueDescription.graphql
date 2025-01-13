@@ -1,0 +1,5 @@
+mutation UpdateClueDescription($input: UpdateClueDescriptionInput!) {
+  updatedClue: updateClueDescription(input: $input) {
+    ...Clue
+  }
+}

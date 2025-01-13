@@ -11,12 +11,6 @@ docker-node: &docker-node
   docker:
     - image: cimg/node:22.13.0
 
-enable-corepack: &enable-corepack
-  run:
-    name: enable corepack
-    no_output_timeout: 30m # just in case Render has a slow environment
-    command: corepack enable --install-directory="/home/circleci/bin"
-
 git-checkout-root: &git-checkout-root
   checkout:
     path: ~/scavenger-hunt
@@ -44,7 +38,6 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
-      - <<: *enable-corepack
       - <<: *yarn-install
       - run:
           name: UI functional tests
@@ -61,7 +54,6 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
-      - <<: *enable-corepack
       - <<: *yarn-install-prod
       - run:
           name: Graphql codegen
@@ -79,7 +71,6 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
-      - <<: *enable-corepack
       - <<: *yarn-install-prod
       - run:
           name: Build UI
@@ -94,7 +85,6 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
-      - <<: *enable-corepack
       - <<: *yarn-install
       - run:
           name: Build Storybook

@@ -1,0 +1,14 @@
+{
+  "client": {
+    "includes": ["./client/src/**/*"],
+    "service": {
+      "localSchemaFile": [
+        "./server/graphql/Clues.graphql",
+        "./server/graphql/Hunts.graphql",
+        "./server/graphql/Responses.graphql",
+        "./server/graphql/Teams.graphql",
+        "./server/graphql/Users.graphql"
+      ]
+    }
+  }
+}

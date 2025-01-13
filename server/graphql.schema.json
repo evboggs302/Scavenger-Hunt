@@ -1328,7 +1328,7 @@
             "description": null,
             "args": [
               {
-                "name": "h_id",
+                "name": "id",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",

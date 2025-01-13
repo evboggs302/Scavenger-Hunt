@@ -4,7 +4,7 @@ import { RefObject, useLayoutEffect, useState } from "react";
  * @param ref The `ref` assigned to the element
  * @returns TRUE if the element assigned the `ref` has overflowing content
  */
-export const useHasOverflowContent = (ref: RefObject<HTMLElement>) => {
+export const useHasOverflowContent = (ref: RefObject<HTMLElement | null>) => {
   const [hasOverflow, setHasOverflow] = useState(false);
 
   useLayoutEffect(() => {

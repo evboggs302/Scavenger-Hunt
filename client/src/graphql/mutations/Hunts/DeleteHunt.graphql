@@ -1,0 +1,3 @@
+mutation DeleteHunt($hunt_id: ID!) {
+  deleteHuntById(id: $hunt_id)
+}

@@ -1,13 +1,16 @@
 {
   "__schema": {
     "queryType": {
-      "name": "Query"
+      "name": "Query",
+      "kind": "OBJECT"
     },
     "mutationType": {
-      "name": "Mutation"
+      "name": "Mutation",
+      "kind": "OBJECT"
     },
     "subscriptionType": {
-      "name": "Subscription"
+      "name": "Subscription",
+      "kind": "OBJECT"
     },
     "types": [
       {
@@ -1325,7 +1328,7 @@
             "description": null,
             "args": [
               {
-                "name": "h_id",
+                "name": "id",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
