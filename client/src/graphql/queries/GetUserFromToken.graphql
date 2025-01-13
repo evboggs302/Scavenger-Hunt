@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-query GetUserFromToken($tkn: String!) {
-  user: getUserFromToken(tkn: $tkn) {
-=======
 query GetUserFromToken {
   user: getUserFromToken {
->>>>>>> subscriptions-and-things
     ...User
   }
 }
