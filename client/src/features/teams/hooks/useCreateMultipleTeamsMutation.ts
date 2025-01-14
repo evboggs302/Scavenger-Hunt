@@ -12,13 +12,13 @@ type RequiredFormState = CreateTeamsFormState & { isMulti: true };
 export const useCreateMultipleTeamsMutation = () => {
   const { hunt } = useHuntFragment();
   const [createMultipleTeams, result] = useMutation(
-    CreateMultipleTeamsDocument
+    CreateMultipleTeamsDocument,
+    { refetchQueries: [GetHuntDocument] }
   );
 
   const handleCreateMultipleTeams = useCallback(
     async ({ teams }: RequiredFormState) => {
       await createMultipleTeams({
-        refetchQueries: [GetHuntDocument],
         variables: {
           input: {
             hunt_id: hunt._id || "",

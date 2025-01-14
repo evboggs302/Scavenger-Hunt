@@ -11,12 +11,13 @@ type RequiredFormState = CreateCluesFormState & { isMulti: false };
 
 export const useCreateSingleClueMutation = () => {
   const { hunt } = useHuntFragment();
-  const [createSingleClue, result] = useMutation(CreateSingleClueDocument);
+  const [createSingleClue, result] = useMutation(CreateSingleClueDocument, {
+    refetchQueries: [GetOrderedCluesDocument],
+  });
 
   const handleCreateSingleClue = useCallback(
     async ({ clueItem }: RequiredFormState) => {
       await createSingleClue({
-        refetchQueries: [GetOrderedCluesDocument],
         variables: {
           input: {
             h_id: hunt._id || "",

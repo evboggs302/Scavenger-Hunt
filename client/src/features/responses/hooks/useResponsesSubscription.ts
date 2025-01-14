@@ -1,12 +1,19 @@
 import { useState } from "react";
-import { useSubscription } from "@apollo/client";
+import { ApolloError, useSubscription } from "@apollo/client";
 import {
+  ResponsePayload,
   ResponseReceivedDocument,
   ResponseReceivedSubscription,
 } from "@generated/graphql";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 
-export const useResponsesSubscription = () => {
+type UseResponsesSubscriptionReturn = {
+  accumulatedData: ResponsePayload[];
+  error?: ApolloError;
+  loading: boolean;
+};
+
+export const useResponsesSubscription = (): UseResponsesSubscriptionReturn => {
   const { hunt } = useHuntFragment();
   const [accumulatedData, setAccumulatedData] = useState<
     ResponseReceivedSubscription["responseReceived"][]
@@ -23,7 +30,7 @@ export const useResponsesSubscription = () => {
   });
 
   return {
-    accumulatedData,
+    accumulatedData: accumulatedData.filter((res) => !!res),
     error,
     loading,
   };

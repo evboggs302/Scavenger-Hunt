@@ -7,21 +7,20 @@ import { useNavigate } from "react-router";
 export const useLogoutMutation = () => {
   const navigate = useNavigate();
   const client = useApolloClient();
+  const { setToken } = useTokenContext();
   const [logoutUser, result] = useMutation(LogoutUserDocument, {
     fetchPolicy: "network-only",
+    onCompleted: () => {
+      localStorage.clear();
+      client.clearStore();
+      setToken(null);
+      return navigate("/");
+    },
   });
-  const { setToken } = useTokenContext();
 
   const onLogout = useCallback(async () => {
-    await logoutUser({
-      onCompleted: () => {
-        localStorage.clear();
-        client.clearStore();
-        setToken(null);
-        return navigate("/");
-      },
-    });
-  }, [logoutUser, client, setToken, navigate]);
+    await logoutUser();
+  }, [logoutUser]);
 
   return useMemo(
     (): [typeof onLogout, typeof result] => [onLogout, result],

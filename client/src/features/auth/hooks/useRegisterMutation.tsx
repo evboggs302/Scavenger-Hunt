@@ -14,7 +14,13 @@ type RegisterUserCallbackProps = {
 export const useRegisterMutation = () => {
   const navigate = useNavigate();
   const { setToken } = useTokenContext();
-  const [registerUser, result] = useMutation(RegisterUserDocument);
+  const [registerUser, result] = useMutation(RegisterUserDocument, {
+    onCompleted: ({ registerUser }) => {
+      localStorage.setItem("BEARER_TOKEN", registerUser.token);
+      setToken(registerUser.token);
+      navigate("/dashboard");
+    },
+  });
 
   const handlRegisterUser = useCallback(
     async ({
@@ -32,14 +38,9 @@ export const useRegisterMutation = () => {
             last_name: lastName,
           },
         },
-        onCompleted: ({ registerUser }) => {
-          localStorage.setItem("BEARER_TOKEN", registerUser.token);
-          setToken(registerUser.token);
-          navigate("/dashboard");
-        },
       });
     },
-    [registerUser, setToken, navigate]
+    [registerUser]
   );
 
   return useMemo(

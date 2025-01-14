@@ -5,10 +5,8 @@ import Tabs from "@mui/material/Tabs";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import { useResponseCount } from "@features/responses/hooks/useResponseCount";
-import Button from "@mui/material/Button";
-import { useActivateHuntMutation } from "../hooks/useActivateHuntMutation";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
-import CircularProgress from "@mui/material/CircularProgress";
+import { HuntManagementButtons } from "./HuntManagementButtons";
 
 export const HuntPage = () => {
   const navigate = useNavigate();
@@ -19,7 +17,6 @@ export const HuntPage = () => {
     error: resError,
   } = useResponseCount();
   const { hunt } = useHuntFragment();
-  const [activateHunt, { data, error, loading }] = useActivateHuntMutation();
 
   let location: "" | "clues" | "teams" | "responses";
   if (pathname.includes("clues")) {
@@ -74,13 +71,7 @@ export const HuntPage = () => {
             />
           </Tabs>
         </Box>
-        <Button
-          onClick={activateHunt}
-          disabled={loading || hunt.is_active}
-          startIcon={loading && <CircularProgress size={20} />}
-        >
-          Activate hunt
-        </Button>
+        <HuntManagementButtons />
       </Box>
       <Outlet />
     </ClueQryContextProvider>

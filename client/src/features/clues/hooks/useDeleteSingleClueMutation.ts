@@ -6,12 +6,13 @@ import {
 } from "@generated/graphql";
 
 export const useDeleteSingleClueMutation = () => {
-  const [deleteSingleClue, result] = useMutation(DeleteClueByIdDocument);
+  const [deleteSingleClue, result] = useMutation(DeleteClueByIdDocument, {
+    refetchQueries: [GetOrderedCluesDocument],
+  });
 
   const handleDeleteSingleClue = useCallback(
     async (clue_id: string) => {
       await deleteSingleClue({
-        refetchQueries: [GetOrderedCluesDocument],
         variables: {
           clue_id,
         },

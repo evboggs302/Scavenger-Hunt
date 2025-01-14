@@ -10,7 +10,7 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import { MenuContent } from "./MenuContent";
 import { useLogoutMutation } from "@features/baseApp/hooks/useLogoutMutation";
 import { useUserContext } from "@lib/context/UserContext";
-import { CreateHuntButton } from "@features/createHuntDialog/components/CreateHuntButton";
+import { CreateHuntButton } from "@/features/hunts/components/CreateHuntDialog/components/CreateHuntButton";
 
 interface SideMenuMobileProps {
   open: boolean | undefined;

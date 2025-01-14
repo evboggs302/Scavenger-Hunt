@@ -302,7 +302,7 @@ export type ResponsePayload = {
   clue_id: Scalars['String']['output'];
   correct?: Maybe<Scalars['Boolean']['output']>;
   hint_sent?: Maybe<Scalars['Boolean']['output']>;
-  response_img?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  response_img?: Maybe<Array<Scalars['String']['output']>>;
   response_txt?: Maybe<Scalars['String']['output']>;
   team_id: Scalars['String']['output'];
   time_received: Scalars['String']['output'];
@@ -359,6 +359,7 @@ export type UpdateClueOrderInput = {
 export type UpdateHuntInput = {
   end_date?: InputMaybe<Scalars['String']['input']>;
   hunt_id: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
   recall_message?: InputMaybe<Scalars['String']['input']>;
   start_date?: InputMaybe<Scalars['String']['input']>;
 };
@@ -383,7 +384,7 @@ export type HuntFragment = { __typename: 'Hunt', _id: string, created_by: string
 
 export type FullHuntFragment = { __typename: 'Hunt', _id: string, name: string, created_date: string, start_date: string, end_date: string, is_active: boolean, marked_complete: boolean, recall_message: string, created_by: string, teams?: Array<{ __typename: 'Team', _id: string, hunt_id: string, recall_sent: boolean, last_clue_sent: number, members: Array<string | null>, device_number: string }> | null };
 
-export type ResponseFragment = { __typename: 'ResponsePayload', _id: string, clue_id: string, team_id: string, time_received: string, response_txt?: string | null, response_img?: Array<string | null> | null, correct?: boolean | null, hint_sent?: boolean | null };
+export type ResponseFragment = { __typename: 'ResponsePayload', _id: string, clue_id: string, team_id: string, time_received: string, response_txt?: string | null, response_img?: Array<string> | null, correct?: boolean | null, hint_sent?: boolean | null };
 
 export type TeamFragment = { __typename: 'Team', _id: string, hunt_id: string, recall_sent: boolean, last_clue_sent: number, members: Array<string | null>, device_number: string };
 
@@ -585,14 +586,14 @@ export type GetResponsesByHuntIdQueryVariables = Exact<{
 }>;
 
 
-export type GetResponsesByHuntIdQuery = { result: { __typename: 'ResponsesByHunt', responses?: Array<{ __typename: 'ResponsePayload', _id: string, clue_id: string, team_id: string, time_received: string, response_txt?: string | null, response_img?: Array<string | null> | null, correct?: boolean | null, hint_sent?: boolean | null } | null> | null } };
+export type GetResponsesByHuntIdQuery = { result: { __typename: 'ResponsesByHunt', responses?: Array<{ __typename: 'ResponsePayload', _id: string, clue_id: string, team_id: string, time_received: string, response_txt?: string | null, response_img?: Array<string> | null, correct?: boolean | null, hint_sent?: boolean | null } | null> | null } };
 
 export type GetAllResponsesByHuntIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type GetAllResponsesByHuntIdQuery = { result: { __typename: 'ResponsesByHunt', count: number, responses?: Array<{ __typename: 'ResponsePayload', _id: string, clue_id: string, team_id: string, time_received: string, response_txt?: string | null, response_img?: Array<string | null> | null, correct?: boolean | null, hint_sent?: boolean | null } | null> | null } };
+export type GetAllResponsesByHuntIdQuery = { result: { __typename: 'ResponsesByHunt', count: number, responses?: Array<{ __typename: 'ResponsePayload', _id: string, clue_id: string, team_id: string, time_received: string, response_txt?: string | null, response_img?: Array<string> | null, correct?: boolean | null, hint_sent?: boolean | null } | null> | null } };
 
 export type GetUserFromTokenQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -611,7 +612,7 @@ export type ResponseReceivedSubscriptionVariables = Exact<{
 }>;
 
 
-export type ResponseReceivedSubscription = { responseReceived?: { __typename: 'ResponsePayload', _id: string, clue_id: string, team_id: string, time_received: string, response_txt?: string | null, response_img?: Array<string | null> | null, correct?: boolean | null, hint_sent?: boolean | null } | null };
+export type ResponseReceivedSubscription = { responseReceived?: { __typename: 'ResponsePayload', _id: string, clue_id: string, team_id: string, time_received: string, response_txt?: string | null, response_img?: Array<string> | null, correct?: boolean | null, hint_sent?: boolean | null } | null };
 
 
       export interface PossibleTypesResultData {
