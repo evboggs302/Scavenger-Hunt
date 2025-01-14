@@ -3,12 +3,13 @@ import { useMutation } from "@apollo/client";
 import { DeleteTeamByIdDocument, GetHuntDocument } from "@generated/graphql";
 
 export const useDeleteSingleTeamMutation = () => {
-  const [deleteSingleTeam, result] = useMutation(DeleteTeamByIdDocument);
+  const [deleteSingleTeam, result] = useMutation(DeleteTeamByIdDocument, {
+    refetchQueries: [GetHuntDocument],
+  });
 
   const handleDeleteSingleTeam = useCallback(
     async (team_id: string) => {
       await deleteSingleTeam({
-        refetchQueries: [GetHuntDocument],
         variables: {
           team_id,
         },

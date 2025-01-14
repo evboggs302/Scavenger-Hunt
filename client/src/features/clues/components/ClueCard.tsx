@@ -21,7 +21,7 @@ export const ClueCard = ({
   const handleDelete = useCallback(async () => {
     try {
       await deleteClue(_id);
-    } catch (err) {
+    } catch {
       throw Error();
     }
   }, [_id, deleteClue]);

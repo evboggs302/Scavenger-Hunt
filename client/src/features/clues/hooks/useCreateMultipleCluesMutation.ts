@@ -12,13 +12,15 @@ type RequiredFormState = CreateCluesFormState & { isMulti: true };
 export const useCreateMultipleCluesMutation = () => {
   const { hunt } = useHuntFragment();
   const [createMultipleClues, result] = useMutation(
-    CreateMultipleCluesDocument
+    CreateMultipleCluesDocument,
+    {
+      refetchQueries: [GetOrderedCluesDocument],
+    }
   );
 
   const handleCreateMultipleClues = useCallback(
     async ({ cluesList }: RequiredFormState) => {
       await createMultipleClues({
-        refetchQueries: [GetOrderedCluesDocument],
         variables: {
           input: {
             h_id: hunt._id || "",

@@ -36,6 +36,7 @@ export const HuntDetails = () => {
     end_date,
     is_active,
     recall_message,
+    marked_complete,
   } = data.hunt;
 
   const isInPast = dayjs().isAfter(end_date);
@@ -46,7 +47,6 @@ export const HuntDetails = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        // justifyContent: "center",
       }}
     >
       <Box>
@@ -56,8 +56,8 @@ export const HuntDetails = () => {
               <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>Created date</TableCell>
-                {isInPast ? (
-                  <TableCell>End date</TableCell>
+                {isInPast && marked_complete ? (
+                  <TableCell>Ended on</TableCell>
                 ) : (
                   <>
                     <TableCell>Start date</TableCell>
@@ -78,7 +78,7 @@ export const HuntDetails = () => {
                 <TableCell component="th" scope="row">
                   {dayjs(created_date).format("LL")}
                 </TableCell>
-                {isInPast ? (
+                {isInPast && marked_complete ? (
                   <TableCell component="th" scope="row">
                     {dayjs(end_date).format("LL")}
                   </TableCell>
@@ -93,7 +93,7 @@ export const HuntDetails = () => {
                   </>
                 )}
                 <TableCell component="th" scope="row">
-                  {dayjs(end_date).isAfter(start_date) ? (
+                  {isInPast && marked_complete ? (
                     <DoneIcon color="success" />
                   ) : (
                     "---"

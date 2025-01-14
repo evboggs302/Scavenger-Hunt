@@ -35,6 +35,7 @@ input CreateHuntInput {
 
 input UpdateHuntInput {
   hunt_id: String!
+  name: String
   start_date: String
   end_date: String
   recall_message: String

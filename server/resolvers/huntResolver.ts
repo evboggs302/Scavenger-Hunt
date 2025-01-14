@@ -298,7 +298,7 @@ const huntResolver: Resolvers = {
 
         await HuntModel.updateOne(
           { _id: hunt_id },
-          { is_active: true, marked_complete: true }
+          { is_active: false, marked_complete: true }
         ).exec();
 
         return true;

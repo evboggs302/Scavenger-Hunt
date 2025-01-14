@@ -5,16 +5,16 @@ import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 
 export const useMarkHuntCompleted = () => {
   const { hunt } = useHuntFragment();
-  const [markHuntComplete, result] = useMutation(MarkHuntCompleteDocument);
+  const [markHuntComplete, result] = useMutation(MarkHuntCompleteDocument, {
+    refetchQueries: [GetHuntDocument],
+    variables: {
+      hunt_id: hunt._id || "",
+    },
+  });
 
   const handleMarkHuntComplete = useCallback(async () => {
-    await markHuntComplete({
-      refetchQueries: [GetHuntDocument],
-      variables: {
-        hunt_id: hunt._id || "",
-      },
-    });
-  }, [markHuntComplete, hunt._id]);
+    await markHuntComplete();
+  }, [markHuntComplete]);
 
   return useMemo(
     (): [typeof handleMarkHuntComplete, typeof result] => [

@@ -10,20 +10,21 @@ import { useTokenContext } from "@lib/context/TokenContext";
 export const useLoginMutation = () => {
   const navigate = useNavigate();
   const { setToken } = useTokenContext();
-  const [loginUser, result] = useMutation(LoginUserDocument);
+  const [loginUser, result] = useMutation(LoginUserDocument, {
+    onCompleted: ({ login }) => {
+      localStorage.setItem("BEARER_TOKEN", login.token);
+      setToken(login.token);
+      navigate("/dashboard");
+    },
+  });
 
   const handleLoginUser = useCallback(
     async (args: LoginUserMutationVariables) => {
       await loginUser({
         variables: args,
-        onCompleted: ({ login }) => {
-          localStorage.setItem("BEARER_TOKEN", login.token);
-          setToken(login.token);
-          navigate("/dashboard");
-        },
       });
     },
-    [loginUser, navigate, setToken]
+    [loginUser]
   );
 
   return useMemo(

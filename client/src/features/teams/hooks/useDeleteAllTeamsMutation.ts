@@ -8,22 +8,22 @@ import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 
 export const useDeleteAllTeamsMutation = () => {
   const { hunt } = useHuntFragment();
-  const [deleteAllTeam, result] = useMutation(DeleteAllTeamsByHuntIdDocument);
+  const [deleteAllTeams, result] = useMutation(DeleteAllTeamsByHuntIdDocument, {
+    refetchQueries: [GetHuntDocument],
+    variables: {
+      hunt_id: hunt._id || "",
+    },
+  });
 
-  const handleDeleteAllTeam = useCallback(async () => {
-    await deleteAllTeam({
-      refetchQueries: [GetHuntDocument],
-      variables: {
-        hunt_id: hunt._id || "",
-      },
-    });
-  }, [deleteAllTeam, hunt._id]);
+  const handleDeleteAllTeams = useCallback(async () => {
+    await deleteAllTeams();
+  }, [deleteAllTeams]);
 
   return useMemo(
-    (): [typeof handleDeleteAllTeam, typeof result] => [
-      handleDeleteAllTeam,
+    (): [typeof handleDeleteAllTeams, typeof result] => [
+      handleDeleteAllTeams,
       result,
     ],
-    [handleDeleteAllTeam, result]
+    [handleDeleteAllTeams, result]
   );
 };

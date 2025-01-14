@@ -8,12 +8,13 @@ type RequiredFormState = CreateTeamsFormState & { isMulti: false };
 
 export const useCreateSingleTeamMutation = () => {
   const { hunt } = useHuntFragment();
-  const [createSingleTeam, result] = useMutation(CreateSingleTeamDocument);
+  const [createSingleTeam, result] = useMutation(CreateSingleTeamDocument, {
+    refetchQueries: [GetHuntDocument],
+  });
 
   const handleCreateSingleTeam = useCallback(
     async ({ team }: RequiredFormState) => {
       await createSingleTeam({
-        refetchQueries: [GetHuntDocument],
         variables: {
           input: {
             hunt_id: hunt._id || "",

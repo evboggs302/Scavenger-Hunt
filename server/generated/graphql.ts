@@ -303,7 +303,7 @@ export type ResponsePayload = {
   clue_id: Scalars['String']['output'];
   correct?: Maybe<Scalars['Boolean']['output']>;
   hint_sent?: Maybe<Scalars['Boolean']['output']>;
-  response_img?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  response_img?: Maybe<Array<Scalars['String']['output']>>;
   response_txt?: Maybe<Scalars['String']['output']>;
   team_id: Scalars['String']['output'];
   time_received: Scalars['String']['output'];
@@ -360,6 +360,7 @@ export type UpdateClueOrderInput = {
 export type UpdateHuntInput = {
   end_date?: InputMaybe<Scalars['String']['input']>;
   hunt_id: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
   recall_message?: InputMaybe<Scalars['String']['input']>;
   start_date?: InputMaybe<Scalars['String']['input']>;
 };
@@ -655,7 +656,7 @@ export type ResponsePayloadResolvers<ContextType = any, ParentType extends Resol
   clue_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   correct?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   hint_sent?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  response_img?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  response_img?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   response_txt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   team_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   time_received?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
