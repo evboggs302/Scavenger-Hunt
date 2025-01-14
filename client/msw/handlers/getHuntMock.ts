@@ -10,7 +10,7 @@ export const getHuntMock = graphql.query(GetHuntDocument, () => {
         __typename: "Hunt" as const,
         _id: v4(),
         name: `Mom's birthday hunt`,
-        created_by: "858585858585858585858585",
+        created_by: v4(),
         created_date: dayjs().toISOString(),
         start_date: dayjs().add(1, "day").toISOString(),
         end_date: dayjs().add(2, "days").toISOString(),
