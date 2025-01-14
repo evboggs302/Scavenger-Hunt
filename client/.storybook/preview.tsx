@@ -1,5 +1,5 @@
 import React from "react";
-import { initialize, mswDecorator, mswLoader } from "msw-storybook-addon";
+import { initialize, mswLoader } from "msw-storybook-addon";
 import { Decorator } from "@storybook/react";
 import {
   reactRouterParameters,
@@ -9,10 +9,14 @@ import { ApolloClientProvider } from "../src/apolloClient/apolloClient";
 import { DarkThemeProvider } from "../src/lib/context/DarkThemeProvider";
 import { TokenContextProvider } from "../src/lib/context/TokenContext";
 import { UserQryContextProvider } from "../src/lib/context/UserContext";
-import { HuntQryContextProvider } from "../src/lib/context/HuntContext";
+import {
+  HuntQryContextProvider,
+  HuntContext,
+} from "../src/lib/context/HuntContext";
 import { ClueQryContextProvider } from "../src/lib/context/ClueContext";
 import { mswHandlers } from "../msw/mswHandlers";
 import { AppLocalizationProvider } from "../src/lib/context/AppLocalizationProvider";
+import dayjs from "dayjs";
 
 // MSW Initialize
 initialize({
@@ -34,8 +38,33 @@ export const parameters = {
     },
   },
   reactRouter: reactRouterParameters({
-    routing: { path: "*" },
+    routing: { path: "*", useStoryElement: true },
   }),
+  reactContext: {
+    contexts: [
+      {
+        context: HuntContext,
+        contextValue: {
+          hunt: {
+            __typename: "Hunt",
+            _id: "11111111111",
+            name: `Mom's birthday`,
+            created_date: dayjs().toISOString(),
+            start_date: dayjs().toISOString(),
+            end_date: dayjs().toISOString(),
+            is_active: false,
+            marked_complete: false,
+            recall_message: "Come on back now",
+            created_by: "2468369481358",
+          },
+        },
+      },
+      // {
+      //   context: SecondContext,
+      //   contextValue: [1, 2, 3],
+      // }
+    ],
+  },
   // screenshot: {
   //   viewport: {
   //     width: 1250,
@@ -66,7 +95,6 @@ const ApolloClientContextDecorators: Decorator = (Story, context) => {
 };
 
 export const decorators: Decorator[] = [
-  withRouter,
-  mswDecorator, // needed for specific stories to override existing mocks
   ApolloClientContextDecorators,
+  withRouter,
 ];

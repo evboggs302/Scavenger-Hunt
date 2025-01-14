@@ -1,5 +1,6 @@
 import { HttpResponse, graphql } from "msw";
 import { RegisterUserDocument } from "@generated/graphql";
+import { v4, v7 } from "uuid";
 
 export const registerMock = graphql.mutation(
   RegisterUserDocument,
@@ -8,8 +9,8 @@ export const registerMock = graphql.mutation(
       data: {
         registerUser: {
           __typename: "AuthPayload" as const,
-          _id: "msw-id-string",
-          token: "token-from-register-mutation",
+          _id: v4(),
+          token: v7(),
         },
       },
     });
