@@ -1,6 +1,6 @@
 import React from "react";
 import Stack from "@mui/material/Stack";
-import { CreateHuntButton } from "@/features/hunts/components/CreateHuntDialog/components/CreateHuntButton";
+import { CreateHuntButton } from "@features/hunts/components/CreateHuntDialog/CreateHuntButton";
 
 export const Header = () => {
   return (

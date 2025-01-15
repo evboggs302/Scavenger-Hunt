@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
-import { CreateHuntDialog as Component } from "../components/CreateHuntDialog";
+import { CreateHuntDialog as Component } from "../components/CreateHuntDialog/CreateHuntDialog";
 
 const meta: Meta = {
   title: "Components/Create Hunt Dailog",

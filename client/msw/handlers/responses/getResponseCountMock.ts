@@ -8,7 +8,7 @@ export const getResponseCountMock = graphql.query(
       data: {
         result: {
           __typename: "ResponsesByHunt" as const,
-          count: 100,
+          count: 15,
         },
       },
     });

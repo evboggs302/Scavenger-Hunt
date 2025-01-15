@@ -1,6 +1,6 @@
 import { HttpResponse, graphql } from "msw";
 import { GetUserFromTokenDocument } from "@generated/graphql";
-import { v4 } from "uuid";
+import { faker } from "@faker-js/faker";
 
 export const getUserFromTokenMock = graphql.query(
   GetUserFromTokenDocument,
@@ -9,10 +9,10 @@ export const getUserFromTokenMock = graphql.query(
       data: {
         user: {
           __typename: "UserPayload" as const,
-          _id: v4(),
-          user_name: "vitey",
-          first_name: "vite-man",
-          last_name: "lastname",
+          _id: faker.string.hexadecimal(),
+          user_name: faker.internet.username(),
+          first_name: faker.person.firstName(),
+          last_name: faker.person.lastName(),
         },
       },
     });

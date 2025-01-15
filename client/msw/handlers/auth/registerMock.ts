@@ -1,16 +1,20 @@
 import { HttpResponse, graphql } from "msw";
 import { RegisterUserDocument } from "@generated/graphql";
-import { v4, v7 } from "uuid";
+import { faker } from "@faker-js/faker";
+import { createMockToken } from "msw/utils/createMockToken";
 
 export const registerMock = graphql.mutation(
   RegisterUserDocument,
-  ({ variables }) => {
+  async ({ variables }) => {
+    const _id = faker.string.hexadecimal();
+    const token = await createMockToken();
+
     return HttpResponse.json({
       data: {
         registerUser: {
           __typename: "AuthPayload" as const,
-          _id: v4(),
-          token: v7(),
+          _id,
+          token,
         },
       },
     });

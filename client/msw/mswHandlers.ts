@@ -1,25 +1,32 @@
-import { loginMock } from "./handlers/loginMock";
-import { registerMock } from "./handlers/registerMock";
-import { usernameExistsMock } from "./handlers/usernameExistsMock";
-import { getHuntsBuyUserIdMock } from "./handlers/getHuntsByUserMock";
+import { loginMock } from "./handlers/auth/loginMock";
+import { registerMock } from "./handlers/auth/registerMock";
+import { usernameExistsMock } from "./handlers/auth/usernameExistsMock";
+import { getHuntsBuyUserIdMock } from "./handlers/hunts/getHuntsByUserMock";
 import { getUserFromTokenMock } from "./handlers/getUserFromTokenMock";
-import { getHuntMock } from "./handlers/getHuntMock";
-import { getOrderedCluesMock } from "./handlers/getOrderedCluesMock";
-import { getResponseCountMock } from "./handlers/getResponseCountMock";
+import { getHuntMock } from "./handlers/hunts/getHuntMock";
+import { getOrderedCluesMock } from "./handlers/clues/getOrderedCluesMock";
+import { getResponseCountMock } from "./handlers/responses/getResponseCountMock";
+import { logoutMock } from "./handlers/auth/logoutMock";
+import { createHuntMock } from "./handlers/hunts/createHuntMock";
+import { createSingleClueMock } from "./handlers/clues/createSingleClueMock";
+import { createMultipleCluesMock } from "./handlers/clues/createMultipleCluesMock";
 
 export const mswHandlers = {
   // AUTH
+  loginMock,
+  logoutMock,
   registerMock,
   usernameExistsMock,
-  loginMock,
-  // USER
-  getUserFromTokenMock,
-  // HUNTS
-  getHuntMock,
-  getHuntsBuyUserIdMock,
-  // TEAMS
   // CLUES
   getOrderedCluesMock,
+  createSingleClueMock,
+  createMultipleCluesMock,
+  // HUNTS
+  getHuntMock,
+  createHuntMock,
+  getHuntsBuyUserIdMock,
   // RESPONSES
   getResponseCountMock,
+  // USER
+  getUserFromTokenMock,
 };

@@ -34,7 +34,7 @@ export const parameters = {
     },
   },
   reactRouter: reactRouterParameters({
-    routing: { path: "*", useStoryElement: true },
+    routing: { path: "*" },
   }),
   // screenshot: {
   //   viewport: {

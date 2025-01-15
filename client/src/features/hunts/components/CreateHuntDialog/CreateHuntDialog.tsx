@@ -5,11 +5,11 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import { useCreateHuntMutation } from "../hooks/useCreateHuntMutation";
+import { useCreateHuntMutation } from "../../hooks/useCreateHuntMutation";
 import {
   CreateHuntFormSchema,
   useCreateHuntResolver,
-} from "../hooks/useCreateHuntResolver";
+} from "../../hooks/useCreateHuntResolver";
 import {
   FormProvider,
   SubmitHandler,

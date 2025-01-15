@@ -5,7 +5,7 @@ import {
   GetOrderedCluesQuery,
   GetOrderedCluesQueryVariables,
 } from "@generated/graphql";
-import { useHuntContext } from "./HuntContext";
+import { useHuntFragment } from "../hooks/useHuntFragment";
 
 type ClueContextValue = QueryResult<
   GetOrderedCluesQuery,
@@ -15,11 +15,11 @@ type ClueContextValue = QueryResult<
 const ClueContext = createContext<ClueContextValue | undefined>(undefined);
 
 export const ClueQryContextProvider = ({ children }: PropsWithChildren) => {
-  const { data } = useHuntContext();
+  const { hunt } = useHuntFragment();
 
   const result = useQuery(GetOrderedCluesDocument, {
     fetchPolicy: "cache-and-network",
-    variables: { id: data?.hunt?._id || "" },
+    variables: { id: hunt._id || "" },
   });
 
   return <ClueContext.Provider value={result}>{children}</ClueContext.Provider>;

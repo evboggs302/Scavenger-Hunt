@@ -14,7 +14,7 @@ const BaseSchema = z.object({
   recallMessage: z
     .string({ message: "A valid recall message is required." })
     .trim()
-    .min(12, { message: "A valid recall message is required." })
+    .min(8, { message: "A valid recall message is required." })
     .optional(),
   startDate: z
     .custom<Dayjs>((val) => val instanceof dayjs)
