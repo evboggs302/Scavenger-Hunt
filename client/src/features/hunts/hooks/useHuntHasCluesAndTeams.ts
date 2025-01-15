@@ -1,6 +1,6 @@
-import { useClueContext } from "@/lib/context/ClueContext";
-import { useHuntContext } from "@/lib/context/HuntContext";
 import { useMemo } from "react";
+import { useClueContext } from "@lib/context/ClueContext";
+import { useHuntContext } from "@lib/context/HuntContext";
 
 /**
  * @info Checks to see if the hunt has CLUES and TEAMS created before being allowed to activate
