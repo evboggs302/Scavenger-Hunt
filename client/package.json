@@ -71,7 +71,6 @@
     "@vitejs/plugin-react-swc": "^3.7.2",
     "jose": "^5.9.6",
     "jsdom": "^24.0.0",
-    "mongoose": "^8.9.5",
     "msw": "^2.2.10",
     "msw-storybook-addon": "^2.0.4",
     "playwright": "^1.42.1",
