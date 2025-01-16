@@ -14,7 +14,7 @@ const BaseSchema = z.object({
   recallMessage: z
     .string({ message: "A valid recall message is required." })
     .trim()
-    .min(12, { message: "A valid recall message is required." })
+    .min(8, { message: "A valid recall message is required." })
     .optional(),
   startDate: z
     .custom<Dayjs>((val) => val instanceof dayjs)
@@ -39,16 +39,16 @@ const schemaMultipleDaysTrue = BaseSchema.merge(
   })
 );
 
-const CreateHuntSchemaUnion = z.discriminatedUnion("multipleDays", [
+const UpdateHuntSchemaUnion = z.discriminatedUnion("multipleDays", [
   schemaMultipleDaysFalse,
   schemaMultipleDaysTrue,
 ]);
 
-export type CreateHuntFormSchema = z.infer<typeof CreateHuntSchemaUnion>;
+export type UpdateHuntFormSchema = z.infer<typeof UpdateHuntSchemaUnion>;
 
-export const useCreateHuntResolver = () => {
+export const useUpdateHuntResolver = () => {
   const resolver = zodResolver(
-    CreateHuntSchemaUnion.refine(
+    UpdateHuntSchemaUnion.refine(
       // data isn't destructured becasue of "endDate" possibly not existing
       (data) => {
         if (data.multipleDays) {

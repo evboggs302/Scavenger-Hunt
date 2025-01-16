@@ -25,10 +25,11 @@ export const ResponseCard = ({
   },
 }: ResponseCardProps) => {
   const { data: huntData } = useHuntContext();
-  const team = huntData?.hunt.teams?.find((tm) => tm._id === team_id);
   const { data: clueData } = useClueContext();
-  const clue = clueData?.clues.find((clue) => clue?._id === clue_id);
   const [markResponseCorrect] = useMarkResponseCorrectMutation();
+
+  const team = huntData?.hunt.teams?.find((tm) => tm._id === team_id);
+  const clue = clueData?.clues.find((clue) => clue?._id === clue_id);
 
   const handleMarkCorrect = useCallback(async () => {
     try {

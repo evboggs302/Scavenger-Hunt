@@ -1,20 +1,29 @@
 import React from "react";
+import { FieldWrapper } from "../Form/FieldWrapper";
 import InputLabel from "@mui/material/InputLabel";
 import Tooltip from "@mui/material/Tooltip";
 import TextField from "@mui/material/TextField";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
-import { useController } from "react-hook-form";
-import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
+import {
+  ControllerFieldState,
+  ControllerRenderProps,
+  FieldValues,
+} from "react-hook-form";
 
-export const RecallMessageField = () => {
-  const { field, fieldState } = useController({
-    name: "recallMessage",
-    defaultValue: undefined,
-  });
+type RecallMessageFieldProps = {
+  field: ControllerRenderProps<FieldValues, "recallMessage">;
+  fieldState: ControllerFieldState;
+  mode: "create" | "update";
+};
 
+export const RecallMessageField = ({
+  field,
+  fieldState,
+  mode,
+}: RecallMessageFieldProps) => {
   return (
     <FieldWrapper>
-      <InputLabel data-testid="create-hunt-recall-info">
+      <InputLabel data-testid={`${mode}-hunt-recall-label`}>
         Recall message{" "}
         <Tooltip
           placement="right"
@@ -26,7 +35,7 @@ export const RecallMessageField = () => {
       <TextField
         slotProps={{
           htmlInput: {
-            "data-testid": "create-hunt-recall-message",
+            "data-testid": `${mode}-hunt-recall-message`,
           },
         }}
         ref={field.ref}

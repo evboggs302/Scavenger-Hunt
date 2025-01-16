@@ -70,9 +70,8 @@ export const getUserFromToken = async (
   return null;
 };
 
-export const setToken = ({ u_id }: SetTokenArgs) => {
+export const setToken = (user: SetTokenArgs) => {
   // if you want to include more than the user's id in the JWT then include it here
-  const user = { u_id };
   const accessToken = sign(user, ACCESS_TOKEN_SECRET, {
     expiresIn: ACCESS_TOKEN_DURATION,
   });

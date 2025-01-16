@@ -9,6 +9,7 @@ const config: StorybookConfig = {
     "@storybook/addon-interactions",
     "msw-storybook-addon",
     "storybook-addon-remix-react-router",
+    "storybook-addon-swc",
   ],
   framework: {
     name: "@storybook/react-vite",
@@ -18,11 +19,10 @@ const config: StorybookConfig = {
       },
     },
   },
-  docs: {
-    autodocs: "tag",
-  },
+  docs: {},
   typescript: {
     reactDocgen: false,
   },
 };
+
 export default config;

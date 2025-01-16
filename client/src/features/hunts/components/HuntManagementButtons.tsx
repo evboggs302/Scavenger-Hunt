@@ -1,15 +1,19 @@
+import React, { useCallback, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
-import React, { useCallback, useState } from "react";
 import { useMarkHuntCompleted } from "../hooks/useMarkHuntCompleted";
 import { useDeleteHuntMutation } from "../hooks/useDeleteHuntMutation";
 import { useActivateHuntMutation } from "../hooks/useActivateHuntMutation";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
+import { useClueContext } from "@lib/context/ClueContext";
 import { DeleteHuntDialog } from "./DeleteHuntDialog/DeleteHuntDialog";
+import { useHuntHasCluesAndTeams } from "../hooks/useHuntHasCluesAndTeams";
 
 export const HuntManagementButtons = () => {
   const { hunt } = useHuntFragment();
+  const { loading: cluesLoading } = useClueContext();
+  const { huntHasCluesAndTeams } = useHuntHasCluesAndTeams();
   const [isDeleteHuntDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const [activateHunt, { loading: activateLoading, error: activateError }] =
@@ -34,7 +38,13 @@ export const HuntManagementButtons = () => {
             {!hunt.marked_complete && (
               <Button
                 onClick={activateHunt}
-                disabled={activateLoading || deleteLoading || hunt.is_active}
+                disabled={
+                  activateLoading ||
+                  deleteLoading ||
+                  cluesLoading ||
+                  hunt.is_active ||
+                  !huntHasCluesAndTeams
+                }
                 startIcon={activateLoading && <CircularProgress size={20} />}
               >
                 Activate hunt

@@ -5,11 +5,11 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import { useCreateHuntMutation } from "../hooks/useCreateHuntMutation";
+import { useCreateHuntMutation } from "../../hooks/useCreateHuntMutation";
 import {
   CreateHuntFormSchema,
   useCreateHuntResolver,
-} from "../hooks/useCreateHuntResolver";
+} from "./useCreateHuntResolver";
 import {
   FormProvider,
   SubmitHandler,
@@ -27,13 +27,12 @@ import {
   DateValidationError,
   PickerChangeHandlerContext,
 } from "@mui/x-date-pickers/models";
-import { NameField } from "./NameField";
-import { RecallMessageField } from "./RecallMessageField";
+import { CreateNameField } from "./CreateNameField";
+import { CreateRecallMessageField } from "./CreateRecallMessageField";
 import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
 
 type CreateDialogProps = {
-  isOpen: boolean;
   handleClose: () => void;
 };
 
@@ -46,10 +45,7 @@ export type CreateHuntFormState = CreateHuntFormSchema & {
   onSubmitError?: string;
 };
 
-export const CreateHuntDialog = ({
-  isOpen,
-  handleClose,
-}: CreateDialogProps) => {
+export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
   const [createHunt, { loading }] = useCreateHuntMutation();
   const [resolver] = useCreateHuntResolver();
 
@@ -97,15 +93,12 @@ export const CreateHuntDialog = ({
   };
 
   const onSubmit: SubmitHandler<CreateHuntFormState> = async (formData) => {
-    // console.log(formData);
     clearErrors("onSubmitError");
     await trigger();
 
     try {
       await createHunt(formData);
-      // throw new Error("try try try");
     } catch (err) {
-      reset();
       if (err instanceof ApolloError) {
         setError("onSubmitError", { type: "error", message: err.message });
       } else {
@@ -114,13 +107,15 @@ export const CreateHuntDialog = ({
           message: "An unknown error occurred.",
         });
       }
+    } finally {
+      reset();
     }
   };
 
   return (
     <FormProvider {...methods}>
       <Dialog
-        open={isOpen}
+        open={true}
         onClose={handleClose}
         PaperProps={{
           component: "form",
@@ -137,7 +132,7 @@ export const CreateHuntDialog = ({
             <br />
             <i>Required fields are marked.</i>
           </DialogContentText>
-          <NameField />
+          <CreateNameField />
           <FieldWrapper>
             <InputLabel required>Start date</InputLabel>
             <DatePicker
@@ -212,7 +207,7 @@ export const CreateHuntDialog = ({
               />
             </FieldWrapper>
           )}
-          <RecallMessageField />
+          <CreateRecallMessageField />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

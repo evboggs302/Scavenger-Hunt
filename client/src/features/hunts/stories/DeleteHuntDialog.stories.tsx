@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
-import { CreateHuntDialog as Component } from "../components/CreateHuntDialog";
+import { DeleteHuntDialog as Component } from "../components/DeleteHuntDialog/DeleteHuntDialog";
 
 const meta: Meta = {
-  title: "Components/Create Hunt Dailog",
+  title: "Components/Delete Hunt Dailog",
   component: Component,
   tags: ["autodocs"],
 };
@@ -12,7 +12,7 @@ export default meta;
 
 type Story = StoryObj<typeof Component>;
 
-export const CreateHuntDialog: Story = {
+export const DeleteHuntDialog: Story = {
   render: () => {
     const [open, setOpen] = useState(true);
 
@@ -23,7 +23,7 @@ export const CreateHuntDialog: Story = {
         <Button variant="outlined" onClick={handleOpen}>
           Open Dialog
         </Button>
-        <Component isOpen={open} handleClose={handleOpen} />
+        {open && <Component handleClose={handleOpen} />}
       </>
     );
   },

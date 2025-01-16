@@ -1,5 +1,5 @@
 import React from "react";
-import { initialize, mswDecorator, mswLoader } from "msw-storybook-addon";
+import { initialize, mswLoader } from "msw-storybook-addon";
 import { Decorator } from "@storybook/react";
 import {
   reactRouterParameters,
@@ -66,7 +66,6 @@ const ApolloClientContextDecorators: Decorator = (Story, context) => {
 };
 
 export const decorators: Decorator[] = [
-  withRouter,
-  mswDecorator, // needed for specific stories to override existing mocks
   ApolloClientContextDecorators,
+  withRouter,
 ];

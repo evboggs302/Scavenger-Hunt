@@ -33,7 +33,7 @@ export const CreateHuntButton = ({
           <AddBoxIcon />
         </IconButton>
       )}
-      <CreateHuntDialog isOpen={isOpen} handleClose={handleClose} />
+      {isOpen && <CreateHuntDialog handleClose={handleClose} />}
     </>
   );
 };
