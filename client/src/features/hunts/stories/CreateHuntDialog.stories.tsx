@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import { CreateHuntDialog as Component } from "../components/CreateHuntDialog/CreateHuntDialog";
 
 const meta: Meta = {
-  title: "Components/Create Hunt Dailog",
+  title: "Components/Hunts",
   component: Component,
   tags: ["autodocs"],
 };

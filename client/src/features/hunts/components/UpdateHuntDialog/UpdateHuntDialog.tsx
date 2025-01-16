@@ -31,7 +31,7 @@ import { UpdateNameField } from "./UpdateNameField";
 import { UpdateRecallMessageField } from "./UpdateRecallMessageField";
 import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
-import { useHuntFragment } from "@/lib/hooks/useHuntFragment";
+import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 
 type UpdateDialogProps = {
   handleClose: () => void;

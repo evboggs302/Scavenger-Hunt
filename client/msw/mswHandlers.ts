@@ -10,6 +10,7 @@ import { logoutMock } from "./handlers/auth/logoutMock";
 import { createHuntMock } from "./handlers/hunts/createHuntMock";
 import { createSingleClueMock } from "./handlers/clues/createSingleClueMock";
 import { createMultipleCluesMock } from "./handlers/clues/createMultipleCluesMock";
+import { getAllResponsesByHuntMock } from "./handlers/responses/getAllResponsesByHuntMock";
 
 export const mswHandlers = {
   // AUTH
@@ -27,6 +28,7 @@ export const mswHandlers = {
   getHuntsBuyUserIdMock,
   // RESPONSES
   getResponseCountMock,
+  getAllResponsesByHuntMock,
   // USER
   getUserFromTokenMock,
 };

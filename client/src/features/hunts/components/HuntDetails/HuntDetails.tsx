@@ -16,6 +16,7 @@ import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import CircularProgress from "@mui/material/CircularProgress";
 import dayjs from "dayjs";
 import { ResponsesPreview } from "./ResponsesPreview";
+import { UpdateHuntButton } from "../UpdateHuntDialog/UpdateHuntButton";
 
 export const HuntDetails = () => {
   const { data, loading, error } = useHuntContext();
@@ -49,7 +50,14 @@ export const HuntDetails = () => {
         alignItems: "center",
       }}
     >
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-end",
+        }}
+      >
+        <UpdateHuntButton />
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>

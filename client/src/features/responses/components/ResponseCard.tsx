@@ -55,21 +55,26 @@ export const ResponseCard = ({
           </Typography>
         )}
         <Typography variant="body2">
-          Is correct: <i>{correct}</i>
+          Time received:{" "}
+          <i>{dayjs(time_received).format("h:mm:ss A, MMM D, YYYY")}</i>
         </Typography>
         <Typography variant="body2">
-          Time received: <i>{dayjs(time_received).format("LL")}</i>
+          Is correct: <i>{`${correct ? "TRUE" : "FALSE"}`}</i>
         </Typography>
-        <Typography variant="body2">{team?.members.join(", ")}</Typography>
+        <Typography variant="body2">
+          Team: <i>{team?.members.join(", ")}</i>
+        </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small" onClick={handleMarkCorrect}>
-          Mark correct
-        </Button>
-        <Button size="small" disabled>
-          Send hint
-        </Button>
-      </CardActions>
+      {huntData?.hunt.is_active && (
+        <CardActions>
+          <Button size="small" onClick={handleMarkCorrect}>
+            Mark correct
+          </Button>
+          <Button size="small" disabled>
+            Send hint
+          </Button>
+        </CardActions>
+      )}
     </Card>
   );
 };

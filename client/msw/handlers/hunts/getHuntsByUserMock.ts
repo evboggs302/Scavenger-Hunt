@@ -1,6 +1,6 @@
 import { HttpResponse, graphql } from "msw";
 import { GetHuntsByUserIdDocument } from "@generated/graphql";
-import { generateHunts } from "../../utils/generateHunts";
+import { generateHunts } from "@msw/utils/generateHunts";
 
 const hunts = generateHunts(3);
 

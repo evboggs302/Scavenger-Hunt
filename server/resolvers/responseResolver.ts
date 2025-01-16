@@ -61,7 +61,9 @@ const responseResolver: Resolvers = {
 
         const responses = await ResponseModel.find({
           team_id: { $in: teams },
-        }).exec();
+        })
+          .sort({ time_received: 1 })
+          .exec();
 
         return {
           count: responses.length || 0,

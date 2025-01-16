@@ -1,8 +1,8 @@
 import { HttpResponse, graphql } from "msw";
 import { CreateMultipleCluesDocument } from "@generated/graphql";
-import { faker } from "@faker-js/faker";
+import { hexadecimalStr } from "@msw/utils/createHexadecimal";
 
-const hunt_id = faker.string.hexadecimal({ length: 24 });
+const hunt_id = hexadecimalStr();
 
 export const createMultipleCluesMock = graphql.mutation(
   CreateMultipleCluesDocument,
@@ -14,7 +14,7 @@ export const createMultipleCluesMock = graphql.mutation(
           .map((clu) => ({
             ...clu,
             __typename: "CluePayload" as const,
-            _id: faker.string.hexadecimal({ length: 24 }),
+            _id: hexadecimalStr(),
             order_number: clu?.orderNumber,
             hunt_id,
           })),

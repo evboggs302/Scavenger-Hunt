@@ -1,12 +1,12 @@
 import { HttpResponse, graphql } from "msw";
 import { RegisterUserDocument } from "@generated/graphql";
-import { faker } from "@faker-js/faker";
 import { createMockToken } from "msw/utils/createMockToken";
+import { hexadecimalStr } from "@msw/utils/createHexadecimal";
 
 export const registerMock = graphql.mutation(
   RegisterUserDocument,
   async ({ variables }) => {
-    const _id = faker.string.hexadecimal({ length: 24 });
+    const _id = hexadecimalStr();
     const token = await createMockToken();
 
     return HttpResponse.json({
