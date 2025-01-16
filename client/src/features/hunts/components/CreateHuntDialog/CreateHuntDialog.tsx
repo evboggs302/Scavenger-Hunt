@@ -98,7 +98,9 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
 
     try {
       await createHunt(formData);
+      handleClose();
     } catch (err) {
+      reset();
       if (err instanceof ApolloError) {
         setError("onSubmitError", { type: "error", message: err.message });
       } else {
@@ -107,8 +109,6 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
           message: "An unknown error occurred.",
         });
       }
-    } finally {
-      reset();
     }
   };
 

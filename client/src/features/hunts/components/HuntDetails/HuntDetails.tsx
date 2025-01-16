@@ -17,6 +17,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import dayjs from "dayjs";
 import { ResponsesPreview } from "./ResponsesPreview";
 import { UpdateHuntButton } from "../UpdateHuntDialog/UpdateHuntButton";
+import { Navigate } from "react-router";
 
 export const HuntDetails = () => {
   const { data, loading, error } = useHuntContext();
@@ -25,8 +26,12 @@ export const HuntDetails = () => {
     return <CircularProgress />;
   }
 
-  if (error || !data?.hunt) {
+  if (error) {
     return <TryAgainAlert message="There was a problem retriving your hunt." />;
+  }
+
+  if (!data?.hunt) {
+    return <Navigate to="dashboard" replace />;
   }
 
   const {
@@ -40,7 +45,7 @@ export const HuntDetails = () => {
     marked_complete,
   } = data.hunt;
 
-  const isInPast = dayjs().isAfter(end_date);
+  const isInPast = dayjs().isAfter(dayjs(end_date).add(1, "day"));
 
   return (
     <Box
