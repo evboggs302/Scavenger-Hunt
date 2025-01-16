@@ -16,6 +16,8 @@ import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import CircularProgress from "@mui/material/CircularProgress";
 import dayjs from "dayjs";
 import { ResponsesPreview } from "./ResponsesPreview";
+import { UpdateHuntButton } from "../UpdateHuntDialog/UpdateHuntButton";
+import { Navigate } from "react-router";
 
 export const HuntDetails = () => {
   const { data, loading, error } = useHuntContext();
@@ -24,8 +26,12 @@ export const HuntDetails = () => {
     return <CircularProgress />;
   }
 
-  if (error || !data?.hunt) {
+  if (error) {
     return <TryAgainAlert message="There was a problem retriving your hunt." />;
+  }
+
+  if (!data?.hunt) {
+    return <Navigate to="dashboard" replace />;
   }
 
   const {
@@ -39,7 +45,7 @@ export const HuntDetails = () => {
     marked_complete,
   } = data.hunt;
 
-  const isInPast = dayjs().isAfter(end_date);
+  const isInPast = dayjs().isAfter(dayjs(end_date).add(1, "day"));
 
   return (
     <Box
@@ -49,14 +55,21 @@ export const HuntDetails = () => {
         alignItems: "center",
       }}
     >
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-end",
+        }}
+      >
+        {!marked_complete && !is_active && <UpdateHuntButton />}
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>Created date</TableCell>
-                {isInPast && marked_complete ? (
+                {isInPast || marked_complete ? (
                   <TableCell>Ended on</TableCell>
                 ) : (
                   <>
@@ -78,7 +91,7 @@ export const HuntDetails = () => {
                 <TableCell component="th" scope="row">
                   {dayjs(created_date).format("LL")}
                 </TableCell>
-                {isInPast && marked_complete ? (
+                {isInPast || marked_complete ? (
                   <TableCell component="th" scope="row">
                     {dayjs(end_date).format("LL")}
                   </TableCell>
@@ -93,11 +106,7 @@ export const HuntDetails = () => {
                   </>
                 )}
                 <TableCell component="th" scope="row">
-                  {isInPast && marked_complete ? (
-                    <DoneIcon color="success" />
-                  ) : (
-                    "---"
-                  )}
+                  {marked_complete ? <DoneIcon color="success" /> : "---"}
                 </TableCell>
                 <TableCell component="th" scope="row">
                   {is_active ? (

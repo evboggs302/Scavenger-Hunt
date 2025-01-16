@@ -5,11 +5,15 @@ import {
   DeleteAllResponsesByHuntDocument,
   DeleteAllTeamsByHuntIdDocument,
   DeleteHuntDocument,
+  GetHuntsByUserIdDocument,
 } from "@generated/graphql";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
+import { useNavigate } from "react-router";
 
 export const useDeleteHuntMutation = () => {
   const { hunt } = useHuntFragment();
+  const navigate = useNavigate();
+
   const [deleteAllClues, { loading: clueLoading, error: clueError }] =
     useMutation(DeleteAllCluesByHuntIdDocument, {
       variables: {
@@ -33,6 +37,7 @@ export const useDeleteHuntMutation = () => {
   const [deleteHunt, { loading: huntLoading, error: huntError }] = useMutation(
     DeleteHuntDocument,
     {
+      refetchQueries: [GetHuntsByUserIdDocument],
       variables: {
         hunt_id: hunt._id || "",
       },
@@ -41,12 +46,20 @@ export const useDeleteHuntMutation = () => {
 
   const handleDeleteHunt = useCallback(async () => {
     Promise.all([
-      deleteAllResponses,
-      deleteAllClues,
-      deleteAllTeams,
-      deleteHunt,
-    ]);
-  }, [deleteAllClues, deleteAllResponses, deleteAllTeams, deleteHunt]);
+      deleteAllResponses(),
+      deleteAllClues(),
+      deleteAllTeams(),
+      deleteHunt(),
+    ]).then(() => {
+      navigate("/dashboard", { relative: "path", replace: true });
+    });
+  }, [
+    deleteAllClues,
+    deleteAllResponses,
+    deleteAllTeams,
+    deleteHunt,
+    navigate,
+  ]);
 
   return useMemo((): [typeof handleDeleteHunt, typeof result] => {
     const result = {

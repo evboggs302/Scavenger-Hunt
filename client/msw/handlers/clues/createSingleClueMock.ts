@@ -1,12 +1,12 @@
 import { HttpResponse, graphql } from "msw";
 import { CreateSingleClueDocument } from "@generated/graphql";
-import { faker } from "@faker-js/faker";
-import { generateClues } from "../../utils/generateClues";
+import { generateClues } from "@msw/utils/generateClues";
+import { hexadecimalStr } from "@msw/utils/createHexadecimal";
 
 export const createSingleClueMock = graphql.mutation(
   CreateSingleClueDocument,
   async ({ variables: { input } }) => {
-    const _id = faker.string.hexadecimal({ length: 24 });
+    const _id = hexadecimalStr();
 
     return HttpResponse.json({
       data: {

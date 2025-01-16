@@ -20,7 +20,7 @@ const BaseSchema = z.object({
     .custom<Dayjs>((val) => val instanceof dayjs)
     .refine(
       (arg) => arg.isAfter(dayjs().subtract(1, "day")),
-      "Please select a valid date."
+      "Please select a valid start date."
     ),
 });
 
@@ -35,7 +35,7 @@ const schemaMultipleDaysTrue = BaseSchema.merge(
     multipleDays: z.literal(true),
     endDate: z
       .custom<Dayjs>((val) => val instanceof dayjs, "Invalid date")
-      .refine((arg) => arg.isAfter(dayjs()), "Please select a valid date."),
+      .refine((arg) => arg.isAfter(dayjs()), "Please select a valid end date."),
   })
 );
 

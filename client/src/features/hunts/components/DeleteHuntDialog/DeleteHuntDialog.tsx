@@ -29,7 +29,6 @@ export const DeleteHuntDialog = ({ handleClose }: DeleteDialogProps) => {
   return (
     <Dialog
       open={true}
-      onClose={handleClose}
       PaperProps={{
         component: "form",
         onSubmit: handleDeleteAll,

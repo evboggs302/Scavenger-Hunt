@@ -1,11 +1,8 @@
 import { useCallback, useMemo } from "react";
 import { useMutation } from "@apollo/client";
-import {
-  GetHuntDocument,
-  UpdateHuntDocument,
-  UpdateHuntInput,
-} from "@generated/graphql";
+import { GetHuntDocument, UpdateHuntDocument } from "@generated/graphql";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
+import { UpdateHuntFormState } from "../components/UpdateHuntDialog/UpdateHuntDialog";
 
 export const useUpdateHuntMutation = () => {
   const { hunt } = useHuntFragment();
@@ -14,13 +11,17 @@ export const useUpdateHuntMutation = () => {
   });
 
   const handleUpdateHunt = useCallback(
-    async (input: Partial<Omit<UpdateHuntInput, "hunt_id">>) => {
+    async (formData: UpdateHuntFormState) => {
       await updateHunt({
         variables: {
           input: {
             hunt_id: hunt._id || "",
-            ...hunt,
-            ...input,
+            name: formData.name,
+            start_date: formData.startDate.utc().toISOString(),
+            end_date: formData.multipleDays
+              ? formData.endDate.utc().toISOString()
+              : formData.startDate.utc().toISOString(),
+            recall_message: formData.recallMessage,
           },
         },
       });

@@ -1,17 +1,17 @@
 import { Hunt } from "@generated/graphql";
 import { faker } from "@faker-js/faker";
 import { generateTeams } from "./generateTeams";
+import { hexadecimalStr } from "./createHexadecimal";
 
 export const generateHunts = (
   number: number = 1,
-  created_by = faker.string.hexadecimal({ length: 24 })
+  created_by = hexadecimalStr()
 ): Hunt[] => {
-  const hunts = new Array<Hunt>(number);
-
+  const hunts: Hunt[] = [];
   for (let i = 0; i < number; i++) {
-    const _id = faker.string.hexadecimal({ length: 24 });
+    const _id = hexadecimalStr();
     const start_date = faker.date.future().toISOString();
-    hunts[i] = {
+    hunts.push({
       __typename: "Hunt" as const,
       _id,
       name: faker.lorem.words(),
@@ -23,7 +23,7 @@ export const generateHunts = (
       is_active: faker.datatype.boolean(),
       recall_message: "Come on back now",
       teams: generateTeams(4, _id),
-    };
+    });
   }
 
   return hunts;

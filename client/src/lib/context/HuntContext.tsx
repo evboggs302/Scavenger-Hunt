@@ -5,7 +5,7 @@ import {
   GetHuntQueryVariables,
 } from "@generated/graphql";
 import { QueryResult, useQuery } from "@apollo/client";
-import { useParams } from "react-router";
+import { Navigate, useParams } from "react-router";
 
 export type HuntContextValue = QueryResult<GetHuntQuery, GetHuntQueryVariables>;
 

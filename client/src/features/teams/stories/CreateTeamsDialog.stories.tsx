@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
-import { CreateCluesDialog as Component } from "../components/CreateCluesDialog/CreateCluesDialog";
+import { CreateTeamsDialog as Component } from "../components/CreateTeamsDialog/CreateTeamsDialog";
 
 const meta: Meta = {
-  title: "Components/Clues",
+  title: "Components/Teams",
   component: Component,
   tags: ["autodocs"],
 };
@@ -12,7 +12,7 @@ export default meta;
 
 type Story = StoryObj<typeof Component>;
 
-export const CreateCluesDialog: Story = {
+export const CreateTeamsDialog: Story = {
   render: () => {
     const [open, setOpen] = useState(true);
 

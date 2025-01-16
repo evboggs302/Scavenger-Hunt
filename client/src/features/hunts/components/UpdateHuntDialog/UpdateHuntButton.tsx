@@ -1,16 +1,9 @@
 import React, { useCallback, useState } from "react";
 import { UpdateHuntDialog } from "./UpdateHuntDialog";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import Button from "@mui/material/Button";
 
-type UpdateHuntButtonProps = {
-  variant?: "small" | "normal";
-};
-
-export const UpdateHuntButton = ({
-  variant = "normal",
-}: UpdateHuntButtonProps) => {
+export const UpdateHuntButton = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClickOpen = useCallback(() => {
@@ -23,16 +16,13 @@ export const UpdateHuntButton = ({
 
   return (
     <>
-      {variant === "normal" && (
-        <Button variant="outlined" onClick={handleClickOpen}>
-          New hunt
-        </Button>
-      )}
-      {variant === "small" && (
-        <IconButton onClick={handleClickOpen}>
-          <EditOutlinedIcon />
-        </IconButton>
-      )}
+      <Button
+        onClick={handleClickOpen}
+        variant="outlined"
+        startIcon={<EditOutlinedIcon />}
+      >
+        Edit details
+      </Button>
       {isOpen && <UpdateHuntDialog handleClose={handleClose} />}
     </>
   );

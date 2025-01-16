@@ -5,6 +5,7 @@ import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 import { GetAllResponsesByHuntIdDocument } from "@generated/graphql";
 import Skeleton from "@mui/material/Skeleton";
 import { ResponseCard } from "../ResponseCard";
+import dayjs from "dayjs";
 
 export const InactiveHuntResponsesList = () => {
   const { hunt } = useHuntFragment();
@@ -28,6 +29,9 @@ export const InactiveHuntResponsesList = () => {
     <div>
       {data?.result.responses
         ?.filter((res) => !!res)
+        .sort((a, b) =>
+          dayjs(a.time_received).isBefore(dayjs(b.time_received)) ? 1 : 0
+        )
         .map((res) => <ResponseCard response={res} />)}
     </div>
   );
