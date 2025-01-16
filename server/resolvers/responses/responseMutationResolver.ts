@@ -1,124 +1,18 @@
-import config from "../config";
-import { TeamModel } from "../models/teams";
-import { ResponseModel } from "../models/responses";
-import { Resolvers, ResponsePayload } from "../generated/graphql";
-import { returnedItems } from "../utils/transforms/returnedItems";
-import { markResponseCorrect } from "../utils/transforms/markResponseCorrect";
-import { createBsonObjectId } from "../utils/transforms/createBsonObjectId";
+import config from "../../config";
+import { TeamModel } from "../../models/teams";
+import { ResponseModel } from "../../models/responses";
+import { Resolvers } from "../../generated/graphql";
+import { markResponseCorrect } from "../../utils/transforms/markResponseCorrect";
+import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
 import {
   throwResolutionError,
   throwServerError,
-} from "../utils/apolloErrorHandlers";
-import { withFilter } from "graphql-subscriptions";
-import { mongodbPubSub } from "../utils/pubSub";
-import { twilioClient } from "../utils/twilioClient";
-import { SubscriptionContext } from "../utils/serverSetup/subscriptionContext";
+} from "../../utils/apolloErrorHandlers";
+import { twilioClient } from "../../utils/twilioClient";
 
 const { TWILIO_NUMBER } = config;
 
-export const RESPONSE_RECEIVED_TOPIC = "RESPONSE_RECEIVED_TOPIC";
-
 const responseResolver: Resolvers = {
-  Subscription: {
-    responseReceived: {
-      subscribe: withFilter<unknown, { hunt_id: string }, SubscriptionContext>(
-        () => mongodbPubSub.asyncIterator(RESPONSE_RECEIVED_TOPIC),
-        async (payload, variables, context) => {
-          console.log("payload: ", payload);
-          console.log("variables: ", variables);
-          console.log("context: ", context);
-          try {
-            const team_id = createBsonObjectId(
-              (payload as ResponsePayload).team_id
-            );
-            const team = await TeamModel.findOne<{
-              hunt_id: ReturnType<typeof createBsonObjectId>;
-            }>(
-              {
-                _id: team_id,
-              },
-              "hunt_id"
-            ).exec();
-
-            return team?.hunt_id === variables?.hunt_id;
-          } catch {
-            return false;
-          }
-        }
-      ),
-    },
-  },
-  Query: {
-    getResponsesByHunt: async (
-      _parent: unknown,
-      { id },
-      _ctxt,
-      { operation: { name } }
-    ) => {
-      try {
-        const h_id = createBsonObjectId(id);
-        const teams = await TeamModel.find({ hunt_id: h_id }, "_id").exec();
-
-        const responses = await ResponseModel.find({
-          team_id: { $in: teams },
-        })
-          .sort({ time_received: 1 })
-          .exec();
-
-        return {
-          count: responses.length || 0,
-          responses: responses.map((res) => res.transformWithTypename()),
-          __typename: "ResponsesByHunt" as const,
-        };
-      } catch (err) {
-        return throwServerError({
-          message: "",
-          location: name?.value,
-          err: new Object(err),
-        });
-      }
-    },
-    getResponsesByTeam: async (
-      _parent: unknown,
-      { id },
-      _ctxt,
-      { operation: { name } }
-    ) => {
-      try {
-        const t_id = createBsonObjectId(id);
-        const responses = await ResponseModel.find({ team_id: t_id }).exec();
-
-        return responses.map(returnedItems);
-      } catch (err) {
-        return throwServerError({
-          message: "Unable to find responses at this time.",
-          location: name?.value,
-          err,
-        });
-      }
-    },
-    getResponsesByClue: async (
-      _parent: unknown,
-      { id },
-      _ctxt,
-      { operation: { name } }
-    ) => {
-      try {
-        const c_id = createBsonObjectId(id);
-        const responses = await ResponseModel.find({
-          clue_id: c_id,
-        }).exec();
-
-        return responses.map(returnedItems);
-      } catch (err) {
-        return throwServerError({
-          message: "Unable to find responses at this time.",
-          location: name?.value,
-          err,
-        });
-      }
-    },
-  },
   Mutation: {
     markResponseCorrect: async (
       _parent,

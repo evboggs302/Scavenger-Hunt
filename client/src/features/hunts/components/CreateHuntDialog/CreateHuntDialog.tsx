@@ -170,7 +170,7 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
               data-testid="create-hunt-multiple-days"
               inputRef={checkbox.ref}
               name={checkbox.name}
-              value={checkbox.value}
+              checked={checkbox.value}
               onBlur={checkbox.onBlur}
               onChange={checkbox.onChange}
             />

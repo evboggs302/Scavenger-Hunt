@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -52,8 +52,14 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
   const [resolver] = useUpdateHuntResolver();
 
   const methods = useForm<UpdateHuntFormState>({
-    mode: "onTouched",
+    mode: "all",
     resolver,
+    defaultValues: {
+      name: hunt.name,
+      startDate: dayjs(hunt.start_date),
+      endDate: dayjs(hunt.end_date),
+      multipleDays: dayjs(hunt.end_date).isAfter(dayjs(hunt.start_date)),
+    },
   });
 
   const {
@@ -65,6 +71,7 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
     handleSubmit,
     formState: {
       isValid,
+      dirtyFields,
       errors: { onSubmitError },
     },
   } = methods;
@@ -72,23 +79,32 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
   const { field: startDateField, fieldState: startDateState } = useController({
     name: "startDate",
     control,
-    defaultValue: dayjs(hunt.start_date),
+    // defaultValue: dayjs(hunt.start_date),
   });
   const { field: endDateField, fieldState: endDateState } = useController({
     name: "endDate",
     control,
-    defaultValue: dayjs(hunt.end_date),
+    // defaultValue: dayjs(hunt.end_date),
   });
   const { field: checkbox } = useController({
     name: "multipleDays",
     control,
-    defaultValue: startDateField.value.isBefore(endDateField.value),
   });
+
+  useEffect(() => {
+    trigger();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const changedFieldsWithoutCheckbox = Object.keys(dirtyFields).filter(
+    (val) => val !== "multipleDays"
+  );
+  const submitIsReady = changedFieldsWithoutCheckbox.length > 0 && isValid;
 
   const onChangeStart: CustomStartDateOnChange = (val, ctx) => {
     // ctx has the validation result from MUI's DatePicker
     if (ctx.validationError === "invalidDate") {
-      setError("startDate", { message: "Please select a valid date." });
+      setError("startDate", { message: "Please select a valid start date." });
     }
     startDateField.onChange(val, ctx);
     endDateField.onChange(val?.add(1, "day"));
@@ -100,7 +116,9 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
 
     try {
       await updateHunt(formData);
+      handleClose();
     } catch (err) {
+      reset();
       if (err instanceof ApolloError) {
         setError("onSubmitError", { type: "error", message: err.message });
       } else {
@@ -109,8 +127,6 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
           message: "An unknown error occurred.",
         });
       }
-    } finally {
-      reset();
     }
   };
 
@@ -170,7 +186,7 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
               data-testid="update-hunt-multiple-days"
               inputRef={checkbox.ref}
               name={checkbox.name}
-              value={checkbox.value}
+              checked={checkbox.value}
               onBlur={checkbox.onBlur}
               onChange={checkbox.onChange}
             />
@@ -213,7 +229,7 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
           <Button onClick={handleClose}>Cancel</Button>
           <Button
             type="submit"
-            disabled={!isValid || loading}
+            disabled={!submitIsReady || loading}
             endIcon={loading && <CircularProgress size={20} />}
           >
             Update Hunt

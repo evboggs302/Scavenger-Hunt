@@ -20,7 +20,7 @@ const BaseSchema = z.object({
     .custom<Dayjs>((val) => val instanceof dayjs)
     .refine(
       (arg) => arg.isAfter(dayjs().subtract(1, "day")),
-      "Please select a valid date."
+      "Please select a valid start date."
     ),
 });
 
@@ -35,7 +35,7 @@ const schemaMultipleDaysTrue = BaseSchema.merge(
     multipleDays: z.literal(true),
     endDate: z
       .custom<Dayjs>((val) => val instanceof dayjs, "Invalid date")
-      .refine((arg) => arg.isAfter(dayjs()), "Please select a valid date."),
+      .refine((arg) => arg.isAfter(dayjs()), "Please select a valid end date."),
   })
 );
 
@@ -49,7 +49,6 @@ export type UpdateHuntFormSchema = z.infer<typeof UpdateHuntSchemaUnion>;
 export const useUpdateHuntResolver = () => {
   const resolver = zodResolver(
     UpdateHuntSchemaUnion.refine(
-      // data isn't destructured becasue of "endDate" possibly not existing
       (data) => {
         if (data.multipleDays) {
           return data.endDate.isAfter(data.startDate);
@@ -58,7 +57,7 @@ export const useUpdateHuntResolver = () => {
       },
       {
         path: ["endDate"],
-        message: "Please select a valid date.",
+        message: "Please select a valid end date.",
       }
     )
   );

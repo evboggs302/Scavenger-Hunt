@@ -1,92 +1,20 @@
 import { Types } from "mongoose";
-import config from "../config";
-import { HuntModel } from "../models/hunts";
-import { ClueModel } from "../models/clues";
-import { TeamModel } from "../models/teams";
-import { ResponseModel } from "../models/responses";
-import { Hunt, Resolvers } from "../generated/graphql";
-import { returnedItems } from "../utils/transforms/returnedItems";
-import { createBsonObjectId } from "../utils/transforms/createBsonObjectId";
+import config from "../../config";
+import { HuntModel } from "../../models/hunts";
+import { ClueModel } from "../../models/clues";
+import { TeamModel } from "../../models/teams";
+import { ResponseModel } from "../../models/responses";
+import { Resolvers } from "../../generated/graphql";
+import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
 import {
   throwResolutionError,
   throwServerError,
-} from "../utils/apolloErrorHandlers";
-import { twilioClient } from "../utils/twilioClient";
+} from "../../utils/apolloErrorHandlers";
+import { twilioClient } from "../../utils/twilioClient";
 
 const { TWILIO_NUMBER } = config;
 
 const huntResolver: Resolvers = {
-  Query: {
-    getHuntsByUserId: async (
-      _parent: unknown,
-      _args,
-      { user },
-      { operation: { name } }
-    ) => {
-      try {
-        const hunts = await HuntModel.find({ created_by: user._id })
-          .sort({ created_date: 1 })
-          .exec();
-
-        return hunts.map(returnedItems);
-      } catch (err) {
-        return throwServerError({
-          message: "Unable to get hunts at this time.",
-          location: name?.value,
-          err,
-        });
-      }
-    },
-    getHunt: async (
-      _parent: unknown,
-      { id },
-      _ctxt,
-      { operation: { name } }
-    ) => {
-      try {
-        const hunt = await HuntModel.findById(id).exec();
-
-        if (!hunt) {
-          return throwResolutionError({
-            location: name?.value,
-            message: "Unable to find hunt.",
-          });
-        }
-
-        return hunt.transformWithTypename();
-      } catch (err) {
-        return throwServerError({
-          message: "Unable to get hunts at the moment",
-          location: name?.value,
-          err,
-        });
-      }
-    },
-    deleteAllHuntsByUser: async (
-      _parent: unknown,
-      _args,
-      { user },
-      { operation: { name } }
-    ) => {
-      try {
-        const { deletedCount } = await HuntModel.deleteMany({
-          created_by: user._id,
-        }).exec();
-
-        // delete clues
-        // delete teams
-        // delete responses
-
-        return deletedCount > 0;
-      } catch (err) {
-        return throwServerError({
-          message: "Unable to delete hunts at the moment.",
-          location: name?.value,
-          err,
-        });
-      }
-    },
-  },
   Mutation: {
     createHunt: async (
       _parent: unknown,
@@ -127,6 +55,7 @@ const huntResolver: Resolvers = {
       _parent: unknown,
       {
         input: {
+          name: newName,
           hunt_id,
           start_date: newStart,
           end_date: newEnd,
@@ -149,6 +78,19 @@ const huntResolver: Resolvers = {
           [
             {
               $set: {
+                name: {
+                  $cond: [
+                    {
+                      $and: [newName, { $ne: [newName, "$name"] }],
+                    },
+                    newName,
+                    "$name",
+                  ],
+                },
+              },
+            },
+            {
+              $set: {
                 start_date: {
                   $cond: [
                     {
@@ -157,7 +99,7 @@ const huntResolver: Resolvers = {
                         { $ne: [formattedStart, "$start_date"] },
                       ],
                     },
-                    newStart,
+                    formattedStart,
                     "$start_date",
                   ],
                 },
@@ -170,7 +112,7 @@ const huntResolver: Resolvers = {
                     {
                       $and: [newEnd, { $ne: [formattedEnd, "$end_date"] }],
                     },
-                    newEnd,
+                    formattedEnd,
                     "$end_date",
                   ],
                 },
@@ -254,9 +196,8 @@ const huntResolver: Resolvers = {
         }
 
         await HuntModel.updateOne({ _id: hunt_id }, { is_active: true }).exec();
-        /**
-         * SEND FIRST CLUE USING TWILIO
-         */
+
+        // GET FIRST CLUE
         const firstClue = await ClueModel.findOne({
           hunt_id,
           order_number: 1,
@@ -269,6 +210,9 @@ const huntResolver: Resolvers = {
           });
         }
 
+        /**
+         * SEND FIRST CLUE USING TWILIO
+         */
         Promise.all(
           teams.map((tm) =>
             twilioClient.messages.create({
@@ -277,7 +221,13 @@ const huntResolver: Resolvers = {
               to: tm.device_number,
             })
           )
-        );
+        ).catch((reason) => {
+          return throwServerError({
+            location: name?.value + "_twilio",
+            message: "There was a problem sending out the first clue.",
+            err: reason,
+          });
+        });
 
         return true;
       } catch {
@@ -350,20 +300,6 @@ const huntResolver: Resolvers = {
           err,
         });
       }
-    },
-  },
-  Hunt: {
-    clues: async (parent: Hunt) => {
-      const h_id = createBsonObjectId(parent._id);
-      return await ClueModel.find({
-        hunt_id: h_id,
-      });
-    },
-    teams: async (parent: Hunt) => {
-      const h_id = createBsonObjectId(parent._id);
-      return await TeamModel.find({
-        hunt_id: h_id,
-      });
     },
   },
 };

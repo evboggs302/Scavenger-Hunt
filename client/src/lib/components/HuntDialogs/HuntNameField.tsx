@@ -19,7 +19,6 @@ export const HuntNameField = ({
   fieldState,
   mode,
 }: HuntNameFieldProps) => {
-  console.log(field.value);
   return (
     <FieldWrapper>
       <InputLabel required>Hunt name</InputLabel>

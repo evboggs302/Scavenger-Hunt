@@ -1,7 +1,7 @@
 import config from "../config";
 import { MongoClient, Db } from "mongodb";
 import { MongodbPubSub } from "graphql-mongodb-subscriptions";
-import { RESPONSE_RECEIVED_TOPIC } from "../resolvers/responseResolver";
+import { RESPONSE_RECEIVED_TOPIC } from "../resolvers/responses/responseSubscriptionResolver";
 import { ResponsePayload } from "generated/graphql";
 
 /**

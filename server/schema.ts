@@ -11,7 +11,7 @@ export const schema: GraphQLSchema = loadSchemaSync("./graphql/**/*.graphql", {
 });
 
 export const resolvers = mergeResolvers(
-  loadFilesSync(path.join(__dirname, "./resolvers"))
+  loadFilesSync(path.join(__dirname, "./resolvers/**/*.ts"))
 );
 
 export const schemaWithResolvers: GraphQLSchema = addResolversToSchema({

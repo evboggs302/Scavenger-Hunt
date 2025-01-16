@@ -57,14 +57,14 @@ export const HuntDetails = () => {
           alignItems: "flex-end",
         }}
       >
-        <UpdateHuntButton />
+        {!marked_complete && !is_active && <UpdateHuntButton />}
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>Created date</TableCell>
-                {isInPast && marked_complete ? (
+                {isInPast || marked_complete ? (
                   <TableCell>Ended on</TableCell>
                 ) : (
                   <>
@@ -86,7 +86,7 @@ export const HuntDetails = () => {
                 <TableCell component="th" scope="row">
                   {dayjs(created_date).format("LL")}
                 </TableCell>
-                {isInPast && marked_complete ? (
+                {isInPast || marked_complete ? (
                   <TableCell component="th" scope="row">
                     {dayjs(end_date).format("LL")}
                   </TableCell>
@@ -101,11 +101,7 @@ export const HuntDetails = () => {
                   </>
                 )}
                 <TableCell component="th" scope="row">
-                  {isInPast && marked_complete ? (
-                    <DoneIcon color="success" />
-                  ) : (
-                    "---"
-                  )}
+                  {marked_complete ? <DoneIcon color="success" /> : "---"}
                 </TableCell>
                 <TableCell component="th" scope="row">
                   {is_active ? (
