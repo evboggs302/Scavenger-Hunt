@@ -3,16 +3,16 @@ import { ResponsePayload } from "@generated/graphql";
 
 export const generateResponses = (number: number = 1, clue_id: string) => {
   const teamIDs = [
-    faker.string.hexadecimal(),
-    faker.string.hexadecimal(),
-    faker.string.hexadecimal(),
+    faker.string.hexadecimal({ length: 24 }),
+    faker.string.hexadecimal({ length: 24 }),
+    faker.string.hexadecimal({ length: 24 }),
   ];
 
   const responses = new Array<ResponsePayload>(number);
   for (let i = 0; i < number; i++) {
     responses[i] = {
       __typename: "ResponsePayload" as const,
-      _id: faker.string.hexadecimal(),
+      _id: faker.string.hexadecimal({ length: 24 }),
       team_id: teamIDs[faker.number.int({ min: 0, max: 2 })],
       clue_id,
       time_received: faker.date.recent({ days: 3 }).toISOString(),

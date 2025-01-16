@@ -6,7 +6,7 @@ import { generateClues } from "../../utils/generateClues";
 export const createSingleClueMock = graphql.mutation(
   CreateSingleClueDocument,
   async ({ variables: { input } }) => {
-    const _id = faker.string.hexadecimal();
+    const _id = faker.string.hexadecimal({ length: 24 });
 
     return HttpResponse.json({
       data: {

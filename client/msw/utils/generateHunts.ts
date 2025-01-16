@@ -4,12 +4,12 @@ import { generateTeams } from "./generateTeams";
 
 export const generateHunts = (
   number: number = 1,
-  created_by = faker.string.hexadecimal()
+  created_by = faker.string.hexadecimal({ length: 24 })
 ): Hunt[] => {
   const hunts = new Array<Hunt>(number);
 
   for (let i = 0; i < number; i++) {
-    const _id = faker.string.hexadecimal();
+    const _id = faker.string.hexadecimal({ length: 24 });
     const start_date = faker.date.future().toISOString();
     hunts[i] = {
       __typename: "Hunt" as const,

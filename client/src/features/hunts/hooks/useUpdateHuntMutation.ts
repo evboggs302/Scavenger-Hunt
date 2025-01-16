@@ -7,15 +7,15 @@ import {
 } from "@generated/graphql";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 
-export const useUpdateHuntCompleted = () => {
+export const useUpdateHuntMutation = () => {
   const { hunt } = useHuntFragment();
-  const [updateHuntComplete, result] = useMutation(UpdateHuntDocument, {
+  const [updateHunt, result] = useMutation(UpdateHuntDocument, {
     refetchQueries: [GetHuntDocument],
   });
 
-  const handleUpdateHuntComplete = useCallback(
+  const handleUpdateHunt = useCallback(
     async (input: Partial<Omit<UpdateHuntInput, "hunt_id">>) => {
-      await updateHuntComplete({
+      await updateHunt({
         variables: {
           input: {
             hunt_id: hunt._id || "",
@@ -25,14 +25,11 @@ export const useUpdateHuntCompleted = () => {
         },
       });
     },
-    [updateHuntComplete, hunt]
+    [updateHunt, hunt]
   );
 
   return useMemo(
-    (): [typeof handleUpdateHuntComplete, typeof result] => [
-      handleUpdateHuntComplete,
-      result,
-    ],
-    [handleUpdateHuntComplete, result]
+    (): [typeof handleUpdateHunt, typeof result] => [handleUpdateHunt, result],
+    [handleUpdateHunt, result]
   );
 };

@@ -9,7 +9,7 @@ export const getUserFromTokenMock = graphql.query(
       data: {
         user: {
           __typename: "UserPayload" as const,
-          _id: faker.string.hexadecimal(),
+          _id: faker.string.hexadecimal({ length: 24 }),
           user_name: faker.internet.username(),
           first_name: faker.person.firstName(),
           last_name: faker.person.lastName(),

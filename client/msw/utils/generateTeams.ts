@@ -3,13 +3,13 @@ import { faker } from "@faker-js/faker";
 
 export const generateTeams = (
   number: number = 1,
-  hunt_id: string = faker.string.hexadecimal()
+  hunt_id: string = faker.string.hexadecimal({ length: 24 })
 ) => {
   const teams = new Array<Team>(number);
   for (let i = 0; i < number; i++) {
     teams[i] = {
       __typename: "Team" as const,
-      _id: faker.string.hexadecimal(),
+      _id: faker.string.hexadecimal({ length: 24 }),
       hunt_id,
       device_number: faker.phone.number({ style: "national" }),
       members: [

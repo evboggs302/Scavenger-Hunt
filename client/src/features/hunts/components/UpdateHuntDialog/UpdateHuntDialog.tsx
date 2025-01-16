@@ -5,11 +5,11 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import { useCreateHuntMutation } from "../../hooks/useCreateHuntMutation";
+import { useUpdateHuntMutation } from "../../hooks/useUpdateHuntMutation";
 import {
-  CreateHuntFormSchema,
-  useCreateHuntResolver,
-} from "./useCreateHuntResolver";
+  UpdateHuntFormSchema,
+  useUpdateHuntResolver,
+} from "./useUpdateHuntResolver";
 import {
   FormProvider,
   SubmitHandler,
@@ -27,12 +27,13 @@ import {
   DateValidationError,
   PickerChangeHandlerContext,
 } from "@mui/x-date-pickers/models";
-import { CreateNameField } from "./CreateNameField";
-import { CreateRecallMessageField } from "./CreateRecallMessageField";
+import { UpdateNameField } from "./UpdateNameField";
+import { UpdateRecallMessageField } from "./UpdateRecallMessageField";
 import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
+import { useHuntFragment } from "@/lib/hooks/useHuntFragment";
 
-type CreateDialogProps = {
+type UpdateDialogProps = {
   handleClose: () => void;
 };
 
@@ -41,15 +42,16 @@ type CustomStartDateOnChange = (
   context: PickerChangeHandlerContext<DateValidationError>
 ) => void;
 
-export type CreateHuntFormState = CreateHuntFormSchema & {
+export type UpdateHuntFormState = UpdateHuntFormSchema & {
   onSubmitError?: string;
 };
 
-export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
-  const [createHunt, { loading }] = useCreateHuntMutation();
-  const [resolver] = useCreateHuntResolver();
+export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
+  const { hunt } = useHuntFragment();
+  const [updateHunt, { loading }] = useUpdateHuntMutation();
+  const [resolver] = useUpdateHuntResolver();
 
-  const methods = useForm<CreateHuntFormState>({
+  const methods = useForm<UpdateHuntFormState>({
     mode: "onTouched",
     resolver,
   });
@@ -70,17 +72,17 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
   const { field: startDateField, fieldState: startDateState } = useController({
     name: "startDate",
     control,
-    defaultValue: dayjs(),
+    defaultValue: dayjs(hunt.start_date),
   });
   const { field: endDateField, fieldState: endDateState } = useController({
     name: "endDate",
     control,
-    defaultValue: startDateField.value.add(1, "day"),
+    defaultValue: dayjs(hunt.end_date),
   });
   const { field: checkbox } = useController({
     name: "multipleDays",
     control,
-    defaultValue: false,
+    defaultValue: startDateField.value.isBefore(endDateField.value),
   });
 
   const onChangeStart: CustomStartDateOnChange = (val, ctx) => {
@@ -92,12 +94,12 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
     endDateField.onChange(val?.add(1, "day"));
   };
 
-  const onSubmit: SubmitHandler<CreateHuntFormState> = async (formData) => {
+  const onSubmit: SubmitHandler<UpdateHuntFormState> = async (formData) => {
     clearErrors("onSubmitError");
     await trigger();
 
     try {
-      await createHunt(formData);
+      await updateHunt(formData);
     } catch (err) {
       if (err instanceof ApolloError) {
         setError("onSubmitError", { type: "error", message: err.message });
@@ -122,17 +124,15 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
           onSubmit: handleSubmit(onSubmit),
         }}
       >
-        <DialogTitle data-testid="create-hunt-title">
-          Create New Hunt
-        </DialogTitle>
+        <DialogTitle data-testid="update-hunt-title">Update Hunt</DialogTitle>
         <DialogContent>
           {onSubmitError && <TryAgainAlert message={onSubmitError.message} />}
           <DialogContentText>
-            To create a new hunt, please provide the below information.
+            To update a hunt, please change one of the below items.
             <br />
             <i>Required fields are marked.</i>
           </DialogContentText>
-          <CreateNameField />
+          <UpdateNameField />
           <FieldWrapper>
             <InputLabel required>Start date</InputLabel>
             <DatePicker
@@ -151,7 +151,7 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
                   color: startDateState.error ? "error" : "primary",
                   slotProps: {
                     htmlInput: {
-                      "data-testid": "create-hunt-start",
+                      "data-testid": "update-hunt-start",
                     },
                   },
                 },
@@ -167,7 +167,7 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
             }}
           >
             <Checkbox
-              data-testid="create-hunt-multiple-days"
+              data-testid="update-hunt-multiple-days"
               inputRef={checkbox.ref}
               name={checkbox.name}
               value={checkbox.value}
@@ -199,7 +199,7 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
                     color: endDateState.error ? "error" : "primary",
                     slotProps: {
                       htmlInput: {
-                        "data-testid": "create-hunt-end",
+                        "data-testid": "update-hunt-end",
                       },
                     },
                   },
@@ -207,7 +207,7 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
               />
             </FieldWrapper>
           )}
-          <CreateRecallMessageField />
+          <UpdateRecallMessageField />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
@@ -216,7 +216,7 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
             disabled={!isValid || loading}
             endIcon={loading && <CircularProgress size={20} />}
           >
-            Create Hunt
+            Update Hunt
           </Button>
         </DialogActions>
       </Dialog>

@@ -4,12 +4,12 @@ import { generateResponses } from "./generateResponses";
 
 export const generateClues = (
   number: number = 1,
-  hunt_id: string = faker.string.hexadecimal()
+  hunt_id: string = faker.string.hexadecimal({ length: 24 })
 ) => {
   const clues = new Array<CluePayload>(number);
 
   for (let i = 0; i < number; i++) {
-    const _id = faker.string.hexadecimal();
+    const _id = faker.string.hexadecimal({ length: 24 });
 
     clues[i] = {
       __typename: "CluePayload" as const,

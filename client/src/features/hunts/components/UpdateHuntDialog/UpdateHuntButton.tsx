@@ -1,16 +1,16 @@
 import React, { useCallback, useState } from "react";
-import { CreateHuntDialog } from "./CreateHuntDialog";
+import { UpdateHuntDialog } from "./UpdateHuntDialog";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import AddBoxIcon from "@mui/icons-material/AddBox";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 
-type CreateHuntButtonProps = {
+type UpdateHuntButtonProps = {
   variant?: "small" | "normal";
 };
 
-export const CreateHuntButton = ({
+export const UpdateHuntButton = ({
   variant = "normal",
-}: CreateHuntButtonProps) => {
+}: UpdateHuntButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClickOpen = useCallback(() => {
@@ -30,10 +30,10 @@ export const CreateHuntButton = ({
       )}
       {variant === "small" && (
         <IconButton onClick={handleClickOpen}>
-          <AddBoxIcon />
+          <EditOutlinedIcon />
         </IconButton>
       )}
-      {isOpen && <CreateHuntDialog handleClose={handleClose} />}
+      {isOpen && <UpdateHuntDialog handleClose={handleClose} />}
     </>
   );
 };

@@ -1,22 +1,31 @@
 import React from "react";
-import { useController } from "react-hook-form";
+import { FieldWrapper } from "../Form/FieldWrapper";
 import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
-import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
+import {
+  ControllerRenderProps,
+  FieldValues,
+  ControllerFieldState,
+} from "react-hook-form";
 
-export const NameField = () => {
-  const { field, fieldState } = useController({
-    name: "name",
-    defaultValue: "",
-  });
+type HuntNameFieldProps = {
+  field: ControllerRenderProps<FieldValues, "name">;
+  fieldState: ControllerFieldState;
+  mode: "create" | "update";
+};
 
+export const HuntNameField = ({
+  field,
+  fieldState,
+  mode,
+}: HuntNameFieldProps) => {
   return (
     <FieldWrapper>
       <InputLabel required>Hunt name</InputLabel>
       <TextField
         slotProps={{
           htmlInput: {
-            "data-testid": "create-hunt-name",
+            "data-testid": `${mode}-hunt-name`,
           },
         }}
         inputRef={field.ref}

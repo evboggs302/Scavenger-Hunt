@@ -4,7 +4,7 @@ import { faker } from "@faker-js/faker";
 import { createMockToken } from "../../utils/createMockToken";
 
 export const loginMock = graphql.mutation(LoginUserDocument, async () => {
-  const _id = faker.string.hexadecimal();
+  const _id = faker.string.hexadecimal({ length: 24 });
   const token = await createMockToken();
 
   return HttpResponse.json({

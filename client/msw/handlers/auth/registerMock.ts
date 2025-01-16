@@ -6,7 +6,7 @@ import { createMockToken } from "msw/utils/createMockToken";
 export const registerMock = graphql.mutation(
   RegisterUserDocument,
   async ({ variables }) => {
-    const _id = faker.string.hexadecimal();
+    const _id = faker.string.hexadecimal({ length: 24 });
     const token = await createMockToken();
 
     return HttpResponse.json({
