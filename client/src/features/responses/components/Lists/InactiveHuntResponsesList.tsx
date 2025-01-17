@@ -25,14 +25,21 @@ export const InactiveHuntResponsesList = () => {
     return <Skeleton variant="rectangular" width={210} height={60} />;
   }
 
+  if (!data?.result) {
+    return <div>No responses received yet.</div>;
+  }
+
+  const filteredSortedResponses = data.result.responses
+    ?.filter((res) => !!res)
+    .sort((a, b) =>
+      dayjs(a.time_received).isBefore(dayjs(b.time_received)) ? 1 : 0
+    );
+
   return (
     <div>
-      {data?.result.responses
-        ?.filter((res) => !!res)
-        .sort((a, b) =>
-          dayjs(a.time_received).isBefore(dayjs(b.time_received)) ? 1 : 0
-        )
-        .map((res) => <ResponseCard response={res} />)}
+      {filteredSortedResponses?.map((res) => (
+        <ResponseCard key={res._id} response={res} />
+      ))}
     </div>
   );
 };

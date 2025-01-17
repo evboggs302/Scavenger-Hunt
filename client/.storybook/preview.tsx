@@ -12,6 +12,7 @@ import { UserQryContextProvider } from "../src/lib/context/UserContext";
 import { HuntQryContextProvider } from "../src/lib/context/HuntContext";
 import { ClueQryContextProvider } from "../src/lib/context/ClueContext";
 import { mswHandlers } from "../msw/mswHandlers";
+import { mockHunt } from "../msw/utils/mockHunts";
 import { AppLocalizationProvider } from "../src/lib/context/AppLocalizationProvider";
 
 // MSW Initialize
@@ -34,7 +35,19 @@ export const parameters = {
     },
   },
   reactRouter: reactRouterParameters({
-    routing: { path: "*" },
+    routing: [
+      {
+        path: "/hunt/:huntId",
+        useStoryElement: true,
+      },
+      { path: "*", useStoryElement: true },
+    ],
+    location: {
+      path: "/hunt/:huntId",
+      pathParams: {
+        huntId: mockHunt._id,
+      },
+    },
   }),
   // screenshot: {
   //   viewport: {

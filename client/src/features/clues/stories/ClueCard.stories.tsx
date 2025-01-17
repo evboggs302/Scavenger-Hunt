@@ -1,30 +1,58 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { ClueCard as Component } from "../components/ClueCard";
-import { faker } from "@faker-js/faker";
-import { hexadecimalStr } from "@msw/utils/createHexadecimal";
+import { mockHunt } from "@msw/utils/mockHunts";
+import { mswHandlers } from "@msw/mswHandlers";
+import { graphql, HttpResponse } from "msw";
+import { GetHuntDocument } from "@generated/graphql";
 
 const meta: Meta<typeof Component> = {
   title: "Components/Clues",
   component: Component,
   tags: ["autodocs"],
+  render: () => {
+    return <Component clue={mockHunt.clues[0]} />;
+  },
 };
 export default meta;
 
 type Story = StoryObj<typeof Component>;
 
-export const ClueCard: Story = {
-  render: () => {
-    return (
-      <Component
-        clue={{
-          __typename: "CluePayload",
-          _id: hexadecimalStr(),
-          hunt_id: hexadecimalStr(),
-          order_number: 1,
-          description: faker.lorem.sentence(),
-        }}
-      />
-    );
+export const InactiveHunt_ClueCard: Story = {
+  parameters: {
+    msw: {
+      handlers: {
+        ...mswHandlers,
+        getHuntMock: graphql.query(GetHuntDocument, () => {
+          return HttpResponse.json({
+            data: {
+              hunt: {
+                ...mockHunt,
+                is_active: false,
+              },
+            },
+          });
+        }),
+      },
+    },
+  },
+};
+export const ActiveHunt_ClueCard: Story = {
+  parameters: {
+    msw: {
+      handlers: {
+        ...mswHandlers,
+        getHuntMock: graphql.query(GetHuntDocument, () => {
+          return HttpResponse.json({
+            data: {
+              hunt: {
+                ...mockHunt,
+                is_active: true,
+              },
+            },
+          });
+        }),
+      },
+    },
   },
 };

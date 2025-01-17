@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { CluePayload } from "@generated/graphql";
 import { useDeleteSingleClueMutation } from "../hooks/useDeleteSingleClueMutation";
+import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 // import CardMedia from "@mui/material/CardMedia";
 
 type ClueCardProps = { clue: CluePayload };
@@ -16,6 +17,7 @@ type ClueCardProps = { clue: CluePayload };
 export const ClueCard = ({
   clue: { _id, order_number, description },
 }: ClueCardProps) => {
+  const { hunt } = useHuntFragment();
   const [deleteClue, { loading, error }] = useDeleteSingleClueMutation();
 
   const handleDelete = useCallback(async () => {
@@ -35,24 +37,23 @@ export const ClueCard = ({
         image="/static/images/cards/contemplative-reptile.jpg"
       /> */}
       <CardContent>
-        <Typography gutterBottom variant="subtitle2" component="div">
-          {order_number}.
+        <Typography gutterBottom variant="subtitle1" component="div">
+          <strong>{order_number}</strong>. {description}
         </Typography>
-        <Typography variant="body1" sx={{ color: "text.secondary" }}>
-          {description}
-        </Typography>
-        <Typography variant="body2">
+        <Typography variant="body2" sx={{ color: "text.secondary" }}>
           <i>{_id}</i>
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small" onClick={handleDelete}>
-          Delete
-        </Button>
-        <Button size="small" disabled>
-          Edit
-        </Button>
-      </CardActions>
+      {!hunt.is_active && (
+        <CardActions>
+          <Button size="small" onClick={handleDelete}>
+            Delete
+          </Button>
+          <Button size="small" disabled>
+            Edit
+          </Button>
+        </CardActions>
+      )}
     </Card>
   );
 };

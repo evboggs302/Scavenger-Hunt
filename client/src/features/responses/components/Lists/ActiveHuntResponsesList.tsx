@@ -18,7 +18,7 @@ export const ActiveHuntResponsesList = () => {
     <div>
       {/* {loading ? <CircularProgress /> : <DoneIcon color="success" />} */}
       {accumulatedData.map((res) => (
-        <ResponseCard response={res} />
+        <ResponseCard key={res._id} response={res} />
       ))}
     </div>
   );
