@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { ErrorFallback as Component } from "@lib/components/ErrorFallback/ErrorFallback";
 
 const meta: Meta<typeof Component> = {
-  title: "Lib/",
+  title: "LIB/Error Boundary Fallback",
   component: Component,
   tags: ["autodocs"],
 };
