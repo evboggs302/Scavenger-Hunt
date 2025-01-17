@@ -27,7 +27,7 @@ const ProtectedBaseApp = () => {
   return <BaseApp />;
 };
 
-export const appRoutes = [
+const router = createBrowserRouter([
   {
     path: "login",
     element: <AuthOutlet />,
@@ -92,10 +92,10 @@ export const appRoutes = [
     ],
   },
   catchallRouteToLogin,
-];
+]);
 
 export const AppRouter = () => (
   <DarkThemeProvider>
-    <RouterProvider router={createBrowserRouter(appRoutes)} />
+    <RouterProvider router={router} />
   </DarkThemeProvider>
 );

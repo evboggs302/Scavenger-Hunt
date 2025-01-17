@@ -32,8 +32,7 @@ export default meta;
 
 type Story = StoryObj<typeof Component>;
 
-export const InactiveHunt_IncorrectResponse: Story = {
-  args: {},
+export const InactiveHunt_ResponseCard: Story = {
   parameters: {
     msw: {
       handlers: {
