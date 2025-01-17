@@ -60,7 +60,7 @@ export const parameters = {
   // },
 };
 
-const ApolloClientContextDecorators: Decorator = (Story, context) => {
+const ApolloClientContextDecorators: Decorator = (Story) => {
   return (
     <DarkThemeProvider>
       <ApolloClientProvider>

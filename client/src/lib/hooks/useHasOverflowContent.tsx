@@ -16,8 +16,8 @@ export const useHasOverflowContent = (ref: RefObject<HTMLElement | null>) => {
       setHasOverflow(!!isOverflowing);
     };
 
-    const windowObserver = new ResizeObserver(trigger);
     const refObserver = new ResizeObserver(trigger);
+    const windowObserver = new ResizeObserver(trigger);
 
     if (current) {
       refObserver.observe(current);
