@@ -1,13 +1,18 @@
 import { faker } from "@faker-js/faker";
-import { CluePayload } from "@generated/graphql";
+import { CluePayload, ResponsePayload } from "@generated/graphql";
 import { generateResponses } from "./generateResponses";
 import { hexadecimalStr } from "./createHexadecimal";
 
+type FullClue = Required<CluePayload> & {
+  responses: ResponsePayload[];
+};
+
 export const generateClues = (
   number: number = 1,
-  hunt_id: string = hexadecimalStr()
+  hunt_id: string = hexadecimalStr(),
+  teams: string[] = [hexadecimalStr()]
 ) => {
-  const clues: CluePayload[] = [];
+  const clues: FullClue[] = [];
 
   for (let i = 0; i < number; i++) {
     const _id = hexadecimalStr();
@@ -18,7 +23,11 @@ export const generateClues = (
       hunt_id,
       order_number: i + 1,
       description: faker.lorem.sentence(),
-      responses: generateResponses(5, _id),
+      responses: generateResponses(
+        5,
+        _id,
+        teams[faker.number.int(teams.length - 1)]
+      ),
     });
   }
 

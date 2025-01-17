@@ -50,22 +50,29 @@ export const ResponseCard = ({
           {clue?.description}
         </Typography>
         {response_txt && (
-          <Typography variant="body1" sx={{ color: "text.secondary" }}>
+          <Typography
+            gutterBottom
+            variant="body1"
+            sx={{ color: "text.secondary" }}
+          >
             Response: {response_txt}
           </Typography>
         )}
-        <Typography variant="body2">
+        <Typography gutterBottom variant="body2">
           Time received:{" "}
           <i>{dayjs(time_received).format("h:mm:ss A, MMM D, YYYY")}</i>
         </Typography>
-        <Typography variant="body2">
+        <Typography gutterBottom variant="body2">
           Is correct: <i>{`${correct ? "TRUE" : "FALSE"}`}</i>
         </Typography>
-        <Typography variant="body2">
+        <Typography gutterBottom variant="body2">
           Team: <i>{team?.members.join(", ")}</i>
         </Typography>
+        <Typography gutterBottom variant="body2">
+          ID: <i>{_id}</i>
+        </Typography>
       </CardContent>
-      {huntData?.hunt.is_active && (
+      {huntData?.hunt.is_active && !correct && (
         <CardActions>
           <Button size="small" onClick={handleMarkCorrect}>
             Mark correct

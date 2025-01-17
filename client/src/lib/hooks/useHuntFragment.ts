@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 
 export const useHuntFragment = () => {
   const { huntId } = useParams();
+
   const { complete, data } = useFragment({
     fragment: HuntFragmentDoc,
     from: {

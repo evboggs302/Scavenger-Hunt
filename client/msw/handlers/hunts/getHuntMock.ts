@@ -1,15 +1,11 @@
 import { HttpResponse, graphql } from "msw";
 import { GetHuntDocument } from "@generated/graphql";
-import { generateHunts } from "@msw/utils/generateHunts";
-
-const hunt = generateHunts()[0];
+import { mockHunt } from "@msw/utils/mockHunts";
 
 export const getHuntMock = graphql.query(GetHuntDocument, () => {
   return HttpResponse.json({
     data: {
-      hunt,
+      hunt: mockHunt,
     },
   });
 });
-
-console.log();
