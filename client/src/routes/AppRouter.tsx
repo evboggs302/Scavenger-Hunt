@@ -15,6 +15,8 @@ import { SignUpCard } from "@features/auth/components/register/SignUpCard";
 import { DarkThemeProvider } from "@lib/context/DarkThemeProvider";
 import { HomePage } from "@features/home/components/HomePage";
 import { useTokenContext } from "@lib/context/TokenContext";
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorFallback } from "@lib/components/ErrorFallback/ErrorFallback";
 
 const ProtectedBaseApp = () => {
   const { token } = useTokenContext();
@@ -24,7 +26,18 @@ const ProtectedBaseApp = () => {
     return <Navigate to="/" replace />;
   }
 
-  return <BaseApp />;
+  return (
+    // <ErrorBoundary
+    //   fallbackRender={(fallbackProps) => (
+    //     <ErrorFallback
+    //       {...fallbackProps}
+    //       message="There was a problem rendering the child app."
+    //     />
+    //   )}
+    // >
+    <BaseApp />
+    // </ErrorBoundary>
+  );
 };
 
 const router = createBrowserRouter([
@@ -72,18 +85,65 @@ const router = createBrowserRouter([
         path: "hunt/:huntId",
         element: <HuntPage />,
         children: [
-          { index: true, element: <HuntDetails /> },
+          {
+            index: true,
+            element: (
+              // <ErrorBoundary
+              //   fallbackRender={(fallbackProps) => (
+              //     <ErrorFallback
+              //       {...fallbackProps}
+              //       message="There was a problem rendering these details."
+              //     />
+              //   )}
+              // >
+              <HuntDetails />
+              // </ErrorBoundary>
+            ),
+          },
           {
             path: "teams",
-            element: <TeamsPage />,
+            element: (
+              // <ErrorBoundary
+              //   fallbackRender={(fallbackProps) => (
+              //     <ErrorFallback
+              //       {...fallbackProps}
+              //       message="There was a problem rendering the teams page."
+              //     />
+              //   )}
+              // >
+              <TeamsPage />
+              // </ErrorBoundary>
+            ),
           },
           {
             path: "clues",
-            element: <CluesPage />,
+            element: (
+              // <ErrorBoundary
+              //   fallbackRender={(fallbackProps) => (
+              //     <ErrorFallback
+              //       {...fallbackProps}
+              //       message="There was a problem rendering the clues page."
+              //     />
+              //   )}
+              // >
+              <CluesPage />
+              // </ErrorBoundary>
+            ),
           },
           {
             path: "responses",
-            element: <ResponsesPage />,
+            element: (
+              // <ErrorBoundary
+              //   fallbackRender={(fallbackProps) => (
+              //     <ErrorFallback
+              //       {...fallbackProps}
+              //       message="There was a problem rendering the responses page."
+              //     />
+              //   )}
+              // >
+              <ResponsesPage />
+              // </ErrorBoundary>
+            ),
           },
           catchallRouteToParent,
         ],
