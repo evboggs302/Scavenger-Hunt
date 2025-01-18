@@ -1,10 +1,20 @@
 import { useCallback, useMemo } from "react";
 import { useMutation } from "@apollo/client";
 import { MarkResponseCorrectDocument } from "@generated/graphql";
+import { useToast } from "@lib/hooks/useToast";
 
 export const useMarkResponseCorrectMutation = () => {
+  const [toast] = useToast();
+
   const [markResponseCorrect, result] = useMutation(
-    MarkResponseCorrectDocument
+    MarkResponseCorrectDocument,
+    {
+      onCompleted: () =>
+        toast({
+          variant: "success",
+          message: "Response was marked correct successfully!",
+        }),
+    }
   );
 
   const handleMarkResponseCorrect = useCallback(

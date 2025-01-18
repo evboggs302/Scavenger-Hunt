@@ -6,13 +6,21 @@ import {
 } from "@generated/graphql";
 import { CreateCluesFormState } from "../components/CreateCluesDialog/CreateCluesDialog";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
+import { useToast } from "@lib/hooks/useToast";
 
 type RequiredFormState = CreateCluesFormState & { isMulti: false };
 
 export const useCreateSingleClueMutation = () => {
   const { hunt } = useHuntFragment();
+  const [toast] = useToast();
+
   const [createSingleClue, result] = useMutation(CreateSingleClueDocument, {
     refetchQueries: [GetOrderedCluesDocument],
+    onCompleted: () =>
+      toast({
+        variant: "success",
+        message: "Clue created successfully!",
+      }),
   });
 
   const handleCreateSingleClue = useCallback(

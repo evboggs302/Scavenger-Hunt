@@ -3,11 +3,19 @@ import { useMutation } from "@apollo/client";
 import { GetHuntDocument, UpdateHuntDocument } from "@generated/graphql";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 import { UpdateHuntFormState } from "../components/UpdateHuntDialog/UpdateHuntDialog";
+import { useToast } from "@lib/hooks/useToast";
 
 export const useUpdateHuntMutation = () => {
   const { hunt } = useHuntFragment();
+  const [toast] = useToast();
+
   const [updateHunt, result] = useMutation(UpdateHuntDocument, {
     refetchQueries: [GetHuntDocument],
+    onCompleted: () =>
+      toast({
+        variant: "success",
+        message: "Hunt was updated successfully!",
+      }),
   });
 
   const handleUpdateHunt = useCallback(

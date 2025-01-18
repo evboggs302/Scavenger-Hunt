@@ -1,4 +1,3 @@
-import React from "react";
 import { TeamCardList } from "./TeamCardList";
 import { ManageTeamsMenu } from "./ManageTeamsMenu";
 

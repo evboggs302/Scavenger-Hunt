@@ -1,4 +1,3 @@
-import React from "react";
 import { useQuery } from "@apollo/client";
 import { Navigate } from "react-router";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";

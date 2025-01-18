@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { ApolloError } from "@apollo/client/errors";
 import { useLogoutMutation } from "../hooks/useLogoutMutation";

@@ -1,4 +1,3 @@
-import React from "react";
 import { useHuntFragment } from "../../../lib/hooks/useHuntFragment";
 import { ActiveHuntResponsesList } from "./Lists/ActiveHuntResponsesList";
 import { InactiveHuntResponsesList } from "./Lists/InactiveHuntResponsesList";

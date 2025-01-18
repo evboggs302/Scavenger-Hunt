@@ -1,4 +1,3 @@
-import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { ClueCard as Component } from "../components/ClueCard";
 import { mockHunt } from "@msw/utils/mockHunts";

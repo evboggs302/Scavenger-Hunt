@@ -1,4 +1,3 @@
-import React from "react";
 import { Outlet } from "react-router";
 import { AppNavbar } from "@features/baseApp/components/AppNavbar";
 import { UserQryContextProvider } from "@lib/context/UserContext";

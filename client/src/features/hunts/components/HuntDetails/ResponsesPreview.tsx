@@ -1,4 +1,3 @@
-import React from "react";
 import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 import Skeleton from "@mui/material/Skeleton";
 import { PreviewCard } from "@lib/components/PreviewCard/PreviewCard";

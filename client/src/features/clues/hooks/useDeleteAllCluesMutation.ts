@@ -5,14 +5,22 @@ import {
   GetOrderedCluesDocument,
 } from "@generated/graphql";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
+import { useToast } from "@lib/hooks/useToast";
 
 export const useDeleteAllCluesMutation = () => {
   const { hunt } = useHuntFragment();
+  const [toast] = useToast();
+
   const [deleteAllClues, result] = useMutation(DeleteAllCluesByHuntIdDocument, {
     refetchQueries: [GetOrderedCluesDocument],
     variables: {
       hunt_id: hunt._id || "",
     },
+    onCompleted: () =>
+      toast({
+        variant: "success",
+        message: "Clues deleted successfully!",
+      }),
   });
 
   const handleDeleteAllClues = useCallback(async () => {

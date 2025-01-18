@@ -1,6 +1,6 @@
-import React from "react";
+import { createContext } from "react";
 import { UserContextValue } from "./useCreateUserContext.template";
 
-export const UserContext = React.createContext<UserContextValue | undefined>(
+export const UserContext = createContext<UserContextValue | undefined>(
   undefined
 );

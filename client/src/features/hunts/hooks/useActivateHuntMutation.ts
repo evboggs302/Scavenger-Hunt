@@ -2,14 +2,22 @@ import { useCallback, useMemo } from "react";
 import { useMutation } from "@apollo/client";
 import { ActivateHuntDocument, GetHuntDocument } from "@generated/graphql";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
+import { useToast } from "@lib/hooks/useToast";
 
 export const useActivateHuntMutation = () => {
   const { hunt } = useHuntFragment();
+  const [toast] = useToast();
+
   const [activateHunt, result] = useMutation(ActivateHuntDocument, {
     refetchQueries: [GetHuntDocument],
     variables: {
       hunt_id: hunt._id || "",
     },
+    onCompleted: () =>
+      toast({
+        variant: "success",
+        message: "Hunt was activated successfully!",
+      }),
   });
 
   const handleActivateHunt = useCallback(async () => {

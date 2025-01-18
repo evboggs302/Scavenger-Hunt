@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { CreateHuntDialog } from "./CreateHuntDialog";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";

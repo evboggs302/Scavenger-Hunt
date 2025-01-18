@@ -1,4 +1,3 @@
-import React from "react";
 import { useHuntContext } from "@lib/context/HuntContext";
 import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 import TableContainer from "@mui/material/TableContainer";

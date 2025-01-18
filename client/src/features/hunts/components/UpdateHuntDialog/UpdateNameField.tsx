@@ -1,4 +1,3 @@
-import React from "react";
 import { useController } from "react-hook-form";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 import { HuntNameField } from "@lib/components/HuntDialogs/HuntNameField";

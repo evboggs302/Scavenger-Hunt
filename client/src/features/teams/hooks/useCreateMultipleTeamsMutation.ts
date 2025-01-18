@@ -6,14 +6,24 @@ import {
 } from "@generated/graphql";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 import { CreateTeamsFormState } from "../components/CreateTeamsDialog/CreateTeamsDialog";
+import { useToast } from "@lib/hooks/useToast";
 
 type RequiredFormState = CreateTeamsFormState & { isMulti: true };
 
 export const useCreateMultipleTeamsMutation = () => {
   const { hunt } = useHuntFragment();
+  const [toast] = useToast();
+
   const [createMultipleTeams, result] = useMutation(
     CreateMultipleTeamsDocument,
-    { refetchQueries: [GetHuntDocument] }
+    {
+      refetchQueries: [GetHuntDocument],
+      onCompleted: () =>
+        toast({
+          variant: "success",
+          message: "Teams created successfully!",
+        }),
+    }
   );
 
   const handleCreateMultipleTeams = useCallback(

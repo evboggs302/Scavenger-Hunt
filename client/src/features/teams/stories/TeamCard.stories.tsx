@@ -1,4 +1,3 @@
-import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { HttpResponse, graphql } from "msw";
 import { mswHandlers } from "@msw/mswHandlers";
