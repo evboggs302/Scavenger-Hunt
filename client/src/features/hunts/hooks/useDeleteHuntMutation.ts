@@ -9,10 +9,12 @@ import {
 } from "@generated/graphql";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 import { useNavigate } from "react-router";
+import { useToast } from "@lib/hooks/useToast";
 
 export const useDeleteHuntMutation = () => {
   const { hunt } = useHuntFragment();
   const navigate = useNavigate();
+  const [toast] = useToast();
 
   const [deleteAllClues, { loading: clueLoading, error: clueError }] =
     useMutation(DeleteAllCluesByHuntIdDocument, {
@@ -41,6 +43,11 @@ export const useDeleteHuntMutation = () => {
       variables: {
         hunt_id: hunt._id || "",
       },
+      onCompleted: () =>
+        toast({
+          variant: "success",
+          message: "Hunt was deleted successfully!",
+        }),
     }
   );
 

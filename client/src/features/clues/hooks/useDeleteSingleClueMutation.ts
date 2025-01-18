@@ -4,10 +4,18 @@ import {
   DeleteClueByIdDocument,
   GetOrderedCluesDocument,
 } from "@generated/graphql";
+import { useToast } from "@lib/hooks/useToast";
 
 export const useDeleteSingleClueMutation = () => {
+  const [toast] = useToast();
+
   const [deleteSingleClue, result] = useMutation(DeleteClueByIdDocument, {
     refetchQueries: [GetOrderedCluesDocument],
+    onCompleted: () =>
+      toast({
+        variant: "success",
+        message: "Clue deleted successfully!",
+      }),
   });
 
   const handleDeleteSingleClue = useCallback(

@@ -11,7 +11,6 @@ import { CluesPage } from "@features/clues/components/CluesPage";
 import { ResponsesPage } from "@features/responses/components/ResponsesPage";
 import { SignInCard } from "@features/auth/components/login/SignInCard";
 import { SignUpCard } from "@features/auth/components/register/SignUpCard";
-import { DarkThemeProvider } from "@lib/context/DarkThemeProvider";
 import { HomePage } from "@features/home/components/HomePage";
 import { useTokenContext } from "@lib/context/TokenContext";
 import { ErrorBoundary } from "react-error-boundary";
@@ -153,8 +152,4 @@ const router = createBrowserRouter([
   catchallRouteToLogin,
 ]);
 
-export const AppRouter = () => (
-  <DarkThemeProvider>
-    <RouterProvider router={router} />
-  </DarkThemeProvider>
-);
+export const AppRouter = () => <RouterProvider router={router} />;
