@@ -1,4 +1,3 @@
-import React from "react";
 import "./index.css";
 import { Navigate, RouterProvider, createBrowserRouter } from "react-router";
 import { BaseApp } from "@features/baseApp/components/BaseApp";

@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import React from "react";
 import { userEvent, within, expect } from "@storybook/test";
 import { SignUpCard } from "@features/auth/components/register/SignUpCard";
 

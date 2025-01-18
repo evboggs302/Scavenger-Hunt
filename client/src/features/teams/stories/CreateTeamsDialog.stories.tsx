@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import { CreateTeamsDialog as Component } from "../components/CreateTeamsDialog/CreateTeamsDialog";
 

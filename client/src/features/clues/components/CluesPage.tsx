@@ -1,4 +1,3 @@
-import React from "react";
 import { useClueContext } from "@lib/context/ClueContext";
 import { ClueCard } from "./ClueCard";
 import { ClueCardList } from "./ClueCardList";

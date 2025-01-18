@@ -1,4 +1,3 @@
-import React from "react";
 import Stack from "@mui/material/Stack";
 import { CreateHuntButton } from "@features/hunts/components/CreateHuntDialog/CreateHuntButton";
 

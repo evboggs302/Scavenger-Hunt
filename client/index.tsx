@@ -1,4 +1,3 @@
-import React from "react";
 import { createRoot } from "react-dom/client";
 import { ApolloClientProvider } from "@apolloClient/apolloClient";
 import { AppRouter } from "@routes/AppRouter";

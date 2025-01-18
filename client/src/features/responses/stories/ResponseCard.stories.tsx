@@ -1,4 +1,3 @@
-import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { HttpResponse, graphql } from "msw";
 import { ResponseCard as Component } from "../components/ResponseCard";

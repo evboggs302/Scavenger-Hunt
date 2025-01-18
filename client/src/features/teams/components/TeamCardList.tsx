@@ -1,4 +1,3 @@
-import React from "react";
 import { TeamCard } from "./TeamCard";
 import { useHuntContext } from "@lib/context/HuntContext";
 

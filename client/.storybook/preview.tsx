@@ -1,4 +1,3 @@
-import React from "react";
 import { initialize, mswLoader } from "msw-storybook-addon";
 import { Decorator } from "@storybook/react";
 import {

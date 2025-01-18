@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 import { UserContext } from "./UserContext.template";
 import { useCreateUserContextValue } from "./useCreateUserContext.template";
 

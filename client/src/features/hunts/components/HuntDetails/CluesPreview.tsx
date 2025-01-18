@@ -1,4 +1,3 @@
-import React from "react";
 import { useClueContext } from "@lib/context/ClueContext";
 import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 import TableContainer from "@mui/material/TableContainer";

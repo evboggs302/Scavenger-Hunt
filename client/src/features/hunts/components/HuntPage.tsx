@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useCallback } from "react";
+import { SyntheticEvent, useCallback } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import { ClueQryContextProvider } from "@lib/context/ClueContext";
 import Tabs from "@mui/material/Tabs";

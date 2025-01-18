@@ -1,4 +1,3 @@
-import React from "react";
 import { useHuntContext } from "@lib/context/HuntContext";
 import { CluesPreview } from "./CluesPreview";
 import { TeamsPreview } from "./TeamsPreview";

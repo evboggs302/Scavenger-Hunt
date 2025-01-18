@@ -1,4 +1,3 @@
-import React from "react";
 import { useResponsesSubscription } from "../../hooks/useResponsesSubscription";
 // import CircularProgress from "@mui/material/CircularProgress";
 // import DoneIcon from "@mui/icons-material/Done";

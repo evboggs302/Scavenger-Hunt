@@ -1,9 +1,5 @@
-import React, {
-  PropsWithChildren,
-  createContext,
-  useContext,
-  useState,
-} from "react";
+import { PropsWithChildren, createContext, useContext, useState } from "react";
+import * as React from "react";
 
 export type TokenContextType = {
   token: string | null;
