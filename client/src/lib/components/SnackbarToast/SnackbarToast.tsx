@@ -1,22 +1,20 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Slide from "@mui/material/Slide";
 
 type Props = {
+  handleClose: () => void;
   message?: string;
 };
 
 export const SnackbarToast = ({
+  handleClose,
   message = "Uh oh! An error ocurred. Please try again later.",
 }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleClose = useCallback(() => setIsOpen(false), []);
-
   return (
     <Snackbar
       key={Slide.name}
-      open={isOpen}
+      open={true}
       anchorOrigin={{ vertical: "top", horizontal: "left" }}
       onClose={handleClose}
       message={message}

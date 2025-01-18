@@ -7,12 +7,6 @@ const meta: Meta = {
   title: "Components/Hunts",
   component: Component,
   tags: ["autodocs"],
-};
-export default meta;
-
-type Story = StoryObj<typeof Component>;
-
-export const DeleteHuntDialog: Story = {
   render: () => {
     const [open, setOpen] = useState(true);
 
@@ -28,3 +22,8 @@ export const DeleteHuntDialog: Story = {
     );
   },
 };
+export default meta;
+
+type Story = StoryObj<typeof Component>;
+
+export const DeleteHuntDialog: Story = {};
