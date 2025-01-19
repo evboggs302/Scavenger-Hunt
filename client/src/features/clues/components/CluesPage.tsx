@@ -1,14 +1,13 @@
-import { useClueContext } from "@lib/context/ClueContext";
-import { ClueCard } from "./ClueCard";
 import { ClueCardList } from "./ClueCardList";
 import { ManageCluesMenu } from "./ManageCluesMenu";
+import { ManagementButtonsContainer } from "@lib/components/ManagementButtons/ManagementButtonsContainer";
 
 export const CluesPage = () => {
   return (
     <>
-      <div>
+      <ManagementButtonsContainer>
         <ManageCluesMenu />
-      </div>
+      </ManagementButtonsContainer>
       <ClueCardList />
     </>
   );

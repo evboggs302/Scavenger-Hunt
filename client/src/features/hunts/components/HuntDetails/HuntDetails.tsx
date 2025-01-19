@@ -1,3 +1,5 @@
+import { Navigate } from "react-router";
+import dayjs from "dayjs";
 import { useHuntContext } from "@lib/context/HuntContext";
 import { CluesPreview } from "./CluesPreview";
 import { TeamsPreview } from "./TeamsPreview";
@@ -12,17 +14,16 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import DoneIcon from "@mui/icons-material/Done";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import CircularProgress from "@mui/material/CircularProgress";
-import dayjs from "dayjs";
 import { ResponsesPreview } from "./ResponsesPreview";
 import { UpdateHuntButton } from "../UpdateHuntDialog/UpdateHuntButton";
-import { Navigate } from "react-router";
+import { CircularLoading } from "@lib/components/Loading/CircularLoading";
+import { DateTableCell } from "@lib/components/Table/DateTableCell";
 
 export const HuntDetails = () => {
   const { data, loading, error } = useHuntContext();
 
   if (loading) {
-    return <CircularProgress />;
+    return <CircularLoading />;
   }
 
   if (error) {
@@ -58,22 +59,26 @@ export const HuntDetails = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          alignItems: "flex-end",
+          alignItems: "center",
+          width: "100%",
         }}
       >
         {!marked_complete && !is_active && <UpdateHuntButton />}
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableContainer
+          component={Paper}
+          sx={{ minWidth: 650, maxWidth: 1200 }}
+        >
+          <Table aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Created date</TableCell>
+                <TableCell sx={{ maxWidth: 220 }}>Name</TableCell>
+                <DateTableCell>Created date</DateTableCell>
                 {isInPast || marked_complete ? (
-                  <TableCell>Ended on</TableCell>
+                  <DateTableCell>Ended on</DateTableCell>
                 ) : (
                   <>
-                    <TableCell>Start date</TableCell>
-                    <TableCell>End date</TableCell>
+                    <DateTableCell>Start date</DateTableCell>
+                    <DateTableCell>End date</DateTableCell>
                   </>
                 )}
                 <TableCell>Completed</TableCell>

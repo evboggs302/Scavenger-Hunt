@@ -1,5 +1,4 @@
-import { useState } from "react";
-import * as React from "react";
+import { useState, MouseEvent } from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -11,9 +10,9 @@ import { CreateTeamsDialog } from "./CreateTeamsDialog/CreateTeamsDialog";
 import { DeleteAllTeamsDialog } from "./DeleteTeamsDialog/DeleteAllTeamsDialog";
 
 export const ManageTeamsMenu = () => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleTriggerClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleTriggerClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {

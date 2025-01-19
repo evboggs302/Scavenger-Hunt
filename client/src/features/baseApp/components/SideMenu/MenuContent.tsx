@@ -13,6 +13,8 @@ import { GetHuntsByUserIdDocument } from "@generated/graphql";
 import { useQuery } from "@apollo/client";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import Collapse from "@mui/material/Collapse";
+import Box from "@mui/material/Box";
+import { useToast } from "@lib/hooks/useToast";
 
 const secondaryListItems = [
   { text: "Settings", icon: <SettingsRoundedIcon /> },
@@ -22,6 +24,7 @@ export const MenuContent = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { huntId } = useParams();
+  const [toast] = useToast();
   const [isHuntsOpen, setHuntsOpen] = useState(true);
 
   const navigateHome = () => navigate("/dashboard");
@@ -30,16 +33,21 @@ export const MenuContent = () => {
     [isHuntsOpen, setHuntsOpen]
   );
 
-  const { data, loading } = useQuery(GetHuntsByUserIdDocument, {
+  const { data } = useQuery(GetHuntsByUserIdDocument, {
     fetchPolicy: "cache-and-network",
     pollInterval: 30000,
+    onError: () =>
+      toast({
+        variant: "error",
+        message: "Unable to load hunts at the moment. Will try again soon.",
+      }),
   });
 
   const mappedHunts = data?.hunts?.map((hunt) => {
     if (!hunt) return null;
 
     return (
-      <ListItem key={hunt._id} disablePadding sx={{ pl: 3 }}>
+      <Box key={hunt._id} sx={{ pl: 3 }}>
         <ListItemButton
           selected={huntId === hunt._id}
           onClick={() => {
@@ -48,7 +56,7 @@ export const MenuContent = () => {
         >
           <ListItemText primary={hunt.name} />
         </ListItemButton>
-      </ListItem>
+      </Box>
     );
   });
 

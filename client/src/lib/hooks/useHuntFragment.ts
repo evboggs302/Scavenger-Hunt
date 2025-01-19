@@ -5,7 +5,7 @@ import { useParams } from "react-router";
 export const useHuntFragment = () => {
   const { huntId } = useParams();
 
-  const { complete, data } = useFragment({
+  const { data, complete } = useFragment({
     fragment: HuntFragmentDoc,
     from: {
       __typename: "Hunt" as const,
@@ -13,5 +13,5 @@ export const useHuntFragment = () => {
     },
   });
 
-  return { complete, hunt: data };
+  return { hunt: data, complete };
 };

@@ -1,10 +1,10 @@
 import { useCallback, useState } from "react";
-import { UpdateHuntDialog } from "./UpdateHuntDialog";
+import { DeleteResponsesDialog } from "./DeleteResponsesDialog";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Button from "@mui/material/Button";
 import { ManagementButtonsContainer } from "@lib/components/ManagementButtons/ManagementButtonsContainer";
 
-export const UpdateHuntButton = () => {
+export const DeleteResponsesButton = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClickOpen = useCallback(() => {
@@ -20,11 +20,12 @@ export const UpdateHuntButton = () => {
       <Button
         onClick={handleClickOpen}
         variant="outlined"
+        color="error"
         startIcon={<EditOutlinedIcon />}
       >
-        Edit details
+        Delete Responses
       </Button>
-      {isOpen && <UpdateHuntDialog handleClose={handleClose} />}
+      {isOpen && <DeleteResponsesDialog handleClose={handleClose} />}
     </ManagementButtonsContainer>
   );
 };

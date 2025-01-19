@@ -29,7 +29,7 @@ export const ClueCard = ({
   }, [_id, deleteClue]);
 
   return (
-    <Card sx={{ maxWidth: 345, margin: "10px auto" }}>
+    <Card sx={{ width: "380px", margin: "10px 5px" }}>
       {/* <CardMedia
         component="img"
         alt="green iguana"

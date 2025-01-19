@@ -1,5 +1,4 @@
-import { useCallback } from "react";
-import * as React from "react";
+import { useCallback, useState, MouseEvent } from "react";
 import { styled } from "@mui/material/styles";
 import Divider, { dividerClasses } from "@mui/material/Divider";
 import Menu from "@mui/material/Menu";
@@ -18,12 +17,12 @@ const MenuItem = styled(MuiMenuItem)({
 });
 
 export const OptionsMenu = () => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   const [logoutUser] = useLogoutMutation();
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {

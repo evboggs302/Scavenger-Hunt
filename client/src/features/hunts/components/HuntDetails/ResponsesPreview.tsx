@@ -1,6 +1,6 @@
 import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 import Skeleton from "@mui/material/Skeleton";
-import { PreviewCard } from "@lib/components/PreviewCard/PreviewCard";
+import { PreviewCard } from "@lib/components/Cards/PreviewCard";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useResponseCount } from "@features/responses/hooks/useResponseCount";

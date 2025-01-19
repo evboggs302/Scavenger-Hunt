@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import Skeleton from "@mui/material/Skeleton";
-import { PreviewCard } from "@lib/components/PreviewCard/PreviewCard";
+import { PreviewCard } from "@lib/components/Cards/PreviewCard";
 import Box from "@mui/material/Box";
 
 export const CluesPreview = () => {

@@ -5,6 +5,8 @@ import { GetAllResponsesByHuntIdDocument } from "@generated/graphql";
 import Skeleton from "@mui/material/Skeleton";
 import { ResponseCard } from "../ResponseCard";
 import dayjs from "dayjs";
+import { NoCardsToShowText } from "@lib/components/Cards/NoCardsToShowText";
+import { CardListContainer } from "@lib/components/Cards/CardListContainer";
 
 export const InactiveHuntResponsesList = () => {
   const { hunt } = useHuntFragment();
@@ -24,21 +26,21 @@ export const InactiveHuntResponsesList = () => {
     return <Skeleton variant="rectangular" width={210} height={60} />;
   }
 
-  if (!data?.result) {
-    return <div>No responses received yet.</div>;
+  if (!data?.result.responses) {
+    return <NoCardsToShowText type="responses" />;
   }
 
   const filteredSortedResponses = data.result.responses
-    ?.filter((res) => !!res)
+    .filter((res) => !!res)
     .sort((a, b) =>
       dayjs(a.time_received).isBefore(dayjs(b.time_received)) ? 1 : 0
     );
 
   return (
-    <div>
+    <CardListContainer>
       {filteredSortedResponses?.map((res) => (
         <ResponseCard key={res._id} response={res} />
       ))}
-    </div>
+    </CardListContainer>
   );
 };
