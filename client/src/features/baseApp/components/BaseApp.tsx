@@ -13,13 +13,17 @@ export const BaseApp = () => {
     <UserQryContextProvider>
       <HuntQryContextProvider>
         <ClueQryContextProvider>
-          <Box sx={{ display: "flex", width: "100vw", height: "100vh" }}>
+          <Box
+            sx={{
+              display: "flex",
+              width: "100%",
+            }}
+          >
             <SideMenu />
             <AppNavbar />
-            {/* Main content */}
             <Box
               component="main"
-              sx={{ display: "flex", width: "100%", height: "100%" }}
+              sx={{ display: "flex", flexGrow: 1, overflow: "auto" }}
             >
               <Stack
                 spacing={2}
@@ -28,6 +32,7 @@ export const BaseApp = () => {
                   mx: 3,
                   pb: 5,
                   mt: { xs: 8, md: 0 },
+                  flexGrow: 1,
                 }}
               >
                 <Header />
