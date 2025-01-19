@@ -21,7 +21,7 @@ export const useToast = () => {
         key: hookId,
         message,
         variant,
-        persist: variant === "error",
+        autoHideDuration: variant === "error" ? 8_000 : undefined,
       });
     },
     [enqueueSnackbar, hookId]
