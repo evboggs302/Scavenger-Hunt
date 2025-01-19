@@ -6,9 +6,11 @@ import {
 } from "@generated/graphql";
 import { useNavigate } from "react-router";
 import { CreateHuntFormState } from "../components/CreateHuntDialog/CreateHuntDialog";
+import { useToast } from "@lib/hooks/useToast";
 
 export const useCreateHuntMutation = () => {
   const navigate = useNavigate();
+  const [toast] = useToast();
   const [createHunt, result] = useMutation(CreateHuntDocument);
 
   const handleCreateHunt = useCallback(
@@ -26,6 +28,11 @@ export const useCreateHuntMutation = () => {
         onCompleted: ({ hunt }) => {
           navigate(`hunt/${hunt?._id}`);
         },
+        onError: () =>
+          toast({
+            variant: "error",
+            message: "Unable to create create a hunt at the moment.",
+          }),
       });
     },
     [createHunt, navigate]

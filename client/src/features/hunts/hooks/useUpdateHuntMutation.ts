@@ -16,6 +16,11 @@ export const useUpdateHuntMutation = () => {
         variant: "success",
         message: "Hunt was updated successfully!",
       }),
+    onError: () =>
+      toast({
+        variant: "error",
+        message: "Unable to update this hunt at this time.",
+      }),
   });
 
   const handleUpdateHunt = useCallback(

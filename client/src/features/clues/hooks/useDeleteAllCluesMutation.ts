@@ -21,6 +21,11 @@ export const useDeleteAllCluesMutation = () => {
         variant: "success",
         message: "Clues deleted successfully!",
       }),
+    onError: () =>
+      toast({
+        variant: "error",
+        message: "Unable to delete clues at this time.",
+      }),
   });
 
   const handleDeleteAllClues = useCallback(async () => {

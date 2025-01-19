@@ -18,6 +18,11 @@ export const useMarkHuntCompleted = () => {
         variant: "success",
         message: "Hunt was marked completed successfully!",
       }),
+    onError: () =>
+      toast({
+        variant: "error",
+        message: "Unable to mark this hunt complete at this time.",
+      }),
   });
 
   const handleMarkHuntComplete = useCallback(async () => {

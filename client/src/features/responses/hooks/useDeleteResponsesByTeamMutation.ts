@@ -5,8 +5,11 @@ import {
   GetAllResponsesByHuntIdDocument,
   GetResponseCountByHuntIdDocument,
 } from "@generated/graphql";
+import { useToast } from "@lib/hooks/useToast";
 
 export const useDeleteResponsesByTeamMutation = () => {
+  const [toast] = useToast();
+
   const [deleteResponsesByTeam, result] = useMutation(
     DeleteAllResponsesByTeamDocument,
     {
@@ -14,6 +17,16 @@ export const useDeleteResponsesByTeamMutation = () => {
         GetAllResponsesByHuntIdDocument,
         GetResponseCountByHuntIdDocument,
       ],
+      onCompleted: () =>
+        toast({
+          variant: "success",
+          message: "Responses were deleted successfully!",
+        }),
+      onError: () =>
+        toast({
+          variant: "error",
+          message: "Unable to delete responses at this time.",
+        }),
     }
   );
 
