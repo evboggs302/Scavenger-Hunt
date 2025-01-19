@@ -1,6 +1,5 @@
 import { SyntheticEvent, useCallback } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router";
-import { ClueQryContextProvider } from "@lib/context/ClueContext";
 import Tabs from "@mui/material/Tabs";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
@@ -40,7 +39,7 @@ export const HuntPage = () => {
     !hunt.is_active && (resCount === 0 || resLoading || !!resError);
 
   return (
-    <ClueQryContextProvider>
+    <>
       <Box
         sx={{
           borderBottom: 1,
@@ -65,13 +64,9 @@ export const HuntPage = () => {
           />
         </Tabs>
       </Box>
-      <Box
-        sx={{
-          width: "100%",
-        }}
-      >
+      <Box sx={{ flexGrow: 1, width: "100%", height: "100%" }}>
         <Outlet />
       </Box>
-    </ClueQryContextProvider>
+    </>
   );
 };

@@ -40,7 +40,7 @@ export const ResponseCard = ({
   }, [_id, markResponseCorrect]);
 
   return (
-    <Card sx={{ maxWidth: 345, margin: "10px auto" }}>
+    <Card sx={{ maxWidth: "360px", margin: "10px 5px" }}>
       {response_img &&
         response_img.map((img) => (
           <CardMedia component="img" height="140" image={img} />

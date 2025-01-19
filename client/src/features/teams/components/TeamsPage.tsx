@@ -1,12 +1,13 @@
 import { TeamCardList } from "./TeamCardList";
 import { ManageTeamsMenu } from "./ManageTeamsMenu";
+import { ManagementButtonsContainer } from "@lib/components/ManagementButtons/ManagementButtonsContainer";
 
 export const TeamsPage = () => {
   return (
     <>
-      <div>
+      <ManagementButtonsContainer>
         <ManageTeamsMenu />
-      </div>
+      </ManagementButtonsContainer>
       <TeamCardList />
     </>
   );

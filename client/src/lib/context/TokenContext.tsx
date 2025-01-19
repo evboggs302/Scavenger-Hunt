@@ -1,9 +1,15 @@
-import { PropsWithChildren, createContext, useContext, useState } from "react";
-import * as React from "react";
+import {
+  Dispatch,
+  PropsWithChildren,
+  SetStateAction,
+  createContext,
+  useContext,
+  useState,
+} from "react";
 
 export type TokenContextType = {
   token: string | null;
-  setToken: React.Dispatch<React.SetStateAction<string | null>>;
+  setToken: Dispatch<SetStateAction<string | null>>;
 };
 
 export const TokenContext = createContext<TokenContextType | undefined>(

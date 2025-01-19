@@ -1,3 +1,4 @@
+import { CardListContainer } from "@lib/components/Cards/CardListContainer";
 import { useResponsesSubscription } from "../../hooks/useResponsesSubscription";
 // import CircularProgress from "@mui/material/CircularProgress";
 // import DoneIcon from "@mui/icons-material/Done";
@@ -14,11 +15,11 @@ export const ActiveHuntResponsesList = () => {
   }
 
   return (
-    <div>
+    <CardListContainer>
       {/* {loading ? <CircularProgress /> : <DoneIcon color="success" />} */}
       {accumulatedData.map((res) => (
         <ResponseCard key={res._id} response={res} />
       ))}
-    </div>
+    </CardListContainer>
   );
 };

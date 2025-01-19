@@ -25,7 +25,7 @@ export const TeamCard = ({
   }, [_id, deleteTeam, error?.stack]);
 
   return (
-    <Card sx={{ maxWidth: 345, margin: "10px auto" }}>
+    <Card sx={{ width: "320px", margin: "10px 5px" }}>
       {/* <CardMedia
         component="img"
         alt="green iguana"
