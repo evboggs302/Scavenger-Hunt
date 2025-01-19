@@ -18,6 +18,11 @@ export const useActivateHuntMutation = () => {
         variant: "success",
         message: "Hunt was activated successfully!",
       }),
+    onError: () =>
+      toast({
+        variant: "error",
+        message: "Unable to activate this hunt at this time.",
+      }),
   });
 
   const handleActivateHunt = useCallback(async () => {

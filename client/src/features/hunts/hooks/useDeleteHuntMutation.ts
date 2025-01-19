@@ -48,6 +48,11 @@ export const useDeleteHuntMutation = () => {
           variant: "success",
           message: "Hunt was deleted successfully!",
         }),
+      onError: () =>
+        toast({
+          variant: "error",
+          message: "Unable to delete hunt at the moment.",
+        }),
     }
   );
 

@@ -6,7 +6,6 @@ import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import { useResponseCount } from "@features/responses/hooks/useResponseCount";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
-import { HuntManagementButtons } from "./HuntManagementButtons";
 
 export const HuntPage = () => {
   const navigate = useNavigate();
@@ -44,36 +43,35 @@ export const HuntPage = () => {
     <ClueQryContextProvider>
       <Box
         sx={{
+          borderBottom: 1,
+          borderColor: "divider",
           display: "flex",
           justifyContent: "space-between",
-          width: "80vw",
+          width: "100%",
         }}
       >
-        {/* <br /> */}
-        <Box
-          sx={{
-            borderBottom: 1,
-            borderColor: "divider",
-          }}
+        <Tabs
+          value={location}
+          onChange={handleChange}
+          aria-label="lab API tabs example"
         >
-          <Tabs
-            value={location}
-            onChange={handleChange}
-            aria-label="lab API tabs example"
-          >
-            <Tab label="Info" value="" />
-            <Tab label="Clues" value="clues" />
-            <Tab label="Teams" value="teams" />
-            <Tab
-              label="Responses"
-              value="responses"
-              disabled={isResponseTabDisabled}
-            />
-          </Tabs>
-        </Box>
-        <HuntManagementButtons />
+          <Tab label="Info" value="" />
+          <Tab label="Clues" value="clues" />
+          <Tab label="Teams" value="teams" />
+          <Tab
+            label="Responses"
+            value="responses"
+            disabled={isResponseTabDisabled}
+          />
+        </Tabs>
       </Box>
-      <Outlet />
+      <Box
+        sx={{
+          width: "100%",
+        }}
+      >
+        <Outlet />
+      </Box>
     </ClueQryContextProvider>
   );
 };

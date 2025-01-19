@@ -23,6 +23,11 @@ export const useCreateMultipleCluesMutation = () => {
           variant: "success",
           message: "Clues created successfully!",
         }),
+      onError: () =>
+        toast({
+          variant: "error",
+          message: "Unable to create clues at this time.",
+        }),
     }
   );
 

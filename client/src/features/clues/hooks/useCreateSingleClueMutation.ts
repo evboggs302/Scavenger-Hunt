@@ -21,6 +21,11 @@ export const useCreateSingleClueMutation = () => {
         variant: "success",
         message: "Clue created successfully!",
       }),
+    onError: () =>
+      toast({
+        variant: "error",
+        message: "Unable to create this clue at this time.",
+      }),
   });
 
   const handleCreateSingleClue = useCallback(

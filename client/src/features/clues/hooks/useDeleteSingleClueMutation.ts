@@ -16,6 +16,11 @@ export const useDeleteSingleClueMutation = () => {
         variant: "success",
         message: "Clue deleted successfully!",
       }),
+    onError: () =>
+      toast({
+        variant: "error",
+        message: "Unable to delete this clues at this time.",
+      }),
   });
 
   const handleDeleteSingleClue = useCallback(

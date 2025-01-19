@@ -14,6 +14,11 @@ export const useMarkResponseCorrectMutation = () => {
           variant: "success",
           message: "Response was marked correct successfully!",
         }),
+      onError: () =>
+        toast({
+          variant: "error",
+          message: "Unable to mark response correct at this time.",
+        }),
     }
   );
 
