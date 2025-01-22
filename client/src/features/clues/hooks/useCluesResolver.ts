@@ -2,31 +2,20 @@ import { z } from "zod";
 import { useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-const BaseSchema = z.object({
-  isMulti: z.boolean().default(false),
+const ClueDescriptionString = z
+  .string({ message: "A valid description is required." })
+  .trim()
+  .min(3, { message: "A minimum of 3 characters is required." });
+
+const schemaSingle = z.object({
+  isMulti: z.literal(false),
+  description: ClueDescriptionString,
 });
 
-const ClueItemZodObj = z.object({
-  orderNumber: z.number(),
-  description: z
-    .string({ message: "A valid description is required." })
-    .trim()
-    .min(5, { message: "A valid description is required." }),
+const schemaMultiple = z.object({
+  isMulti: z.literal(true),
+  cluesList: z.array(ClueDescriptionString),
 });
-
-const schemaSingle = BaseSchema.merge(
-  z.object({
-    isMulti: z.literal(false),
-    clueItem: ClueItemZodObj,
-  })
-);
-
-const schemaMultiple = BaseSchema.merge(
-  z.object({
-    isMulti: z.literal(true),
-    cluesList: z.array(ClueItemZodObj),
-  })
-);
 
 const CreateCluesFormSchema = z.discriminatedUnion("isMulti", [
   schemaSingle,

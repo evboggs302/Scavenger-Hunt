@@ -91,37 +91,27 @@ export const HuntDetails = () => {
                 key={_id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align="right">{name}</TableCell>
-                <TableCell component="th" scope="row">
-                  {dayjs(created_date).format("LL")}
-                </TableCell>
+                <TableCell>{name}</TableCell>
+                <TableCell>{dayjs(created_date).format("LL")}</TableCell>
                 {isInPast || marked_complete ? (
-                  <TableCell component="th" scope="row">
-                    {dayjs(end_date).format("LL")}
-                  </TableCell>
+                  <TableCell>{dayjs(end_date).format("LL")}</TableCell>
                 ) : (
                   <>
-                    <TableCell component="th" scope="row">
-                      {dayjs(start_date).format("LL")}
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {dayjs(end_date).format("LL")}
-                    </TableCell>
+                    <TableCell>{dayjs(start_date).format("LL")}</TableCell>
+                    <TableCell>{dayjs(end_date).format("LL")}</TableCell>
                   </>
                 )}
-                <TableCell component="th" scope="row">
+                <TableCell>
                   {marked_complete ? <DoneIcon color="success" /> : "---"}
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell>
                   {is_active ? (
                     <FiberManualRecordIcon sx={{ color: "orange" }} />
                   ) : (
                     "---"
                   )}
                 </TableCell>
-                <TableCell component="th" scope="row">
-                  {recall_message}
-                </TableCell>
+                <TableCell>{recall_message}</TableCell>
               </TableRow>
             </TableBody>
           </Table>

@@ -17,14 +17,33 @@ const clueResolver: Resolvers = {
     ) => {
       try {
         const hunt_id = createBsonObjectId(h_id);
-        const mappedClues = cluesList.map((clue) => {
-          return { hunt_id, ...clue };
+
+        const lastClue = await ClueModel.find({ hunt_id })
+          .sort({ order_number: -1 }) // descending order
+          .limit(1) // only the first item (ie. the last clue)
+          .exec();
+
+        const mappedClues = cluesList.map((clue, index) => {
+          const order_number = lastClue[0]?.order_number + index + 1 || 1;
+
+          return {
+            hunt_id,
+            order_number,
+            description: clue,
+          };
         });
 
-        await ClueModel.insertMany(mappedClues);
+        await ClueModel.insertMany(mappedClues).catch((err) =>
+          throwResolutionError({
+            message: "Unable to create clues at this time.",
+            location: name?.value,
+            err,
+          })
+        );
+
         const clues = await ClueModel.find({ hunt_id }).exec();
 
-        return clues.map(returnedItems);
+        return clues.map((clue) => clue.transformWithTypename());
       } catch (err) {
         return throwServerError({
           message: "Unable to create clues at this time.",
@@ -35,20 +54,29 @@ const clueResolver: Resolvers = {
     },
     createSingleClue: async (
       _parent: unknown,
-      { input: { clueItem, h_id } },
+      { input: { description, h_id } },
       _ctxt,
       { operation: { name } }
     ) => {
       try {
         const hunt_id = createBsonObjectId(h_id);
+
+        const lastClue = await ClueModel.find({ hunt_id })
+          .sort({ order_number: -1 }) // descending order
+          .limit(1) // only the first item (ie. the last clue)
+          .exec();
+
         const clue = new ClueModel({
           hunt_id,
-          order_number: clueItem.orderNumber,
-          description: clueItem.description,
+          order_number: lastClue[0]?.order_number + 1 || 1,
+          description,
         });
+
         await clue.save();
 
-        const allClues = await ClueModel.find({ hunt_id }).exec();
+        const allClues = await ClueModel.find({ hunt_id })
+          .sort({ order_number: 1 })
+          .exec();
 
         return allClues.map((clu) => clu.transformWithTypename());
       } catch (err) {

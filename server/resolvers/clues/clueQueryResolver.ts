@@ -13,16 +13,13 @@ const clueResolver: Resolvers = {
       { operation: { name } }
     ) => {
       try {
-        const h_id = createBsonObjectId(id);
+        const hunt_id = createBsonObjectId(id);
 
-        const orderedClues = await ClueModel.aggregate([
-          {
-            $match: { hunt_id: h_id },
-          },
-          { $sort: { order_number: 1 } },
-        ]).exec();
+        const orderedClues = await ClueModel.find({ hunt_id })
+          .sort({ order_number: 1 })
+          .exec();
 
-        return orderedClues;
+        return orderedClues.map((clue) => clue.transformWithTypename());
       } catch (err) {
         return throwServerError({
           message: "Unable to get clues by hunt at this time.",

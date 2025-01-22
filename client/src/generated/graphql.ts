@@ -46,11 +46,6 @@ export type CluePayload = {
   responses?: Maybe<Array<Maybe<ResponsePayload>>>;
 };
 
-export type CluesListItem = {
-  description: Scalars['String']['input'];
-  orderNumber: Scalars['Int']['input'];
-};
-
 export type CreateHuntInput = {
   end_date: Scalars['String']['input'];
   name: Scalars['String']['input'];
@@ -59,7 +54,7 @@ export type CreateHuntInput = {
 };
 
 export type CreateMultipleCluesInput = {
-  cluesList: Array<InputMaybe<CluesListItem>>;
+  cluesList: Array<Scalars['String']['input']>;
   h_id: Scalars['String']['input'];
 };
 
@@ -69,7 +64,7 @@ export type CreateMultipleTeamsInput = {
 };
 
 export type CreateSingleClueInput = {
-  clueItem: CluesListItem;
+  description: Scalars['String']['input'];
   h_id: Scalars['String']['input'];
 };
 
@@ -107,9 +102,9 @@ export type Mutation = {
   __typename: 'Mutation';
   activateHunt: Scalars['Boolean']['output'];
   createHunt: Hunt;
-  createMultipleClues: Array<Maybe<CluePayload>>;
+  createMultipleClues: Array<CluePayload>;
   createMultipleTeams: Array<Maybe<Team>>;
-  createSingleClue: Array<Maybe<CluePayload>>;
+  createSingleClue: Array<CluePayload>;
   createSingleTeam: Team;
   deleteAllCluesByHuntId: Scalars['Boolean']['output'];
   deleteAllResponsesByHunt: Scalars['Boolean']['output'];
@@ -397,14 +392,14 @@ export type CreateMultipleCluesMutationVariables = Exact<{
 }>;
 
 
-export type CreateMultipleCluesMutation = { clues: Array<{ __typename: 'CluePayload', _id: string, hunt_id: string, order_number: number, description: string } | null> };
+export type CreateMultipleCluesMutation = { clues: Array<{ __typename: 'CluePayload', _id: string, hunt_id: string, order_number: number, description: string }> };
 
 export type CreateSingleClueMutationVariables = Exact<{
   input: CreateSingleClueInput;
 }>;
 
 
-export type CreateSingleClueMutation = { clues: Array<{ __typename: 'CluePayload', _id: string, hunt_id: string, order_number: number, description: string } | null> };
+export type CreateSingleClueMutation = { clues: Array<{ __typename: 'CluePayload', _id: string, hunt_id: string, order_number: number, description: string }> };
 
 export type DeleteAllCluesByHuntIdMutationVariables = Exact<{
   hunt_id: Scalars['ID']['input'];

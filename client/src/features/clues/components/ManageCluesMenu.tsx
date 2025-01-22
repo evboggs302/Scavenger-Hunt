@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import { Cloud, ContentCopy } from "@mui/icons-material";
+import { Cloud, ContentCopy, EditOutlined } from "@mui/icons-material";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import { CreateCluesDialog } from "./CreateCluesDialog/CreateCluesDialog";
@@ -53,6 +53,12 @@ export const ManageCluesMenu = () => {
             <ContentCopy fontSize="small" />
           </ListItemIcon>
           <ListItemText>Create new</ListItemText>
+        </MenuItem>
+        <MenuItem onClick={() => {}}>
+          <ListItemIcon>
+            <EditOutlined fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Update order</ListItemText>
         </MenuItem>
         <Divider />
         <MenuItem
