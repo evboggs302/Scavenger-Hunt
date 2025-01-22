@@ -11,12 +11,12 @@ export const createMultipleCluesMock = graphql.mutation(
       data: {
         clues: input.cluesList
           .filter((clu) => !!clu)
-          .map((clu) => ({
-            ...clu,
+          .map((clu, idx) => ({
             __typename: "CluePayload" as const,
             _id: hexadecimalStr(),
-            order_number: clu?.orderNumber,
             hunt_id,
+            order_number: idx + 1,
+            description: clu,
           })),
       },
     });

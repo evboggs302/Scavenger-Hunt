@@ -29,12 +29,12 @@ export const useCreateSingleClueMutation = () => {
   });
 
   const handleCreateSingleClue = useCallback(
-    async ({ clueItem }: RequiredFormState) => {
+    async ({ description }: RequiredFormState) => {
       await createSingleClue({
         variables: {
           input: {
             h_id: hunt._id || "",
-            clueItem,
+            description,
           },
         },
       });

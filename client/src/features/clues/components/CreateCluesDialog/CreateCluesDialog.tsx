@@ -24,7 +24,7 @@ import {
 import { useCreateSingleClueMutation } from "@features/clues/hooks/useCreateSingleClueMutation";
 import { useCreateMultipleCluesMutation } from "@features/clues/hooks/useCreateMultipleCluesMutation";
 import { SingleClueDialogContent } from "./SingleClueDialogContent";
-import { MultipleCluesDialogContent } from "./MultipleCluesDialogContent";
+import { MultipleCluesDialogContent } from "./MultipleClues/MultipleCluesDialogContent";
 
 type CreateDialogProps = {
   handleClose: () => void;
@@ -124,11 +124,8 @@ export const CreateCluesDialog = ({ handleClose }: CreateDialogProps) => {
               value={toggleSwitch.value}
               onBlur={toggleSwitch.onBlur}
               onChange={toggleSwitch.onChange}
-              //   disabled
             />
-            <InputLabel>
-              Creating multiple clues <i>(COMING SOON!)</i>
-            </InputLabel>
+            <InputLabel>Creating multiple clues</InputLabel>
           </Box>
           {toggleSwitch.value === false && <SingleClueDialogContent />}
           {toggleSwitch.value === true && <MultipleCluesDialogContent />}

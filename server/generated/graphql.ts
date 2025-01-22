@@ -47,11 +47,6 @@ export type CluePayload = {
   responses?: Maybe<Array<Maybe<ResponsePayload>>>;
 };
 
-export type CluesListItem = {
-  description: Scalars['String']['input'];
-  orderNumber: Scalars['Int']['input'];
-};
-
 export type CreateHuntInput = {
   end_date: Scalars['String']['input'];
   name: Scalars['String']['input'];
@@ -60,7 +55,7 @@ export type CreateHuntInput = {
 };
 
 export type CreateMultipleCluesInput = {
-  cluesList: Array<InputMaybe<CluesListItem>>;
+  cluesList: Array<Scalars['String']['input']>;
   h_id: Scalars['String']['input'];
 };
 
@@ -70,7 +65,7 @@ export type CreateMultipleTeamsInput = {
 };
 
 export type CreateSingleClueInput = {
-  clueItem: CluesListItem;
+  description: Scalars['String']['input'];
   h_id: Scalars['String']['input'];
 };
 
@@ -108,9 +103,9 @@ export type Mutation = {
   __typename: 'Mutation';
   activateHunt: Scalars['Boolean']['output'];
   createHunt: Hunt;
-  createMultipleClues: Array<Maybe<CluePayload>>;
+  createMultipleClues: Array<CluePayload>;
   createMultipleTeams: Array<Maybe<Team>>;
-  createSingleClue: Array<Maybe<CluePayload>>;
+  createSingleClue: Array<CluePayload>;
   createSingleTeam: Team;
   deleteAllCluesByHuntId: Scalars['Boolean']['output'];
   deleteAllResponsesByHunt: Scalars['Boolean']['output'];
@@ -463,7 +458,6 @@ export type ResolversTypes = ResolversObject<{
   AuthPayload: ResolverTypeWrapper<AuthPayload>;
   CluePayload: ResolverTypeWrapper<CluePayload>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
-  CluesListItem: CluesListItem;
   CreateHuntInput: CreateHuntInput;
   CreateMultipleCluesInput: CreateMultipleCluesInput;
   CreateMultipleTeamsInput: CreateMultipleTeamsInput;
@@ -498,7 +492,6 @@ export type ResolversParentTypes = ResolversObject<{
   AuthPayload: AuthPayload;
   CluePayload: CluePayload;
   Int: Scalars['Int']['output'];
-  CluesListItem: CluesListItem;
   CreateHuntInput: CreateHuntInput;
   CreateMultipleCluesInput: CreateMultipleCluesInput;
   CreateMultipleTeamsInput: CreateMultipleTeamsInput;
@@ -613,9 +606,9 @@ export type HuntResolvers<ContextType = any, ParentType extends ResolversParentT
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   activateHunt?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationActivateHuntArgs, 'id'>>;
   createHunt?: Resolver<ResolversTypes['Hunt'], ParentType, ContextType, RequireFields<MutationCreateHuntArgs, 'input'>>;
-  createMultipleClues?: Resolver<Array<Maybe<ResolversTypes['CluePayload']>>, ParentType, ContextType, RequireFields<MutationCreateMultipleCluesArgs, 'input'>>;
+  createMultipleClues?: Resolver<Array<ResolversTypes['CluePayload']>, ParentType, ContextType, RequireFields<MutationCreateMultipleCluesArgs, 'input'>>;
   createMultipleTeams?: Resolver<Array<Maybe<ResolversTypes['Team']>>, ParentType, ContextType, RequireFields<MutationCreateMultipleTeamsArgs, 'input'>>;
-  createSingleClue?: Resolver<Array<Maybe<ResolversTypes['CluePayload']>>, ParentType, ContextType, RequireFields<MutationCreateSingleClueArgs, 'input'>>;
+  createSingleClue?: Resolver<Array<ResolversTypes['CluePayload']>, ParentType, ContextType, RequireFields<MutationCreateSingleClueArgs, 'input'>>;
   createSingleTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationCreateSingleTeamArgs, 'input'>>;
   deleteAllCluesByHuntId?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteAllCluesByHuntIdArgs, 'hunt_id'>>;
   deleteAllResponsesByHunt?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteAllResponsesByHuntArgs, 'id'>>;
