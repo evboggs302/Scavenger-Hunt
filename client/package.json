@@ -82,7 +82,7 @@
     "storybook-addon-remix-react-router": "^4.0.1",
     "storybook-addon-swc": "^1.2.0",
     "typescript": "^5.0.2",
-    "vite": "^5.2.6",
+    "vite": "^5.4.12",
     "vite-plugin-auto-alias": "^1.0.4",
     "vite-plugin-deadfile": "^1.2.1",
     "vite-plugin-svgr": "^4.2.0",
