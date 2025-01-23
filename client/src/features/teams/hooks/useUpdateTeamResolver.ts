@@ -8,7 +8,10 @@ const TeamZodObj = z.object({
     members: z.string().min(3, "Must have at least 3 characters"),
     device_number: z
       .string()
-      .refine(validator.isMobilePhone, "Invalid phone number."),
+      .refine(
+        (phone) => validator.isMobilePhone(phone, "en-US"),
+        "Invalid U.S. phone number."
+      ),
   }),
 });
 
