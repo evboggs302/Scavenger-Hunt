@@ -337,7 +337,7 @@ export type Team = {
   device_number: Scalars['String']['output'];
   hunt_id: Scalars['ID']['output'];
   last_clue_sent: Scalars['Int']['output'];
-  members: Array<Maybe<Scalars['String']['output']>>;
+  members: Array<Scalars['String']['output']>;
   recall_sent: Scalars['Boolean']['output'];
   responses?: Maybe<Array<ResponsePayload>>;
 };
@@ -671,7 +671,7 @@ export type TeamResolvers<ContextType = any, ParentType extends ResolversParentT
   device_number?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   hunt_id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   last_clue_sent?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  members?: Resolver<Array<Maybe<ResolversTypes['String']>>, ParentType, ContextType>;
+  members?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   recall_sent?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   responses?: Resolver<Maybe<Array<ResolversTypes['ResponsePayload']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

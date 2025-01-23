@@ -30,19 +30,17 @@ type CreateDialogProps = {
   handleClose: () => void;
 };
 
-export type CreateTeamsFormState = CreateTeamsFormSchemaType & {
-  onSubmitError?: string;
-};
-
 export const CreateTeamsDialog = ({ handleClose }: CreateDialogProps) => {
   const [resolver] = useTeamsResolver();
-  const [createSingle, singleTeamResult] = useCreateSingleTeamMutation();
-  const [createMultiple, mutlipleTeamsResult] =
-    useCreateMultipleTeamsMutation();
+  const [createSingle] = useCreateSingleTeamMutation();
+  const [createMultiple] = useCreateMultipleTeamsMutation();
 
-  const methods = useForm<CreateTeamsFormState>({
+  const methods = useForm<CreateTeamsFormSchemaType>({
     mode: "onTouched",
     resolver,
+    defaultValues: {
+      isMulti: false,
+    },
   });
 
   const {
@@ -54,6 +52,7 @@ export const CreateTeamsDialog = ({ handleClose }: CreateDialogProps) => {
     handleSubmit,
     formState: {
       isValid,
+      isSubmitting,
       errors: { onSubmitError },
     },
   } = methods;
@@ -61,10 +60,11 @@ export const CreateTeamsDialog = ({ handleClose }: CreateDialogProps) => {
   const { field: toggleSwitch } = useController({
     name: "isMulti",
     control,
-    defaultValue: false,
   });
 
-  const onSubmit: SubmitHandler<CreateTeamsFormState> = async (formData) => {
+  const onSubmit: SubmitHandler<CreateTeamsFormSchemaType> = async (
+    formData
+  ) => {
     clearErrors("onSubmitError");
     await trigger();
 
@@ -88,7 +88,6 @@ export const CreateTeamsDialog = ({ handleClose }: CreateDialogProps) => {
     }
   };
 
-  const loading = singleTeamResult.loading || mutlipleTeamsResult.loading;
   const toPluralizeTeam = +!toggleSwitch.value;
 
   return (
@@ -124,21 +123,20 @@ export const CreateTeamsDialog = ({ handleClose }: CreateDialogProps) => {
               value={toggleSwitch.value}
               onBlur={toggleSwitch.onBlur}
               onChange={toggleSwitch.onChange}
-              //   disabled
             />
-            <InputLabel>
-              Creating multiple teams <i>(COMING SOON!)</i>
-            </InputLabel>
+            <InputLabel>Creating multiple teams</InputLabel>
           </Box>
           {toggleSwitch.value === false && <SingleTeamDialogContent />}
           {toggleSwitch.value === true && <MultipleTeamsDialogContent />}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button disabled={isSubmitting} onClick={handleClose}>
+            Cancel
+          </Button>
           <Button
             type="submit"
-            disabled={!isValid || loading}
-            endIcon={loading && <CircularProgress size={20} />}
+            disabled={!isValid || isSubmitting}
+            endIcon={isSubmitting && <CircularProgress size={20} />}
           >
             Create
           </Button>

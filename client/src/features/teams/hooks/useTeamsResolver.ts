@@ -11,10 +11,13 @@ const TeamZodObj = z.object({
   members: z
     .string()
     .min(3, "Must have at least 3 characters")
-    .transform((str) => str.split(",")),
+    .transform((str) => str.split(",").map((s) => s.trim())),
   device_number: z
     .string()
-    .refine(validator.isMobilePhone, "Invalid phone number."),
+    .refine(
+      (phone) => validator.isMobilePhone(phone, "en-US"),
+      "Invalid U.S. phone number."
+    ),
 });
 
 const schemaSingle = BaseSchema.merge(
@@ -36,7 +39,9 @@ const CreateTeamsFormSchema = z.discriminatedUnion("isMulti", [
   schemaMultiple,
 ]);
 
-export type CreateTeamsFormSchemaType = z.infer<typeof CreateTeamsFormSchema>;
+export type CreateTeamsFormSchemaType = z.infer<
+  typeof CreateTeamsFormSchema
+> & { onSubmitError?: string };
 
 export const useTeamsResolver = () => {
   const resolver = zodResolver(CreateTeamsFormSchema);

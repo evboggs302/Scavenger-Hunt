@@ -8,6 +8,7 @@ import { CluePayload } from "@generated/graphql";
 import { useDeleteSingleClueMutation } from "../hooks/useDeleteSingleClueMutation";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 import { EditClueDialog } from "./EditClues/EditClueDialog";
+// import { useDrag, useDrop } from "react-dnd";
 // import CardMedia from "@mui/material/CardMedia";
 
 type ClueCardProps = { clue: CluePayload };
@@ -20,7 +21,8 @@ export const ClueCard = ({
 }: ClueCardProps) => {
   const { hunt } = useHuntFragment();
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [deleteClue, { loading, error }] = useDeleteSingleClueMutation();
+  const [deleteClue, { loading: deleteLoading }] =
+    useDeleteSingleClueMutation();
 
   const handleDelete = useCallback(async () => {
     try {
@@ -32,7 +34,10 @@ export const ClueCard = ({
 
   return (
     <>
-      <Card sx={{ width: "380px", margin: "8px" }}>
+      <Card
+        // ref={dragRef}
+        sx={{ width: "380px", margin: "8px" }}
+      >
         {/* <CardMedia
         component="img"
         alt="green iguana"
@@ -48,7 +53,7 @@ export const ClueCard = ({
           </Typography>
         </CardContent>
         {!hunt.is_active && (
-          <CardActions>
+          <CardActions sx={{ display: deleteLoading ? "none" : undefined }}>
             <Button size="small" onClick={handleDelete}>
               Delete
             </Button>

@@ -112,10 +112,13 @@ export const EditClueDialog = ({
         </FieldWrapper>
       </DialogContent>
       <DialogActions sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Button onClick={handleClose}>Cancel</Button>
+        <Button disabled={loading} onClick={handleClose}>
+          Cancel
+        </Button>
         <Box>
           <Button
             variant="outlined"
+            disabled={loading || field.value === description}
             sx={{ marginRight: "4px" }}
             onClick={() => reset()}
           >
