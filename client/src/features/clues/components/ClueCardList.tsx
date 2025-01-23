@@ -2,6 +2,8 @@ import { CardListContainer } from "@lib/components/Cards/CardListContainer";
 import { ClueCard } from "./ClueCard";
 import { useClueContext } from "@lib/context/ClueContext";
 import { NoCardsToShowText } from "@lib/components/Cards/NoCardsToShowText";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 export const ClueCardList = () => {
   const { data } = useClueContext();
@@ -14,5 +16,9 @@ export const ClueCardList = () => {
     return <NoCardsToShowText type="clues" />;
   }
 
-  return <CardListContainer>{clueCards}</CardListContainer>;
+  return (
+    <DndProvider backend={HTML5Backend}>
+      <CardListContainer>{clueCards}</CardListContainer>
+    </DndProvider>
+  );
 };

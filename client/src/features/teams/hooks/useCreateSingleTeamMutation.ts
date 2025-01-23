@@ -2,10 +2,10 @@ import { useCallback, useMemo } from "react";
 import { useMutation } from "@apollo/client";
 import { CreateSingleTeamDocument, GetHuntDocument } from "@generated/graphql";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
-import { CreateTeamsFormState } from "../components/CreateTeamsDialog/CreateTeamsDialog";
 import { useToast } from "@lib/hooks/useToast";
+import { CreateTeamsFormSchemaType } from "./useTeamsResolver";
 
-type RequiredFormState = CreateTeamsFormState & { isMulti: false };
+type RequiredFormState = CreateTeamsFormSchemaType & { isMulti: false };
 
 export const useCreateSingleTeamMutation = () => {
   const { hunt } = useHuntFragment();

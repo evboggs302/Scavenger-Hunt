@@ -1,22 +1,26 @@
 import { useCallback, useEffect } from "react";
-import { useFieldArray } from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import Box from "@mui/material/Box";
 import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
 import { MultiDescriptionField } from "./MultiDescriptionField";
-import { AddAnotherClueBlutton } from "./AddAnotherClueBlutton";
 import { useScrollShadow } from "@lib/hooks/useScrollShadow";
+import Button from "@mui/material/Button";
 
 export const MultipleCluesDialogContent = () => {
   const { ref } = useScrollShadow();
-  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
-    {
-      name: "cluesList",
-    }
-  );
+  const {
+    setFocus,
+    formState: { isValid, isSubmitting },
+  } = useFormContext();
+
+  const { fields, append, remove } = useFieldArray({
+    name: "cluesList",
+  });
 
   const addAnother = useCallback(() => {
     append("");
-  }, [append]);
+    setFocus(`cluesList[${fields.length}]`, { shouldSelect: true });
+  }, [append, fields.length, setFocus]);
 
   useEffect(() => {
     if (fields.length === 0) {
@@ -35,7 +39,9 @@ export const MultipleCluesDialogContent = () => {
           />
         ))}
       </Box>
-      <AddAnotherClueBlutton onClick={addAnother} />
+      <Button disabled={!isValid || isSubmitting} onClick={addAnother}>
+        Add another clue
+      </Button>
     </FieldWrapper>
   );
 };

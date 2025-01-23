@@ -336,7 +336,7 @@ export type Team = {
   device_number: Scalars['String']['output'];
   hunt_id: Scalars['ID']['output'];
   last_clue_sent: Scalars['Int']['output'];
-  members: Array<Maybe<Scalars['String']['output']>>;
+  members: Array<Scalars['String']['output']>;
   recall_sent: Scalars['Boolean']['output'];
   responses?: Maybe<Array<ResponsePayload>>;
 };
@@ -377,11 +377,11 @@ export type ClueFragment = { __typename: 'CluePayload', _id: string, hunt_id: st
 
 export type HuntFragment = { __typename: 'Hunt', _id: string, created_by: string, name: string, created_date: string, start_date: string, end_date: string, is_active: boolean, marked_complete: boolean, recall_message: string };
 
-export type FullHuntFragment = { __typename: 'Hunt', _id: string, name: string, created_date: string, start_date: string, end_date: string, is_active: boolean, marked_complete: boolean, recall_message: string, created_by: string, teams?: Array<{ __typename: 'Team', _id: string, hunt_id: string, recall_sent: boolean, last_clue_sent: number, members: Array<string | null>, device_number: string }> | null };
+export type FullHuntFragment = { __typename: 'Hunt', _id: string, name: string, created_date: string, start_date: string, end_date: string, is_active: boolean, marked_complete: boolean, recall_message: string, created_by: string, teams?: Array<{ __typename: 'Team', _id: string, hunt_id: string, recall_sent: boolean, last_clue_sent: number, members: Array<string>, device_number: string }> | null };
 
 export type ResponseFragment = { __typename: 'ResponsePayload', _id: string, clue_id: string, team_id: string, time_received: string, response_txt?: string | null, response_img?: Array<string> | null, correct?: boolean | null, hint_sent?: boolean | null };
 
-export type TeamFragment = { __typename: 'Team', _id: string, hunt_id: string, recall_sent: boolean, last_clue_sent: number, members: Array<string | null>, device_number: string };
+export type TeamFragment = { __typename: 'Team', _id: string, hunt_id: string, recall_sent: boolean, last_clue_sent: number, members: Array<string>, device_number: string };
 
 export type TokenFragment = { __typename: 'AuthPayload', _id: string, token: string };
 
@@ -500,14 +500,14 @@ export type CreateMultipleTeamsMutationVariables = Exact<{
 }>;
 
 
-export type CreateMultipleTeamsMutation = { teams: Array<{ __typename: 'Team', _id: string, hunt_id: string, recall_sent: boolean, last_clue_sent: number, members: Array<string | null>, device_number: string } | null> };
+export type CreateMultipleTeamsMutation = { teams: Array<{ __typename: 'Team', _id: string, hunt_id: string, recall_sent: boolean, last_clue_sent: number, members: Array<string>, device_number: string } | null> };
 
 export type CreateSingleTeamMutationVariables = Exact<{
   input: CreateSingleTeamInput;
 }>;
 
 
-export type CreateSingleTeamMutation = { team: { __typename: 'Team', _id: string, hunt_id: string, recall_sent: boolean, last_clue_sent: number, members: Array<string | null>, device_number: string } };
+export type CreateSingleTeamMutation = { team: { __typename: 'Team', _id: string, hunt_id: string, recall_sent: boolean, last_clue_sent: number, members: Array<string>, device_number: string } };
 
 export type DeleteAllTeamsByHuntIdMutationVariables = Exact<{
   hunt_id: Scalars['ID']['input'];
@@ -528,7 +528,7 @@ export type UpdateTeamMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTeamMutation = { team: { __typename: 'Team', _id: string, hunt_id: string, recall_sent: boolean, last_clue_sent: number, members: Array<string | null>, device_number: string } };
+export type UpdateTeamMutation = { team: { __typename: 'Team', _id: string, hunt_id: string, recall_sent: boolean, last_clue_sent: number, members: Array<string>, device_number: string } };
 
 export type LoginUserMutationVariables = Exact<{
   username: Scalars['String']['input'];
@@ -555,7 +555,7 @@ export type GetHuntQueryVariables = Exact<{
 }>;
 
 
-export type GetHuntQuery = { hunt: { __typename: 'Hunt', _id: string, name: string, created_date: string, start_date: string, end_date: string, is_active: boolean, marked_complete: boolean, recall_message: string, created_by: string, teams?: Array<{ __typename: 'Team', _id: string, hunt_id: string, recall_sent: boolean, last_clue_sent: number, members: Array<string | null>, device_number: string }> | null } };
+export type GetHuntQuery = { hunt: { __typename: 'Hunt', _id: string, name: string, created_date: string, start_date: string, end_date: string, is_active: boolean, marked_complete: boolean, recall_message: string, created_by: string, teams?: Array<{ __typename: 'Team', _id: string, hunt_id: string, recall_sent: boolean, last_clue_sent: number, members: Array<string>, device_number: string }> | null } };
 
 export type GetHuntsByUserIdQueryVariables = Exact<{ [key: string]: never; }>;
 

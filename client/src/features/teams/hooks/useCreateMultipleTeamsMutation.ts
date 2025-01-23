@@ -5,10 +5,10 @@ import {
   GetHuntDocument,
 } from "@generated/graphql";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
-import { CreateTeamsFormState } from "../components/CreateTeamsDialog/CreateTeamsDialog";
 import { useToast } from "@lib/hooks/useToast";
+import { CreateTeamsFormSchemaType } from "./useTeamsResolver";
 
-type RequiredFormState = CreateTeamsFormState & { isMulti: true };
+type RequiredFormState = CreateTeamsFormSchemaType & { isMulti: true };
 
 export const useCreateMultipleTeamsMutation = () => {
   const { hunt } = useHuntFragment();

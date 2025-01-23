@@ -16,7 +16,7 @@ type Team {
   hunt_id: ID!
   recall_sent: Boolean!
   last_clue_sent: Int!
-  members: [String]!
+  members: [String!]!
   device_number: String!
   responses: [ResponsePayload!]
 }

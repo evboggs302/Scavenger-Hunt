@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
-import Box from "@mui/material/Box";
+import Box, { BoxProps } from "@mui/material/Box";
 
-export const FieldWrapper = ({ children }: PropsWithChildren) => {
-  return <Box sx={{ margin: "14px auto" }}>{children}</Box>;
+export const FieldWrapper = ({ children, sx }: PropsWithChildren<BoxProps>) => {
+  return <Box sx={{ margin: "14px auto", ...sx }}>{children}</Box>;
 };
