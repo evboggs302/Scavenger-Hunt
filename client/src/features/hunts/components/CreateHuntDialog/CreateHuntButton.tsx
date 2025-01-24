@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { CreateHuntDialog } from "./CreateHuntDialog";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
+import AddIcon from "@mui/icons-material/Add";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
 type CreateHuntButtonProps = {
@@ -24,7 +25,11 @@ export const CreateHuntButton = ({
   return (
     <>
       {variant === "normal" && (
-        <Button variant="outlined" onClick={handleClickOpen}>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={handleClickOpen}
+        >
           New hunt
         </Button>
       )}

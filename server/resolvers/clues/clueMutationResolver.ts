@@ -24,7 +24,9 @@ const clueResolver: Resolvers = {
           .exec();
 
         const mappedClues = cluesList.map((clue, index) => {
-          const order_number = lastClue[0]?.order_number + index + 1 || 1;
+          const order_number = lastClue[0]
+            ? lastClue[0].order_number + index + 1
+            : index + 1;
 
           return {
             hunt_id,
