@@ -9,7 +9,15 @@ import Divider from "@mui/material/Divider";
 import { CreateCluesDialog } from "./CreateCluesDialog/CreateCluesDialog";
 import { DeleteAllCluesDialog } from "./DeleteCluesDialog/DeleteAllCluesDialog";
 
-export const ManageCluesMenu = () => {
+export const ManageCluesMenu = ({
+  hasItems,
+  canUpdateOrder,
+  setCanUpdateOrder,
+}: {
+  hasItems: boolean;
+  canUpdateOrder: boolean;
+  setCanUpdateOrder: () => void;
+}) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleTriggerClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -26,6 +34,7 @@ export const ManageCluesMenu = () => {
   return (
     <>
       <Button
+        variant="outlined"
         id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
@@ -54,12 +63,21 @@ export const ManageCluesMenu = () => {
           </ListItemIcon>
           <ListItemText>Create new</ListItemText>
         </MenuItem>
-        <MenuItem onClick={() => {}}>
-          <ListItemIcon>
-            <EditOutlined fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Update order</ListItemText>
-        </MenuItem>
+        {hasItems && (
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              setCanUpdateOrder();
+            }}
+          >
+            <ListItemIcon>
+              <EditOutlined fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>
+              {canUpdateOrder ? "Cancel update order" : "Update order"}
+            </ListItemText>
+          </MenuItem>
+        )}
         <Divider />
         <MenuItem
           onClick={() => {

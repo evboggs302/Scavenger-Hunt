@@ -10,7 +10,12 @@ const meta: Meta<typeof Component> = {
   component: Component,
   tags: ["autodocs"],
   render: () => {
-    return <Component clue={mockHunt.clues[0]} />;
+    return (
+      <>
+        <Component canUpdateOrder clue={mockHunt.clues[0]} />
+        <Component canUpdateOrder={false} clue={mockHunt.clues[0]} />
+      </>
+    );
   },
 };
 export default meta;

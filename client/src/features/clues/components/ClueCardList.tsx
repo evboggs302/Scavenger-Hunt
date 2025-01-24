@@ -1,24 +1,30 @@
 import { CardListContainer } from "@lib/components/Cards/CardListContainer";
 import { ClueCard } from "./ClueCard";
-import { useClueContext } from "@lib/context/ClueContext";
-import { NoCardsToShowText } from "@lib/components/Cards/NoCardsToShowText";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { useDroppable } from "@dnd-kit/core";
+import { SortableContext } from "@dnd-kit/sortable";
+import { ClueFragment } from "@generated/graphql";
 
-export const ClueCardList = () => {
-  const { data } = useClueContext();
+export const ClueCardList = ({
+  canUpdateOrder,
+  clueList,
+}: {
+  clueList: ClueFragment[];
+  canUpdateOrder: boolean;
+}) => {
+  const { setNodeRef } = useDroppable({
+    id: "droppable",
+    data: {
+      accepts: ["clue"],
+    },
+  });
 
-  const clueCards = data?.clues
-    ?.filter((cl) => cl !== null)
-    .map((clu) => <ClueCard key={clu?._id} clue={clu} />);
-
-  if (clueCards && clueCards.length === 0) {
-    return <NoCardsToShowText type="clues" />;
-  }
+  const clueCards = clueList.map((clu) => (
+    <ClueCard key={clu._id} clue={clu} canUpdateOrder={canUpdateOrder} />
+  ));
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      <CardListContainer>{clueCards}</CardListContainer>
-    </DndProvider>
+    <SortableContext items={clueList.map((clu) => clu._id)}>
+      <CardListContainer ref={setNodeRef}>{clueCards}</CardListContainer>
+    </SortableContext>
   );
 };
