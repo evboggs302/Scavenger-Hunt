@@ -30,7 +30,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.12.0",
     "mongoose": "^8.9.5",
-    "parse-duration": "^1.1.1",
+    "parse-duration": "^2.1.3",
     "twilio": "^5.3.7"
   },
   "devDependencies": {
