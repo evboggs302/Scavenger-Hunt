@@ -5,12 +5,61 @@ import pluginReact from "eslint-plugin-react";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginStorybook from "eslint-plugin-storybook";
 import eslintConfigPrettier from "eslint-config-prettier";
+import graphqlPlugin from "@graphql-eslint/eslint-plugin";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
   eslintConfigPrettier,
+  ...tseslint.configs.recommended,
+  {
+    files: ["client/src/**/*.graphql"],
+    languageOptions: {
+      parser: graphqlPlugin.parser,
+      parserOptions: {
+        graphQLConfig: {
+          schema: "./server/graphql.schema.json",
+          operations: "./client/src/**/*.graphql",
+          documents: "./client/src/**/*.graphql",
+        },
+      },
+    },
+    plugins: {
+      "@graphql-eslint": graphqlPlugin,
+    },
+    rules: {
+      ...graphqlPlugin.configs["flat/operations-recommended"].rules,
+      ...graphqlPlugin.configs["flat/schema-recommended"].rules,
+      "@graphql-eslint/naming-convention": [
+        "error",
+        { types: "camelCase", FieldDefinition: "PascalCase" },
+      ],
+    },
+  },
+  {
+    files: ["server/src/**/*.graphql"],
+    languageOptions: {
+      parser: graphqlPlugin.parser,
+      parserOptions: {
+        graphQLConfig: {
+          schema: "./server/graphql.schema.json",
+          operations: "./server/src/**/*.graphql",
+          documents: "./server/src/**/*.graphql",
+        },
+      },
+    },
+    plugins: {
+      "@graphql-eslint": graphqlPlugin,
+    },
+    rules: {
+      ...graphqlPlugin.configs["flat/operations-recommended"].rules,
+      ...graphqlPlugin.configs["flat/schema-recommended"].rules,
+      "@graphql-eslint/naming-convention": [
+        "error",
+        { types: "camelCase", FieldDefinition: "PascalCase" },
+      ],
+    },
+  },
   {
     // GLOBAL PROJECT CONFIG
     ignores: [

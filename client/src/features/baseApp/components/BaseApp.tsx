@@ -23,7 +23,11 @@ export const BaseApp = () => {
             <AppNavbar />
             <Box
               component="main"
-              sx={{ display: "flex", flexGrow: 1, overflow: "auto" }}
+              sx={{
+                display: "flex",
+                flexGrow: 1,
+                height: "97vh",
+              }}
             >
               <Stack
                 spacing={2}

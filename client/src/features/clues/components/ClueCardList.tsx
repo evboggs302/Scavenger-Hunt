@@ -1,8 +1,11 @@
-import { CardListContainer } from "@lib/components/Cards/CardListContainer";
 import { ClueCard } from "./ClueCard";
 import { useDroppable } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
 import { ClueFragment } from "@generated/graphql";
+import { CardList } from "@lib/components/Cards/CardList";
+import Box from "@mui/material/Box";
+import { forwardRef } from "react";
+import { VirtuosoGrid } from "react-virtuoso";
 
 export const ClueCardList = ({
   canUpdateOrder,
@@ -18,13 +21,31 @@ export const ClueCardList = ({
     },
   });
 
-  const clueCards = clueList.map((clu) => (
-    <ClueCard key={clu._id} clue={clu} canUpdateOrder={canUpdateOrder} />
-  ));
-
   return (
     <SortableContext items={clueList.map((clu) => clu._id)}>
-      <CardListContainer ref={setNodeRef}>{clueCards}</CardListContainer>
+      <Box
+        sx={{
+          display: "flex",
+          height: "100%",
+          width: "100%",
+        }}
+      >
+        <VirtuosoGrid
+          style={{ height: "100%", width: "100%", overflow: "auto" }}
+          data={clueList}
+          scrollerRef={setNodeRef}
+          components={{
+            List: CardList,
+          }}
+          itemContent={(_, item) => (
+            <ClueCard
+              key={item._id}
+              clue={item}
+              canUpdateOrder={canUpdateOrder}
+            />
+          )}
+        />
+      </Box>
     </SortableContext>
   );
 };
