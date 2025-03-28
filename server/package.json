@@ -59,6 +59,6 @@
     "typescript": "^5.4.2",
     "vite": "^6.0.9",
     "vite-node": "^2.1.8",
-    "vitest": "^2.1.8"
+    "vitest": "^2.1.9"
   }
 }
