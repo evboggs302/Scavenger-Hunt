@@ -6,7 +6,9 @@ import Skeleton from "@mui/material/Skeleton";
 import { ResponseCard } from "../ResponseCard";
 import dayjs from "dayjs";
 import { NoCardsToShowText } from "@lib/components/Cards/NoCardsToShowText";
-import { CardListContainer } from "@lib/components/Cards/CardListContainer";
+import { VirtuosoGrid } from "react-virtuoso";
+import Box from "@mui/material/Box";
+import { CardList } from "@lib/components/Cards/CardList";
 
 export const InactiveHuntResponsesList = () => {
   const { hunt } = useHuntFragment();
@@ -37,10 +39,23 @@ export const InactiveHuntResponsesList = () => {
     );
 
   return (
-    <CardListContainer>
-      {filteredSortedResponses?.map((res) => (
-        <ResponseCard key={res._id} response={res} />
-      ))}
-    </CardListContainer>
+    <Box
+      sx={{
+        display: "flex",
+        height: "100%",
+        width: "100%",
+      }}
+    >
+      <VirtuosoGrid
+        style={{ height: "100%", width: "100%", overflow: "auto" }}
+        data={filteredSortedResponses}
+        components={{
+          List: CardList,
+        }}
+        itemContent={(_, item) => (
+          <ResponseCard key={item._id} response={item} />
+        )}
+      />
+    </Box>
   );
 };
