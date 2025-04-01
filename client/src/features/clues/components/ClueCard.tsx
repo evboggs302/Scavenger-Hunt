@@ -9,7 +9,6 @@ import { CluePayload } from "@generated/graphql";
 import { useDeleteSingleClueMutation } from "../hooks/useDeleteSingleClueMutation";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 import { EditClueDialog } from "./EditClues/EditClueDialog";
-import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import Box from "@mui/material/Box";
 import { useSortable } from "@dnd-kit/sortable";
@@ -29,12 +28,6 @@ export const ClueCard = ({
   const [deleteClue, { loading: deleteLoading }] =
     useDeleteSingleClueMutation();
 
-  // const { attributes, listeners, setNodeRef, transform } = useDraggable({
-  //   id: _id,
-  //   data: { type: "clue", id: _id },
-  //   disabled: !hunt.is_active && !canUpdateOrder,
-  // });
-
   const {
     attributes,
     listeners,
@@ -49,6 +42,9 @@ export const ClueCard = ({
     id: _id,
     disabled: hunt.is_active || !canUpdateOrder,
     animateLayoutChanges: () => true,
+    data: {
+      type: "clue",
+    },
   });
 
   const handleDelete = useCallback(async () => {
@@ -69,9 +65,11 @@ export const ClueCard = ({
         sx={{
           width: "380px",
           margin: "8px",
+          cursor,
           transition,
           transform: CSS.Translate.toString(transform),
-          cursor,
+          position: isDragging ? "relative" : "inherit",
+          zIndex: isDragging ? 1000 : 0,
         }}
         {...listeners}
         {...attributes}

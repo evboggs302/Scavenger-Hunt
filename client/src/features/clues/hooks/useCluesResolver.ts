@@ -17,15 +17,17 @@ const schemaMultiple = z.object({
   cluesList: z.array(ClueDescriptionString),
 });
 
-const CreateCluesFormSchema = z.discriminatedUnion("isMulti", [
+const CluesFormSchema = z.discriminatedUnion("isMulti", [
   schemaSingle,
   schemaMultiple,
 ]);
 
-export type CreateCluesFormSchemaType = z.infer<typeof CreateCluesFormSchema>;
+export type CluesFormState = z.infer<typeof CluesFormSchema> & {
+  onSubmitError?: string;
+};
 
-export const useCreateCluesResolver = () => {
-  const resolver = zodResolver(CreateCluesFormSchema);
+export const useCluesResolver = () => {
+  const resolver = zodResolver(CluesFormSchema);
 
   return useMemo((): [typeof resolver] => [resolver], [resolver]);
 };

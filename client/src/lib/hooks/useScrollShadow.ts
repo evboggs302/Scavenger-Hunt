@@ -7,8 +7,8 @@ type ScrollState = {
   clientHeight: number;
 };
 
-const topShadow = "inset 0 8px 5px -5px rgb(200 200 200 / 1)";
-const bottomShadow = "inset 0 -8px 5px -5px rgb(200 200 200 / 1)";
+export const topShadow = "inset 0 8px 5px -5px rgb(200 200 200 / 1)";
+export const bottomShadow = "inset 0 -8px 5px -5px rgb(200 200 200 / 1)";
 
 export const useScrollShadow = <T extends HTMLElement = HTMLElement>() => {
   const ref = useRef<T>(null);
@@ -52,6 +52,7 @@ export const useScrollShadow = <T extends HTMLElement = HTMLElement>() => {
   if (ref.current) {
     ref.current.onscroll = handler;
     ref.current.style.boxShadow = getBoxShadow();
+    ref.current.style.backgroundColor = "turquoise";
   }
 
   return { hasOverflow, ref };
