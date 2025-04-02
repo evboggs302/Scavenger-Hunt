@@ -1,0 +1,23 @@
+{
+  "ToCountry": "US",
+  "MediaContentType0": "image/jpeg",
+  "ToState": "PA",
+  "SmsMessageSid": "MM7462aee02e91ad2d84bce6c996780c33",
+  "NumMedia": "1",
+  "ToCity": "PITTSBURGH",
+  "FromZip": "19720",
+  "SmsSid": "MM7462aee02e91ad2d84bce6c996780c33",
+  "FromState": "DE",
+  "SmsStatus": "received",
+  "FromCity": "WILMINGTON",
+  "Body": "",
+  "FromCountry": "US",
+  "To": "+14128017074",
+  "ToZip": "15229",
+  "NumSegments": "1",
+  "MessageSid": "MM7462aee02e91ad2d84bce6c996780c33",
+  "AccountSid": "AC898dc2e85e9cb91e87ec6a0de7487d41",
+  "From": "+13025933237",
+  "MediaUrl0": "https://api.twilio.com/2010-04-01/Accounts/AC898dc2e85e9cb91e87ec6a0de7487d41/Messages/MM7462aee02e91ad2d84bce6c996780c33/Media/MEef1a79097bda800a4240cc4082f41ae0",
+  "ApiVersion": "2010-04-01"
+}
