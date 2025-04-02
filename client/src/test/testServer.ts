@@ -1,5 +1,4 @@
 import { setupServer } from "msw/node";
-import { mswHandlers } from "@msw/mswHandlers";
+import { mswHandlersList } from "@msw/mswHandlers";
 
-const handlers = Object.values(mswHandlers);
-export const testServer = setupServer(...handlers);
+export const testServer = setupServer(...mswHandlersList);

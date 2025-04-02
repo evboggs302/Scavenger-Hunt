@@ -61,6 +61,10 @@ export default defineConfig(({ mode }) => {
       fileParallelism: true,
       minWorkers: 2,
       setupFiles: "./src/test/setupTests.ts",
+      browser: {
+        provider: "playwright",
+        instances: [{ browser: "chromium" }],
+      },
     },
     build: {
       outDir: "build",

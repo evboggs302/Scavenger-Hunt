@@ -21,7 +21,7 @@ describe("useLogoutMutation", () => {
 
     await act(async () => await handleLogout());
 
-    console.log(mutationResult.data?.logout);
+    console.log(mutationResult);
 
     expect(mutationResult.called).toBe(true);
     expect(mutationResult.data?.logout).toEqual(true);
