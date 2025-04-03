@@ -9,8 +9,9 @@ Application: https://digital-scavenger-ui.onrender.com/
 Storybook: https://digital-scavenger-storybook.onrender.com/
 
 ### System Overview
+
 ![sysytem-overview](image.png)
-_*Created via [eraser.io](https://www.eraser.io/)._
+_\*Created via [eraser.io](https://www.eraser.io/)._
 
 ### Local Development - Getting Started
 

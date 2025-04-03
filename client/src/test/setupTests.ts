@@ -4,7 +4,9 @@ import { testServer } from "./testServer";
 
 expect.extend(matchers);
 
-beforeAll(() => testServer.listen());
+beforeAll(() => {
+  testServer.listen();
+});
 
 afterEach(() => {
   // runs a clean after each test case (e.g. clearing jsdom)
@@ -12,4 +14,6 @@ afterEach(() => {
   testServer.resetHandlers();
 });
 
-afterAll(() => testServer.close());
+afterAll(() => {
+  testServer.close();
+});

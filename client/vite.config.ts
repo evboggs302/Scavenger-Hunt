@@ -25,9 +25,7 @@ export default defineConfig(({ mode }) => {
         })
       : undefined;
   const visualizerPlugin =
-    mode === "analyze"
-      ? visualizer({ open: !process.env.PROD, gzipSize: !process.env.PROD })
-      : undefined;
+    mode === "analyze" ? visualizer({ open: true, gzipSize: true }) : undefined;
 
   return {
     define: {
@@ -52,7 +50,7 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       open: true,
-      port: clientPort || 8585,
+      port: mode === "test" ? 8585 : clientPort,
     },
     test: {
       environment: "jsdom",
@@ -61,16 +59,38 @@ export default defineConfig(({ mode }) => {
       fileParallelism: true,
       minWorkers: 2,
       setupFiles: "./src/test/setupTests.ts",
+      passWithNoTests: true,
+      coverage: {
+        provider: "v8",
+        reporter: ["text", "json", "html"],
+        // all: true,
+        include: ["src/**/*.{ts,tsx}"],
+        exclude: [
+          "**/*.{stories|spec|test}.{ts|tsx}",
+          "**/apolloClient/**",
+          "**/generated/**",
+          "**/graphql/**",
+          "**/test/**",
+        ],
+      },
       browser: {
-        provider: "playwright",
+        // provider: "playwright",
         instances: [{ browser: "chromium" }],
       },
     },
+    exclude: [
+      "**/playwright/**",
+      "**/.deadfiles/**",
+      "**/.storybook/**",
+      "**/msw/**",
+    ],
     build: {
       outDir: "build",
       emptyOutDir: true,
       manifest: true,
+      sourcemap: true,
       rollupOptions: {
+        external: ["**/*.stories.tsx"],
         treeshake: true,
         output: {
           compact: true,

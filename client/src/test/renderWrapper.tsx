@@ -1,17 +1,20 @@
 import { PropsWithChildren } from "react";
 import { MemoryRouter } from "react-router";
-import { ApolloClientProvider } from "@apolloClient/apolloClient";
+import { MockedProvider } from "@apollo/client/testing";
 import { AppMUIProviders } from "@lib/context/AppMUIProviders";
 import { ClueQryContextProvider } from "@lib/context/ClueContext";
 import { HuntQryContextProvider } from "@lib/context/HuntContext";
 import { TokenContextProvider } from "@lib/context/TokenContext";
 import { UserQryContextProvider } from "@lib/context/UserContext";
+import { InMemoryCache } from "@apollo/client";
 
-export const renderWrapper = ({ children }: PropsWithChildren<unknown>) => {
+const cache = new InMemoryCache({});
+
+export const RenderWrapper = ({ children }: PropsWithChildren) => {
   return (
     <MemoryRouter initialEntries={["/"]}>
       <AppMUIProviders>
-        <ApolloClientProvider>
+        <MockedProvider cache={cache} mocks={[]} addTypename={false}>
           <TokenContextProvider>
             <UserQryContextProvider>
               <HuntQryContextProvider>
@@ -19,7 +22,7 @@ export const renderWrapper = ({ children }: PropsWithChildren<unknown>) => {
               </HuntQryContextProvider>
             </UserQryContextProvider>
           </TokenContextProvider>
-        </ApolloClientProvider>
+        </MockedProvider>
       </AppMUIProviders>
     </MemoryRouter>
   );
