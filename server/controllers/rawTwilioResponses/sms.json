@@ -1,0 +1,21 @@
+{
+  "ToCountry": "<country abbreviation>",
+  "ToState": "<state abbreviation related to TWILIO phone number>",
+  "SmsMessageSid": "SM1a490516d4109c5c7c47c9ff8993b9f3",
+  "NumMedia": "0",
+  "ToCity": "<city related to TWILIO phone number>",
+  "FromZip": "<sender phone number zip>",
+  "SmsSid": "SM1a490516d4109c5c7c47c9ff8993b9f3",
+  "FromState": "<sender state abreviation>",
+  "SmsStatus": "received",
+  "FromCity": "<sender city>",
+  "Body": "Dang it Bobby!",
+  "FromCountry": "<sender country abbreviation>",
+  "To": "<TWILIO phone number w/ country code>",
+  "ToZip": "<TWILIO phone number zip>",
+  "NumSegments": "1",
+  "MessageSid": "SM1a490516d4109c5c7c47c9ff8993b9f3",
+  "AccountSid": "<ACCOUNT_SID>",
+  "From": "<sender phone number w/ country code>",
+  "ApiVersion": "2010-04-01"
+}

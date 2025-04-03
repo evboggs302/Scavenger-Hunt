@@ -32,3 +32,5 @@ export const mswHandlers = {
   // USER
   getUserFromTokenMock,
 };
+
+export const mswHandlersList = Object.values(mswHandlers);

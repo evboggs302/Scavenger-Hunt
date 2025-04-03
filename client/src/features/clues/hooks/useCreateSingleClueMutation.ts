@@ -4,11 +4,8 @@ import {
   CreateSingleClueDocument,
   GetOrderedCluesDocument,
 } from "@generated/graphql";
-import { CreateCluesFormState } from "../components/CreateCluesDialog/CreateCluesDialog";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 import { useToast } from "@lib/hooks/useToast";
-
-type RequiredFormState = CreateCluesFormState & { isMulti: false };
 
 export const useCreateSingleClueMutation = () => {
   const { hunt } = useHuntFragment();
@@ -29,7 +26,7 @@ export const useCreateSingleClueMutation = () => {
   });
 
   const handleCreateSingleClue = useCallback(
-    async ({ description }: RequiredFormState) => {
+    async (description: string) => {
       await createSingleClue({
         variables: {
           input: {

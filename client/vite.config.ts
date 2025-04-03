@@ -1,14 +1,31 @@
 import { defineConfig, loadEnv } from "vite";
-import react from "@vitejs/plugin-react-swc";
+import reactSWC from "@vitejs/plugin-react-swc";
 import viteTsconfigPaths from "vite-tsconfig-paths";
 import svgrPlugin from "vite-plugin-svgr";
-import autoAlias from "vite-plugin-auto-alias";
-import deadFile from "vite-plugin-deadfile";
+
+// for DEV purposes only
 import { visualizer } from "rollup-plugin-visualizer";
+import deadFile from "vite-plugin-deadfile";
+import autoAlias from "vite-plugin-auto-alias";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, "../", "");
   const clientPort = +env.CLIENT_PORT;
+
+  const autoAliasPlugin = ["development", "analyze"].includes(mode)
+    ? autoAlias()
+    : undefined;
+  const deadFilePlugin =
+    mode === "analyze"
+      ? deadFile({
+          include: ["src/**"],
+          exclude: ["**/*.graphql", "**/*.(spec|test|stories).(ts|tsx)"],
+          outputDir: "./.deadfiles",
+          output: "dead-files.txt", // writes this txt file with all unused files
+        })
+      : undefined;
+  const visualizerPlugin =
+    mode === "analyze" ? visualizer({ open: true, gzipSize: true }) : undefined;
 
   return {
     define: {
@@ -19,97 +36,87 @@ export default defineConfig(({ mode }) => {
       ),
     },
     plugins: [
-      react({
+      reactSWC({
         plugins: [["@swc/plugin-styled-components", {}]],
       }),
-      svgrPlugin(),
       viteTsconfigPaths(),
-      autoAlias(), // writes the aliases in tsconfig
-      deadFile({
-        include: ["src/**"],
-        exclude: ["**/*.graphql", "**/*.(spec|test|stories).(ts|tsx)"],
-        outputDir: "./.deadfiles",
-        output: "dead-files.txt", // writes this txt file with all unused files
-      }),
-      visualizer({ open: !process.env.PROD, gzipSize: !process.env.PROD }),
+      svgrPlugin(),
+      autoAliasPlugin,
+      deadFilePlugin,
+      visualizerPlugin,
     ],
     preview: {
       port: 8080,
     },
     server: {
       open: true,
-      port: clientPort || 8585,
+      port: mode === "test" ? 8585 : clientPort,
     },
     test: {
       environment: "jsdom",
       globals: true,
-      root: "src/",
+      dir: "src",
+      fileParallelism: true,
+      minWorkers: 2,
+      setupFiles: "./src/test/setupTests.ts",
+      passWithNoTests: true,
+      coverage: {
+        provider: "v8",
+        reporter: ["text", "json", "html"],
+        // all: true,
+        include: ["src/**/*.{ts,tsx}"],
+        exclude: [
+          "**/*.{stories|spec|test}.{ts|tsx}",
+          "**/apolloClient/**",
+          "**/generated/**",
+          "**/graphql/**",
+          "**/test/**",
+        ],
+      },
+      browser: {
+        // provider: "playwright",
+        instances: [{ browser: "chromium" }],
+      },
     },
-    optimizeDeps: {
-      force: true,
-    },
+    exclude: [
+      "**/playwright/**",
+      "**/.deadfiles/**",
+      "**/.storybook/**",
+      "**/msw/**",
+    ],
     build: {
       outDir: "build",
       emptyOutDir: true,
       manifest: true,
+      sourcemap: true,
       rollupOptions: {
-        treeshake: "recommended",
+        external: ["**/*.stories.tsx"],
+        treeshake: true,
         output: {
           compact: true,
           minifyInternalExports: true,
-          // manualChunks: (id, { getModuleInfo }) => {
-          //   if (
-          //     id.includes("/react-router") ||
-          //     id.includes("/react-router") ||
-          //     id.includes("/@remix")
-          //   ) {
-          //     // creating a @react-router chunk. Reducing the vendor chunk size
-          //     return "@react-router";
-          //   }
-          //   // creating a @apollo chunk. Reducing the vendor chunk size
-          //   else if (
-          //     id.includes("node_modules/graphql/") ||
-          //     id.includes("node_modules/@apollo/")
-          //   ) {
-          //     return "@apollo";
-          //   }
-          //   // creating another chunk. Reducing the vendor chunk size
-          //   // else if (id.includes("/styled-components") || id.includes("/zod")) {
-          //   //   return "@styled-zod";
-          //   // }
-          //   // creating another chunk. Reducing the vendor chunk size
-          //   // else if (
-          //   //   id.includes("/@hookform") ||
-          //   //   id.includes("react-hook-form")
-          //   // ) {
-          //   //   return "@hookform";
-          //   // }
-          //   // creating another chunk. Reducing the vendor chunk size
-          //   // else if (id.includes("/react-dom") || id.includes("/react")) {
-          //   //   return "@dom";
-          //   // }
-          //   // creating another chunk. Reducing the vendor chunk size
-          //   else if (id.includes("/@ant-design")) {
-          //     return "@ant-design";
-          //   }
-          //   // creating a @antd chunk. Reducing the vendor chunk size
-          //   else if (id.includes("/antd")) {
-          //     return "@antd";
-          //   }
-          //   // creating another chunk. Reducing the vendor chunk size
-          //   // else if (id.includes("")) {
-          //   //   return "";
-          //   // }
-          //   // creating a @vendor chunk
-          //   else {
-          //     const info = getModuleInfo(id);
-          //     if (info?.meta?.commonjs?.isCommonJS) {
-          //       return "@cjs-vendor";
-          //     } else if (info?.code?.includes("createContext")) {
-          //       console.log(getModuleInfo(id), "\n");
-          //     }
-          //   }
-          // },
+          manualChunks: (id, { getModuleInfo }) => {
+            if (
+              id.includes("/react-router") ||
+              id.includes("/react-router") ||
+              id.includes("/@remix")
+            ) {
+              // creating a @react-router chunk. Reducing the vendor chunk size
+              return "@react-router";
+            }
+            if (id.includes("/@mui")) {
+              // creating a vendor chunk
+              return "@mui-vendor";
+            }
+            // else {
+            //   const info = getModuleInfo(id);
+            //   if (info?.meta?.commonjs?.isCommonJS) {
+            //     return "@cjs-vendor";
+            //   } else if (info?.code?.includes("createContext")) {
+            //     console.log(getModuleInfo(id), "\n");
+            //   }
+            // }
+          },
         },
       },
     },

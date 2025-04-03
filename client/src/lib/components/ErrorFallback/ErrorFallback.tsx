@@ -1,6 +1,8 @@
 import { useCallback, useRef } from "react";
 import { FallbackProps } from "react-error-boundary";
 import { useNavigate } from "react-router";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
 type ErrorFallbackProps = FallbackProps & { message?: string };
 
@@ -21,15 +23,15 @@ export const ErrorFallback = ({
   }, [resetErrorBoundary]);
 
   return (
-    <div id="contianer">
-      <div id="image container"></div>
-      <div id="message container">{message}</div>
-      <div id="actions container">
-        <button onClick={goToDashboard}>Go to Dashboard</button>
-        <button disabled={!canTryAgain} onClick={tryAgain}>
+    <Box id="contianer">
+      <Box id="image container"></Box>
+      <Box id="message container">{message}</Box>
+      <Box id="actions container">
+        <Button onClick={goToDashboard}>Go to Dashboard</Button>
+        <Button disabled={!canTryAgain} onClick={tryAgain}>
           Try again
-        </button>
-      </div>
-    </div>
+        </Button>
+      </Box>
+    </Box>
   );
 };

@@ -4,11 +4,8 @@ import {
   CreateMultipleCluesDocument,
   GetOrderedCluesDocument,
 } from "@generated/graphql";
-import { CreateCluesFormState } from "../components/CreateCluesDialog/CreateCluesDialog";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 import { useToast } from "@lib/hooks/useToast";
-
-type RequiredFormState = CreateCluesFormState & { isMulti: true };
 
 export const useCreateMultipleCluesMutation = () => {
   const { hunt } = useHuntFragment();
@@ -32,7 +29,7 @@ export const useCreateMultipleCluesMutation = () => {
   );
 
   const handleCreateMultipleClues = useCallback(
-    async ({ cluesList }: RequiredFormState) => {
+    async (cluesList: string[]) => {
       await createMultipleClues({
         variables: {
           input: {

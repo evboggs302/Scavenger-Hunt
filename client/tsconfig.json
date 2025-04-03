@@ -15,7 +15,8 @@
       "@routes/*": ["./src/routes/*"],
       "@features/*": ["./src/features/*"],
       "@msw/*": ["./msw/*"],
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@test/*": ["src/test/*"]
     }
   },
   "exclude": ["node_modules", "storybook-static"]

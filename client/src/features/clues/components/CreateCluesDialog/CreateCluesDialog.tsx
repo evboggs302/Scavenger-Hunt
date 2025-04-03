@@ -18,8 +18,8 @@ import pluralize from "pluralize";
 import { ApolloError } from "@apollo/client/errors";
 import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 import {
-  CreateCluesFormSchemaType,
-  useCreateCluesResolver,
+  CluesFormState,
+  useCluesResolver,
 } from "@features/clues/hooks/useCluesResolver";
 import { useCreateSingleClueMutation } from "@features/clues/hooks/useCreateSingleClueMutation";
 import { useCreateMultipleCluesMutation } from "@features/clues/hooks/useCreateMultipleCluesMutation";
@@ -30,17 +30,13 @@ type CreateDialogProps = {
   handleClose: () => void;
 };
 
-export type CreateCluesFormState = CreateCluesFormSchemaType & {
-  onSubmitError?: string;
-};
-
 export const CreateCluesDialog = ({ handleClose }: CreateDialogProps) => {
-  const [resolver] = useCreateCluesResolver();
+  const [resolver] = useCluesResolver();
   const [createSingle, singleClueResult] = useCreateSingleClueMutation();
   const [createMultiple, mutlipleCluesResult] =
     useCreateMultipleCluesMutation();
 
-  const methods = useForm<CreateCluesFormState>({
+  const methods = useForm<CluesFormState>({
     mode: "onTouched",
     resolver,
   });
@@ -64,15 +60,15 @@ export const CreateCluesDialog = ({ handleClose }: CreateDialogProps) => {
     defaultValue: false,
   });
 
-  const onSubmit: SubmitHandler<CreateCluesFormState> = async (formData) => {
+  const onSubmit: SubmitHandler<CluesFormState> = async (formData) => {
     clearErrors("onSubmitError");
     await trigger();
 
     try {
       if (formData.isMulti) {
-        await createMultiple(formData);
+        await createMultiple(formData.cluesList);
       } else {
-        await createSingle(formData);
+        await createSingle(formData.description);
       }
       handleClose();
     } catch (err) {

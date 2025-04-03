@@ -1,0 +1,23 @@
+{
+  "ToCountry": "<country abbreviation>",
+  "MediaContentType0": "image/jpeg",
+  "ToState": "<state abbreviation related to TWILIO phone number>",
+  "SmsMessageSid": "MM7462aee02e91ad2d84bce6c996780c33",
+  "NumMedia": "1",
+  "ToCity": "<city related to TWILIO phone number>",
+  "FromZip": "<sender phone number zip>",
+  "SmsSid": "MM7462aee02e91ad2d84bce6c996780c33",
+  "FromState": "<state abreviation>",
+  "SmsStatus": "received",
+  "FromCity": "<sender city>",
+  "Body": "",
+  "FromCountry": "<sender country abbreviation>",
+  "To": "<TWILIO phone number w/ country code>",
+  "ToZip": "<TWILIO phone number zip>",
+  "NumSegments": "1",
+  "MessageSid": "MM7462aee02e91ad2d84bce6c996780c33",
+  "AccountSid": "<ACCOUNT_SID>",
+  "From": "<sender phone number w/ country code>",
+  "MediaUrl0": "https://api.twilio.com/2010-04-01/Accounts/<ACCOUNT_SID>/Messages/MM7462aee02e91ad2d84bce6c996780c33/Media/MEef1a79097bda800a4240cc4082f41ae0",
+  "ApiVersion": "2010-04-01"
+}

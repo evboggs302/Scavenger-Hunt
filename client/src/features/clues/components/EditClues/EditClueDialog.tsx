@@ -10,12 +10,12 @@ import { useUpdateClueDescriptionMutation } from "@features/clues/hooks/useUpdat
 import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
-import { useCreateCluesResolver } from "@features/clues/hooks/useCluesResolver";
+import {
+  CluesFormState,
+  useCluesResolver,
+} from "@features/clues/hooks/useCluesResolver";
 import { SubmitHandler, useController, useForm } from "react-hook-form";
-import { CreateCluesFormState } from "../CreateCluesDialog/CreateCluesDialog";
 import Box from "@mui/material/Box";
-
-type UpdateClueDescriptionState = CreateCluesFormState & { isMulti: false };
 
 type DeleteDialogProps = {
   clue_id: string;
@@ -28,10 +28,10 @@ export const EditClueDialog = ({
   description,
   handleClose,
 }: DeleteDialogProps) => {
-  const [resolver] = useCreateCluesResolver();
+  const [resolver] = useCluesResolver();
   const [updateClue, { error, loading }] = useUpdateClueDescriptionMutation();
 
-  const methods = useForm<UpdateClueDescriptionState>({
+  const methods = useForm<CluesFormState>({
     mode: "onTouched",
     resolver,
     defaultValues: {
@@ -56,15 +56,17 @@ export const EditClueDialog = ({
 
   const isSaveDisabled = !isValid || loading || field.value === description;
 
-  const onSubmit: SubmitHandler<UpdateClueDescriptionState> = async (
-    formData
-  ) => {
+  const onSubmit: SubmitHandler<CluesFormState> = async (formData) => {
     clearErrors("onSubmitError");
     await trigger();
 
     try {
-      await updateClue({ clue_id, description: formData.description });
-      handleClose();
+      if (!formData.isMulti) {
+        await updateClue({ clue_id, description: formData.description });
+        handleClose();
+      } else {
+        throw new Error("Multiple clues are not supported.");
+      }
     } catch {
       reset();
     }
@@ -74,9 +76,11 @@ export const EditClueDialog = ({
     <Dialog
       open={true}
       onClose={handleClose}
-      PaperProps={{
-        component: "form",
-        onSubmit: handleSubmit(onSubmit),
+      slotProps={{
+        paper: {
+          component: "form",
+          onSubmit: handleSubmit(onSubmit),
+        },
       }}
     >
       <DialogTitle data-testid="create-hunt-title">Update clue</DialogTitle>

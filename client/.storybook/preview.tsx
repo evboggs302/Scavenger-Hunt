@@ -25,7 +25,7 @@ export const loaders = [mswLoader];
 
 export const parameters = {
   msw: {
-    handlers: { ...mswHandlers },
+    handlers: mswHandlers,
   },
   controls: {
     matchers: {

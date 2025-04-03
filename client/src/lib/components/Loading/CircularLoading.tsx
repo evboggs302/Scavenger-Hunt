@@ -4,6 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 export const CircularLoading = () => {
   return (
     <Box
+      data-testid="circular-loading"
       sx={{
         width: "100%",
         height: "100%",
