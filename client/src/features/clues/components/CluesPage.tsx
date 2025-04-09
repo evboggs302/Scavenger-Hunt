@@ -3,7 +3,6 @@ import {
   closestCenter,
   DndContext,
   DragEndEvent,
-  DragOverlay,
   DragStartEvent,
   KeyboardSensor,
   PointerSensor,
@@ -12,7 +11,6 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { restrictToWindowEdges } from "@dnd-kit/modifiers";
-import { ClueCard } from "./ClueCard";
 import { ClueCardList } from "./ClueCardList";
 import { ManageCluesMenu } from "./ManageCluesMenu";
 import { ManagementButtonsContainer } from "@lib/components/ManagementButtons/ManagementButtonsContainer";
