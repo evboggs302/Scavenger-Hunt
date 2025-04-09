@@ -8,8 +8,10 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import { CreateTeamsDialog } from "./CreateTeamsDialog/CreateTeamsDialog";
 import { DeleteAllTeamsDialog } from "./DeleteTeamsDialog/DeleteAllTeamsDialog";
+import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 
 export const ManageTeamsMenu = () => {
+  const { hunt } = useHuntFragment();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleTriggerClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -30,6 +32,7 @@ export const ManageTeamsMenu = () => {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleTriggerClick}
+        disabled={hunt.is_active}
       >
         Manage Teams
       </Button>
@@ -38,8 +41,10 @@ export const ManageTeamsMenu = () => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
+        slotProps={{
+          list: {
+            "aria-labelledby": "basic-button",
+          },
         }}
       >
         <MenuItem

@@ -10,7 +10,7 @@ Storybook: https://digital-scavenger-storybook.onrender.com/
 
 ### System Overview
 
-![sysytem-overview](image.png)
+![sysytem-overview](system-diagram.png)
 _\*Created via [eraser.io](https://www.eraser.io/)._
 
 ### Local Development - Getting Started

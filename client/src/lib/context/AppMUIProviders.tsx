@@ -22,8 +22,8 @@ export const AppMUIProviders = ({ children }: PropsWithChildren) => {
         preventDuplicate
         autoHideDuration={3_000}
         anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: "bottom",
+          horizontal: "right",
         }}
         iconVariant={{
           success: "✅",
