@@ -18,7 +18,7 @@ export const useRegisterMutation = () => {
     onCompleted: ({ registerUser }) => {
       localStorage.setItem("BEARER_TOKEN", registerUser.token);
       setToken(registerUser.token);
-      navigate("/dashboard");
+      navigate("/app");
     },
   });
 

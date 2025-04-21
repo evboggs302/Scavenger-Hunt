@@ -11,6 +11,7 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import { MenuButton } from "../MenuButton";
 import { useLogoutMutation } from "@features/baseApp/hooks/useLogoutMutation";
+import { useNavigate } from "react-router";
 
 const MenuItem = styled(MuiMenuItem)({
   margin: "2px 0",
@@ -20,7 +21,11 @@ export const OptionsMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
+  const navigate = useNavigate();
   const [logoutUser] = useLogoutMutation();
+
+  const navigateToAccount = () => navigate("/app/account");
+  const navigateToSettings = () => navigate("/app/settings");
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -66,11 +71,8 @@ export const OptionsMenu = () => {
           },
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <Divider />
-        <MenuItem onClick={handleClose}>Add another account</MenuItem>
-        <MenuItem onClick={handleClose}>Settings</MenuItem>
+        <MenuItem onClick={navigateToAccount}>My account</MenuItem>
+        <MenuItem onClick={navigateToSettings}>Settings</MenuItem>
         <Divider />
         <MenuItem
           onClick={handleLogout}

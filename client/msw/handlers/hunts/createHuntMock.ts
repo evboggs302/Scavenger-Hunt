@@ -21,6 +21,7 @@ export const createHuntMock = graphql.mutation(
           created_by: hexadecimalStr(),
           created_date: faker.date.recent({ days: 1 }).toISOString(),
           marked_complete: false,
+          twilio_number: faker.phone.number(),
         },
       },
     });

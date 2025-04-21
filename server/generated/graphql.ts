@@ -92,6 +92,7 @@ export type Hunt = {
   recall_message: Scalars['String']['output'];
   start_date: Scalars['String']['output'];
   teams?: Maybe<Array<Team>>;
+  twilio_number: Scalars['String']['output'];
 };
 
 export type LoginInput = {
@@ -600,6 +601,7 @@ export type HuntResolvers<ContextType = any, ParentType extends ResolversParentT
   recall_message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   start_date?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   teams?: Resolver<Maybe<Array<ResolversTypes['Team']>>, ParentType, ContextType>;
+  twilio_number?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

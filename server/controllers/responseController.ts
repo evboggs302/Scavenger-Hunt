@@ -21,13 +21,20 @@ export const responseController: Record<string, RequestHandler> = {
         { $unwind: "$hunt" },
         {
           $match: {
-            $expr: { $eq: ["$hunt.isActive", true] },
+            $expr: {
+              $and: [
+                { $eq: ["$hunt.is_active", true] },
+                {
+                  $eq: ["$hunt.twilio_number", req.body.To],
+                },
+              ],
+            },
           },
         },
       ]).exec();
 
       if (!team[0]) {
-        return res.send("No Active teams for that number.").status(500);
+        return res.send("No active teams for that number.").status(500);
       }
 
       req.body.time_received = new Date();
@@ -45,7 +52,7 @@ export const responseController: Record<string, RequestHandler> = {
   },
   saveSMS: async (req, res, next) => {
     try {
-      if (+req.body.NumMedia >= 1) return next(); // go on to save an MMS
+      if (+req.body.NumMedia >= 1) return next(); // move to NEXT to save an MMS
 
       const { team_id, clue_id, time_received, Body } = req.body;
       const t_id = createBsonObjectId(team_id);
@@ -73,7 +80,7 @@ export const responseController: Record<string, RequestHandler> = {
         .send("Error Reported. Please check error logs for more details.");
     }
   },
-  saveMMS: async (req, res, next) => {
+  saveMMS: async (req, res) => {
     try {
       const { team_id, clue_id, time_received, Body } = req.body;
       const t_id = createBsonObjectId(team_id);

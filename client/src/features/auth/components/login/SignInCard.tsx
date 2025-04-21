@@ -82,7 +82,6 @@ export const SignInCard = () => {
 
     try {
       await loginMutation(formData);
-      // throw new Error("try try try");
     } catch (err) {
       reset();
       if (err instanceof ApolloError) {

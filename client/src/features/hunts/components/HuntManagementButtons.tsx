@@ -51,6 +51,8 @@ export const HuntManagementButtons = () => {
               </Button>
             )}
             <Button
+              variant="outlined"
+              color="error"
               onClick={toggleOpenDialog}
               disabled={activateLoading || deleteLoading || hunt.is_active}
               startIcon={deleteLoading && <CircularProgress size={20} />}

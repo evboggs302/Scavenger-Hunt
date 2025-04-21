@@ -63,7 +63,7 @@ export const useDeleteHuntMutation = () => {
       deleteAllTeams(),
       deleteHunt(),
     ]).then(() => {
-      navigate("/dashboard", { relative: "path", replace: true });
+      navigate("/app", { relative: "path", replace: true });
     });
   }, [
     deleteAllClues,

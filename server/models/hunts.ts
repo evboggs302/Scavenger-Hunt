@@ -52,6 +52,10 @@ export const huntSchema = new Schema(
       default: "You've completed your hunt.",
       trim: true,
     },
+    twilio_number: {
+      type: String,
+      default: "",
+    },
   },
   {
     versionKey: false,

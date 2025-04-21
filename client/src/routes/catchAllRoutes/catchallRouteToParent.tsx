@@ -5,5 +5,5 @@ import { Navigate, RouteObject } from "react-router";
  */
 export const catchallRouteToParent: RouteObject = {
   path: "*",
-  element: <Navigate to="." relative="path" replace />,
+  element: <Navigate to=".." relative="path" replace />,
 };

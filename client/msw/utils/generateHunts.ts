@@ -33,6 +33,7 @@ export const generateHunts = (
       is_active,
       marked_complete: is_active ? false : faker.datatype.boolean(),
       recall_message: "Come on back now",
+      twilio_number: faker.phone.number(),
       teams,
       clues: generateClues(5, _id, teamIds),
     });
