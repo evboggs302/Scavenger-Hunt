@@ -14,8 +14,7 @@ export const ErrorFallback = ({
   const navigate = useNavigate();
   const canTryAgain = useRef(true);
 
-  const goToDashboard = () =>
-    navigate("/dashboard", { relative: "route", replace: true });
+  const goToDashboard = () => navigate("/app", { replace: true });
 
   const tryAgain = useCallback(() => {
     canTryAgain.current = false;

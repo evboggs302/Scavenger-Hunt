@@ -1,5 +1,3 @@
-import { Types } from "mongoose";
-import config from "../../config";
 import { HuntModel } from "../../models/hunts";
 import { ClueModel } from "../../models/clues";
 import { TeamModel } from "../../models/teams";
@@ -10,12 +8,13 @@ import {
   throwResolutionError,
   throwServerError,
 } from "../../utils/apolloErrorHandlers";
-import { twilioClient } from "../../utils/twilioClient";
-
-const { TWILIO_NUMBER } = config;
+import { activateHunt } from "./resolverFunctions/activateHunt";
+import { markHuntComplete } from "./resolverFunctions/markHuntComplete";
 
 const huntResolver: Resolvers = {
   Mutation: {
+    activateHunt,
+    markHuntComplete,
     createHunt: async (
       _parent: unknown,
       { input: { name, start_date, end_date, recall_message } },
@@ -148,114 +147,6 @@ const huntResolver: Resolvers = {
           message: "Unable to update hunts at this time.",
           location: name?.value,
           err,
-        });
-      }
-    },
-    activateHunt: async (
-      _parent: unknown,
-      { id },
-      _ctxt,
-      { operation: { name } }
-    ) => {
-      try {
-        const hunt_id = createBsonObjectId(id);
-        const teams = await TeamModel.find<{
-          _id: Types.ObjectId;
-          device_number: string;
-        }>({ hunt_id }, ["_id", "device_number"]).exec();
-
-        const huntsWithActiveDeviceNumbers = await HuntModel.aggregate(
-          [
-            { $match: { is_active: true } },
-            {
-              $lookup: {
-                from: "teams",
-                localField: "_id",
-                foreignField: "hunt_id",
-                as: "teams",
-              },
-            },
-            { $project: { teams: 1 } },
-            { $unwind: { path: "$teams" } },
-            {
-              $match: {
-                "teams.device_number": {
-                  $in: teams.map((tm) => tm.device_number),
-                },
-              },
-            },
-          ],
-          { maxTimeMS: 60000, allowDiskUse: true }
-        ).exec();
-
-        if (huntsWithActiveDeviceNumbers.length > 0) {
-          return throwResolutionError({
-            location: name?.value,
-            message: `Unable to activate at this time. The following device numbers are currently associated with an active event: ${huntsWithActiveDeviceNumbers.map((team) => team.device_number).join("\n")}`,
-          });
-        }
-
-        await HuntModel.updateOne({ _id: hunt_id }, { is_active: true }).exec();
-
-        // GET FIRST CLUE
-        const firstClue = await ClueModel.findOne({
-          hunt_id,
-          order_number: 1,
-        }).exec();
-
-        if (!firstClue) {
-          return throwResolutionError({
-            location: name?.value,
-            message: "No first clue esists.",
-          });
-        }
-
-        /**
-         * SEND FIRST CLUE USING TWILIO
-         */
-        Promise.all(
-          teams.map((tm) =>
-            twilioClient.messages.create({
-              body: `CLUE: ${firstClue.description}`,
-              from: `${TWILIO_NUMBER}`,
-              to: tm.device_number,
-            })
-          )
-        ).catch((reason) => {
-          return throwServerError({
-            location: name?.value + "_twilio",
-            message: "There was a problem sending out the first clue.",
-            err: reason,
-          });
-        });
-
-        return true;
-      } catch {
-        return throwServerError({
-          location: name?.value,
-          message: "Unable to activate this event.",
-        });
-      }
-    },
-    markHuntComplete: async (
-      _parent: unknown,
-      { id },
-      _ctxt,
-      { operation: { name } }
-    ) => {
-      try {
-        const hunt_id = createBsonObjectId(id);
-
-        await HuntModel.updateOne(
-          { _id: hunt_id },
-          { is_active: false, marked_complete: true }
-        ).exec();
-
-        return true;
-      } catch {
-        return throwServerError({
-          location: name?.value,
-          message: "Unable to deactivate this event.",
         });
       }
     },

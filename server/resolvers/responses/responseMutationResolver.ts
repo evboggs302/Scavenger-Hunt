@@ -1,4 +1,3 @@
-import config from "../../config";
 import { TeamModel } from "../../models/teams";
 import { ResponseModel } from "../../models/responses";
 import { Resolvers } from "../../generated/graphql";
@@ -10,8 +9,6 @@ import {
 } from "../../utils/apolloErrorHandlers";
 import { twilioClient } from "../../utils/twilioClient";
 
-const { TWILIO_NUMBER } = config;
-
 const responseResolver: Resolvers = {
   Mutation: {
     markResponseCorrect: async (
@@ -21,15 +18,20 @@ const responseResolver: Resolvers = {
       { operation: { name } }
     ) => {
       try {
-        const { device_number, recall_message, team_id, next_clue } =
-          await markResponseCorrect(id);
+        const {
+          device_number,
+          recall_message,
+          team_id,
+          next_clue,
+          twilio_number,
+        } = await markResponseCorrect(id);
 
         if (next_clue) {
           const { description, order_number } = next_clue;
 
           await twilioClient.messages.create({
             body: `${description}`,
-            from: `${TWILIO_NUMBER}`,
+            from: `${twilio_number}`,
             to: device_number,
           });
 
@@ -39,7 +41,7 @@ const responseResolver: Resolvers = {
         } else {
           await twilioClient.messages.create({
             body: `${recall_message}`,
-            from: `${TWILIO_NUMBER}`,
+            from: `${twilio_number}`,
             to: device_number,
           });
 
@@ -79,7 +81,7 @@ const responseResolver: Resolvers = {
           });
         }
 
-        const activeTeam = await TeamModel.aggregate([
+        const activeTeamHunt = await TeamModel.aggregate([
           {
             $match: { _id: t_id },
           },
@@ -93,7 +95,7 @@ const responseResolver: Resolvers = {
           },
         ]).exec();
 
-        if (!activeTeam)
+        if (!activeTeamHunt)
           return throwResolutionError({
             message: "No team exists for that number.",
             location: name?.value,
@@ -101,8 +103,8 @@ const responseResolver: Resolvers = {
 
         await twilioClient.messages.create({
           body: `${hint_body}`,
-          from: `${TWILIO_NUMBER}`,
-          to: activeTeam[0].device_number,
+          from: `${activeTeamHunt[0].twilio_number}`,
+          to: activeTeamHunt[0].device_number,
         });
 
         return true;

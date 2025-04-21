@@ -7,7 +7,6 @@ import ListItemText from "@mui/material/ListItemText";
 import Stack from "@mui/material/Stack";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ExtensionRoundedIcon from "@mui/icons-material/ExtensionRounded";
-import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { GetHuntsByUserIdDocument } from "@generated/graphql";
 import { useQuery } from "@apollo/client";
@@ -16,10 +15,6 @@ import Collapse from "@mui/material/Collapse";
 import Box from "@mui/material/Box";
 import { useToast } from "@lib/hooks/useToast";
 
-const secondaryListItems = [
-  { text: "Settings", icon: <SettingsRoundedIcon /> },
-];
-
 export const MenuContent = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,7 +22,8 @@ export const MenuContent = () => {
   const [toast] = useToast();
   const [isHuntsOpen, setHuntsOpen] = useState(true);
 
-  const navigateHome = () => navigate("/dashboard");
+  const navigateHome = () => navigate("/app");
+
   const handleHuntsClick = useCallback(
     () => setHuntsOpen(!isHuntsOpen),
     [isHuntsOpen, setHuntsOpen]
@@ -83,17 +79,6 @@ export const MenuContent = () => {
             {mappedHunts}
           </Collapse>
         </ListItem>
-      </List>
-
-      <List dense>
-        {secondaryListItems.map((item, index) => (
-          <ListItem key={index} disablePadding sx={{ display: "block" }}>
-            <ListItemButton>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
       </List>
     </Stack>
   );

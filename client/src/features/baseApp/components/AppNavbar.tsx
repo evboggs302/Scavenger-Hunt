@@ -79,7 +79,7 @@ export const AppNavbar = () => {
             sx={{ justifyContent: "center", mr: "auto" }}
           >
             <CustomIcon />
-            <Link to="/dashboard">
+            <Link to="/app">
               <Typography
                 variant="h4"
                 component="h1"

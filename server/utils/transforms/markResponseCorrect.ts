@@ -7,6 +7,7 @@ type AggregateResult = {
   response_id: string;
   device_number: string;
   recall_message: string;
+  twilio_number: string;
   next_clue: {
     _id: string;
     description: string;
@@ -116,6 +117,7 @@ export const markResponseCorrect = async (
           next_clue: 1,
           response_id: "$_id",
           hunt_id: "$hunt._id",
+          twilio_number: "$hunt.twilio_number",
           device_number: "$team.device_number",
           recall_message: "$hunt.recall_message",
         },

@@ -1,10 +1,7 @@
 import Stack from "@mui/material/Stack";
 import { CreateHuntButton } from "@features/hunts/components/CreateHuntDialog/CreateHuntButton";
-import { HuntManagementButtons } from "@features/hunts/components/HuntManagementButtons";
-import { useParams } from "react-router";
 
 export const Header = () => {
-  const { huntId } = useParams();
   return (
     <Stack
       direction="row"
@@ -19,7 +16,6 @@ export const Header = () => {
       spacing={2}
     >
       <CreateHuntButton />
-      {huntId && <HuntManagementButtons />}
     </Stack>
   );
 };

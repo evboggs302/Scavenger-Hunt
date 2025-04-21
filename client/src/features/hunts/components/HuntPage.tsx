@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import { useResponseCount } from "@features/responses/hooks/useResponseCount";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
+import { HuntManagementButtons } from "./HuntManagementButtons";
 
 export const HuntPage = () => {
   const navigate = useNavigate();
@@ -63,6 +64,7 @@ export const HuntPage = () => {
             disabled={isResponseTabDisabled}
           />
         </Tabs>
+        <HuntManagementButtons />
       </Box>
       <Box sx={{ flexGrow: 1, width: "100%", height: "100%" }}>
         <Outlet />

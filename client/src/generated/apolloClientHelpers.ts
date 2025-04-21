@@ -20,7 +20,7 @@ export type CluePayloadFieldPolicy = {
 	order_number?: FieldPolicy<any> | FieldReadFunction<any>,
 	responses?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type HuntKeySpecifier = ('_id' | 'clues' | 'created_by' | 'created_date' | 'end_date' | 'is_active' | 'marked_complete' | 'name' | 'recall_message' | 'start_date' | 'teams' | HuntKeySpecifier)[];
+export type HuntKeySpecifier = ('_id' | 'clues' | 'created_by' | 'created_date' | 'end_date' | 'is_active' | 'marked_complete' | 'name' | 'recall_message' | 'start_date' | 'teams' | 'twilio_number' | HuntKeySpecifier)[];
 export type HuntFieldPolicy = {
 	_id?: FieldPolicy<any> | FieldReadFunction<any>,
 	clues?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -32,7 +32,8 @@ export type HuntFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	recall_message?: FieldPolicy<any> | FieldReadFunction<any>,
 	start_date?: FieldPolicy<any> | FieldReadFunction<any>,
-	teams?: FieldPolicy<any> | FieldReadFunction<any>
+	teams?: FieldPolicy<any> | FieldReadFunction<any>,
+	twilio_number?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type MutationKeySpecifier = ('activateHunt' | 'createHunt' | 'createMultipleClues' | 'createMultipleTeams' | 'createSingleClue' | 'createSingleTeam' | 'deleteAllCluesByHuntId' | 'deleteAllResponsesByHunt' | 'deleteAllResponsesByTeam' | 'deleteAllTeamsByHuntId' | 'deleteClueById' | 'deleteHuntById' | 'deleteTeam' | 'login' | 'logout' | 'markHuntComplete' | 'markResponseCorrect' | 'registerUser' | 'sendHint' | 'updateClueDescription' | 'updateClueOrder' | 'updateHunt' | 'updateTeam' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {

@@ -8,6 +8,7 @@ fragment Hunt on Hunt {
   is_active
   marked_complete
   recall_message
+  twilio_number
 }
 
 fragment FullHunt on Hunt {
