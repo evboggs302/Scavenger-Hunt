@@ -1,0 +1,4 @@
+# The operation name of 'DeleteUser' is important for the server to see.
+mutation DeleteUser($userId: ID!) {
+  deleteUser(user_id: $userId)
+}

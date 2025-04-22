@@ -16,14 +16,11 @@ export const HuntManagementButtons = () => {
   const { huntHasCluesAndTeams } = useHuntHasCluesAndTeams();
   const [isDeleteHuntDialogOpen, setDeleteDialogOpen] = useState(false);
 
-  const [activateHunt, { loading: activateLoading, error: activateError }] =
+  const [activateHunt, { loading: activateLoading }] =
     useActivateHuntMutation();
-  const [
-    markHuntComplete,
-    { loading: markCompleteLoading, error: markCompleteError },
-  ] = useMarkHuntCompleted();
-  const { loading: deleteLoading, error: deleteError } =
-    useDeleteHuntMutation()[1];
+  const [markHuntComplete, { loading: markCompleteLoading }] =
+    useMarkHuntCompleted();
+  const [, { loading: deleteLoading }] = useDeleteHuntMutation();
 
   const toggleOpenDialog = useCallback(
     () => setDeleteDialogOpen((isOpen) => !isOpen),

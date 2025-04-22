@@ -43,6 +43,7 @@ export const HuntDetails = () => {
     is_active,
     recall_message,
     marked_complete,
+    twilio_number,
   } = data.hunt;
 
   const isInPast = dayjs().isAfter(dayjs(end_date).add(1, "day"));
@@ -83,6 +84,7 @@ export const HuntDetails = () => {
                 )}
                 <TableCell>Completed</TableCell>
                 <TableCell>Is active</TableCell>
+                {is_active && <TableCell>Sending phone number</TableCell>}
                 <TableCell>Recall message</TableCell>
               </TableRow>
             </TableHead>
@@ -111,6 +113,7 @@ export const HuntDetails = () => {
                     "---"
                   )}
                 </TableCell>
+                {is_active && <TableCell>{twilio_number}</TableCell>}
                 <TableCell>{recall_message}</TableCell>
               </TableRow>
             </TableBody>

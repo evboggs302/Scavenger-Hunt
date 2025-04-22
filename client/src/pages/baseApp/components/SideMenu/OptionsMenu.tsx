@@ -10,7 +10,7 @@ import ListItemIcon, { listItemIconClasses } from "@mui/material/ListItemIcon";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import { MenuButton } from "../MenuButton";
-import { useLogoutMutation } from "@features/baseApp/hooks/useLogoutMutation";
+import { useLogoutMutation } from "@pages/baseApp/hooks/useLogoutMutation";
 import { useNavigate } from "react-router";
 
 const MenuItem = styled(MuiMenuItem)({
@@ -24,7 +24,8 @@ export const OptionsMenu = () => {
   const navigate = useNavigate();
   const [logoutUser] = useLogoutMutation();
 
-  const navigateToAccount = () => navigate("/app/account");
+  const navigateToProfile = () => navigate("/app/profile");
+  const navigateToBilling = () => navigate("/app/billing");
   const navigateToSettings = () => navigate("/app/settings");
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
@@ -71,7 +72,8 @@ export const OptionsMenu = () => {
           },
         }}
       >
-        <MenuItem onClick={navigateToAccount}>My account</MenuItem>
+        <MenuItem onClick={navigateToProfile}>Profile</MenuItem>
+        <MenuItem onClick={navigateToBilling}>Billing</MenuItem>
         <MenuItem onClick={navigateToSettings}>Settings</MenuItem>
         <Divider />
         <MenuItem

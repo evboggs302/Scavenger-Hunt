@@ -1,37 +1,32 @@
 import { MouseEvent, useState } from "react";
-import { Link } from "react-router";
-import { SubmitHandler, useController, useForm } from "react-hook-form";
-import { ApolloError } from "@apollo/client";
-import { GoogleIcon, FacebookIcon } from "@lib/components/Auth/CustomIcons";
-import { ForgotPassword } from "./ForgotPassword";
-import { useLoginMutation } from "@features/auth/hooks/useLoginMutation";
-import {
-  LoginSchema,
-  useLoginResolver,
-} from "@features/auth/hooks/useLoginResolver";
-import { AuthCardContainer, AuthCard } from "../authLayout";
-import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
-import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
-
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
+import { Link } from "react-router";
+import { GoogleIcon, FacebookIcon } from "@lib/components/Auth/CustomIcons";
+import { useRegisterMutation } from "@pages/auth/hooks/useRegisterMutation";
+import {
+  RegisterSchema,
+  useRegisterResolver,
+} from "@pages/auth/hooks/useRegisterResolver";
+import { SubmitHandler, useController, useForm } from "react-hook-form";
+import { ApolloError } from "@apollo/client";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
-import CircularProgress from "@mui/material/CircularProgress";
+import { InputAdornment, IconButton, CircularProgress } from "@mui/material";
+import { AuthCardContainer, AuthCard } from "../authLayout";
+import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
+import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
 
-type Inputs = LoginSchema & {
+type Inputs = RegisterSchema & {
   onSubmitError?: string;
 };
 
-export const SignInCard = () => {
-  const [loginMutation, { loading }] = useLoginMutation();
+export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [isDilogOpen, setIsDilogOpen] = useState(false);
-  const [resolver] = useLoginResolver();
+  const [registerMutation, { loading }] = useRegisterMutation();
+  const [resolver] = useRegisterResolver();
 
   const {
     reset,
@@ -59,14 +54,16 @@ export const SignInCard = () => {
     control,
     defaultValue: "",
   });
-
-  const openChangePasswordDialog = () => {
-    setIsDilogOpen(true);
-  };
-
-  const closeChangePasswordDialog = () => {
-    setIsDilogOpen(false);
-  };
+  const { field: firstNameField, fieldState: firstNameState } = useController({
+    name: "firstName",
+    control,
+    defaultValue: "",
+  });
+  const { field: lastNameField, fieldState: lastNameState } = useController({
+    name: "lastName",
+    control,
+    defaultValue: "",
+  });
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
@@ -81,7 +78,8 @@ export const SignInCard = () => {
     await trigger();
 
     try {
-      await loginMutation(formData);
+      await registerMutation(formData);
+      // throw new Error("try try try");
     } catch (err) {
       reset();
       if (err instanceof ApolloError) {
@@ -99,12 +97,12 @@ export const SignInCard = () => {
     <AuthCardContainer direction="column" justifyContent="space-between">
       <AuthCard variant="outlined">
         <Typography
-          data-testid="login-title"
+          data-testid="register-title"
           component="h1"
           variant="h4"
           sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
         >
-          Sign in
+          Sign up
         </Typography>
         {onSubmitError && <TryAgainAlert message={onSubmitError.message} />}
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -112,7 +110,7 @@ export const SignInCard = () => {
             required
             slotProps={{
               htmlInput: {
-                "data-testid": "login-username",
+                "data-testid": "register-username",
               },
             }}
             inputRef={usernameField.ref}
@@ -150,7 +148,7 @@ export const SignInCard = () => {
               type={showPassword ? "text" : "password"}
               slotProps={{
                 htmlInput: {
-                  "data-testid": "login-password",
+                  "data-testid": "register-password",
                 },
                 input: {
                   endAdornment: (
@@ -173,60 +171,96 @@ export const SignInCard = () => {
                 },
               }}
             />
-            <Button
-              component="button"
-              type="button"
-              onClick={openChangePasswordDialog}
-              sx={{ alignSelf: "baseline" }}
-            >
-              Forgot your password?
-            </Button>
+          </FieldWrapper>
+          <FieldWrapper>
+            <TextField
+              required
+              slotProps={{
+                htmlInput: {
+                  "data-testid": "register-firstname",
+                },
+              }}
+              inputRef={firstNameField.ref}
+              name={firstNameField.name}
+              value={firstNameField.value}
+              onBlur={firstNameField.onBlur}
+              onChange={firstNameField.onChange}
+              label="First name"
+              placeholder="Enter your first name"
+              error={!!firstNameState.error}
+              helperText={
+                firstNameState.error ? firstNameState.error.message : null
+              }
+              color={firstNameState.error ? "error" : "primary"}
+              fullWidth
+              variant="outlined"
+            />
+          </FieldWrapper>
+          <FieldWrapper>
+            <TextField
+              required
+              slotProps={{
+                htmlInput: {
+                  "data-testid": "register-lastname",
+                },
+              }}
+              inputRef={lastNameField.ref}
+              name={lastNameField.name}
+              value={lastNameField.value}
+              onBlur={lastNameField.onBlur}
+              onChange={lastNameField.onChange}
+              label="Last name"
+              placeholder="Enter your last name"
+              error={!!lastNameState.error}
+              helperText={
+                lastNameState.error ? lastNameState.error.message : null
+              }
+              color={lastNameState.error ? "error" : "primary"}
+              fullWidth
+              variant="outlined"
+            />
           </FieldWrapper>
           {/* <FormControlLabel
-          control={<Checkbox value="remember" color="primary" />}
-          label="Remember me"
-        /> */}
-          <ForgotPassword
-            open={isDilogOpen}
-            handleClose={closeChangePasswordDialog}
-          />
+            control={<Checkbox value="allowExtraEmails" color="primary" />}
+            label="I want to receive updates via email."
+          /> */}
           <Button
-            data-testid="login-submit"
+            data-testid="register-submit"
             type="submit"
             disabled={!isValid || loading}
             fullWidth
             variant="contained"
             endIcon={loading && <CircularProgress size={20} />}
           >
-            Sign in
+            Sign up
           </Button>
-          <Typography sx={{ textAlign: "center" }}>
-            Don&apos;t have an account?{" "}
-            <span>
-              <Link to="/register" style={{ alignSelf: "center" }}>
-                Sign up
-              </Link>
-            </span>
-          </Typography>
         </form>
-        <Divider>or</Divider>
+        <Divider>
+          <Typography sx={{ color: "text.secondary" }}>or</Typography>
+        </Divider>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <Button
             fullWidth
             variant="outlined"
-            onClick={() => alert("Sign in with Google")}
+            onClick={() => alert("Sign up with Google")}
             startIcon={<GoogleIcon />}
           >
-            Sign in with Google
+            Sign up with Google
           </Button>
           <Button
             fullWidth
             variant="outlined"
-            onClick={() => alert("Sign in with Facebook")}
+            onClick={() => alert("Sign up with Facebook")}
             startIcon={<FacebookIcon />}
           >
-            Sign in with Facebook
+            Sign up with Facebook
           </Button>
+          <Typography sx={{ textAlign: "center" }}>
+            Already have an account?{" "}
+            <Link to="/login" style={{ alignSelf: "center" }}>
+              Sign in
+            </Link>
+          </Typography>
         </Box>
       </AuthCard>
     </AuthCardContainer>

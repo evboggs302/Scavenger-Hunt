@@ -82,7 +82,6 @@ After the server is running, do the following from inside Postman:
 ```txt
 TWILIO_ACCT_SID=< provided by Twilio >
 TWILIO_AUTH_TOKEN=< provided by Twilio >
-TWILIO_NUMBER=< provided by Twilio >
 
 # FOR LOCAL DEV ONLY - PROD VALUES SET VIA CI PIPELINE
 CLIENT_URL=http://localhost:< port >

@@ -1,20 +1,15 @@
-import {
-  MutationMarkHuntCompleteArgs,
-  RequireFields,
-  Resolver,
-  ResolverTypeWrapper,
-} from "generated/graphql";
-import { HuntModel } from "models/hunts";
-import { throwServerError } from "utils/apolloErrorHandlers";
-import { createBsonObjectId } from "utils/transforms/createBsonObjectId";
-import { deprovisionNumber } from "utils/twilioActions/deprovisionNumber";
+import { MutationResolvers } from "generated/graphql";
+import { HuntModel } from "../../../models/hunts";
+import { throwServerError } from "../../../utils/apolloErrorHandlers";
+import { createBsonObjectId } from "../../../utils/transforms/createBsonObjectId";
+import { deprovisionNumber } from "../../../utils/twilioActions/deprovisionNumber";
 
-export const markHuntComplete: Resolver<
-  ResolverTypeWrapper<boolean>,
-  unknown,
-  unknown,
-  RequireFields<MutationMarkHuntCompleteArgs, "id">
-> = async (_parent: unknown, { id }, _ctxt, { operation: { name } }) => {
+export const markHuntComplete: MutationResolvers["markHuntComplete"] = async (
+  _parent: unknown,
+  { id },
+  _ctxt,
+  { operation: { name } }
+) => {
   try {
     const hunt_id = createBsonObjectId(id);
     const hunt = await HuntModel.findOne({ _id: hunt_id }).exec();

@@ -16,7 +16,8 @@
       "@features/*": ["./src/features/*"],
       "@msw/*": ["./msw/*"],
       "@/*": ["src/*"],
-      "@test/*": ["src/test/*"]
+      "@test/*": ["src/test/*"],
+      "@pages/*": ["src/pages/*"]
     }
   },
   "exclude": ["node_modules", "storybook-static"]

@@ -1,5 +1,5 @@
 import { Outlet } from "react-router";
-import { AppNavbar } from "@features/baseApp/components/AppNavbar";
+import { AppNavbar } from "@pages/baseApp/components/AppNavbar";
 import { UserQryContextProvider } from "@lib/context/UserContext";
 import Box from "@mui/material/Box";
 import { SideMenu } from "./SideMenu/SideMenu";

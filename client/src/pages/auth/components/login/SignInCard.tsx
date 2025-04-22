@@ -1,32 +1,37 @@
 import { MouseEvent, useState } from "react";
+import { Link } from "react-router";
+import { SubmitHandler, useController, useForm } from "react-hook-form";
+import { ApolloError } from "@apollo/client";
+import { GoogleIcon, FacebookIcon } from "@lib/components/Auth/CustomIcons";
+import { ForgotPassword } from "./ForgotPassword";
+import { useLoginMutation } from "@pages/auth/hooks/useLoginMutation";
+import {
+  LoginSchema,
+  useLoginResolver,
+} from "@pages/auth/hooks/useLoginResolver";
+import { AuthCardContainer, AuthCard } from "../authLayout";
+import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
+import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
+
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { Link } from "react-router";
-import { GoogleIcon, FacebookIcon } from "@lib/components/Auth/CustomIcons";
-import { useRegisterMutation } from "@features/auth/hooks/useRegisterMutation";
-import {
-  RegisterSchema,
-  useRegisterResolver,
-} from "@features/auth/hooks/useRegisterResolver";
-import { SubmitHandler, useController, useForm } from "react-hook-form";
-import { ApolloError } from "@apollo/client";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
-import { InputAdornment, IconButton, CircularProgress } from "@mui/material";
-import { AuthCardContainer, AuthCard } from "../authLayout";
-import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
-import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
+import CircularProgress from "@mui/material/CircularProgress";
 
-type Inputs = RegisterSchema & {
+type Inputs = LoginSchema & {
   onSubmitError?: string;
 };
 
-export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
+export const SignInCard = () => {
+  const [loginMutation, { loading }] = useLoginMutation();
   const [showPassword, setShowPassword] = useState(false);
-  const [registerMutation, { loading }] = useRegisterMutation();
-  const [resolver] = useRegisterResolver();
+  const [isDilogOpen, setIsDilogOpen] = useState(false);
+  const [resolver] = useLoginResolver();
 
   const {
     reset,
@@ -54,16 +59,14 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
     control,
     defaultValue: "",
   });
-  const { field: firstNameField, fieldState: firstNameState } = useController({
-    name: "firstName",
-    control,
-    defaultValue: "",
-  });
-  const { field: lastNameField, fieldState: lastNameState } = useController({
-    name: "lastName",
-    control,
-    defaultValue: "",
-  });
+
+  const openChangePasswordDialog = () => {
+    setIsDilogOpen(true);
+  };
+
+  const closeChangePasswordDialog = () => {
+    setIsDilogOpen(false);
+  };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
@@ -78,8 +81,7 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
     await trigger();
 
     try {
-      await registerMutation(formData);
-      // throw new Error("try try try");
+      await loginMutation(formData);
     } catch (err) {
       reset();
       if (err instanceof ApolloError) {
@@ -97,12 +99,12 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
     <AuthCardContainer direction="column" justifyContent="space-between">
       <AuthCard variant="outlined">
         <Typography
-          data-testid="register-title"
+          data-testid="login-title"
           component="h1"
           variant="h4"
           sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
         >
-          Sign up
+          Sign in
         </Typography>
         {onSubmitError && <TryAgainAlert message={onSubmitError.message} />}
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -110,7 +112,7 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
             required
             slotProps={{
               htmlInput: {
-                "data-testid": "register-username",
+                "data-testid": "login-username",
               },
             }}
             inputRef={usernameField.ref}
@@ -148,7 +150,7 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
               type={showPassword ? "text" : "password"}
               slotProps={{
                 htmlInput: {
-                  "data-testid": "register-password",
+                  "data-testid": "login-password",
                 },
                 input: {
                   endAdornment: (
@@ -171,96 +173,60 @@ export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
                 },
               }}
             />
-          </FieldWrapper>
-          <FieldWrapper>
-            <TextField
-              required
-              slotProps={{
-                htmlInput: {
-                  "data-testid": "register-firstname",
-                },
-              }}
-              inputRef={firstNameField.ref}
-              name={firstNameField.name}
-              value={firstNameField.value}
-              onBlur={firstNameField.onBlur}
-              onChange={firstNameField.onChange}
-              label="First name"
-              placeholder="Enter your first name"
-              error={!!firstNameState.error}
-              helperText={
-                firstNameState.error ? firstNameState.error.message : null
-              }
-              color={firstNameState.error ? "error" : "primary"}
-              fullWidth
-              variant="outlined"
-            />
-          </FieldWrapper>
-          <FieldWrapper>
-            <TextField
-              required
-              slotProps={{
-                htmlInput: {
-                  "data-testid": "register-lastname",
-                },
-              }}
-              inputRef={lastNameField.ref}
-              name={lastNameField.name}
-              value={lastNameField.value}
-              onBlur={lastNameField.onBlur}
-              onChange={lastNameField.onChange}
-              label="Last name"
-              placeholder="Enter your last name"
-              error={!!lastNameState.error}
-              helperText={
-                lastNameState.error ? lastNameState.error.message : null
-              }
-              color={lastNameState.error ? "error" : "primary"}
-              fullWidth
-              variant="outlined"
-            />
+            <Button
+              component="button"
+              type="button"
+              onClick={openChangePasswordDialog}
+              sx={{ alignSelf: "baseline" }}
+            >
+              Forgot your password?
+            </Button>
           </FieldWrapper>
           {/* <FormControlLabel
-            control={<Checkbox value="allowExtraEmails" color="primary" />}
-            label="I want to receive updates via email."
-          /> */}
+          control={<Checkbox value="remember" color="primary" />}
+          label="Remember me"
+        /> */}
+          <ForgotPassword
+            open={isDilogOpen}
+            handleClose={closeChangePasswordDialog}
+          />
           <Button
-            data-testid="register-submit"
+            data-testid="login-submit"
             type="submit"
             disabled={!isValid || loading}
             fullWidth
             variant="contained"
             endIcon={loading && <CircularProgress size={20} />}
           >
-            Sign up
+            Sign in
           </Button>
+          <Typography sx={{ textAlign: "center" }}>
+            Don&apos;t have an account?{" "}
+            <span>
+              <Link to="/register" style={{ alignSelf: "center" }}>
+                Sign up
+              </Link>
+            </span>
+          </Typography>
         </form>
-        <Divider>
-          <Typography sx={{ color: "text.secondary" }}>or</Typography>
-        </Divider>
+        <Divider>or</Divider>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <Button
             fullWidth
             variant="outlined"
-            onClick={() => alert("Sign up with Google")}
+            onClick={() => alert("Sign in with Google")}
             startIcon={<GoogleIcon />}
           >
-            Sign up with Google
+            Sign in with Google
           </Button>
           <Button
             fullWidth
             variant="outlined"
-            onClick={() => alert("Sign up with Facebook")}
+            onClick={() => alert("Sign in with Facebook")}
             startIcon={<FacebookIcon />}
           >
-            Sign up with Facebook
+            Sign in with Facebook
           </Button>
-          <Typography sx={{ textAlign: "center" }}>
-            Already have an account?{" "}
-            <Link to="/login" style={{ alignSelf: "center" }}>
-              Sign in
-            </Link>
-          </Typography>
         </Box>
       </AuthCard>
     </AuthCardContainer>

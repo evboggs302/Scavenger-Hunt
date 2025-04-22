@@ -21,6 +21,7 @@ fragment FullHunt on Hunt {
   marked_complete
   recall_message
   created_by
+  twilio_number
   teams {
     _id
     hunt_id

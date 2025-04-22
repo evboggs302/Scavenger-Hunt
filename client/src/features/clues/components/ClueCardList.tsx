@@ -6,13 +6,7 @@ import { CardList } from "@lib/components/Cards/CardList";
 import Box from "@mui/material/Box";
 import { VirtuosoGrid } from "react-virtuoso";
 
-export const ClueCardList = ({
-  canUpdateOrder,
-  clueList,
-}: {
-  clueList: ClueFragment[];
-  canUpdateOrder: boolean;
-}) => {
+export const ClueCardList = ({ clueList }: { clueList: ClueFragment[] }) => {
   const { setNodeRef } = useDroppable({
     id: "droppable",
     data: {
@@ -36,13 +30,7 @@ export const ClueCardList = ({
           components={{
             List: CardList,
           }}
-          itemContent={(_, item) => (
-            <ClueCard
-              key={item._id}
-              clue={item}
-              canUpdateOrder={canUpdateOrder}
-            />
-          )}
+          itemContent={(_, item) => <ClueCard key={item._id} clue={item} />}
         />
       </Box>
     </SortableContext>

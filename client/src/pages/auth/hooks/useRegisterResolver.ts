@@ -20,7 +20,7 @@ const schema = z.object({
   username: z
     .string({ message: "This field is required." })
     .trim()
-    .min(3, { message: "This field requires at least 3 characters." }),
+    .min(8, { message: "This field requires at least 8 characters." }),
 });
 
 export type RegisterSchema = z.infer<typeof schema>;

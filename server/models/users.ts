@@ -34,6 +34,10 @@ export const userSchema = new Schema(
       type: String,
       required: true,
     },
+    account: {
+      type: ObjectId,
+      ref: "Account",
+    },
   },
   {
     versionKey: false,
@@ -50,7 +54,10 @@ export const userSchema = new Schema(
     },
     statics: {
       async getUserForLogin(user_name: string) {
-        return await this.findOne({ user_name }).exec();
+        console.log(
+          await this.findOne({ user_name }).populate("account").exec()
+        );
+        return await this.findOne({ user_name }).populate("account").exec();
       },
       async findUsername(user_name: string) {
         return await this.find({ user_name }).select({ hash: 0 }).exec();
