@@ -26,6 +26,7 @@ export type AddUserInput = {
 export type AllUsersPayload = {
   __typename: 'AllUsersPayload';
   _id: Scalars['ID']['output'];
+  account: Scalars['String']['output'];
   first_name: Scalars['String']['output'];
   hunts?: Maybe<Array<Hunt>>;
   last_name: Scalars['String']['output'];
@@ -115,6 +116,7 @@ export type Mutation = {
   deleteClueById: Scalars['Boolean']['output'];
   deleteHuntById: Scalars['Boolean']['output'];
   deleteTeam: Scalars['Boolean']['output'];
+  deleteUser: Scalars['Boolean']['output'];
   login: AuthPayload;
   logout: Scalars['Boolean']['output'];
   markHuntComplete: Scalars['Boolean']['output'];
@@ -190,6 +192,11 @@ export type MutationDeleteHuntByIdArgs = {
 
 export type MutationDeleteTeamArgs = {
   team_id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteUserArgs = {
+  user_id: Scalars['ID']['input'];
 };
 
 
@@ -370,6 +377,7 @@ export type UpdateTeamInput = {
 export type UserPayload = {
   __typename: 'UserPayload';
   _id: Scalars['ID']['output'];
+  account: Scalars['String']['output'];
   first_name: Scalars['String']['output'];
   last_name: Scalars['String']['output'];
   user_name: Scalars['String']['output'];
@@ -567,6 +575,7 @@ export type MapDirectiveResolver<Result, Parent, ContextType = any, Args = MapDi
 
 export type AllUsersPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['AllUsersPayload'] = ResolversParentTypes['AllUsersPayload']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  account?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   first_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   hunts?: Resolver<Maybe<Array<ResolversTypes['Hunt']>>, ParentType, ContextType>;
   last_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -619,6 +628,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteClueById?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteClueByIdArgs, 'clue_id'>>;
   deleteHuntById?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteHuntByIdArgs, 'id'>>;
   deleteTeam?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteTeamArgs, 'team_id'>>;
+  deleteUser?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteUserArgs, 'user_id'>>;
   login?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>;
   logout?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   markHuntComplete?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationMarkHuntCompleteArgs, 'id'>>;
@@ -681,6 +691,7 @@ export type TeamResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type UserPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserPayload'] = ResolversParentTypes['UserPayload']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  account?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   first_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   last_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   user_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

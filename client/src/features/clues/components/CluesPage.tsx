@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   closestCenter,
   DndContext,
@@ -12,23 +12,18 @@ import {
 } from "@dnd-kit/core";
 import { restrictToWindowEdges } from "@dnd-kit/modifiers";
 import { ClueCardList } from "./ClueCardList";
-import { ManageCluesMenu } from "./ManageCluesMenu";
-import { ManagementButtonsContainer } from "@lib/components/ManagementButtons/ManagementButtonsContainer";
 import { useClueContext } from "@lib/context/ClueContext";
 import { useUpdateClueOrderMutation } from "../hooks/useUpdateClueOrderMutation";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { NoCardsToShowText } from "@lib/components/Cards/NoCardsToShowText";
 import { dragMeasuring } from "../utils/dragMeasuring";
 import { CluePayload } from "@generated/graphql";
-import Button from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
 
 export const CluesPage = () => {
   const { data } = useClueContext();
   const [items, setItems] = useState<CluePayload[]>([]);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
-  const [canUpdateOrder, setCanUpdateOrder] = useState(false);
-  const [updateOrder, { loading }] = useUpdateClueOrderMutation();
+  const [updateOrder] = useUpdateClueOrderMutation();
 
   useEffect(() => {
     if (data?.clues) {
@@ -39,11 +34,6 @@ export const CluesPage = () => {
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
-  );
-
-  const handleCanUpdateOrder = useCallback(
-    () => setCanUpdateOrder((val) => !val),
-    []
   );
 
   const activeIndex =
@@ -77,25 +67,6 @@ export const CluesPage = () => {
 
   return (
     <>
-      <ManagementButtonsContainer>
-        {canUpdateOrder && (
-          <Button
-            color="warning"
-            variant="outlined"
-            onClick={handleCanUpdateOrder}
-            startIcon={loading && <CircularProgress size={20} />}
-          >
-            Exit
-          </Button>
-        )}
-        {!canUpdateOrder && (
-          <ManageCluesMenu
-            hasItems={items.length > 0}
-            canUpdateOrder={canUpdateOrder}
-            setCanUpdateOrder={handleCanUpdateOrder}
-          />
-        )}
-      </ManagementButtonsContainer>
       {data?.clues.length === 0 && <NoCardsToShowText type="clues" />}
       {items.length > 0 && (
         <DndContext
@@ -107,7 +78,7 @@ export const CluesPage = () => {
           onDragCancel={handleOnDragCancel}
           onDragEnd={handleOnDragEnd}
         >
-          <ClueCardList clueList={items} canUpdateOrder={canUpdateOrder} />
+          <ClueCardList clueList={items} />
         </DndContext>
       )}
     </>

@@ -36,6 +36,10 @@ export const client = new ApolloClient({
   name: "digital-scavenger-client",
   link: from([errorLink, authLink, splitLink]),
   cache: new InMemoryCache(),
+  devtools: {
+    name: "digital-scavenger-client",
+    enabled: process.env.NODE_ENV === "development",
+  },
   defaultOptions: {
     watchQuery: {
       fetchPolicy: "cache-and-network",

@@ -1,7 +1,8 @@
 import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
-export type AllUsersPayloadKeySpecifier = ('_id' | 'first_name' | 'hunts' | 'last_name' | 'user_name' | AllUsersPayloadKeySpecifier)[];
+export type AllUsersPayloadKeySpecifier = ('_id' | 'account' | 'first_name' | 'hunts' | 'last_name' | 'user_name' | AllUsersPayloadKeySpecifier)[];
 export type AllUsersPayloadFieldPolicy = {
 	_id?: FieldPolicy<any> | FieldReadFunction<any>,
+	account?: FieldPolicy<any> | FieldReadFunction<any>,
 	first_name?: FieldPolicy<any> | FieldReadFunction<any>,
 	hunts?: FieldPolicy<any> | FieldReadFunction<any>,
 	last_name?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -35,7 +36,7 @@ export type HuntFieldPolicy = {
 	teams?: FieldPolicy<any> | FieldReadFunction<any>,
 	twilio_number?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('activateHunt' | 'createHunt' | 'createMultipleClues' | 'createMultipleTeams' | 'createSingleClue' | 'createSingleTeam' | 'deleteAllCluesByHuntId' | 'deleteAllResponsesByHunt' | 'deleteAllResponsesByTeam' | 'deleteAllTeamsByHuntId' | 'deleteClueById' | 'deleteHuntById' | 'deleteTeam' | 'login' | 'logout' | 'markHuntComplete' | 'markResponseCorrect' | 'registerUser' | 'sendHint' | 'updateClueDescription' | 'updateClueOrder' | 'updateHunt' | 'updateTeam' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('activateHunt' | 'createHunt' | 'createMultipleClues' | 'createMultipleTeams' | 'createSingleClue' | 'createSingleTeam' | 'deleteAllCluesByHuntId' | 'deleteAllResponsesByHunt' | 'deleteAllResponsesByTeam' | 'deleteAllTeamsByHuntId' | 'deleteClueById' | 'deleteHuntById' | 'deleteTeam' | 'deleteUser' | 'login' | 'logout' | 'markHuntComplete' | 'markResponseCorrect' | 'registerUser' | 'sendHint' | 'updateClueDescription' | 'updateClueOrder' | 'updateHunt' | 'updateTeam' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	activateHunt?: FieldPolicy<any> | FieldReadFunction<any>,
 	createHunt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -50,6 +51,7 @@ export type MutationFieldPolicy = {
 	deleteClueById?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteHuntById?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteTeam?: FieldPolicy<any> | FieldReadFunction<any>,
+	deleteUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	login?: FieldPolicy<any> | FieldReadFunction<any>,
 	logout?: FieldPolicy<any> | FieldReadFunction<any>,
 	markHuntComplete?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -106,9 +108,10 @@ export type TeamFieldPolicy = {
 	recall_sent?: FieldPolicy<any> | FieldReadFunction<any>,
 	responses?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserPayloadKeySpecifier = ('_id' | 'first_name' | 'last_name' | 'user_name' | UserPayloadKeySpecifier)[];
+export type UserPayloadKeySpecifier = ('_id' | 'account' | 'first_name' | 'last_name' | 'user_name' | UserPayloadKeySpecifier)[];
 export type UserPayloadFieldPolicy = {
 	_id?: FieldPolicy<any> | FieldReadFunction<any>,
+	account?: FieldPolicy<any> | FieldReadFunction<any>,
 	first_name?: FieldPolicy<any> | FieldReadFunction<any>,
 	last_name?: FieldPolicy<any> | FieldReadFunction<any>,
 	user_name?: FieldPolicy<any> | FieldReadFunction<any>

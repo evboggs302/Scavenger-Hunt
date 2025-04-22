@@ -8,6 +8,7 @@ type Mutation {
   registerUser(input: AddUserInput!): AuthPayload!
   login(input: LoginInput!): AuthPayload!
   logout: Boolean!
+  deleteUser(user_id: ID!): Boolean!
 }
 
 type UserPayload {
@@ -15,6 +16,7 @@ type UserPayload {
   user_name: String!
   first_name: String!
   last_name: String!
+  account: String!
 }
 
 type AllUsersPayload {
@@ -22,6 +24,7 @@ type AllUsersPayload {
   user_name: String!
   first_name: String!
   last_name: String!
+  account: String!
   hunts: [Hunt!]
 }
 

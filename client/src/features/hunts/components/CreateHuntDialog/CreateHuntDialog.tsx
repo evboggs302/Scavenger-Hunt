@@ -116,9 +116,11 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
       <Dialog
         open={true}
         onClose={handleClose}
-        PaperProps={{
-          component: "form",
-          onSubmit: handleSubmit(onSubmit),
+        slotProps={{
+          paper: {
+            component: "form",
+            onSubmit: handleSubmit(onSubmit),
+          },
         }}
       >
         <DialogTitle data-testid="create-hunt-title">

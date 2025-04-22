@@ -2,11 +2,12 @@ import { Navigate } from "react-router";
 import { ErrorBoundary } from "react-error-boundary";
 import { useTokenContext } from "@lib/context/TokenContext";
 import { ErrorFallback } from "@lib/components/ErrorFallback/ErrorFallback";
-import { BaseApp } from "@features/baseApp/components/BaseApp";
-import { HomePage } from "@features/home/components/HomePage";
+import { BaseApp } from "@pages/baseApp/components/BaseApp";
+import { HomePage } from "@pages/home/components/HomePage";
 import { catchallRouteToParent } from "./catchAllRoutes/catchallRouteToParent";
 import { HuntDashboardRouteObject } from "./HuntDashboardRouteObject";
 import Box from "@mui/material/Box";
+import { SettingsPage } from "@pages/settings/SettingsPage";
 
 const ProtectedBaseApp = () => {
   const { token } = useTokenContext();
@@ -39,13 +40,18 @@ export const AppRouteObject = {
       element: <HomePage />,
     },
     {
-      path: "account",
-      element: <Box>Account</Box>,
+      path: "billing",
+      element: <Box>Billing</Box>,
+      children: [catchallRouteToParent],
+    },
+    {
+      path: "profile",
+      element: <Box>Profile</Box>,
       children: [catchallRouteToParent],
     },
     {
       path: "settings",
-      element: <Box>Settings</Box>,
+      element: <SettingsPage />,
       children: [catchallRouteToParent],
     },
     HuntDashboardRouteObject,

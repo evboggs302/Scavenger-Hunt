@@ -1,26 +1,21 @@
-import {
-  MutationActivateHuntArgs,
-  RequireFields,
-  Resolver,
-  ResolverTypeWrapper,
-} from "generated/graphql";
+import { MutationResolvers } from "generated/graphql";
 import { twilioClient } from "../../../utils/twilioClient";
-import { createBsonObjectId } from "utils/transforms/createBsonObjectId";
-import { TeamModel } from "models/teams";
-import { HuntModel } from "models/hunts";
+import { createBsonObjectId } from "../../../utils/transforms/createBsonObjectId";
+import { TeamModel } from "../../../models/teams";
+import { HuntModel } from "../../../models/hunts";
 import {
   throwResolutionError,
   throwServerError,
-} from "utils/apolloErrorHandlers";
-import { ClueModel } from "models/clues";
-import { fetchNewNumber } from "utils/twilioActions/fetchNewNumber";
+} from "../../../utils/apolloErrorHandlers";
+import { ClueModel } from "../../../models/clues";
+import { fetchNewNumber } from "../../../utils/twilioActions/fetchNewNumber";
 
-export const activateHunt: Resolver<
-  ResolverTypeWrapper<boolean>,
-  unknown,
-  unknown,
-  RequireFields<MutationActivateHuntArgs, "id">
-> = async (_parent: unknown, { id }, _ctxt, { operation: { name } }) => {
+export const activateHunt: MutationResolvers["activateHunt"] = async (
+  _parent: unknown,
+  { id },
+  _ctxt,
+  { operation: { name } }
+) => {
   try {
     const hunt_id = createBsonObjectId(id);
     const hunt = await HuntModel.findOne({ _id: hunt_id }).exec();
@@ -84,21 +79,21 @@ export const activateHunt: Resolver<
     /**
      * SEND FIRST CLUE USING TWILIO
      */
-    Promise.all(
-      teams.map((tm) =>
-        twilioClient.messages.create({
-          body: `CLUE: ${firstClue.description}`,
-          from: `${updatedHunt.twilio_number}`,
-          to: tm.device_number,
-        })
-      )
-    ).catch((reason) => {
-      return throwServerError({
-        location: name?.value + "_send_twilio",
-        message: "There was a problem sending out the first clue.",
-        err: reason,
-      });
-    });
+    // Promise.all(
+    //   teams.map((tm) =>
+    //     twilioClient.messages.create({
+    //       body: `CLUE: ${firstClue.description}`,
+    //       from: `${updatedHunt.twilio_number}`,
+    //       to: tm.device_number,
+    //     })
+    //   )
+    // ).catch((reason) => {
+    //   return throwServerError({
+    //     location: name?.value + "_send_twilio",
+    //     message: "There was a problem sending out the first clue.",
+    //     err: reason,
+    //   });
+    // });
 
     return true;
   } catch {

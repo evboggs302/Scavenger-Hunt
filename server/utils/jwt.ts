@@ -14,19 +14,20 @@ interface SetTokenArgs {
   u_id: string;
 }
 
-export const createAndSaveToken = async (id: Types.ObjectId) => {
+export const createAndSaveToken = async (user_id: Types.ObjectId) => {
   try {
-    const token = setToken({ u_id: id.toString() });
+    const token = setToken({
+      u_id: user_id.toString(),
+    });
     const today = new Date();
     const expiresInMs = parseDuration("2d") as number;
 
-    const newToken = new TokenModel({
+    await TokenModel.create({
       token,
-      issuedToUser: id,
+      issuedToUser: user_id,
       issuedAt: today,
       expireAt: new Date(Date.now() + expiresInMs),
     });
-    await newToken.save();
 
     return token;
   } catch (err) {

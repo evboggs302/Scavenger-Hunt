@@ -1,5 +1,5 @@
-import { AuthOutlet } from "@features/auth/components/AuthOutlet";
-import { SignUpCard } from "@features/auth/components/register/SignUpCard";
+import { AuthOutlet } from "@pages/auth/components/AuthOutlet";
+import { SignUpCard } from "@pages/auth/components/register/SignUpCard";
 import { catchallRouteToParent } from "./catchAllRoutes/catchallRouteToParent";
 
 export const RegisterRouteObject = {

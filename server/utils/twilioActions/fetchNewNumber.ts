@@ -1,9 +1,15 @@
 import config from "../../config";
-import { throwResolutionError } from "utils/apolloErrorHandlers";
-import { twilioClient } from "utils/twilioClient";
+import { throwResolutionError } from "../apolloErrorHandlers";
+import { twilioClient } from "../twilioClient";
 
-const { SERVER_URL_GQL } = config;
+const { SERVER_TWILIO_WEBHOOK_URL } = config;
 
+/**
+ * @description
+ * Fetch a new Twilio number for the hunt, then update the number with the hunt ID and the servers Twilio webhook URL.
+ * @link https://www.twilio.com/docs/phone-numbers/api/availablephonenumber-mobile-resource
+ * @link https://www.twilio.com/docs/phone-numbers/api/incomingphonenumber-resource#update-an-incomingphonenumber-resource
+ */
 export const fetchNewNumber = async (hunt_id: string): Promise<string> => {
   try {
     const number = await twilioClient.availablePhoneNumbers("US").mobile.list({
@@ -16,20 +22,21 @@ export const fetchNewNumber = async (hunt_id: string): Promise<string> => {
       excludeForeignAddressRequired: true,
     });
 
-    if (!number[0].phoneNumber) {
+    if (!number[0]) {
       throw new Error();
     }
 
-    await twilioClient.incomingPhoneNumbers(number[0].phoneNumber).update({
-      friendlyName: `huntID-${hunt_id}`,
-      smsUrl: `${SERVER_URL_GQL}/twilio/sms`,
+    const phoneNumber = number[0].phoneNumber;
+    await twilioClient.incomingPhoneNumbers(phoneNumber).update({
+      friendlyName: `h_id-${hunt_id}`,
+      smsUrl: `${SERVER_TWILIO_WEBHOOK_URL}`,
     });
 
-    return number[0].phoneNumber;
+    return phoneNumber;
   } catch {
     return throwResolutionError({
       location: "fetchNewNumber",
-      message: "No available Twilio numbers.",
+      message: "No available phone numbers. Try again later.",
     });
   }
 };

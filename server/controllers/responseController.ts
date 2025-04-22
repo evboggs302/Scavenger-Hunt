@@ -59,15 +59,13 @@ export const responseController: Record<string, RequestHandler> = {
       const c_id = createBsonObjectId(clue_id);
       const timeStamp = new Date(time_received);
 
-      const newRes = new ResponseModel({
+      const newRes = await ResponseModel.create({
         _id: createBsonObjectId(),
         clue_id: c_id,
         team_id: t_id,
         response_txt: Body.length ? Body : " ",
         time_received: timeStamp,
       });
-
-      await newRes.save();
 
       await publishReceivedResponse(newRes.transformWithTypename());
 
@@ -95,7 +93,7 @@ export const responseController: Record<string, RequestHandler> = {
                 return req.body[k];
               });
 
-      const newRes = new ResponseModel({
+      const newRes = await ResponseModel.create({
         _id: createBsonObjectId(),
         team_id: t_id,
         clue_id: c_id,
@@ -103,7 +101,6 @@ export const responseController: Record<string, RequestHandler> = {
         response_img: media,
         time_received: timeStamp,
       });
-      await newRes.save();
 
       await publishReceivedResponse(newRes.transformWithTypename());
 

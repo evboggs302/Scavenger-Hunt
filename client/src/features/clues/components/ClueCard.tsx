@@ -14,14 +14,13 @@ import Box from "@mui/material/Box";
 import { useSortable } from "@dnd-kit/sortable";
 // import CardMedia from "@mui/material/CardMedia";
 
-type ClueCardProps = { clue: CluePayload; canUpdateOrder: boolean };
+type ClueCardProps = { clue: CluePayload };
 
 /**
  * @todo Implement clue media via ClueMedia component
  */
 export const ClueCard = ({
   clue: { _id, order_number, description },
-  canUpdateOrder,
 }: ClueCardProps) => {
   const { hunt } = useHuntFragment();
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -40,7 +39,7 @@ export const ClueCard = ({
     transition,
   } = useSortable({
     id: _id,
-    disabled: hunt.is_active || !canUpdateOrder,
+    disabled: hunt.is_active,
     animateLayoutChanges: () => true,
     data: {
       type: "clue",
@@ -51,21 +50,19 @@ export const ClueCard = ({
     try {
       await deleteClue(_id);
     } catch {
-      throw Error();
+      throw Error("Unable to delete clue.");
     }
   }, [_id, deleteClue]);
 
-  const cursor = isDragging ? "grabbing" : canUpdateOrder ? "grab" : "default";
+  const cursor = isDragging ? "grabbing" : "grab";
 
   return (
     <>
       <Card
-        ref={setNodeRef}
         id={_id}
         sx={{
           width: "380px",
           margin: "8px",
-          cursor,
           transition,
           transform: CSS.Translate.toString(transform),
           position: isDragging ? "relative" : "inherit",
@@ -81,17 +78,18 @@ export const ClueCard = ({
         image="/static/images/cards/contemplative-reptile.jpg"
       /> */}
         <CardContent>
-          {canUpdateOrder && (
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "flex-end",
-              }}
-            >
-              <DragIndicatorIcon />
-            </Box>
-          )}
+          <Box
+            ref={setNodeRef}
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end",
+              cursor,
+            }}
+          >
+            <DragIndicatorIcon />
+          </Box>
+
           <Typography gutterBottom variant="subtitle1" component="div">
             <strong>{order_number}</strong>. {description}
           </Typography>
@@ -99,7 +97,7 @@ export const ClueCard = ({
             <i>{_id}</i>
           </Typography>
         </CardContent>
-        {!hunt.is_active && !canUpdateOrder && (
+        {!hunt.is_active && (
           <CardActions sx={{ display: deleteLoading ? "none" : undefined }}>
             <Button size="small" onClick={handleDelete}>
               Delete
