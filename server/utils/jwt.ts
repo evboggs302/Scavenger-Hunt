@@ -12,17 +12,12 @@ const { ACCESS_TOKEN_SECRET, ACCESS_TOKEN_DURATION } = config;
 
 interface SetTokenArgs {
   u_id: string;
-  acct_id: string;
 }
 
-export const createAndSaveToken = async (
-  user_id: Types.ObjectId,
-  account_id: Types.ObjectId
-) => {
+export const createAndSaveToken = async (user_id: Types.ObjectId) => {
   try {
     const token = setToken({
       u_id: user_id.toString(),
-      acct_id: account_id?.toString(),
     });
     const today = new Date();
     const expiresInMs = parseDuration("2d") as number;
@@ -30,7 +25,6 @@ export const createAndSaveToken = async (
     const newToken = new TokenModel({
       token,
       issuedToUser: user_id,
-      issuedToAccount: account_id,
       issuedAt: today,
       expireAt: new Date(Date.now() + expiresInMs),
     });

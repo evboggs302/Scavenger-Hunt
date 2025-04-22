@@ -36,6 +36,10 @@ export const client = new ApolloClient({
   name: "digital-scavenger-client",
   link: from([errorLink, authLink, splitLink]),
   cache: new InMemoryCache(),
+  devtools: {
+    name: "digital-scavenger-client",
+    enabled: process.env.NODE_ENV === "development",
+  },
   defaultOptions: {
     watchQuery: {
       fetchPolicy: "cache-and-network",
@@ -43,6 +47,7 @@ export const client = new ApolloClient({
   },
 });
 
-export const ApolloClientProvider = ({ children }: PropsWithChildren) => (
-  <ApolloProvider client={client}>{children}</ApolloProvider>
-);
+export const ApolloClientProvider = ({ children }: PropsWithChildren) => {
+  console.log(process.env.NODE_ENV);
+  return <ApolloProvider client={client}>{children}</ApolloProvider>;
+};

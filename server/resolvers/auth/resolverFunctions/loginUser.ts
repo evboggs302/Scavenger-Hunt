@@ -33,7 +33,7 @@ export const loginUser: MutationResolvers["login"] = async (
       });
     }
 
-    const token = await createAndSaveToken(user._id, user.account);
+    const token = await createAndSaveToken(user._id);
     const tkn = await TokenModel.findOne({ token });
 
     if (!tkn) {

@@ -16,10 +16,6 @@ const tokenStorageSchema = new Schema(
       type: String,
       required: true,
     },
-    issuedToAccount: {
-      type: String,
-      required: true,
-    },
     issuedAt: {
       type: Date,
       required: true,

@@ -62,22 +62,23 @@ export const deleteUser: MutationResolvers["deleteUser"] = async (
     // DELETE ALL HUNTS ASSOCIATED WITH THE USER
     await HuntModel.deleteMany({
       created_by: _id,
-    });
+    }).exec();
 
     // DELETE ALL TOKENS ASSOCIATED WITH THE USER
-    await TokenModel.deleteMany({ issuedToUser: _id });
+    await TokenModel.deleteMany({ issuedToUser: _id }).exec();
 
     // DELETE THE ACCOUNT ASSOCIATED WITH THE USER
     await deleteTwilioSubAccount(user_id);
 
     // DELETE THE USER
-    const { deletedCount } = await UserModel.deleteOne({ _id });
+    const { deletedCount } = await UserModel.deleteOne({ _id }).exec();
 
     return deletedCount === 1;
-  } catch {
+  } catch (err) {
     return throwResolutionError({
-      message: "Unable to delete user.",
+      message: "Unable to delete user",
       location: name?.value,
+      err,
     });
   }
 };

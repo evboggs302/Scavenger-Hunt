@@ -18,6 +18,10 @@ export const useDeleteUserMutation = () => {
       userId: data?.user?._id || "",
     },
     onCompleted: () => {
+      toast({
+        variant: "success",
+        message: "User deleted successfully.",
+      });
       localStorage.clear();
       client.clearStore();
       setToken(null);

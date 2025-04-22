@@ -30,8 +30,9 @@ export const registerUser: MutationResolvers["registerUser"] = async (
     });
   }
 
-  const account = await createTwilioSubAccount(newUser._id.toString());
-  const token = await createAndSaveToken(u_id, account._id);
+  await createTwilioSubAccount(newUser._id.toString());
+
+  const token = await createAndSaveToken(u_id);
   const tkn = await TokenModel.findOne({ token });
 
   if (!tkn) {

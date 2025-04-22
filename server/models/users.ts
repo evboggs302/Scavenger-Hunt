@@ -54,9 +54,6 @@ export const userSchema = new Schema(
     },
     statics: {
       async getUserForLogin(user_name: string) {
-        console.log(
-          await this.findOne({ user_name }).populate("account").exec()
-        );
         return await this.findOne({ user_name }).populate("account").exec();
       },
       async findUsername(user_name: string) {

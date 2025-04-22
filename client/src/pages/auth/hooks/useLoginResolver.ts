@@ -6,7 +6,7 @@ const schema = z.object({
   username: z
     .string({ message: "A valid username is required." })
     .trim()
-    .min(3, { message: "A valid username is required." }),
+    .min(8, { message: "A valid username is required." }),
   password: z
     .string({ message: "A valid password is required." })
     .trim()

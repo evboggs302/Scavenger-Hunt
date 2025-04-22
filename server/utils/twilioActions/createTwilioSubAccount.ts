@@ -7,6 +7,9 @@ import { deleteTwilioSubAccount } from "./deleteTwilioSubAccount";
 import { AccountInstance } from "twilio/lib/rest/api/v2010/account";
 
 /**
+ * @description
+ * Creates a Twilio sub account for the user and saves the account information in the database.
+ * @param userId - The ID of the user for whom the Twilio sub account is to be created.
  * @link https://www.twilio.com/docs/iam/api/subaccounts#creating-subaccounts
  */
 export const createTwilioSubAccount = async (userId: string) => {
@@ -37,13 +40,14 @@ export const createTwilioSubAccount = async (userId: string) => {
       });
 
     return newAcct;
-  } catch {
+  } catch (err) {
     if (account) {
       await deleteTwilioSubAccount(account.sid);
     }
     return throwResolutionError({
       location: "createTwilioSubAccount",
-      message: "Unable to create a Twilio sub account. 3",
+      message: "Unable to create a Twilio sub account.",
+      err,
     });
   }
 };
