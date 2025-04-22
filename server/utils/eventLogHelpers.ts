@@ -14,7 +14,7 @@ export const createErrLog = async ({
   message,
 }: EventLogProps) => {
   const timeStamp = new Date();
-  const newLog = new LogModel({
+  await LogModel.create({
     _id: createBsonObjectId(),
     type: "ERROR",
     location,
@@ -23,13 +23,12 @@ export const createErrLog = async ({
       message,
       err,
     },
-  });
-  await newLog.save().catch((err) => {
+  }).catch((err) => {
     if (err)
       return throwServerError({
-        err,
         location: "createErrLog",
         message: "unable to save error to the logs",
+        err,
       });
   });
 };

@@ -22,13 +22,12 @@ export const createAndSaveToken = async (user_id: Types.ObjectId) => {
     const today = new Date();
     const expiresInMs = parseDuration("2d") as number;
 
-    const newToken = new TokenModel({
+    await TokenModel.create({
       token,
       issuedToUser: user_id,
       issuedAt: today,
       expireAt: new Date(Date.now() + expiresInMs),
     });
-    await newToken.save();
 
     return token;
   } catch (err) {

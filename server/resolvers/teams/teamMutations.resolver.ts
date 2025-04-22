@@ -16,14 +16,12 @@ const teamResolver: Resolvers = {
       { operation: { name } }
     ) => {
       const hunt_id = createBsonObjectId(h_id);
-      const tm = new TeamModel({
+      const team = await TeamModel.create({
         hunt_id,
         members,
         device_number,
       });
-      await tm.save();
 
-      const team = await TeamModel.findOne({ hunt_id }).exec();
       if (!team) {
         return throwResolutionError({
           message: "Unable to find team.",

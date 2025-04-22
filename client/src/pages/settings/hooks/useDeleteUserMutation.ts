@@ -20,7 +20,7 @@ export const useDeleteUserMutation = () => {
     onCompleted: () => {
       toast({
         variant: "success",
-        message: "User deleted successfully.",
+        message: "User account deleted successfully!",
       });
       localStorage.clear();
       client.clearStore();

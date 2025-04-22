@@ -68,13 +68,11 @@ const clueResolver: Resolvers = {
           .limit(1) // only the first item (ie. the last clue)
           .exec();
 
-        const clue = new ClueModel({
+        await ClueModel.create({
           hunt_id,
           order_number: lastClue[0]?.order_number + 1 || 1,
           description,
         });
-
-        await clue.save();
 
         const allClues = await ClueModel.find({ hunt_id })
           .sort({ order_number: 1 })

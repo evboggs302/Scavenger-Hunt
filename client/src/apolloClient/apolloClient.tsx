@@ -47,7 +47,6 @@ export const client = new ApolloClient({
   },
 });
 
-export const ApolloClientProvider = ({ children }: PropsWithChildren) => {
-  console.log(process.env.NODE_ENV);
-  return <ApolloProvider client={client}>{children}</ApolloProvider>;
-};
+export const ApolloClientProvider = ({ children }: PropsWithChildren) => (
+  <ApolloProvider client={client}>{children}</ApolloProvider>
+);
