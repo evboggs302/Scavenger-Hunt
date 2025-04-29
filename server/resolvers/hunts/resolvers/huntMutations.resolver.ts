@@ -1,16 +1,16 @@
 import { Resolvers } from "generated/graphql";
-import { HuntModel } from "../../models/hunts";
-import { ClueModel } from "../../models/clues";
-import { TeamModel } from "../../models/teams";
-import { ResponseModel } from "../../models/responses";
-import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
+import { HuntModel } from "../../../models/hunts";
+import { ClueModel } from "../../../models/clues";
+import { TeamModel } from "../../../models/teams";
+import { ResponseModel } from "../../../models/responses";
+import { createBsonObjectId } from "../../../utils/transforms/createBsonObjectId";
 import {
   throwResolutionError,
   throwServerError,
-} from "../../utils/apolloErrorHandlers";
-import { activateHunt } from "./resolverFunctions/activateHunt";
-import { markHuntComplete } from "./resolverFunctions/markHuntComplete";
-import { updateHunt } from "./resolverFunctions/updateHunt";
+} from "../../../utils/apolloErrorHandlers";
+import { activateHunt } from "../activateHunt";
+import { markHuntComplete } from "../markHuntComplete";
+import { updateHunt } from "../updateHunt";
 
 const huntResolver: Resolvers = {
   Mutation: {

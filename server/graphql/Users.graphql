@@ -2,6 +2,7 @@ type Query {
   getAllUsers: [AllUsersPayload]
   getUserFromToken: UserPayload!
   userNameExists(user_name: String!): Boolean!
+  emailExists(email: String!): Boolean!
 }
 
 type Mutation {
@@ -13,6 +14,7 @@ type Mutation {
 
 type UserPayload {
   _id: ID!
+  email: String!
   user_name: String!
   first_name: String!
   last_name: String!
@@ -21,6 +23,7 @@ type UserPayload {
 
 type AllUsersPayload {
   _id: ID!
+  email: String!
   user_name: String!
   first_name: String!
   last_name: String!
@@ -34,6 +37,7 @@ type AuthPayload {
 }
 
 input AddUserInput {
+  email: String!
   first_name: String!
   last_name: String!
   user_name: String!

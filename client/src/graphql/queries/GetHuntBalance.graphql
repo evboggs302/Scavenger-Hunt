@@ -1,0 +1,5 @@
+query GetHuntBalance($id: ID!) {
+  hunt: getHunt(id: $id) {
+    ...HuntBalance
+  }
+}

@@ -1,6 +1,6 @@
 import config from "../../config";
-import { throwResolutionError } from "../apolloErrorHandlers";
 import { twilioClient } from "../twilioClient";
+import { throwResolutionError } from "../apolloErrorHandlers";
 
 const { SERVER_TWILIO_WEBHOOK_URL } = config;
 
@@ -28,7 +28,7 @@ export const fetchNewNumber = async (hunt_id: string): Promise<string> => {
 
     const phoneNumber = number[0].phoneNumber;
     await twilioClient.incomingPhoneNumbers(phoneNumber).update({
-      friendlyName: `h_id-${hunt_id}`,
+      friendlyName: `HuntID-${hunt_id}`,
       smsUrl: `${SERVER_TWILIO_WEBHOOK_URL}`,
     });
 

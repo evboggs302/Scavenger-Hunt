@@ -10,6 +10,7 @@ type ENV = {
   SERVER_URL_GQL: string | undefined;
   SERVER_URL_SUBSCRIPTION: string | undefined;
   SERVER_TWILIO_WEBHOOK_URL: string | undefined;
+  STRIPE_SECRET_KEY: string | undefined;
   PORT: number | undefined;
   JWT_SECRET: string | undefined;
   ACCESS_TOKEN_SECRET: string | undefined;
@@ -26,6 +27,7 @@ type Config = {
   SERVER_URL_GQL: string;
   SERVER_URL_SUBSCRIPTION: string;
   SERVER_TWILIO_WEBHOOK_URL: string;
+  STRIPE_SECRET_KEY: string;
   CLIENT_URL: string;
   PORT: number;
   JWT_SECRET: Secret;
@@ -50,6 +52,7 @@ const getConfig = (): ENV => {
     SERVER_URL_GQL: process.env.SERVER_URL_GQL,
     SERVER_URL_SUBSCRIPTION: process.env.SERVER_URL_SUBSCRIPTION,
     SERVER_TWILIO_WEBHOOK_URL: process.env.SERVER_TWILIO_WEBHOOK_URL,
+    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
     JWT_SECRET: process.env.JWT_SECRET,
     ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET,
     REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET,

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { TeamCardList as Component } from "../components/TeamCardList";
+import { TeamsTable as Component } from "../components/TeamsTable/TeamsTable";
 
 const meta: Meta<typeof Component> = {
   title: "Components/Teams",

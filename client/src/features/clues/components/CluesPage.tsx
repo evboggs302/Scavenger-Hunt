@@ -21,15 +21,11 @@ import { CluePayload } from "@generated/graphql";
 
 export const CluesPage = () => {
   const { data } = useClueContext();
-  const [items, setItems] = useState<CluePayload[]>([]);
+  const [items, setItems] = useState<CluePayload[]>(
+    () => data?.clues.filter((clu) => !!clu) || []
+  );
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const [updateOrder] = useUpdateClueOrderMutation();
-
-  useEffect(() => {
-    if (data?.clues) {
-      setItems(data.clues.filter((clu) => !!clu));
-    }
-  }, [data]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),

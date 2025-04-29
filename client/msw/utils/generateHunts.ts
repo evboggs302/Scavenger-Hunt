@@ -31,6 +31,7 @@ export const generateHunts = (
       start_date,
       end_date: faker.date.future({ refDate: start_date }).toISOString(),
       is_active,
+      balance_usd: faker.number.float(),
       marked_complete: is_active ? false : faker.datatype.boolean(),
       recall_message: "Come on back now",
       twilio_number: faker.phone.number(),

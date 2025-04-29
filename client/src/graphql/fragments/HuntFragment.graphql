@@ -11,6 +11,12 @@ fragment Hunt on Hunt {
   twilio_number
 }
 
+fragment HuntBalance on Hunt {
+  _id
+  created_by
+  balance_usd
+}
+
 fragment FullHunt on Hunt {
   _id
   name

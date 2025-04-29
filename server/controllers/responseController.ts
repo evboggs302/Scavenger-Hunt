@@ -106,7 +106,7 @@ export const responseController: Record<string, RequestHandler> = {
 
       return res.status(200).send("Response Saved!");
     } catch (err) {
-      createErrLog({ location: "saveSMS", err });
+      createErrLog({ location: "saveMMS", err });
       return res
         .status(500)
         .send("Error Reported. Please check error logs for more details.");

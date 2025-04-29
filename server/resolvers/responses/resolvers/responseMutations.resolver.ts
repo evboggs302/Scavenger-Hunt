@@ -1,11 +1,11 @@
 import { Resolvers } from "generated/graphql";
-import { TeamModel } from "../../models/teams";
-import { ResponseModel } from "../../models/responses";
-import { markResponseCorrect } from "../../utils/transforms/markResponseCorrect";
-import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
-import { throwServerError } from "../../utils/apolloErrorHandlers";
-import { twilioClient } from "../../utils/twilioClient";
-import { sendHint } from "./resolverFunctions/sendHint";
+import { TeamModel } from "../../../models/teams";
+import { ResponseModel } from "../../../models/responses";
+import { markResponseCorrect } from "../../../utils/transforms/markResponseCorrect";
+import { createBsonObjectId } from "../../../utils/transforms/createBsonObjectId";
+import { throwServerError } from "../../../utils/apolloErrorHandlers";
+import { twilioClient } from "../../../utils/twilioClient";
+import { sendHint } from "../sendHint";
 
 const responseResolver: Resolvers = {
   Mutation: {

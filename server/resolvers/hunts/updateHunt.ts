@@ -1,10 +1,10 @@
 import { MutationResolvers } from "generated/graphql";
-import { HuntModel } from "../../../models/hunts";
+import { HuntModel } from "../../models/hunts";
 import {
   throwResolutionError,
   throwServerError,
-} from "../../../utils/apolloErrorHandlers";
-import { createBsonObjectId } from "../../../utils/transforms/createBsonObjectId";
+} from "../../utils/apolloErrorHandlers";
+import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
 
 export const updateHunt: MutationResolvers["updateHunt"] = async (
   _parent: unknown,

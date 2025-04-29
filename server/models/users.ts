@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { InferSchemaType, Schema, model } from "mongoose";
 
 const { ObjectId } = Schema.Types;
 export const userSchema = new Schema(
@@ -14,12 +14,12 @@ export const userSchema = new Schema(
       required: true,
       trim: true,
     },
-    // email: {
-    //   type: String,
-    //   unique: true,
-    //   trim: true,
-    //   required: true,
-    // },
+    email: {
+      type: String,
+      unique: true,
+      trim: true,
+      required: true,
+    },
     first_name: {
       type: String,
       required: true,
@@ -59,8 +59,12 @@ export const userSchema = new Schema(
       async findUsername(user_name: string) {
         return await this.find({ user_name }).select({ hash: 0 }).exec();
       },
+      async findEmail(email: string) {
+        return await this.find({ email }).select({ hash: 0 }).exec();
+      },
     },
   }
 );
 
+export type UserDocType = InferSchemaType<typeof userSchema>;
 export const UserModel = model("User", userSchema, "users"); // modelName, schemaName, collectionName

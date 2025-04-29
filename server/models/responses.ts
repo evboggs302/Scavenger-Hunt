@@ -19,10 +19,12 @@ export const responseSchema = new Schema(
     },
     team_id: {
       type: ObjectId,
+      ref: "Team",
       required: true,
     },
     clue_id: {
       type: ObjectId,
+      ref: "Clue",
       required: true,
     },
     response_txt: {

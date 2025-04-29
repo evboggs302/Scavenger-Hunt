@@ -1,4 +1,4 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, InferSchemaType } from "mongoose";
 
 function stringifyHunt(doc: Document) {
   const obj = Object(doc.toObject());
@@ -56,6 +56,10 @@ export const huntSchema = new Schema(
       type: String,
       default: "",
     },
+    balance_usd: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     versionKey: false,
@@ -79,4 +83,5 @@ export const huntSchema = new Schema(
   }
 );
 
+export type HuntDocType = InferSchemaType<typeof huntSchema>;
 export const HuntModel = model("Hunt", huntSchema, "hunts"); // modelName, schemaName, collectionName

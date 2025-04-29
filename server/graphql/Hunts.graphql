@@ -23,6 +23,7 @@ type Hunt {
   marked_complete: Boolean!
   recall_message: String!
   twilio_number: String!
+  balance_usd: Float!
   clues: [CluePayload!]
   teams: [Team!]
 }

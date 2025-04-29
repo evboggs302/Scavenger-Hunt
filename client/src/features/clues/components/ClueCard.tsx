@@ -82,7 +82,7 @@ export const ClueCard = ({
             ref={setNodeRef}
             sx={{
               width: "100%",
-              display: "flex",
+              display: hunt.is_active ? "none" : "flex",
               justifyContent: "flex-end",
               cursor,
             }}
