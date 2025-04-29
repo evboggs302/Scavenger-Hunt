@@ -1,12 +1,13 @@
 import { compareSync } from "bcryptjs";
 import { MutationResolvers } from "generated/graphql";
-import { TokenModel } from "../../../models/token_storage";
-import { UserModel } from "../../../models/users";
+import { UserModel } from "../../models/users";
+import { AccountModel } from "../../models/accounts";
 import {
   AuthenticationError,
   throwResolutionError,
-} from "../../../utils/apolloErrorHandlers";
-import { createAndSaveToken } from "../../../utils/jwt";
+} from "../../utils/apolloErrorHandlers";
+import { createAndSaveToken } from "../../utils/jwt";
+import { fetchStripeSubscription } from "../../utils/stripeActions/fetchStripeSubscription";
 
 export const loginUser: MutationResolvers["login"] = async (
   _parent: unknown,
@@ -26,23 +27,27 @@ export const loginUser: MutationResolvers["login"] = async (
       location: name?.value,
     });
   } else {
-    if (!user.account) {
+    const account = await AccountModel.findById(user.account).exec();
+
+    if (!user.account || !account) {
       return throwResolutionError({
-        message: "User does not have an account.",
+        message: "User does not have the proper accounts created.",
         location: name?.value,
       });
     }
 
-    const token = await createAndSaveToken(user._id);
-    const tkn = await TokenModel.findOne({ token });
+    const stripeSubscription = await fetchStripeSubscription(
+      account.stripe_customer_id
+    );
+    const token = await createAndSaveToken(user._id, stripeSubscription.id);
 
-    if (!tkn) {
+    if (!token) {
       return throwResolutionError({
         message: "Unable to find the newly saved user.",
         location: name?.value,
       });
     }
 
-    return tkn.transformWithTypename();
+    return token.transformWithTypename();
   }
 };

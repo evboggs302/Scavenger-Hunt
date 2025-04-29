@@ -17,6 +17,7 @@ export type Scalars = {
 };
 
 export type AddUserInput = {
+  email: Scalars['String']['input'];
   first_name: Scalars['String']['input'];
   last_name: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -27,6 +28,7 @@ export type AllUsersPayload = {
   __typename: 'AllUsersPayload';
   _id: Scalars['ID']['output'];
   account: Scalars['String']['output'];
+  email: Scalars['String']['output'];
   first_name: Scalars['String']['output'];
   hunts?: Maybe<Array<Hunt>>;
   last_name: Scalars['String']['output'];
@@ -83,6 +85,7 @@ export type DeleteTeamInput = {
 export type Hunt = {
   __typename: 'Hunt';
   _id: Scalars['ID']['output'];
+  balance_usd: Scalars['Float']['output'];
   clues?: Maybe<Array<CluePayload>>;
   created_by: Scalars['ID']['output'];
   created_date: Scalars['String']['output'];
@@ -247,6 +250,7 @@ export type MutationUpdateTeamArgs = {
 export type Query = {
   __typename: 'Query';
   deleteAllHuntsByUser: Scalars['Boolean']['output'];
+  emailExists: Scalars['Boolean']['output'];
   getAllUsers?: Maybe<Array<Maybe<AllUsersPayload>>>;
   getCluesByHuntId: Array<Maybe<CluePayload>>;
   getHunt: Hunt;
@@ -258,6 +262,11 @@ export type Query = {
   getTeamsByHuntId: Array<Maybe<Team>>;
   getUserFromToken: UserPayload;
   userNameExists: Scalars['Boolean']['output'];
+};
+
+
+export type QueryEmailExistsArgs = {
+  email: Scalars['String']['input'];
 };
 
 
@@ -378,6 +387,7 @@ export type UserPayload = {
   __typename: 'UserPayload';
   _id: Scalars['ID']['output'];
   account: Scalars['String']['output'];
+  email: Scalars['String']['output'];
   first_name: Scalars['String']['output'];
   last_name: Scalars['String']['output'];
   user_name: Scalars['String']['output'];
@@ -474,6 +484,7 @@ export type ResolversTypes = ResolversObject<{
   CreateSingleTeamInput: CreateSingleTeamInput;
   DeleteTeamInput: DeleteTeamInput;
   Hunt: ResolverTypeWrapper<Hunt>;
+  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   LoginInput: LoginInput;
   Mutation: ResolverTypeWrapper<{}>;
@@ -508,6 +519,7 @@ export type ResolversParentTypes = ResolversObject<{
   CreateSingleTeamInput: CreateSingleTeamInput;
   DeleteTeamInput: DeleteTeamInput;
   Hunt: Hunt;
+  Float: Scalars['Float']['output'];
   Boolean: Scalars['Boolean']['output'];
   LoginInput: LoginInput;
   Mutation: {};
@@ -576,6 +588,7 @@ export type MapDirectiveResolver<Result, Parent, ContextType = any, Args = MapDi
 export type AllUsersPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['AllUsersPayload'] = ResolversParentTypes['AllUsersPayload']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   account?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   first_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   hunts?: Resolver<Maybe<Array<ResolversTypes['Hunt']>>, ParentType, ContextType>;
   last_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -600,6 +613,7 @@ export type CluePayloadResolvers<ContextType = any, ParentType extends Resolvers
 
 export type HuntResolvers<ContextType = any, ParentType extends ResolversParentTypes['Hunt'] = ResolversParentTypes['Hunt']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  balance_usd?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   clues?: Resolver<Maybe<Array<ResolversTypes['CluePayload']>>, ParentType, ContextType>;
   created_by?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   created_date?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -643,6 +657,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   deleteAllHuntsByUser?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  emailExists?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryEmailExistsArgs, 'email'>>;
   getAllUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['AllUsersPayload']>>>, ParentType, ContextType>;
   getCluesByHuntId?: Resolver<Array<Maybe<ResolversTypes['CluePayload']>>, ParentType, ContextType, RequireFields<QueryGetCluesByHuntIdArgs, 'id'>>;
   getHunt?: Resolver<ResolversTypes['Hunt'], ParentType, ContextType, RequireFields<QueryGetHuntArgs, 'id'>>;
@@ -692,6 +707,7 @@ export type TeamResolvers<ContextType = any, ParentType extends ResolversParentT
 export type UserPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserPayload'] = ResolversParentTypes['UserPayload']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   account?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   first_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   last_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   user_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

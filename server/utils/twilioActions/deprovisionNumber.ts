@@ -9,10 +9,11 @@ import { twilioClient } from "../twilioClient";
 export const deprovisionNumber = async (number: string) => {
   try {
     return await twilioClient.incomingPhoneNumbers(number).remove();
-  } catch {
+  } catch (err) {
     return throwResolutionError({
       location: "deprovisionNumber",
-      message: "No available Twilio numbers.",
+      message: "Not able to deprovision the phone number.",
+      err,
     });
   }
 };

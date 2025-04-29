@@ -5,6 +5,7 @@ import { RegisterUserDocument } from "@generated/graphql";
 import { useTokenContext } from "@lib/context/TokenContext";
 
 type RegisterUserCallbackProps = {
+  email: string;
   username: string;
   password: string;
   firstName: string;
@@ -24,6 +25,7 @@ export const useRegisterMutation = () => {
 
   const handlRegisterUser = useCallback(
     async ({
+      email,
       username,
       password,
       firstName,
@@ -32,8 +34,9 @@ export const useRegisterMutation = () => {
       await registerUser({
         variables: {
           input: {
-            user_name: username,
+            email,
             password,
+            user_name: username,
             first_name: firstName,
             last_name: lastName,
           },

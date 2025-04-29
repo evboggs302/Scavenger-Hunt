@@ -2,7 +2,10 @@ import { z } from "zod";
 import { useMemo } from "react";
 import { useApolloClient } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UsernameExistsDocument } from "@generated/graphql";
+import {
+  EmailExistsDocument,
+  UsernameExistsDocument,
+} from "@generated/graphql";
 
 const schema = z.object({
   firstName: z
@@ -21,6 +24,7 @@ const schema = z.object({
     .string({ message: "This field is required." })
     .trim()
     .min(8, { message: "This field requires at least 8 characters." }),
+  email: z.string().email({ message: "Please enter a valid email address." }),
 });
 
 export type RegisterSchema = z.infer<typeof schema>;
@@ -29,23 +33,43 @@ export const useRegisterResolver = () => {
   const client = useApolloClient();
 
   const resolver = zodResolver(
-    schema.refine(
-      async ({ username }) => {
-        const { data } = await client.query({
-          query: UsernameExistsDocument,
-          variables: {
-            username,
-          },
-          fetchPolicy: "network-only",
+    schema.superRefine(async ({ username, email }, ctx) => {
+      const { data } = await client.query({
+        query: UsernameExistsDocument,
+        variables: {
+          username,
+        },
+        fetchPolicy: "network-only",
+      });
+
+      if (!data.userNameExists) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["username"],
+          message: "This username is already in use.",
         });
 
-        return !data.userNameExists;
-      },
-      {
-        path: ["username"],
-        message: "This username is already in use.",
+        return z.NEVER;
       }
-    )
+
+      const { data: emailRes } = await client.query({
+        query: EmailExistsDocument,
+        variables: {
+          email,
+        },
+        fetchPolicy: "network-only",
+      });
+
+      if (!emailRes.emailExists) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["email"],
+          message: "This email is already associated to a user.",
+        });
+
+        return z.NEVER;
+      }
+    })
   );
 
   return useMemo((): [typeof resolver] => [resolver], [resolver]);

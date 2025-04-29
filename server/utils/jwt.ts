@@ -12,24 +12,33 @@ const { ACCESS_TOKEN_SECRET, ACCESS_TOKEN_DURATION } = config;
 
 interface SetTokenArgs {
   u_id: string;
+  sub_id: string | null;
 }
 
-export const createAndSaveToken = async (user_id: Types.ObjectId) => {
+/**
+ * @description
+ * Creates a token and saves it to the database.
+ * @param user_id - The ID of the user.
+ * @param subscriptionId - The ID of the Stripe subscription.
+ */
+export const createAndSaveToken = async (
+  user_id: Types.ObjectId,
+  subscriptionId: string | null
+) => {
   try {
     const token = setToken({
       u_id: user_id.toString(),
+      sub_id: subscriptionId,
     });
     const today = new Date();
     const expiresInMs = parseDuration("2d") as number;
 
-    await TokenModel.create({
+    return await TokenModel.create({
       token,
       issuedToUser: user_id,
       issuedAt: today,
       expireAt: new Date(Date.now() + expiresInMs),
     });
-
-    return token;
   } catch (err) {
     throw new GraphQLError("Unable to create token", {
       extensions: {
@@ -71,9 +80,9 @@ export const getUserFromToken = async (
   return null;
 };
 
-export const setToken = (user: SetTokenArgs) => {
+export const setToken = (userObj: SetTokenArgs) => {
   // if you want to include more than the user's id in the JWT then include it here
-  const accessToken = sign(user, ACCESS_TOKEN_SECRET, {
+  const accessToken = sign(userObj, ACCESS_TOKEN_SECRET, {
     expiresIn: ACCESS_TOKEN_DURATION,
   });
 

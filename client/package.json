@@ -29,6 +29,8 @@
     "@mui/material": "^7.0.1",
     "@mui/styled-engine-sc": "^7.0.1",
     "@mui/x-date-pickers": "^7.22.3",
+    "@stripe/react-stripe-js": "^3.6.0",
+    "@stripe/stripe-js": "^7.2.0",
     "dayjs": "^1.11.10",
     "graphql": "^16.8.1",
     "notistack": "^3.0.2",

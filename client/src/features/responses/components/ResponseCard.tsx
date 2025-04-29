@@ -43,7 +43,7 @@ export const ResponseCard = ({
     <Card sx={{ maxWidth: "360px", margin: "10px 5px" }}>
       {response_img &&
         response_img.map((img) => (
-          <CardMedia component="img" height="140" image={img} />
+          <CardMedia key={img} component="img" height="140" image={img} />
         ))}
       <CardContent>
         <Typography gutterBottom variant="subtitle2" component="div">

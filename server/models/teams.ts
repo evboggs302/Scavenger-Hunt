@@ -17,6 +17,7 @@ const teamSchema = new Schema(
     },
     hunt_id: {
       type: ObjectId,
+      ref: "Hunt",
       required: true,
     },
     members: {

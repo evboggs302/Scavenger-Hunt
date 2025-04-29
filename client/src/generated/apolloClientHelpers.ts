@@ -1,8 +1,9 @@
 import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
-export type AllUsersPayloadKeySpecifier = ('_id' | 'account' | 'first_name' | 'hunts' | 'last_name' | 'user_name' | AllUsersPayloadKeySpecifier)[];
+export type AllUsersPayloadKeySpecifier = ('_id' | 'account' | 'email' | 'first_name' | 'hunts' | 'last_name' | 'user_name' | AllUsersPayloadKeySpecifier)[];
 export type AllUsersPayloadFieldPolicy = {
 	_id?: FieldPolicy<any> | FieldReadFunction<any>,
 	account?: FieldPolicy<any> | FieldReadFunction<any>,
+	email?: FieldPolicy<any> | FieldReadFunction<any>,
 	first_name?: FieldPolicy<any> | FieldReadFunction<any>,
 	hunts?: FieldPolicy<any> | FieldReadFunction<any>,
 	last_name?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -21,9 +22,10 @@ export type CluePayloadFieldPolicy = {
 	order_number?: FieldPolicy<any> | FieldReadFunction<any>,
 	responses?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type HuntKeySpecifier = ('_id' | 'clues' | 'created_by' | 'created_date' | 'end_date' | 'is_active' | 'marked_complete' | 'name' | 'recall_message' | 'start_date' | 'teams' | 'twilio_number' | HuntKeySpecifier)[];
+export type HuntKeySpecifier = ('_id' | 'balance_usd' | 'clues' | 'created_by' | 'created_date' | 'end_date' | 'is_active' | 'marked_complete' | 'name' | 'recall_message' | 'start_date' | 'teams' | 'twilio_number' | HuntKeySpecifier)[];
 export type HuntFieldPolicy = {
 	_id?: FieldPolicy<any> | FieldReadFunction<any>,
+	balance_usd?: FieldPolicy<any> | FieldReadFunction<any>,
 	clues?: FieldPolicy<any> | FieldReadFunction<any>,
 	created_by?: FieldPolicy<any> | FieldReadFunction<any>,
 	created_date?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -63,9 +65,10 @@ export type MutationFieldPolicy = {
 	updateHunt?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateTeam?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('deleteAllHuntsByUser' | 'getAllUsers' | 'getCluesByHuntId' | 'getHunt' | 'getHuntsByUserId' | 'getResponsesByClue' | 'getResponsesByHunt' | 'getResponsesByTeam' | 'getTeam' | 'getTeamsByHuntId' | 'getUserFromToken' | 'userNameExists' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('deleteAllHuntsByUser' | 'emailExists' | 'getAllUsers' | 'getCluesByHuntId' | 'getHunt' | 'getHuntsByUserId' | 'getResponsesByClue' | 'getResponsesByHunt' | 'getResponsesByTeam' | 'getTeam' | 'getTeamsByHuntId' | 'getUserFromToken' | 'userNameExists' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	deleteAllHuntsByUser?: FieldPolicy<any> | FieldReadFunction<any>,
+	emailExists?: FieldPolicy<any> | FieldReadFunction<any>,
 	getAllUsers?: FieldPolicy<any> | FieldReadFunction<any>,
 	getCluesByHuntId?: FieldPolicy<any> | FieldReadFunction<any>,
 	getHunt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -108,10 +111,11 @@ export type TeamFieldPolicy = {
 	recall_sent?: FieldPolicy<any> | FieldReadFunction<any>,
 	responses?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserPayloadKeySpecifier = ('_id' | 'account' | 'first_name' | 'last_name' | 'user_name' | UserPayloadKeySpecifier)[];
+export type UserPayloadKeySpecifier = ('_id' | 'account' | 'email' | 'first_name' | 'last_name' | 'user_name' | UserPayloadKeySpecifier)[];
 export type UserPayloadFieldPolicy = {
 	_id?: FieldPolicy<any> | FieldReadFunction<any>,
 	account?: FieldPolicy<any> | FieldReadFunction<any>,
+	email?: FieldPolicy<any> | FieldReadFunction<any>,
 	first_name?: FieldPolicy<any> | FieldReadFunction<any>,
 	last_name?: FieldPolicy<any> | FieldReadFunction<any>,
 	user_name?: FieldPolicy<any> | FieldReadFunction<any>

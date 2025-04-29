@@ -17,6 +17,7 @@ export const clueSchema = new Schema(
     },
     hunt_id: {
       type: ObjectId,
+      ref: "Hunt",
       required: true,
     },
     order_number: {

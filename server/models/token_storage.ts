@@ -14,6 +14,7 @@ const tokenStorageSchema = new Schema(
     },
     issuedToUser: {
       type: String,
+      ref: "User",
       required: true,
     },
     issuedAt: {

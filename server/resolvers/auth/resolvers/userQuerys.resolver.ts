@@ -1,13 +1,13 @@
-import { UserModel } from "../../models/users";
-import { TokenModel } from "../../models/token_storage";
-import { HuntModel } from "../../models/hunts";
-import { returnedItems } from "../../utils/transforms/returnedItems";
-import { AllUsersPayload, Resolvers } from "../../generated/graphql";
-import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
+import { UserModel } from "../../../models/users";
+import { TokenModel } from "../../../models/token_storage";
+import { HuntModel } from "../../../models/hunts";
+import { returnedItems } from "../../../utils/transforms/returnedItems";
+import { AllUsersPayload, Resolvers } from "../../../generated/graphql";
+import { createBsonObjectId } from "../../../utils/transforms/createBsonObjectId";
 import {
   AuthenticationError,
   throwResolutionError,
-} from "../../utils/apolloErrorHandlers";
+} from "../../../utils/apolloErrorHandlers";
 
 const userResolver: Resolvers = {
   Query: {
@@ -54,6 +54,10 @@ const userResolver: Resolvers = {
     },
     userNameExists: async (_parent: unknown, { user_name }) => {
       const matches = await UserModel.findUsername(user_name);
+      return matches.length > 0;
+    },
+    emailExists: async (_parent: unknown, { email }) => {
+      const matches = await UserModel.findUsername(email);
       return matches.length > 0;
     },
   },

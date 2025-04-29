@@ -1,9 +1,9 @@
-import { TeamModel } from "../../models/teams";
-import { Resolvers, ResponsePayload } from "../../generated/graphql";
-import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
+import { Resolvers, ResponsePayload } from "generated/graphql";
+import { TeamModel } from "../../../models/teams";
+import { createBsonObjectId } from "../../../utils/transforms/createBsonObjectId";
 import { withFilter } from "graphql-subscriptions";
-import { mongodbPubSub } from "../../utils/pubSub";
-import { SubscriptionContext } from "../../utils/serverSetup/subscriptionContext";
+import { mongodbPubSub } from "../../../utils/pubSub";
+import { SubscriptionContext } from "../../../utils/serverSetup/subscriptionContext";
 
 export const RESPONSE_RECEIVED_TOPIC = "RESPONSE_RECEIVED_TOPIC";
 

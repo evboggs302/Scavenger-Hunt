@@ -1,6 +1,6 @@
-import { TeamCardList } from "./TeamCardList";
 import { ManageTeamsMenu } from "./ManageTeamsMenu";
 import { ManagementButtonsContainer } from "@lib/components/ManagementButtons/ManagementButtonsContainer";
+import { TeamsTable } from "./TeamsTable/TeamsTable";
 
 export const TeamsPage = () => {
   return (
@@ -8,7 +8,7 @@ export const TeamsPage = () => {
       <ManagementButtonsContainer>
         <ManageTeamsMenu />
       </ManagementButtonsContainer>
-      <TeamCardList />
+      <TeamsTable />
     </>
   );
 };

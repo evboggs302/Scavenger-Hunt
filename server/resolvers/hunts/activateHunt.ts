@@ -1,14 +1,15 @@
 import { MutationResolvers } from "generated/graphql";
-import { twilioClient } from "../../../utils/twilioClient";
-import { createBsonObjectId } from "../../../utils/transforms/createBsonObjectId";
-import { TeamModel } from "../../../models/teams";
-import { HuntModel } from "../../../models/hunts";
+import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
+import { TeamModel } from "../../models/teams";
+import { HuntDocType, HuntModel } from "../../models/hunts";
 import {
   throwResolutionError,
   throwServerError,
-} from "../../../utils/apolloErrorHandlers";
-import { ClueModel } from "../../../models/clues";
-import { fetchNewNumber } from "../../../utils/twilioActions/fetchNewNumber";
+} from "../../utils/apolloErrorHandlers";
+import { ClueModel } from "../../models/clues";
+import { fetchNewNumber } from "../../utils/twilioActions/fetchNewNumber";
+import { twilioClient } from "utils/twilioClient";
+import { updateHuntBalance } from "resolvers/responses/updateHuntBalance";
 
 export const activateHunt: MutationResolvers["activateHunt"] = async (
   _parent: unknown,
@@ -16,9 +17,10 @@ export const activateHunt: MutationResolvers["activateHunt"] = async (
   _ctxt,
   { operation: { name } }
 ) => {
+  let hunt: HuntDocType | null = null;
   try {
     const hunt_id = createBsonObjectId(id);
-    const hunt = await HuntModel.findOne({ _id: hunt_id }).exec();
+    hunt = await HuntModel.findOne({ _id: hunt_id }).exec();
     const teams = await TeamModel.find({ hunt_id }).exec();
     const clues = await ClueModel.find({ hunt_id }).exec();
 
@@ -38,6 +40,16 @@ export const activateHunt: MutationResolvers["activateHunt"] = async (
         message: "Unable to find the specified hunt.",
       });
     }
+    /**
+     * UPDATE THE HUNT: twilio_number
+     */
+    await HuntModel.findOneAndUpdate(
+      { _id: hunt_id },
+      {
+        is_active: true,
+        start_date: new Date(),
+      }
+    ).exec();
 
     /**
      * FETCH AVAILABLE TWILIO NUMBER
@@ -45,7 +57,7 @@ export const activateHunt: MutationResolvers["activateHunt"] = async (
     const twilioNumber = await fetchNewNumber(hunt_id.toString());
 
     /**
-     * UPDATE THE HUNT
+     * UPDATE THE HUNT: twilio_number
      */
     const updatedHunt = await HuntModel.findOneAndUpdate(
       { _id: hunt_id },
@@ -79,24 +91,38 @@ export const activateHunt: MutationResolvers["activateHunt"] = async (
     /**
      * SEND FIRST CLUE USING TWILIO
      */
-    // Promise.all(
-    //   teams.map((tm) =>
-    //     twilioClient.messages.create({
-    //       body: `CLUE: ${firstClue.description}`,
-    //       from: `${updatedHunt.twilio_number}`,
-    //       to: tm.device_number,
-    //     })
-    //   )
-    // ).catch((reason) => {
-    //   return throwServerError({
-    //     location: name?.value + "_send_twilio",
-    //     message: "There was a problem sending out the first clue.",
-    //     err: reason,
-    //   });
-    // });
+    await Promise.all([
+      ...teams.map((tm) =>
+        twilioClient.messages.create({
+          body: `CLUE: ${firstClue.description}`,
+          from: updatedHunt.twilio_number,
+          to: tm.device_number,
+        })
+      ),
+      updateHuntBalance(hunt_id, "provision"),
+      updateHuntBalance(hunt_id, "sms", teams.length),
+    ]).catch((reason) => {
+      return throwServerError({
+        location: name?.value + "_send_twilio",
+        message: "There was a problem sending out the first clue.",
+        err: reason,
+      });
+    });
 
     return true;
   } catch {
+    if (hunt) {
+      await HuntModel.updateOne(
+        { _id: hunt._id },
+        {
+          ...hunt,
+          balance_usd: 0,
+          is_active: false,
+          twilio_number: "",
+        }
+      ).exec();
+    }
+
     return throwServerError({
       location: name?.value,
       message: "Unable to activate this event.",

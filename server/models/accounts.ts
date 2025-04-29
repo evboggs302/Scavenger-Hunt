@@ -14,10 +14,19 @@ export const accountSchema = new Schema(
       ref: "User",
       unique: true,
     },
-    account_sid: {
+    twilio_account_sid: {
       type: String,
       required: true,
       unique: true,
+    },
+    stripe_customer_id: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    balance_usd: {
+      type: Number,
+      default: 0,
     },
   },
   {

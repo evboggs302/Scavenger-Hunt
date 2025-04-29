@@ -1,11 +1,14 @@
-import { TeamCard } from "./TeamCard";
 import { useHuntContext } from "@lib/context/HuntContext";
 import { NoCardsToShowText } from "@lib/components/Cards/NoCardsToShowText";
 import Box from "@mui/material/Box";
-import { VirtuosoGrid } from "react-virtuoso";
-import { CardList } from "@lib/components/Cards/CardList";
+import { TableVirtuoso } from "react-virtuoso";
+import { TeamsTableHeader } from "./TeamsTableHeader";
+import TableBody from "@mui/material/TableBody";
+import { TeamsTableRow } from "./TeamsTableRow";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 
-export const TeamCardList = () => {
+export const TeamsTable = () => {
   const { data } = useHuntContext();
   const teams = data?.hunt?.teams;
 
@@ -23,13 +26,16 @@ export const TeamCardList = () => {
         width: "100%",
       }}
     >
-      <VirtuosoGrid
+      <TableVirtuoso
         style={{ height: "100%", width: "100%", overflow: "auto" }}
         data={filteredTeams}
         components={{
-          List: CardList,
+          TableHead,
+          TableBody,
+          TableRow,
         }}
-        itemContent={(_, item) => <TeamCard key={item?._id} team={item} />}
+        fixedHeaderContent={TeamsTableHeader}
+        itemContent={(_index, team) => <TeamsTableRow team={team} />}
       />
     </Box>
   );

@@ -1,45 +1,29 @@
 import { throwResolutionError } from "../apolloErrorHandlers";
 import { twilioClient } from "../twilioClient";
-import { AccountModel } from "../../models/accounts";
-import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
-import { UserModel } from "../../models/users";
 import { deleteTwilioSubAccount } from "./deleteTwilioSubAccount";
 import { AccountInstance } from "twilio/lib/rest/api/v2010/account";
 
 /**
  * @description
  * Creates a Twilio sub account for the user and saves the account information in the database.
- * @param userId - The ID of the user for whom the Twilio sub account is to be created.
+ * @param accountId - The ID of the user for whom the Twilio sub account is to be created.
  * @link https://www.twilio.com/docs/iam/api/subaccounts#creating-subaccounts
  */
-export const createTwilioSubAccount = async (userId: string) => {
+export const createTwilioSubAccount = async (accountId: string) => {
   let account: AccountInstance | null = null;
   try {
-    const user_id = createBsonObjectId(userId);
     account = await twilioClient.api.accounts.create({
-      friendlyName: `UserID-${userId}`,
+      friendlyName: `AccountID-${accountId}`,
     });
 
     if (!account) {
       throw new Error("Unable to create Twilio sub account.");
     }
 
-    const acct_id = createBsonObjectId();
-    const newAcct = await AccountModel.create({
-      _id: acct_id,
-      user: user_id,
+    return {
       account_sid: account.sid,
-    }).catch((err) => {
-      throw new Error(`Unable to save account info: ${err}`);
-    });
-
-    await UserModel.updateOne({ _id: user_id }, { account: acct_id })
-      .exec()
-      .catch((err) => {
-        throw new Error(`Unable to update user with account info: ${err}`);
-      });
-
-    return newAcct;
+      friendly_name: account.friendlyName,
+    };
   } catch (err) {
     if (account) {
       await deleteTwilioSubAccount(account.sid);

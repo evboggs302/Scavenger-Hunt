@@ -1,5 +1,6 @@
 fragment User on UserPayload {
   _id
+  email
   user_name
   first_name
   last_name
