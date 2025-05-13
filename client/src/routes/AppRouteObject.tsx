@@ -8,6 +8,7 @@ import { catchallRouteToParent } from "./catchAllRoutes/catchallRouteToParent";
 import { HuntDashboardRouteObject } from "./HuntDashboardRouteObject";
 import Box from "@mui/material/Box";
 import { SettingsPage } from "@pages/settings/SettingsPage";
+import { AccountsPage } from "@pages/account/components/AccountsPage";
 
 const ProtectedBaseApp = () => {
   const { token } = useTokenContext();
@@ -40,8 +41,8 @@ export const AppRouteObject = {
       element: <HomePage />,
     },
     {
-      path: "billing",
-      element: <Box>Billing</Box>,
+      path: "account",
+      element: <AccountsPage />,
       children: [catchallRouteToParent],
     },
     {

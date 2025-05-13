@@ -1,8 +1,8 @@
 import { Types } from "mongoose";
 import { AccountModel } from "../../models/accounts";
 import { throwResolutionError } from "../../utils/apolloErrorHandlers";
-import { deleteTwilioSubAccount } from "utils/twilioActions/deleteTwilioSubAccount";
-import { deleteStripeCustomer } from "utils/stripeActions/deleteStripeCustomer";
+import { deleteTwilioSubAccount } from "../../utils/twilioActions/deleteTwilioSubAccount";
+import { deleteStripeCustomer } from "../../utils/stripeActions/customerManagement/deleteStripeCustomer";
 
 export const deleteCustomerVendorAccounts = async (userId: Types.ObjectId) => {
   try {

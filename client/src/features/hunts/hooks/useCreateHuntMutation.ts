@@ -35,7 +35,7 @@ export const useCreateHuntMutation = () => {
           }),
       });
     },
-    [createHunt, navigate]
+    [createHunt, navigate, toast]
   );
 
   return useMemo(

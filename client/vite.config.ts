@@ -34,6 +34,7 @@ export default defineConfig(({ mode }) => {
       "process.env.SERVER_URL_SUBSCRIPTION": JSON.stringify(
         env.SERVER_URL_SUBSCRIPTION
       ),
+      "process.env.STRIPE_PUBLIC_KEY": JSON.stringify(env.STRIPE_PUBLIC_KEY),
     },
     plugins: [
       reactSWC({

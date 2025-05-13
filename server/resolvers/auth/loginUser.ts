@@ -7,7 +7,6 @@ import {
   throwResolutionError,
 } from "../../utils/apolloErrorHandlers";
 import { createAndSaveToken } from "../../utils/jwt";
-import { fetchStripeSubscription } from "../../utils/stripeActions/fetchStripeSubscription";
 
 export const loginUser: MutationResolvers["login"] = async (
   _parent: unknown,
@@ -36,10 +35,7 @@ export const loginUser: MutationResolvers["login"] = async (
       });
     }
 
-    const stripeSubscription = await fetchStripeSubscription(
-      account.stripe_customer_id
-    );
-    const token = await createAndSaveToken(user._id, stripeSubscription.id);
+    const token = await createAndSaveToken(user._id);
 
     if (!token) {
       return throwResolutionError({

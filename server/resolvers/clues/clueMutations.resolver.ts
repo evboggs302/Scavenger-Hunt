@@ -7,7 +7,7 @@ import {
   throwServerError,
 } from "../../utils/apolloErrorHandlers";
 
-const clueResolver: Resolvers = {
+const resolver: Resolvers = {
   Mutation: {
     createMultipleClues: async (
       _parent: unknown,
@@ -218,4 +218,4 @@ const clueResolver: Resolvers = {
   },
 };
 
-export default { ...clueResolver };
+export default { ...resolver };

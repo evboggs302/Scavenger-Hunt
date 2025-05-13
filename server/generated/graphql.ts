@@ -1,4 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
+import { ApolloServerContext } from '../@types/ApolloServerContextType';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -22,17 +23,6 @@ export type AddUserInput = {
   last_name: Scalars['String']['input'];
   password: Scalars['String']['input'];
   user_name: Scalars['String']['input'];
-};
-
-export type AllUsersPayload = {
-  __typename: 'AllUsersPayload';
-  _id: Scalars['ID']['output'];
-  account: Scalars['String']['output'];
-  email: Scalars['String']['output'];
-  first_name: Scalars['String']['output'];
-  hunts?: Maybe<Array<Hunt>>;
-  last_name: Scalars['String']['output'];
-  user_name: Scalars['String']['output'];
 };
 
 export type AuthPayload = {
@@ -107,11 +97,14 @@ export type LoginInput = {
 export type Mutation = {
   __typename: 'Mutation';
   activateHunt: Scalars['Boolean']['output'];
+  cancelSubscription: Scalars['Boolean']['output'];
   createHunt: Hunt;
   createMultipleClues: Array<CluePayload>;
   createMultipleTeams: Array<Maybe<Team>>;
+  createPaymentIntent: Scalars['String']['output'];
   createSingleClue: Array<CluePayload>;
   createSingleTeam: Team;
+  createSubscription: StripeSubscription;
   deleteAllCluesByHuntId: Scalars['Boolean']['output'];
   deleteAllResponsesByHunt: Scalars['Boolean']['output'];
   deleteAllResponsesByTeam: Scalars['Boolean']['output'];
@@ -160,6 +153,11 @@ export type MutationCreateSingleClueArgs = {
 
 export type MutationCreateSingleTeamArgs = {
   input: CreateSingleTeamInput;
+};
+
+
+export type MutationCreateSubscriptionArgs = {
+  payment_method_id: Scalars['String']['input'];
 };
 
 
@@ -247,11 +245,26 @@ export type MutationUpdateTeamArgs = {
   input: UpdateTeamInput;
 };
 
+export type PaymentCard = {
+  __typename: 'PaymentCard';
+  brand?: Maybe<Scalars['String']['output']>;
+  last4?: Maybe<Scalars['String']['output']>;
+};
+
+export type PaymentMethod = {
+  __typename: 'PaymentMethod';
+  brand: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  last4: Scalars['String']['output'];
+};
+
 export type Query = {
   __typename: 'Query';
   deleteAllHuntsByUser: Scalars['Boolean']['output'];
   emailExists: Scalars['Boolean']['output'];
-  getAllUsers?: Maybe<Array<Maybe<AllUsersPayload>>>;
+  fetchStripeCharges: Array<Maybe<StripeCharge>>;
+  fetchStripePaymentMethod?: Maybe<PaymentMethod>;
+  fetchStripeSubscription: StripeSubscription;
   getCluesByHuntId: Array<Maybe<CluePayload>>;
   getHunt: Hunt;
   getHuntsByUserId: Array<Maybe<Hunt>>;
@@ -336,6 +349,31 @@ export type SendHintInput = {
 export type SingleTeam = {
   device_number: Scalars['String']['input'];
   members?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type StripeCharge = {
+  __typename: 'StripeCharge';
+  amount: Scalars['Int']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  paymentCard: PaymentCard;
+  paymentIntent?: Maybe<Scalars['String']['output']>;
+  status: Scalars['String']['output'];
+};
+
+export type StripePaymentIntent = {
+  __typename: 'StripePaymentIntent';
+  id: Scalars['String']['output'];
+};
+
+export type StripeSubscription = {
+  __typename: 'StripeSubscription';
+  clientSecret?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  priceId: Scalars['String']['output'];
+  productId: Scalars['String']['output'];
+  status: Scalars['String']['output'];
 };
 
 export type Subscription = {
@@ -472,9 +510,8 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = ResolversObject<{
   AddUserInput: AddUserInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  AllUsersPayload: ResolverTypeWrapper<AllUsersPayload>;
-  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   AuthPayload: ResolverTypeWrapper<AuthPayload>;
+  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   CluePayload: ResolverTypeWrapper<CluePayload>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   CreateHuntInput: CreateHuntInput;
@@ -488,11 +525,16 @@ export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   LoginInput: LoginInput;
   Mutation: ResolverTypeWrapper<{}>;
+  PaymentCard: ResolverTypeWrapper<PaymentCard>;
+  PaymentMethod: ResolverTypeWrapper<PaymentMethod>;
   Query: ResolverTypeWrapper<{}>;
   ResponsePayload: ResolverTypeWrapper<ResponsePayload>;
   ResponsesByHunt: ResolverTypeWrapper<ResponsesByHunt>;
   SendHintInput: SendHintInput;
   SingleTeam: SingleTeam;
+  StripeCharge: ResolverTypeWrapper<StripeCharge>;
+  StripePaymentIntent: ResolverTypeWrapper<StripePaymentIntent>;
+  StripeSubscription: ResolverTypeWrapper<StripeSubscription>;
   Subscription: ResolverTypeWrapper<{}>;
   Team: ResolverTypeWrapper<Team>;
   UpdateClueDescriptionInput: UpdateClueDescriptionInput;
@@ -507,9 +549,8 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   AddUserInput: AddUserInput;
   String: Scalars['String']['output'];
-  AllUsersPayload: AllUsersPayload;
-  ID: Scalars['ID']['output'];
   AuthPayload: AuthPayload;
+  ID: Scalars['ID']['output'];
   CluePayload: CluePayload;
   Int: Scalars['Int']['output'];
   CreateHuntInput: CreateHuntInput;
@@ -523,11 +564,16 @@ export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
   LoginInput: LoginInput;
   Mutation: {};
+  PaymentCard: PaymentCard;
+  PaymentMethod: PaymentMethod;
   Query: {};
   ResponsePayload: ResponsePayload;
   ResponsesByHunt: ResponsesByHunt;
   SendHintInput: SendHintInput;
   SingleTeam: SingleTeam;
+  StripeCharge: StripeCharge;
+  StripePaymentIntent: StripePaymentIntent;
+  StripeSubscription: StripeSubscription;
   Subscription: {};
   Team: Team;
   UpdateClueDescriptionInput: UpdateClueDescriptionInput;
@@ -543,66 +589,55 @@ export type UnionDirectiveArgs = {
   additionalFields?: Maybe<Array<Maybe<AdditionalEntityFields>>>;
 };
 
-export type UnionDirectiveResolver<Result, Parent, ContextType = any, Args = UnionDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type UnionDirectiveResolver<Result, Parent, ContextType = ApolloServerContext, Args = UnionDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type AbstractEntityDirectiveArgs = {
   discriminatorField: Scalars['String']['input'];
   additionalFields?: Maybe<Array<Maybe<AdditionalEntityFields>>>;
 };
 
-export type AbstractEntityDirectiveResolver<Result, Parent, ContextType = any, Args = AbstractEntityDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type AbstractEntityDirectiveResolver<Result, Parent, ContextType = ApolloServerContext, Args = AbstractEntityDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type EntityDirectiveArgs = {
   embedded?: Maybe<Scalars['Boolean']['input']>;
   additionalFields?: Maybe<Array<Maybe<AdditionalEntityFields>>>;
 };
 
-export type EntityDirectiveResolver<Result, Parent, ContextType = any, Args = EntityDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type EntityDirectiveResolver<Result, Parent, ContextType = ApolloServerContext, Args = EntityDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type ColumnDirectiveArgs = {
   overrideType?: Maybe<Scalars['String']['input']>;
 };
 
-export type ColumnDirectiveResolver<Result, Parent, ContextType = any, Args = ColumnDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type ColumnDirectiveResolver<Result, Parent, ContextType = ApolloServerContext, Args = ColumnDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type IdDirectiveArgs = { };
 
-export type IdDirectiveResolver<Result, Parent, ContextType = any, Args = IdDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type IdDirectiveResolver<Result, Parent, ContextType = ApolloServerContext, Args = IdDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type LinkDirectiveArgs = {
   overrideType?: Maybe<Scalars['String']['input']>;
 };
 
-export type LinkDirectiveResolver<Result, Parent, ContextType = any, Args = LinkDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type LinkDirectiveResolver<Result, Parent, ContextType = ApolloServerContext, Args = LinkDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type EmbeddedDirectiveArgs = { };
 
-export type EmbeddedDirectiveResolver<Result, Parent, ContextType = any, Args = EmbeddedDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type EmbeddedDirectiveResolver<Result, Parent, ContextType = ApolloServerContext, Args = EmbeddedDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type MapDirectiveArgs = {
   path: Scalars['String']['input'];
 };
 
-export type MapDirectiveResolver<Result, Parent, ContextType = any, Args = MapDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type MapDirectiveResolver<Result, Parent, ContextType = ApolloServerContext, Args = MapDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type AllUsersPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['AllUsersPayload'] = ResolversParentTypes['AllUsersPayload']> = ResolversObject<{
-  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  account?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  first_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  hunts?: Resolver<Maybe<Array<ResolversTypes['Hunt']>>, ParentType, ContextType>;
-  last_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  user_name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type AuthPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthPayload'] = ResolversParentTypes['AuthPayload']> = ResolversObject<{
+export type AuthPayloadResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['AuthPayload'] = ResolversParentTypes['AuthPayload']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type CluePayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['CluePayload'] = ResolversParentTypes['CluePayload']> = ResolversObject<{
+export type CluePayloadResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['CluePayload'] = ResolversParentTypes['CluePayload']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   hunt_id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -611,7 +646,7 @@ export type CluePayloadResolvers<ContextType = any, ParentType extends Resolvers
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type HuntResolvers<ContextType = any, ParentType extends ResolversParentTypes['Hunt'] = ResolversParentTypes['Hunt']> = ResolversObject<{
+export type HuntResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['Hunt'] = ResolversParentTypes['Hunt']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   balance_usd?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   clues?: Resolver<Maybe<Array<ResolversTypes['CluePayload']>>, ParentType, ContextType>;
@@ -628,13 +663,16 @@ export type HuntResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+export type MutationResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   activateHunt?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationActivateHuntArgs, 'id'>>;
+  cancelSubscription?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   createHunt?: Resolver<ResolversTypes['Hunt'], ParentType, ContextType, RequireFields<MutationCreateHuntArgs, 'input'>>;
   createMultipleClues?: Resolver<Array<ResolversTypes['CluePayload']>, ParentType, ContextType, RequireFields<MutationCreateMultipleCluesArgs, 'input'>>;
   createMultipleTeams?: Resolver<Array<Maybe<ResolversTypes['Team']>>, ParentType, ContextType, RequireFields<MutationCreateMultipleTeamsArgs, 'input'>>;
+  createPaymentIntent?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createSingleClue?: Resolver<Array<ResolversTypes['CluePayload']>, ParentType, ContextType, RequireFields<MutationCreateSingleClueArgs, 'input'>>;
   createSingleTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationCreateSingleTeamArgs, 'input'>>;
+  createSubscription?: Resolver<ResolversTypes['StripeSubscription'], ParentType, ContextType, RequireFields<MutationCreateSubscriptionArgs, 'payment_method_id'>>;
   deleteAllCluesByHuntId?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteAllCluesByHuntIdArgs, 'hunt_id'>>;
   deleteAllResponsesByHunt?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteAllResponsesByHuntArgs, 'id'>>;
   deleteAllResponsesByTeam?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteAllResponsesByTeamArgs, 'id'>>;
@@ -655,10 +693,25 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationUpdateTeamArgs, 'input'>>;
 }>;
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+export type PaymentCardResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['PaymentCard'] = ResolversParentTypes['PaymentCard']> = ResolversObject<{
+  brand?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  last4?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type PaymentMethodResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['PaymentMethod'] = ResolversParentTypes['PaymentMethod']> = ResolversObject<{
+  brand?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  last4?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type QueryResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   deleteAllHuntsByUser?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   emailExists?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryEmailExistsArgs, 'email'>>;
-  getAllUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['AllUsersPayload']>>>, ParentType, ContextType>;
+  fetchStripeCharges?: Resolver<Array<Maybe<ResolversTypes['StripeCharge']>>, ParentType, ContextType>;
+  fetchStripePaymentMethod?: Resolver<Maybe<ResolversTypes['PaymentMethod']>, ParentType, ContextType>;
+  fetchStripeSubscription?: Resolver<ResolversTypes['StripeSubscription'], ParentType, ContextType>;
   getCluesByHuntId?: Resolver<Array<Maybe<ResolversTypes['CluePayload']>>, ParentType, ContextType, RequireFields<QueryGetCluesByHuntIdArgs, 'id'>>;
   getHunt?: Resolver<ResolversTypes['Hunt'], ParentType, ContextType, RequireFields<QueryGetHuntArgs, 'id'>>;
   getHuntsByUserId?: Resolver<Array<Maybe<ResolversTypes['Hunt']>>, ParentType, ContextType>;
@@ -671,7 +724,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   userNameExists?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryUserNameExistsArgs, 'user_name'>>;
 }>;
 
-export type ResponsePayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['ResponsePayload'] = ResolversParentTypes['ResponsePayload']> = ResolversObject<{
+export type ResponsePayloadResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['ResponsePayload'] = ResolversParentTypes['ResponsePayload']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   clue_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   correct?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -683,17 +736,42 @@ export type ResponsePayloadResolvers<ContextType = any, ParentType extends Resol
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ResponsesByHuntResolvers<ContextType = any, ParentType extends ResolversParentTypes['ResponsesByHunt'] = ResolversParentTypes['ResponsesByHunt']> = ResolversObject<{
+export type ResponsesByHuntResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['ResponsesByHunt'] = ResolversParentTypes['ResponsesByHunt']> = ResolversObject<{
   count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   responses?: Resolver<Maybe<Array<Maybe<ResolversTypes['ResponsePayload']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
+export type StripeChargeResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['StripeCharge'] = ResolversParentTypes['StripeCharge']> = ResolversObject<{
+  amount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  paymentCard?: Resolver<ResolversTypes['PaymentCard'], ParentType, ContextType>;
+  paymentIntent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type StripePaymentIntentResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['StripePaymentIntent'] = ResolversParentTypes['StripePaymentIntent']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type StripeSubscriptionResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['StripeSubscription'] = ResolversParentTypes['StripeSubscription']> = ResolversObject<{
+  clientSecret?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  priceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  productId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type SubscriptionResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
   responseReceived?: SubscriptionResolver<Maybe<ResolversTypes['ResponsePayload']>, "responseReceived", ParentType, ContextType, RequireFields<SubscriptionResponseReceivedArgs, 'hunt_id'>>;
 }>;
 
-export type TeamResolvers<ContextType = any, ParentType extends ResolversParentTypes['Team'] = ResolversParentTypes['Team']> = ResolversObject<{
+export type TeamResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['Team'] = ResolversParentTypes['Team']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   device_number?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   hunt_id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -704,7 +782,7 @@ export type TeamResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type UserPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserPayload'] = ResolversParentTypes['UserPayload']> = ResolversObject<{
+export type UserPayloadResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['UserPayload'] = ResolversParentTypes['UserPayload']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   account?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -714,21 +792,25 @@ export type UserPayloadResolvers<ContextType = any, ParentType extends Resolvers
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type Resolvers<ContextType = any> = ResolversObject<{
-  AllUsersPayload?: AllUsersPayloadResolvers<ContextType>;
+export type Resolvers<ContextType = ApolloServerContext> = ResolversObject<{
   AuthPayload?: AuthPayloadResolvers<ContextType>;
   CluePayload?: CluePayloadResolvers<ContextType>;
   Hunt?: HuntResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  PaymentCard?: PaymentCardResolvers<ContextType>;
+  PaymentMethod?: PaymentMethodResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   ResponsePayload?: ResponsePayloadResolvers<ContextType>;
   ResponsesByHunt?: ResponsesByHuntResolvers<ContextType>;
+  StripeCharge?: StripeChargeResolvers<ContextType>;
+  StripePaymentIntent?: StripePaymentIntentResolvers<ContextType>;
+  StripeSubscription?: StripeSubscriptionResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
   Team?: TeamResolvers<ContextType>;
   UserPayload?: UserPayloadResolvers<ContextType>;
 }>;
 
-export type DirectiveResolvers<ContextType = any> = ResolversObject<{
+export type DirectiveResolvers<ContextType = ApolloServerContext> = ResolversObject<{
   union?: UnionDirectiveResolver<any, any, ContextType>;
   abstractEntity?: AbstractEntityDirectiveResolver<any, any, ContextType>;
   entity?: EntityDirectiveResolver<any, any, ContextType>;

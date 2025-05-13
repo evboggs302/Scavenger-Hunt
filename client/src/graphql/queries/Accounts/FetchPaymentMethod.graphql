@@ -1,0 +1,5 @@
+query FetchDefaultPaymentMethod {
+  defaultPaymentMethod: fetchStripePaymentMethod {
+    ...StripeDefaultPayment
+  }
+}

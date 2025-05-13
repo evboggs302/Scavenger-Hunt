@@ -1,0 +1,15 @@
+fragment StripeCharge on StripeCharge {
+  id
+  status
+  amount
+  description
+  paymentIntent
+  paymentCard {
+    ...PaymentCard
+  }
+}
+
+fragment PaymentCard on PaymentCard {
+  brand
+  last4
+}

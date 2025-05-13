@@ -34,10 +34,10 @@ export const RecallMessageField = ({
       <TextField
         slotProps={{
           htmlInput: {
+            ref: field.ref,
             "data-testid": `${mode}-hunt-recall-message`,
           },
         }}
-        ref={field.ref}
         name={field.name}
         value={field.value}
         onBlur={field.onBlur}

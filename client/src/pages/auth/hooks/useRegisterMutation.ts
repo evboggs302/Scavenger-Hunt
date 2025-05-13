@@ -19,7 +19,7 @@ export const useRegisterMutation = () => {
     onCompleted: ({ registerUser }) => {
       localStorage.setItem("BEARER_TOKEN", registerUser.token);
       setToken(registerUser.token);
-      navigate("/app");
+      navigate("/account");
     },
   });
 

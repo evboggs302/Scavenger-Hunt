@@ -25,7 +25,7 @@ export const OptionsMenu = () => {
   const [logoutUser] = useLogoutMutation();
 
   const navigateToProfile = () => navigate("/app/profile");
-  const navigateToBilling = () => navigate("/app/billing");
+  const navigateToAccount = () => navigate("/app/account");
   const navigateToSettings = () => navigate("/app/settings");
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
@@ -73,7 +73,7 @@ export const OptionsMenu = () => {
         }}
       >
         <MenuItem onClick={navigateToProfile}>Profile</MenuItem>
-        <MenuItem onClick={navigateToBilling}>Billing</MenuItem>
+        <MenuItem onClick={navigateToAccount}>Account</MenuItem>
         <MenuItem onClick={navigateToSettings}>Settings</MenuItem>
         <Divider />
         <MenuItem

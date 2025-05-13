@@ -15,10 +15,10 @@ export const UsernameField = () => {
         required
         slotProps={{
           htmlInput: {
+            ref: field.ref,
             "data-testid": "register-username",
           },
         }}
-        inputRef={field.ref}
         name={field.name}
         value={field.value}
         onBlur={field.onBlur}

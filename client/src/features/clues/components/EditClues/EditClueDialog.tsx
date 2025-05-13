@@ -94,14 +94,16 @@ export const EditClueDialog = ({
             Description <i>(5 - 256 characters)</i>
           </InputLabel>
           <TextField
+            multiline
             slotProps={{
               htmlInput: {
                 "data-testid": "update-clue-description",
                 maxLength: 256,
               },
+              input: {
+                ref: field.ref,
+              },
             }}
-            multiline
-            inputRef={field.ref}
             name={field.name}
             value={field.value}
             onBlur={field.onBlur}

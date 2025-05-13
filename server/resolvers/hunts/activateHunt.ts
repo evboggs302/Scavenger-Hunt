@@ -8,8 +8,8 @@ import {
 } from "../../utils/apolloErrorHandlers";
 import { ClueModel } from "../../models/clues";
 import { fetchNewNumber } from "../../utils/twilioActions/fetchNewNumber";
-import { twilioClient } from "utils/twilioClient";
-import { updateHuntBalance } from "resolvers/responses/updateHuntBalance";
+import { twilioClient } from "../../utils/twilioClient";
+import { updateHuntBalance } from "../responses/updateHuntBalance";
 
 export const activateHunt: MutationResolvers["activateHunt"] = async (
   _parent: unknown,

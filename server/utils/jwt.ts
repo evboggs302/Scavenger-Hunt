@@ -12,23 +12,17 @@ const { ACCESS_TOKEN_SECRET, ACCESS_TOKEN_DURATION } = config;
 
 interface SetTokenArgs {
   u_id: string;
-  sub_id: string | null;
 }
 
 /**
  * @description
  * Creates a token and saves it to the database.
  * @param user_id - The ID of the user.
- * @param subscriptionId - The ID of the Stripe subscription.
  */
-export const createAndSaveToken = async (
-  user_id: Types.ObjectId,
-  subscriptionId: string | null
-) => {
+export const createAndSaveToken = async (user_id: Types.ObjectId) => {
   try {
     const token = setToken({
       u_id: user_id.toString(),
-      sub_id: subscriptionId,
     });
     const today = new Date();
     const expiresInMs = parseDuration("2d") as number;
@@ -63,7 +57,7 @@ export const getUserFromToken = async (
 
   if (verifiedToken && storedToken?.issuedToUser) {
     const user = await UserModel.findOne({
-      _id: storedToken?.issuedToUser,
+      _id: storedToken.issuedToUser,
     })
       .select({ hash: 0 })
       .exec();
@@ -94,7 +88,10 @@ export const verifyToken = (token: string) => {
     return verify(token, ACCESS_TOKEN_SECRET);
   } catch (error) {
     if (error instanceof Error && error.message !== "jwt expired") {
-      console.error(`Access token error: ${error.message}`);
+      return throwResolutionError({
+        message: "Unable to find a user associated with that auth token.",
+        location: "verifyToken",
+      });
     }
     return null;
   }

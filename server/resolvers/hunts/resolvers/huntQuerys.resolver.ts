@@ -9,7 +9,7 @@ import {
   throwServerError,
 } from "../../../utils/apolloErrorHandlers";
 
-const huntResolver: Resolvers = {
+const resolver: Resolvers = {
   Query: {
     getHuntsByUserId: async (
       _parent: unknown,
@@ -97,4 +97,4 @@ const huntResolver: Resolvers = {
   },
 };
 
-export default { ...huntResolver };
+export default { ...resolver };

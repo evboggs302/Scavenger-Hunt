@@ -1,22 +1,14 @@
+import { Table } from "@lib/components/Table/Table";
 import { useHuntContext } from "@lib/context/HuntContext";
-import { NoCardsToShowText } from "@lib/components/Cards/NoCardsToShowText";
-import Box from "@mui/material/Box";
-import { TableVirtuoso } from "react-virtuoso";
 import { TeamsTableHeader } from "./TeamsTableHeader";
-import TableBody from "@mui/material/TableBody";
 import { TeamsTableRow } from "./TeamsTableRow";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import Box from "@mui/material/Box";
 
 export const TeamsTable = () => {
   const { data } = useHuntContext();
   const teams = data?.hunt?.teams;
 
-  const filteredTeams = teams?.filter((tm) => tm !== null);
-
-  if (filteredTeams && filteredTeams.length === 0) {
-    return <NoCardsToShowText type="teams" />;
-  }
+  const filteredTeams = teams?.filter((tm) => !!tm);
 
   return (
     <Box
@@ -26,16 +18,13 @@ export const TeamsTable = () => {
         width: "100%",
       }}
     >
-      <TableVirtuoso
-        style={{ height: "100%", width: "100%", overflow: "auto" }}
+      <Table
         data={filteredTeams}
-        components={{
-          TableHead,
-          TableBody,
-          TableRow,
-        }}
-        fixedHeaderContent={TeamsTableHeader}
-        itemContent={(_index, team) => <TeamsTableRow team={team} />}
+        fixedHeader={TeamsTableHeader}
+        emptyPlaceholderText="No teams created yet."
+        itemContent={(_index, team) => (
+          <TeamsTableRow key={team._id} team={team} />
+        )}
       />
     </Box>
   );

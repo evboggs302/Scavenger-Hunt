@@ -13,11 +13,17 @@ const config: CodegenConfig = {
         "fragment-matcher",
       ],
       config: {
+        contextType: "../@types/ApolloServerContextType#ApolloServerContext", // Path to your context type
         dedupeFragments: true,
         preResolveTypes: true,
         nonOptionalTypename: true,
         skipTypeNameForRoot: true,
         useIndexSignature: true,
+        // mappers: {
+        //   StripeSubscription: "stripe#Stripe.Subscription",
+        //   StripeCharge: "stripe#Stripe.Charge",
+        //   StripePaymentIntent: "stripe#Stripe.PaymentIntent",
+        // },
       },
     },
     "./graphql.schema.json": {

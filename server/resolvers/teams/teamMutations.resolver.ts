@@ -7,7 +7,7 @@ import {
   throwServerError,
 } from "../../utils/apolloErrorHandlers";
 
-const teamResolver: Resolvers = {
+const resolver: Resolvers = {
   Mutation: {
     createSingleTeam: async (
       _parent: unknown,
@@ -119,4 +119,4 @@ const teamResolver: Resolvers = {
   },
 };
 
-export default { ...teamResolver };
+export default { ...resolver };

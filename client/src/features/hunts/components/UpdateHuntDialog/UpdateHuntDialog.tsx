@@ -153,12 +153,12 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
             <InputLabel required>Start date</InputLabel>
             <DatePicker
               disablePast
-              inputRef={startDateField.ref}
               name={startDateField.name}
               value={startDateField.value}
               onChange={onChangeStart}
               slotProps={{
                 textField: {
+                  ref: startDateField.ref,
                   onBlur: startDateField.onBlur,
                   error: !!startDateState.error,
                   helperText: startDateState.error
@@ -184,7 +184,11 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
           >
             <Checkbox
               data-testid="update-hunt-multiple-days"
-              inputRef={checkbox.ref}
+              slotProps={{
+                input: {
+                  ref: checkbox.ref,
+                },
+              }}
               name={checkbox.name}
               checked={checkbox.value}
               onBlur={checkbox.onBlur}
@@ -198,7 +202,6 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
               <DatePicker
                 disablePast
                 disabled={!!startDateState.error}
-                inputRef={endDateField.ref}
                 name={endDateField.name}
                 value={endDateField.value}
                 onChange={endDateField.onChange}
@@ -207,6 +210,7 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
                 }
                 slotProps={{
                   textField: {
+                    ref: endDateField.ref,
                     onBlur: endDateField.onBlur,
                     error: !!endDateState.error,
                     helperText: endDateState.error

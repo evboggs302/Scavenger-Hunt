@@ -4,7 +4,7 @@ import { CluePayload, Resolvers } from "../../generated/graphql";
 import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
 import { throwServerError } from "../../utils/apolloErrorHandlers";
 
-const clueResolver: Resolvers = {
+const resolver: Resolvers = {
   Query: {
     getCluesByHuntId: async (
       _parent: unknown,
@@ -37,4 +37,4 @@ const clueResolver: Resolvers = {
   },
 };
 
-export default { ...clueResolver };
+export default { ...resolver };

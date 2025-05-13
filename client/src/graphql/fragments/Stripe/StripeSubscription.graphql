@@ -1,0 +1,8 @@
+fragment StripeSubscription on StripeSubscription {
+  id
+  status
+  description
+  priceId
+  productId
+  clientSecret
+}

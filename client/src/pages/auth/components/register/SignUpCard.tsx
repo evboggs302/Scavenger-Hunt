@@ -21,7 +21,7 @@ type Inputs = RegisterSchema & {
   onSubmitError?: string;
 };
 
-export const SignUpCard = (props: { disableCustomTheme?: boolean }) => {
+export const SignUpCard = () => {
   const [registerMutation, { loading }] = useRegisterMutation();
   const [resolver] = useRegisterResolver();
 

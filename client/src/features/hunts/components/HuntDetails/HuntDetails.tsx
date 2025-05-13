@@ -69,7 +69,7 @@ export const HuntDetails = () => {
           component={Paper}
           sx={{ minWidth: 650, maxWidth: 1200 }}
         >
-          <Table aria-label="simple table">
+          <Table aria-label="hunt details table">
             <TableHead>
               <TableRow>
                 <TableCell sx={{ maxWidth: 220 }}>Name</TableCell>

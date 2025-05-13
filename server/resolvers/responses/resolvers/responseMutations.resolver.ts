@@ -7,7 +7,7 @@ import { throwServerError } from "../../../utils/apolloErrorHandlers";
 import { twilioClient } from "../../../utils/twilioClient";
 import { sendHint } from "../sendHint";
 
-const responseResolver: Resolvers = {
+const resolver: Resolvers = {
   Mutation: {
     sendHint,
     markResponseCorrect: async (
@@ -109,4 +109,4 @@ const responseResolver: Resolvers = {
   },
 };
 
-export default { ...responseResolver };
+export default { ...resolver };

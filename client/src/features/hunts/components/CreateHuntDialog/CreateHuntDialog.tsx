@@ -114,7 +114,7 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
   return (
     <FormProvider {...methods}>
       <Dialog
-        open={true}
+        open
         onClose={handleClose}
         slotProps={{
           paper: {
@@ -138,7 +138,6 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
             <InputLabel required>Start date</InputLabel>
             <DatePicker
               disablePast
-              inputRef={startDateField.ref}
               name={startDateField.name}
               value={startDateField.value}
               onChange={onChangeStart}
@@ -152,6 +151,7 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
                   color: startDateState.error ? "error" : "primary",
                   slotProps: {
                     htmlInput: {
+                      ref: startDateField.ref,
                       "data-testid": "create-hunt-start",
                     },
                   },
@@ -169,7 +169,11 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
           >
             <Checkbox
               data-testid="create-hunt-multiple-days"
-              inputRef={checkbox.ref}
+              slotProps={{
+                input: {
+                  ref: checkbox.ref,
+                },
+              }}
               name={checkbox.name}
               checked={checkbox.value}
               onBlur={checkbox.onBlur}
@@ -183,7 +187,6 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
               <DatePicker
                 disablePast
                 disabled={!!startDateState.error}
-                inputRef={endDateField.ref}
                 name={endDateField.name}
                 value={endDateField.value}
                 onChange={endDateField.onChange}
@@ -200,6 +203,7 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
                     color: endDateState.error ? "error" : "primary",
                     slotProps: {
                       htmlInput: {
+                        ref: endDateField.ref,
                         "data-testid": "create-hunt-end",
                       },
                     },

@@ -1,0 +1,44 @@
+type Query {
+  fetchStripeSubscription: StripeSubscription!
+  fetchStripeCharges: [StripeCharge]!
+  fetchStripePaymentMethod: PaymentMethod
+}
+
+type Mutation {
+  createPaymentIntent: String!
+  createSubscription(payment_method_id: String!): StripeSubscription!
+  cancelSubscription: Boolean!
+}
+
+type StripeSubscription {
+  id: String!
+  description: String
+  priceId: String!
+  productId: String!
+  status: String!
+  clientSecret: String
+}
+
+type StripeCharge {
+  id: String!
+  status: String!
+  amount: Int!
+  description: String
+  paymentCard: PaymentCard!
+  paymentIntent: String
+}
+
+type PaymentCard {
+  brand: String
+  last4: String
+}
+
+type StripePaymentIntent {
+  id: String!
+}
+
+type PaymentMethod {
+  id: String!
+  brand: String!
+  last4: String!
+}

@@ -7,7 +7,7 @@ import {
   throwServerError,
 } from "../../utils/apolloErrorHandlers";
 
-const teamResolver: Resolvers = {
+const resolver: Resolvers = {
   Query: {
     getTeamsByHuntId: async (_parent: unknown, { h_id }) => {
       const hunt_id = createBsonObjectId(h_id);
@@ -46,4 +46,4 @@ const teamResolver: Resolvers = {
   },
 };
 
-export default { ...teamResolver };
+export default { ...resolver };

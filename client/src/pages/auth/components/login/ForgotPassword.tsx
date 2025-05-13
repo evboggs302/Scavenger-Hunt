@@ -8,22 +8,23 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import { FormEvent } from "react";
 
 interface ForgotPasswordProps {
-  open: boolean;
   handleClose: () => void;
 }
 
-export const ForgotPassword = ({ open, handleClose }: ForgotPasswordProps) => {
+export const ForgotPassword = ({ handleClose }: ForgotPasswordProps) => {
   return (
     <Dialog
-      open={open}
+      open={true}
       onClose={handleClose}
-      PaperProps={{
-        component: "form",
-        onSubmit: (event: FormEvent<HTMLFormElement>) => {
-          event.preventDefault();
-          handleClose();
+      slotProps={{
+        paper: {
+          component: "form",
+          sx: { backgroundImage: "none" },
+          onSubmit: (event: FormEvent<HTMLFormElement>) => {
+            event.preventDefault();
+            handleClose();
+          },
         },
-        sx: { backgroundImage: "none" },
       }}
     >
       <DialogTitle>Reset password</DialogTitle>

@@ -2,20 +2,20 @@ import { MutationResolvers } from "generated/graphql";
 import { throwResolutionError } from "../../utils/apolloErrorHandlers";
 import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
 import { TokenModel } from "../../models/token_storage";
-import { deleteTwilioSubAccount } from "../../utils/twilioActions/deleteTwilioSubAccount";
 import { UserModel } from "../../models/users";
 import { HuntModel } from "../../models/hunts";
 import { TeamModel } from "../../models/teams";
 import { ResponseModel } from "../../models/responses";
 import { ClueModel } from "../../models/clues";
+import { deleteCustomerVendorAccounts } from "./deleteCustomerVendorAccounts";
 
 /**
  * @todo Confirm user doesn't have any outstanding bills before deleting
  */
 export const deleteUser: MutationResolvers["deleteUser"] = async (
   _parent: unknown,
-  { user_id },
-  _ctxt,
+  _args,
+  { user: { _id: user_id } },
   { operation: { name } }
 ) => {
   try {
@@ -67,8 +67,8 @@ export const deleteUser: MutationResolvers["deleteUser"] = async (
     // DELETE ALL TOKENS ASSOCIATED WITH THE USER
     await TokenModel.deleteMany({ issuedToUser: _id }).exec();
 
-    // DELETE THE ACCOUNT ASSOCIATED WITH THE USER
-    await deleteTwilioSubAccount(user_id);
+    // DELETE THE ACCOUNTS ASSOCIATED WITH THE USER
+    await deleteCustomerVendorAccounts(_id);
 
     // DELETE THE USER
     const { deletedCount } = await UserModel.deleteOne({ _id }).exec();

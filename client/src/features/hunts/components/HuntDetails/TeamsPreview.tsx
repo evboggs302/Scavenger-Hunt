@@ -37,7 +37,7 @@ export const TeamsPreview = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.hunt.teams.map((team) => (
+              {data.hunt.teams.slice(0, 6).map((team) => (
                 <TableRow
                   key={team?._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

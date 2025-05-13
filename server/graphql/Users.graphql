@@ -1,15 +1,5 @@
 type Query {
-  getAllUsers: [AllUsersPayload]
   getUserFromToken: UserPayload!
-  userNameExists(user_name: String!): Boolean!
-  emailExists(email: String!): Boolean!
-}
-
-type Mutation {
-  registerUser(input: AddUserInput!): AuthPayload!
-  login(input: LoginInput!): AuthPayload!
-  logout: Boolean!
-  deleteUser(user_id: ID!): Boolean!
 }
 
 type UserPayload {
@@ -19,32 +9,4 @@ type UserPayload {
   first_name: String!
   last_name: String!
   account: String!
-}
-
-type AllUsersPayload {
-  _id: ID!
-  email: String!
-  user_name: String!
-  first_name: String!
-  last_name: String!
-  account: String!
-  hunts: [Hunt!]
-}
-
-type AuthPayload {
-  _id: ID!
-  token: String!
-}
-
-input AddUserInput {
-  email: String!
-  first_name: String!
-  last_name: String!
-  user_name: String!
-  password: String!
-}
-
-input LoginInput {
-  user_name: String!
-  password: String!
 }
