@@ -19,7 +19,6 @@ export const AccountsPage = () => {
     return <CircularLoading />;
   }
 
-  console.log(charges);
   const data = charges?.filter((charge) => !!charge);
 
   return (
