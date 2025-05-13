@@ -1,4 +1,9 @@
-import { createContext, PropsWithChildren, useContext } from "react";
+import {
+  createContext,
+  PropsWithChildren,
+  useCallback,
+  useContext,
+} from "react";
 import {
   GetUserFromTokenDocument,
   GetUserFromTokenQuery,
@@ -19,12 +24,14 @@ export const UserContext = createContext<UserContextValue | undefined>(
 export const UserQryContextProvider = ({ children }: PropsWithChildren) => {
   const navigate = useNavigate();
 
+  const onErrorCallback = useCallback(() => {
+    localStorage.removeItem("BEARER_TOKEN");
+    return navigate("/login", { replace: true });
+  }, [navigate]);
+
   const result = useQuery(GetUserFromTokenDocument, {
     pollInterval: 10_000,
-    onError: () => {
-      localStorage.removeItem("BEARER_TOKEN");
-      return navigate("/login", { replace: true });
-    },
+    onError: onErrorCallback,
   });
 
   return <UserContext.Provider value={result}>{children}</UserContext.Provider>;

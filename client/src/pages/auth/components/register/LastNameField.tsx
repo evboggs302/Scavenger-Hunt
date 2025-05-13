@@ -17,8 +17,10 @@ export const LastNameField = () => {
           htmlInput: {
             "data-testid": "register-lastname",
           },
+          input: {
+            ref: field.ref,
+          },
         }}
-        inputRef={field.ref}
         name={field.name}
         value={field.value}
         onBlur={field.onBlur}

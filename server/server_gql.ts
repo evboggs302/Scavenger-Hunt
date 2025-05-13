@@ -3,7 +3,7 @@ import express from "express";
 import http from "http";
 import cors from "cors";
 import config from "./config";
-import { ListenOptions } from "net";
+import type { ListenOptions } from "net";
 import { schemaWithResolvers } from "./schema";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";

@@ -12,7 +12,7 @@ import { activateHunt } from "../activateHunt";
 import { markHuntComplete } from "../markHuntComplete";
 import { updateHunt } from "../updateHunt";
 
-const huntResolver: Resolvers = {
+const resolver: Resolvers = {
   Mutation: {
     activateHunt,
     markHuntComplete,
@@ -96,4 +96,4 @@ const huntResolver: Resolvers = {
   },
 };
 
-export default { ...huntResolver };
+export default { ...resolver };

@@ -52,7 +52,6 @@ export const useScrollShadow = <T extends HTMLElement = HTMLElement>() => {
   if (ref.current) {
     ref.current.onscroll = handler;
     ref.current.style.boxShadow = getBoxShadow();
-    ref.current.style.backgroundColor = "turquoise";
   }
 
   return { hasOverflow, ref };

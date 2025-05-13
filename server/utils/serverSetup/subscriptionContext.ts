@@ -6,7 +6,7 @@ import { UserPayload } from "generated/graphql";
 
 export type SubscriptionContext = {
   user: UserPayload;
-  authToken: string;
+  token: string;
 };
 
 export const createSubscriptionContext: ServerOptions["context"] = async (
@@ -24,11 +24,11 @@ export const createSubscriptionContext: ServerOptions["context"] = async (
       location: "ServerMiddleware",
     });
   } else {
-    const authToken = connectionParams.authentication.replace("Bearer ", "");
+    const token = connectionParams.authentication.replace("Bearer ", "");
     const tokenExists = await TokenModel.findOne({
-      token: authToken,
+      token,
     }).exec();
-    const user = await getUserFromToken(authToken);
+    const user = await getUserFromToken(token);
     if (!tokenExists || !user) {
       return AuthenticationError({
         message:
@@ -36,6 +36,6 @@ export const createSubscriptionContext: ServerOptions["context"] = async (
         location: "ServerMiddleware",
       });
     }
-    return { user, authToken };
+    return { user, token };
   }
 };

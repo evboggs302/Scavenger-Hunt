@@ -31,7 +31,7 @@ export const registerUser: MutationResolvers["registerUser"] = async (
     });
   }
 
-  const { subscriptionId } = await createCustomerVendorAccounts({
+  await createCustomerVendorAccounts({
     fullName: `${first_name} ${last_name}`,
     email,
     userId: u_id.toString(),
@@ -43,7 +43,7 @@ export const registerUser: MutationResolvers["registerUser"] = async (
     });
   });
 
-  const token = await createAndSaveToken(u_id, subscriptionId);
+  const token = await createAndSaveToken(u_id);
 
   if (!token) {
     await deleteCustomerVendorAccounts(u_id);

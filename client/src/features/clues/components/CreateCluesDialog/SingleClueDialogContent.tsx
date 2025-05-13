@@ -14,14 +14,16 @@ export const SingleClueDialogContent = () => {
         Description <i>(5 - 256 characters)</i>
       </InputLabel>
       <TextField
+        multiline
         slotProps={{
           htmlInput: {
             "data-testid": "create-clue-description",
             maxLength: 256,
           },
+          input: {
+            ref: description.ref,
+          },
         }}
-        multiline
-        inputRef={description.ref}
         name={description.name}
         value={description.value}
         onBlur={description.onBlur}

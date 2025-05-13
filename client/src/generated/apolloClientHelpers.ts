@@ -1,14 +1,4 @@
 import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
-export type AllUsersPayloadKeySpecifier = ('_id' | 'account' | 'email' | 'first_name' | 'hunts' | 'last_name' | 'user_name' | AllUsersPayloadKeySpecifier)[];
-export type AllUsersPayloadFieldPolicy = {
-	_id?: FieldPolicy<any> | FieldReadFunction<any>,
-	account?: FieldPolicy<any> | FieldReadFunction<any>,
-	email?: FieldPolicy<any> | FieldReadFunction<any>,
-	first_name?: FieldPolicy<any> | FieldReadFunction<any>,
-	hunts?: FieldPolicy<any> | FieldReadFunction<any>,
-	last_name?: FieldPolicy<any> | FieldReadFunction<any>,
-	user_name?: FieldPolicy<any> | FieldReadFunction<any>
-};
 export type AuthPayloadKeySpecifier = ('_id' | 'token' | AuthPayloadKeySpecifier)[];
 export type AuthPayloadFieldPolicy = {
 	_id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -38,14 +28,17 @@ export type HuntFieldPolicy = {
 	teams?: FieldPolicy<any> | FieldReadFunction<any>,
 	twilio_number?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('activateHunt' | 'createHunt' | 'createMultipleClues' | 'createMultipleTeams' | 'createSingleClue' | 'createSingleTeam' | 'deleteAllCluesByHuntId' | 'deleteAllResponsesByHunt' | 'deleteAllResponsesByTeam' | 'deleteAllTeamsByHuntId' | 'deleteClueById' | 'deleteHuntById' | 'deleteTeam' | 'deleteUser' | 'login' | 'logout' | 'markHuntComplete' | 'markResponseCorrect' | 'registerUser' | 'sendHint' | 'updateClueDescription' | 'updateClueOrder' | 'updateHunt' | 'updateTeam' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('activateHunt' | 'cancelSubscription' | 'createHunt' | 'createMultipleClues' | 'createMultipleTeams' | 'createPaymentIntent' | 'createSingleClue' | 'createSingleTeam' | 'createSubscription' | 'deleteAllCluesByHuntId' | 'deleteAllResponsesByHunt' | 'deleteAllResponsesByTeam' | 'deleteAllTeamsByHuntId' | 'deleteClueById' | 'deleteHuntById' | 'deleteTeam' | 'deleteUser' | 'login' | 'logout' | 'markHuntComplete' | 'markResponseCorrect' | 'registerUser' | 'sendHint' | 'updateClueDescription' | 'updateClueOrder' | 'updateHunt' | 'updateTeam' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	activateHunt?: FieldPolicy<any> | FieldReadFunction<any>,
+	cancelSubscription?: FieldPolicy<any> | FieldReadFunction<any>,
 	createHunt?: FieldPolicy<any> | FieldReadFunction<any>,
 	createMultipleClues?: FieldPolicy<any> | FieldReadFunction<any>,
 	createMultipleTeams?: FieldPolicy<any> | FieldReadFunction<any>,
+	createPaymentIntent?: FieldPolicy<any> | FieldReadFunction<any>,
 	createSingleClue?: FieldPolicy<any> | FieldReadFunction<any>,
 	createSingleTeam?: FieldPolicy<any> | FieldReadFunction<any>,
+	createSubscription?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteAllCluesByHuntId?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteAllResponsesByHunt?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteAllResponsesByTeam?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -65,11 +58,24 @@ export type MutationFieldPolicy = {
 	updateHunt?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateTeam?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('deleteAllHuntsByUser' | 'emailExists' | 'getAllUsers' | 'getCluesByHuntId' | 'getHunt' | 'getHuntsByUserId' | 'getResponsesByClue' | 'getResponsesByHunt' | 'getResponsesByTeam' | 'getTeam' | 'getTeamsByHuntId' | 'getUserFromToken' | 'userNameExists' | QueryKeySpecifier)[];
+export type PaymentCardKeySpecifier = ('brand' | 'last4' | PaymentCardKeySpecifier)[];
+export type PaymentCardFieldPolicy = {
+	brand?: FieldPolicy<any> | FieldReadFunction<any>,
+	last4?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type PaymentMethodKeySpecifier = ('brand' | 'id' | 'last4' | PaymentMethodKeySpecifier)[];
+export type PaymentMethodFieldPolicy = {
+	brand?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	last4?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type QueryKeySpecifier = ('deleteAllHuntsByUser' | 'emailExists' | 'fetchStripeCharges' | 'fetchStripePaymentMethod' | 'fetchStripeSubscription' | 'getCluesByHuntId' | 'getHunt' | 'getHuntsByUserId' | 'getResponsesByClue' | 'getResponsesByHunt' | 'getResponsesByTeam' | 'getTeam' | 'getTeamsByHuntId' | 'getUserFromToken' | 'userNameExists' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	deleteAllHuntsByUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	emailExists?: FieldPolicy<any> | FieldReadFunction<any>,
-	getAllUsers?: FieldPolicy<any> | FieldReadFunction<any>,
+	fetchStripeCharges?: FieldPolicy<any> | FieldReadFunction<any>,
+	fetchStripePaymentMethod?: FieldPolicy<any> | FieldReadFunction<any>,
+	fetchStripeSubscription?: FieldPolicy<any> | FieldReadFunction<any>,
 	getCluesByHuntId?: FieldPolicy<any> | FieldReadFunction<any>,
 	getHunt?: FieldPolicy<any> | FieldReadFunction<any>,
 	getHuntsByUserId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -97,6 +103,28 @@ export type ResponsesByHuntFieldPolicy = {
 	count?: FieldPolicy<any> | FieldReadFunction<any>,
 	responses?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type StripeChargeKeySpecifier = ('amount' | 'description' | 'id' | 'paymentCard' | 'paymentIntent' | 'status' | StripeChargeKeySpecifier)[];
+export type StripeChargeFieldPolicy = {
+	amount?: FieldPolicy<any> | FieldReadFunction<any>,
+	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	paymentCard?: FieldPolicy<any> | FieldReadFunction<any>,
+	paymentIntent?: FieldPolicy<any> | FieldReadFunction<any>,
+	status?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type StripePaymentIntentKeySpecifier = ('id' | StripePaymentIntentKeySpecifier)[];
+export type StripePaymentIntentFieldPolicy = {
+	id?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type StripeSubscriptionKeySpecifier = ('clientSecret' | 'description' | 'id' | 'priceId' | 'productId' | 'status' | StripeSubscriptionKeySpecifier)[];
+export type StripeSubscriptionFieldPolicy = {
+	clientSecret?: FieldPolicy<any> | FieldReadFunction<any>,
+	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	priceId?: FieldPolicy<any> | FieldReadFunction<any>,
+	productId?: FieldPolicy<any> | FieldReadFunction<any>,
+	status?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type SubscriptionKeySpecifier = ('responseReceived' | SubscriptionKeySpecifier)[];
 export type SubscriptionFieldPolicy = {
 	responseReceived?: FieldPolicy<any> | FieldReadFunction<any>
@@ -121,10 +149,6 @@ export type UserPayloadFieldPolicy = {
 	user_name?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type StrictTypedTypePolicies = {
-	AllUsersPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | AllUsersPayloadKeySpecifier | (() => undefined | AllUsersPayloadKeySpecifier),
-		fields?: AllUsersPayloadFieldPolicy,
-	},
 	AuthPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | AuthPayloadKeySpecifier | (() => undefined | AuthPayloadKeySpecifier),
 		fields?: AuthPayloadFieldPolicy,
@@ -141,6 +165,14 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | MutationKeySpecifier | (() => undefined | MutationKeySpecifier),
 		fields?: MutationFieldPolicy,
 	},
+	PaymentCard?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | PaymentCardKeySpecifier | (() => undefined | PaymentCardKeySpecifier),
+		fields?: PaymentCardFieldPolicy,
+	},
+	PaymentMethod?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | PaymentMethodKeySpecifier | (() => undefined | PaymentMethodKeySpecifier),
+		fields?: PaymentMethodFieldPolicy,
+	},
 	Query?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | QueryKeySpecifier | (() => undefined | QueryKeySpecifier),
 		fields?: QueryFieldPolicy,
@@ -152,6 +184,18 @@ export type StrictTypedTypePolicies = {
 	ResponsesByHunt?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ResponsesByHuntKeySpecifier | (() => undefined | ResponsesByHuntKeySpecifier),
 		fields?: ResponsesByHuntFieldPolicy,
+	},
+	StripeCharge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | StripeChargeKeySpecifier | (() => undefined | StripeChargeKeySpecifier),
+		fields?: StripeChargeFieldPolicy,
+	},
+	StripePaymentIntent?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | StripePaymentIntentKeySpecifier | (() => undefined | StripePaymentIntentKeySpecifier),
+		fields?: StripePaymentIntentFieldPolicy,
+	},
+	StripeSubscription?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | StripeSubscriptionKeySpecifier | (() => undefined | StripeSubscriptionKeySpecifier),
+		fields?: StripeSubscriptionFieldPolicy,
 	},
 	Subscription?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SubscriptionKeySpecifier | (() => undefined | SubscriptionKeySpecifier),

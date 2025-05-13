@@ -1,11 +1,11 @@
-import { deleteStripeCustomer } from "utils/stripeActions/deleteStripeCustomer";
+import { deleteStripeCustomer } from "../../utils/stripeActions/customerManagement/deleteStripeCustomer";
 import { AccountModel } from "../../models/accounts";
 import { UserModel } from "../../models/users";
 import { throwResolutionError } from "../../utils/apolloErrorHandlers";
-import { createStripeCustomer } from "../../utils/stripeActions/createStripeCustomer";
+import { createStripeCustomer } from "../../utils/stripeActions/customerManagement/createStripeCustomer";
 import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
 import { createTwilioSubAccount } from "../../utils/twilioActions/createTwilioSubAccount";
-import { deleteTwilioSubAccount } from "utils/twilioActions/deleteTwilioSubAccount";
+import { deleteTwilioSubAccount } from "../../utils/twilioActions/deleteTwilioSubAccount";
 
 type CreateCustomerVendorAccountsArgs = {
   fullName: string;
@@ -18,7 +18,7 @@ type CreateCustomerVendorAccountsArgs = {
  * Creates the following and updates the appropriate user:
  * - Stripe customer
  * - Twilio sub-account
- * - Account in MongoDB
+ * - Account Document in MongoDB
  * @param fullName - The full name of the user.
  * @param email - The email of the user.
  * @param userId - The ID of the user.
@@ -37,13 +37,13 @@ export const createCustomerVendorAccounts = async ({
   const user_id = createBsonObjectId(userId);
 
   try {
-    const { customerId, subscriptionId } = await createStripeCustomer(
-      fullName,
-      email
-    ).then((res) => {
-      stripeCustomerId = res.customerId;
-      return res;
-    });
+    const customerId = await createStripeCustomer(fullName, email).then(
+      (res) => {
+        stripeCustomerId = res;
+        return res;
+      }
+    );
+
     const { account_sid } = await createTwilioSubAccount(
       acct_id.toString()
     ).then((res) => {
@@ -69,7 +69,6 @@ export const createCustomerVendorAccounts = async ({
     return {
       account_id: acct_id,
       customerId: stripeCustomerId,
-      subscriptionId,
     };
   } catch (err) {
     if (stripeCustomerId) {

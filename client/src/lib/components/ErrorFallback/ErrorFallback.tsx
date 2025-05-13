@@ -7,14 +7,15 @@ import Button from "@mui/material/Button";
 type ErrorFallbackProps = FallbackProps & { message?: string };
 
 export const ErrorFallback = ({
-  // error,
   message = "There was a problem. Please try again later.",
   resetErrorBoundary = () => location.reload(),
 }: ErrorFallbackProps) => {
   const navigate = useNavigate();
   const canTryAgain = useRef(true);
 
-  const goToDashboard = () => navigate("/app", { replace: true });
+  const goToDashboard = () => {
+    navigate("/app", { replace: true });
+  };
 
   const tryAgain = useCallback(() => {
     canTryAgain.current = false;

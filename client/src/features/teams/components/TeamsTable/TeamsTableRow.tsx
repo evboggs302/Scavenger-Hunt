@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { Button } from "@mui/material";
 import TableCell from "@mui/material/TableCell";
 import DoneIcon from "@mui/icons-material/Done";
@@ -33,14 +33,20 @@ export const TeamsTableRow = ({
       <TableCell>
         {recall_sent ? <DoneIcon color="success" /> : "---"}
       </TableCell>
+      <TableCell>{_id}</TableCell>
       <TableCell>
         {!hunt.is_active && (
           <>
-            <Button size="small" onClick={handleDelete}>
-              Delete
-            </Button>
-            <Button size="small" onClick={() => setIsEditDialogOpen(true)}>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => setIsEditDialogOpen(true)}
+              style={{ marginRight: 4 }}
+            >
               Edit
+            </Button>
+            <Button color="error" size="small" onClick={handleDelete}>
+              Delete
             </Button>
           </>
         )}

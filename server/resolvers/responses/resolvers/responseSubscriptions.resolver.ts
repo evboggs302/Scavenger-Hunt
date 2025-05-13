@@ -7,12 +7,12 @@ import { SubscriptionContext } from "../../../utils/serverSetup/subscriptionCont
 
 export const RESPONSE_RECEIVED_TOPIC = "RESPONSE_RECEIVED_TOPIC";
 
-const responseResolver: Resolvers = {
+const resolver: Resolvers = {
   Subscription: {
     responseReceived: {
       subscribe: withFilter<unknown, { hunt_id: string }, SubscriptionContext>(
         () => mongodbPubSub.asyncIterator(RESPONSE_RECEIVED_TOPIC),
-        async (payload, variables, context) => {
+        async (payload, variables, _ctxt) => {
           // console.log("payload: ", payload);
           // console.log("variables: ", variables);
           // console.log("context: ", context);
@@ -39,4 +39,4 @@ const responseResolver: Resolvers = {
   },
 };
 
-export default { ...responseResolver };
+export default { ...resolver };

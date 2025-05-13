@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from "vite";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, "../", "");
+
   return {
     define: {
       "process.env.SERVER_URL_GQL": JSON.stringify(env.SERVER_URL_GQL),

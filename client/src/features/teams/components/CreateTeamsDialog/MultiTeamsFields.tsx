@@ -37,13 +37,15 @@ export const MultiTeamsFields = ({ index, remove }: MultiTeamFieldsProps) => {
           Team members <i>(separated by a comma)</i>
         </InputLabel>
         <TextField
+          multiline
           slotProps={{
             htmlInput: {
               "data-testid": `create-team-members-${index}`,
             },
+            input: {
+              ref: membersField.ref,
+            },
           }}
-          multiline
-          inputRef={membersField.ref}
           name={membersField.name}
           value={membersField.value}
           onBlur={membersField.onBlur}
@@ -63,8 +65,10 @@ export const MultiTeamsFields = ({ index, remove }: MultiTeamFieldsProps) => {
             htmlInput: {
               "data-testid": `create-team-device-number-${index}`,
             },
+            input: {
+              ref: deviceField.ref,
+            },
           }}
-          inputRef={deviceField.ref}
           name={deviceField.name}
           value={deviceField.value}
           onBlur={deviceField.onBlur}

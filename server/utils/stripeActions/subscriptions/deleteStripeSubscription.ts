@@ -1,5 +1,5 @@
-import { stripeInstance } from "../stripeInstance";
-import { throwResolutionError } from "../apolloErrorHandlers";
+import { stripeInstance } from "../../stripeInstance";
+import { throwResolutionError } from "../../apolloErrorHandlers";
 
 export const deleteStripeSubscription = async (subscriptionId: string) => {
   try {

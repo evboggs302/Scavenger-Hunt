@@ -1,13 +1,10 @@
-import { stripeInstance } from "../stripeInstance";
-import { throwResolutionError } from "../apolloErrorHandlers";
-import { HuntDocType } from "../../models/hunts";
-import { AccountDocument } from "../../models/accounts";
+import { stripeInstance } from "../../stripeInstance";
+import { throwResolutionError } from "../../apolloErrorHandlers";
+import { HuntDocType } from "../../../models/hunts";
+import { AccountDocument } from "../../../models/accounts";
 
 export const createStripeChargePerHunt = async (
-  {
-    // twilio_account_sid,
-    stripe_customer_id,
-  }: AccountDocument,
+  { stripe_customer_id }: AccountDocument,
   { name, balance_usd }: HuntDocType
 ) => {
   try {

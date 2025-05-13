@@ -5,7 +5,7 @@ import { returnedItems } from "../../../utils/transforms/returnedItems";
 import { createBsonObjectId } from "../../../utils/transforms/createBsonObjectId";
 import { throwServerError } from "../../../utils/apolloErrorHandlers";
 
-const responseResolver: Resolvers = {
+const resolver: Resolvers = {
   Query: {
     getResponsesByHunt: async (
       _parent: unknown,
@@ -79,4 +79,4 @@ const responseResolver: Resolvers = {
   },
 };
 
-export default { ...responseResolver };
+export default { ...resolver };

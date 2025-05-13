@@ -115,7 +115,11 @@ export const CreateCluesDialog = ({ handleClose }: CreateDialogProps) => {
           >
             <Switch
               data-testid="create-clues-switch"
-              inputRef={toggleSwitch.ref}
+              slotProps={{
+                input: {
+                  ref: toggleSwitch.ref,
+                },
+              }}
               name={toggleSwitch.name}
               value={toggleSwitch.value}
               onBlur={toggleSwitch.onBlur}

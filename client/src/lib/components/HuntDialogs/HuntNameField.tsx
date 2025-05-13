@@ -26,8 +26,10 @@ export const HuntNameField = ({
           htmlInput: {
             "data-testid": `${mode}-hunt-name`,
           },
+          input: {
+            ref: field.ref,
+          },
         }}
-        inputRef={field.ref}
         name={field.name}
         value={field.value}
         onBlur={field.onBlur}

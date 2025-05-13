@@ -20,13 +20,15 @@ export const SingleTeamDialogContent = () => {
           Team members <i>(separated by a comma)</i>
         </InputLabel>
         <TextField
+          multiline
           slotProps={{
             htmlInput: {
               "data-testid": "create-team-members",
             },
+            input: {
+              ref: membersField.ref,
+            },
           }}
-          multiline
-          inputRef={membersField.ref}
           name={membersField.name}
           value={membersField.value}
           onBlur={membersField.onBlur}
@@ -46,8 +48,10 @@ export const SingleTeamDialogContent = () => {
             htmlInput: {
               "data-testid": "create-team-device-number",
             },
+            input: {
+              ref: deviceNumber.ref,
+            },
           }}
-          inputRef={deviceNumber.ref}
           name={deviceNumber.name}
           value={deviceNumber.value}
           onBlur={deviceNumber.onBlur}

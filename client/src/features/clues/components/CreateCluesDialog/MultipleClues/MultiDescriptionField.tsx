@@ -28,14 +28,16 @@ export const MultiDescriptionField = ({
       }}
     >
       <TextField
+        multiline
         slotProps={{
           htmlInput: {
             "data-testid": `multi-clue-description`,
             maxLength: 256,
           },
+          input: {
+            ref: field.ref,
+          },
         }}
-        multiline
-        inputRef={field.ref}
         name={field.name}
         value={field.value}
         onBlur={field.onBlur}

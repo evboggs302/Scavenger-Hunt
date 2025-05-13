@@ -23,17 +23,6 @@ export type AddUserInput = {
   user_name: Scalars['String']['input'];
 };
 
-export type AllUsersPayload = {
-  __typename: 'AllUsersPayload';
-  _id: Scalars['ID']['output'];
-  account: Scalars['String']['output'];
-  email: Scalars['String']['output'];
-  first_name: Scalars['String']['output'];
-  hunts?: Maybe<Array<Hunt>>;
-  last_name: Scalars['String']['output'];
-  user_name: Scalars['String']['output'];
-};
-
 export type AuthPayload = {
   __typename: 'AuthPayload';
   _id: Scalars['ID']['output'];
@@ -106,11 +95,14 @@ export type LoginInput = {
 export type Mutation = {
   __typename: 'Mutation';
   activateHunt: Scalars['Boolean']['output'];
+  cancelSubscription: Scalars['Boolean']['output'];
   createHunt: Hunt;
   createMultipleClues: Array<CluePayload>;
   createMultipleTeams: Array<Maybe<Team>>;
+  createPaymentIntent: Scalars['String']['output'];
   createSingleClue: Array<CluePayload>;
   createSingleTeam: Team;
+  createSubscription: StripeSubscription;
   deleteAllCluesByHuntId: Scalars['Boolean']['output'];
   deleteAllResponsesByHunt: Scalars['Boolean']['output'];
   deleteAllResponsesByTeam: Scalars['Boolean']['output'];
@@ -159,6 +151,11 @@ export type MutationCreateSingleClueArgs = {
 
 export type MutationCreateSingleTeamArgs = {
   input: CreateSingleTeamInput;
+};
+
+
+export type MutationCreateSubscriptionArgs = {
+  payment_method_id: Scalars['String']['input'];
 };
 
 
@@ -246,11 +243,26 @@ export type MutationUpdateTeamArgs = {
   input: UpdateTeamInput;
 };
 
+export type PaymentCard = {
+  __typename: 'PaymentCard';
+  brand?: Maybe<Scalars['String']['output']>;
+  last4?: Maybe<Scalars['String']['output']>;
+};
+
+export type PaymentMethod = {
+  __typename: 'PaymentMethod';
+  brand: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  last4: Scalars['String']['output'];
+};
+
 export type Query = {
   __typename: 'Query';
   deleteAllHuntsByUser: Scalars['Boolean']['output'];
   emailExists: Scalars['Boolean']['output'];
-  getAllUsers?: Maybe<Array<Maybe<AllUsersPayload>>>;
+  fetchStripeCharges: Array<Maybe<StripeCharge>>;
+  fetchStripePaymentMethod?: Maybe<PaymentMethod>;
+  fetchStripeSubscription: StripeSubscription;
   getCluesByHuntId: Array<Maybe<CluePayload>>;
   getHunt: Hunt;
   getHuntsByUserId: Array<Maybe<Hunt>>;
@@ -337,6 +349,31 @@ export type SingleTeam = {
   members?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
+export type StripeCharge = {
+  __typename: 'StripeCharge';
+  amount: Scalars['Int']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  paymentCard: PaymentCard;
+  paymentIntent?: Maybe<Scalars['String']['output']>;
+  status: Scalars['String']['output'];
+};
+
+export type StripePaymentIntent = {
+  __typename: 'StripePaymentIntent';
+  id: Scalars['String']['output'];
+};
+
+export type StripeSubscription = {
+  __typename: 'StripeSubscription';
+  clientSecret?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  priceId: Scalars['String']['output'];
+  productId: Scalars['String']['output'];
+  status: Scalars['String']['output'];
+};
+
 export type Subscription = {
   __typename: 'Subscription';
   responseReceived?: Maybe<ResponsePayload>;
@@ -402,11 +439,26 @@ export type FullHuntFragment = { __typename: 'Hunt', _id: string, name: string, 
 
 export type ResponseFragment = { __typename: 'ResponsePayload', _id: string, clue_id: string, team_id: string, time_received: string, response_txt?: string | null, response_img?: Array<string> | null, correct?: boolean | null, hint_sent?: boolean | null };
 
+export type StripeChargeFragment = { __typename: 'StripeCharge', id: string, status: string, amount: number, description?: string | null, paymentIntent?: string | null, paymentCard: { __typename: 'PaymentCard', brand?: string | null, last4?: string | null } };
+
+export type PaymentCardFragment = { __typename: 'PaymentCard', brand?: string | null, last4?: string | null };
+
+export type StripeDefaultPaymentFragment = { __typename: 'PaymentMethod', id: string, brand: string, last4: string };
+
+export type StripeSubscriptionFragment = { __typename: 'StripeSubscription', id: string, status: string, description?: string | null, priceId: string, productId: string, clientSecret?: string | null };
+
 export type TeamFragment = { __typename: 'Team', _id: string, hunt_id: string, recall_sent: boolean, last_clue_sent: number, members: Array<string>, device_number: string };
 
 export type TokenFragment = { __typename: 'AuthPayload', _id: string, token: string };
 
 export type UserFragment = { __typename: 'UserPayload', _id: string, email: string, user_name: string, first_name: string, last_name: string, account: string };
+
+export type CreateSubscriptionMutationVariables = Exact<{
+  paymentMethodId: Scalars['String']['input'];
+}>;
+
+
+export type CreateSubscriptionMutation = { subscription: { __typename: 'StripeSubscription', id: string, status: string, description?: string | null, priceId: string, productId: string, clientSecret?: string | null } };
 
 export type CreateMultipleCluesMutationVariables = Exact<{
   input: CreateMultipleCluesInput;
@@ -578,6 +630,26 @@ export type RegisterUserMutationVariables = Exact<{
 
 export type RegisterUserMutation = { registerUser: { __typename: 'AuthPayload', _id: string, token: string } };
 
+export type FetchAccountTransactionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FetchAccountTransactionsQuery = { subscription: { __typename: 'StripeSubscription', id: string, status: string, description?: string | null, priceId: string, productId: string, clientSecret?: string | null }, charges: Array<{ __typename: 'StripeCharge', id: string, status: string, amount: number, description?: string | null, paymentIntent?: string | null, paymentCard: { __typename: 'PaymentCard', brand?: string | null, last4?: string | null } } | null> };
+
+export type FetchDefaultPaymentMethodQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FetchDefaultPaymentMethodQuery = { defaultPaymentMethod?: { __typename: 'PaymentMethod', id: string, brand: string, last4: string } | null };
+
+export type FetchStripeChargesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FetchStripeChargesQuery = { charges: Array<{ __typename: 'StripeCharge', id: string, status: string, amount: number, description?: string | null, paymentIntent?: string | null, paymentCard: { __typename: 'PaymentCard', brand?: string | null, last4?: string | null } } | null> };
+
+export type FetchStripeSubscriptionQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FetchStripeSubscriptionQuery = { subscription: { __typename: 'StripeSubscription', id: string, status: string, description?: string | null, priceId: string, productId: string, clientSecret?: string | null } };
+
 export type EmailExistsQueryVariables = Exact<{
   email: Scalars['String']['input'];
 }>;
@@ -667,9 +739,14 @@ export const HuntFragmentDoc = {"kind":"Document","definitions":[{"kind":"Fragme
 export const HuntBalanceFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"HuntBalance"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Hunt"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_by"}},{"kind":"Field","name":{"kind":"Name","value":"balance_usd"}}]}}]} as unknown as DocumentNode<HuntBalanceFragment, unknown>;
 export const FullHuntFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FullHunt"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Hunt"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_date"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"is_active"}},{"kind":"Field","name":{"kind":"Name","value":"marked_complete"}},{"kind":"Field","name":{"kind":"Name","value":"recall_message"}},{"kind":"Field","name":{"kind":"Name","value":"created_by"}},{"kind":"Field","name":{"kind":"Name","value":"twilio_number"}},{"kind":"Field","name":{"kind":"Name","value":"teams"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"hunt_id"}},{"kind":"Field","name":{"kind":"Name","value":"recall_sent"}},{"kind":"Field","name":{"kind":"Name","value":"last_clue_sent"}},{"kind":"Field","name":{"kind":"Name","value":"members"}},{"kind":"Field","name":{"kind":"Name","value":"device_number"}}]}}]}}]} as unknown as DocumentNode<FullHuntFragment, unknown>;
 export const ResponseFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Response"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ResponsePayload"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"clue_id"}},{"kind":"Field","name":{"kind":"Name","value":"team_id"}},{"kind":"Field","name":{"kind":"Name","value":"time_received"}},{"kind":"Field","name":{"kind":"Name","value":"response_txt"}},{"kind":"Field","name":{"kind":"Name","value":"response_img"}},{"kind":"Field","name":{"kind":"Name","value":"correct"}},{"kind":"Field","name":{"kind":"Name","value":"hint_sent"}}]}}]} as unknown as DocumentNode<ResponseFragment, unknown>;
+export const PaymentCardFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PaymentCard"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PaymentCard"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"brand"}},{"kind":"Field","name":{"kind":"Name","value":"last4"}}]}}]} as unknown as DocumentNode<PaymentCardFragment, unknown>;
+export const StripeChargeFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StripeCharge"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"StripeCharge"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"paymentIntent"}},{"kind":"Field","name":{"kind":"Name","value":"paymentCard"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PaymentCard"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PaymentCard"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PaymentCard"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"brand"}},{"kind":"Field","name":{"kind":"Name","value":"last4"}}]}}]} as unknown as DocumentNode<StripeChargeFragment, unknown>;
+export const StripeDefaultPaymentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StripeDefaultPayment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PaymentMethod"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"brand"}},{"kind":"Field","name":{"kind":"Name","value":"last4"}}]}}]} as unknown as DocumentNode<StripeDefaultPaymentFragment, unknown>;
+export const StripeSubscriptionFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StripeSubscription"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"StripeSubscription"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"priceId"}},{"kind":"Field","name":{"kind":"Name","value":"productId"}},{"kind":"Field","name":{"kind":"Name","value":"clientSecret"}}]}}]} as unknown as DocumentNode<StripeSubscriptionFragment, unknown>;
 export const TeamFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Team"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Team"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"hunt_id"}},{"kind":"Field","name":{"kind":"Name","value":"recall_sent"}},{"kind":"Field","name":{"kind":"Name","value":"last_clue_sent"}},{"kind":"Field","name":{"kind":"Name","value":"members"}},{"kind":"Field","name":{"kind":"Name","value":"device_number"}}]}}]} as unknown as DocumentNode<TeamFragment, unknown>;
 export const TokenFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Token"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AuthPayload"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]} as unknown as DocumentNode<TokenFragment, unknown>;
 export const UserFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"User"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"UserPayload"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"user_name"}},{"kind":"Field","name":{"kind":"Name","value":"first_name"}},{"kind":"Field","name":{"kind":"Name","value":"last_name"}},{"kind":"Field","name":{"kind":"Name","value":"account"}}]}}]} as unknown as DocumentNode<UserFragment, unknown>;
+export const CreateSubscriptionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateSubscription"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"paymentMethodId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"subscription"},"name":{"kind":"Name","value":"createSubscription"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"payment_method_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"paymentMethodId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"StripeSubscription"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StripeSubscription"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"StripeSubscription"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"priceId"}},{"kind":"Field","name":{"kind":"Name","value":"productId"}},{"kind":"Field","name":{"kind":"Name","value":"clientSecret"}}]}}]} as unknown as DocumentNode<CreateSubscriptionMutation, CreateSubscriptionMutationVariables>;
 export const CreateMultipleCluesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateMultipleClues"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateMultipleCluesInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"clues"},"name":{"kind":"Name","value":"createMultipleClues"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Clue"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Clue"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CluePayload"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"hunt_id"}},{"kind":"Field","name":{"kind":"Name","value":"order_number"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]} as unknown as DocumentNode<CreateMultipleCluesMutation, CreateMultipleCluesMutationVariables>;
 export const CreateSingleClueDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateSingleClue"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateSingleClueInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"clues"},"name":{"kind":"Name","value":"createSingleClue"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Clue"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Clue"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CluePayload"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"hunt_id"}},{"kind":"Field","name":{"kind":"Name","value":"order_number"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]} as unknown as DocumentNode<CreateSingleClueMutation, CreateSingleClueMutationVariables>;
 export const DeleteAllCluesByHuntIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteAllCluesByHuntId"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"hunt_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"wasDeleted"},"name":{"kind":"Name","value":"deleteAllCluesByHuntId"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"hunt_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"hunt_id"}}}]}]}}]} as unknown as DocumentNode<DeleteAllCluesByHuntIdMutation, DeleteAllCluesByHuntIdMutationVariables>;
@@ -694,6 +771,10 @@ export const DeleteUserDocument = {"kind":"Document","definitions":[{"kind":"Ope
 export const LoginUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LoginUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"user_name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Token"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Token"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AuthPayload"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]} as unknown as DocumentNode<LoginUserMutation, LoginUserMutationVariables>;
 export const LogoutUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LogoutUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logout"}}]}}]} as unknown as DocumentNode<LogoutUserMutation, LogoutUserMutationVariables>;
 export const RegisterUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RegisterUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AddUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"registerUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"Token"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Token"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AuthPayload"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]} as unknown as DocumentNode<RegisterUserMutation, RegisterUserMutationVariables>;
+export const FetchAccountTransactionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchAccountTransactions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"subscription"},"name":{"kind":"Name","value":"fetchStripeSubscription"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"StripeSubscription"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"charges"},"name":{"kind":"Name","value":"fetchStripeCharges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"StripeCharge"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PaymentCard"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PaymentCard"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"brand"}},{"kind":"Field","name":{"kind":"Name","value":"last4"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StripeSubscription"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"StripeSubscription"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"priceId"}},{"kind":"Field","name":{"kind":"Name","value":"productId"}},{"kind":"Field","name":{"kind":"Name","value":"clientSecret"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StripeCharge"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"StripeCharge"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"paymentIntent"}},{"kind":"Field","name":{"kind":"Name","value":"paymentCard"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PaymentCard"}}]}}]}}]} as unknown as DocumentNode<FetchAccountTransactionsQuery, FetchAccountTransactionsQueryVariables>;
+export const FetchDefaultPaymentMethodDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchDefaultPaymentMethod"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"defaultPaymentMethod"},"name":{"kind":"Name","value":"fetchStripePaymentMethod"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"StripeDefaultPayment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StripeDefaultPayment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PaymentMethod"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"brand"}},{"kind":"Field","name":{"kind":"Name","value":"last4"}}]}}]} as unknown as DocumentNode<FetchDefaultPaymentMethodQuery, FetchDefaultPaymentMethodQueryVariables>;
+export const FetchStripeChargesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchStripeCharges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"charges"},"name":{"kind":"Name","value":"fetchStripeCharges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"StripeCharge"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PaymentCard"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"PaymentCard"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"brand"}},{"kind":"Field","name":{"kind":"Name","value":"last4"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StripeCharge"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"StripeCharge"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"paymentIntent"}},{"kind":"Field","name":{"kind":"Name","value":"paymentCard"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"PaymentCard"}}]}}]}}]} as unknown as DocumentNode<FetchStripeChargesQuery, FetchStripeChargesQueryVariables>;
+export const FetchStripeSubscriptionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FetchStripeSubscription"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"subscription"},"name":{"kind":"Name","value":"fetchStripeSubscription"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"StripeSubscription"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"StripeSubscription"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"StripeSubscription"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"priceId"}},{"kind":"Field","name":{"kind":"Name","value":"productId"}},{"kind":"Field","name":{"kind":"Name","value":"clientSecret"}}]}}]} as unknown as DocumentNode<FetchStripeSubscriptionQuery, FetchStripeSubscriptionQueryVariables>;
 export const EmailExistsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"EmailExists"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"emailExists"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}}]}]}}]} as unknown as DocumentNode<EmailExistsQuery, EmailExistsQueryVariables>;
 export const GetHuntDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetHunt"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"hunt"},"name":{"kind":"Name","value":"getHunt"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"FullHunt"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"FullHunt"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Hunt"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"created_date"}},{"kind":"Field","name":{"kind":"Name","value":"start_date"}},{"kind":"Field","name":{"kind":"Name","value":"end_date"}},{"kind":"Field","name":{"kind":"Name","value":"is_active"}},{"kind":"Field","name":{"kind":"Name","value":"marked_complete"}},{"kind":"Field","name":{"kind":"Name","value":"recall_message"}},{"kind":"Field","name":{"kind":"Name","value":"created_by"}},{"kind":"Field","name":{"kind":"Name","value":"twilio_number"}},{"kind":"Field","name":{"kind":"Name","value":"teams"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"hunt_id"}},{"kind":"Field","name":{"kind":"Name","value":"recall_sent"}},{"kind":"Field","name":{"kind":"Name","value":"last_clue_sent"}},{"kind":"Field","name":{"kind":"Name","value":"members"}},{"kind":"Field","name":{"kind":"Name","value":"device_number"}}]}}]}}]} as unknown as DocumentNode<GetHuntQuery, GetHuntQueryVariables>;
 export const GetHuntBalanceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetHuntBalance"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"hunt"},"name":{"kind":"Name","value":"getHunt"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"HuntBalance"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"HuntBalance"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Hunt"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"created_by"}},{"kind":"Field","name":{"kind":"Name","value":"balance_usd"}}]}}]} as unknown as DocumentNode<GetHuntBalanceQuery, GetHuntBalanceQueryVariables>;

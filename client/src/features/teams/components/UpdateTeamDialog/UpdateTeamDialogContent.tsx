@@ -22,13 +22,15 @@ export const UpdateTeamDialogContent = () => {
           Team members <i>(separated by a comma)</i>
         </InputLabel>
         <TextField
+          multiline
           slotProps={{
             htmlInput: {
               "data-testid": "update-team-members",
             },
+            input: {
+              ref: membersField.ref,
+            },
           }}
-          multiline
-          inputRef={membersField.ref}
           name={membersField.name}
           value={membersField.value}
           onBlur={membersField.onBlur}
@@ -48,8 +50,10 @@ export const UpdateTeamDialogContent = () => {
             htmlInput: {
               "data-testid": "update-team-device-number",
             },
+            input: {
+              ref: deviceNumber.ref,
+            },
           }}
-          inputRef={deviceNumber.ref}
           name={deviceNumber.name}
           value={deviceNumber.value}
           onBlur={deviceNumber.onBlur}

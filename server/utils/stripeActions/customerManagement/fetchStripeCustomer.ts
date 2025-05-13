@@ -1,5 +1,5 @@
-import { stripeInstance } from "../../utils/stripeInstance";
-import { throwResolutionError } from "../../utils/apolloErrorHandlers";
+import { stripeInstance } from "../../stripeInstance";
+import { throwResolutionError } from "../../apolloErrorHandlers";
 
 export const fetchStripeCustomer = async (customerId: string) => {
   try {

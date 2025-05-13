@@ -1,6 +1,5 @@
-import { stripeInstance } from "../stripeInstance";
-import { throwResolutionError } from "../apolloErrorHandlers";
-import { createStripeSubscription } from "./createStripeSubscription";
+import { stripeInstance } from "../../stripeInstance";
+import { throwResolutionError } from "../../apolloErrorHandlers";
 
 export const createStripeCustomer = async (name: string, email: string) => {
   try {
@@ -9,12 +8,7 @@ export const createStripeCustomer = async (name: string, email: string) => {
       email,
     });
 
-    const subscription = await createStripeSubscription(customer.id);
-
-    return {
-      customerId: customer.id,
-      subscriptionId: subscription.id,
-    };
+    return customer.id;
   } catch (err) {
     return throwResolutionError({
       location: "createStripeCustomer",
