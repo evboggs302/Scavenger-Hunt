@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useCreateSubscription } from "@features/account/hooks/useCreateSubscription";
 import { useUserContext } from "@lib/context/UserContext";
 import { useToast } from "@lib/hooks/useToast";
@@ -24,16 +24,22 @@ export const NewPaymentInfoContent = ({
   const stripe = useStripe();
   const elements = useElements();
   const [toast] = useToast();
+  const [isLoading, setIsLoading] = useState(false);
   const { data: userData } = useUserContext();
 
   const [createSubscription, { data, loading }] = useCreateSubscription();
 
+  const somethingLoading = loading || isLoading;
+  const toggleIsLoading = useCallback(() => setIsLoading((val) => !val), []);
+
   const createNewSubscription = useCallback(async () => {
+    toggleIsLoading();
     if (!stripe || !elements) {
       toast({
         variant: "error",
         message: "Unable to create a subscription; Stripe element issue.",
       });
+      toggleIsLoading();
       return;
     }
 
@@ -41,7 +47,7 @@ export const NewPaymentInfoContent = ({
       // VALIDATE STRIPE ELEMENTS
       const { error: submitError } = await elements.submit();
       if (submitError) {
-        return;
+        return new Error("Stripe elements have an error.");
       }
 
       const { paymentMethod, error: paymentMethodErr } =
@@ -93,6 +99,7 @@ export const NewPaymentInfoContent = ({
         message: `Uh-oh! ${message}`,
       });
 
+      toggleIsLoading();
       return;
     }
   }, [
@@ -102,6 +109,7 @@ export const NewPaymentInfoContent = ({
     onClose,
     stripe,
     toast,
+    toggleIsLoading,
     userData?.user.email,
     userData?.user.first_name,
     userData?.user.last_name,
@@ -123,9 +131,9 @@ export const NewPaymentInfoContent = ({
         </Button>
         <Button
           variant="outlined"
-          disabled={!stripe || loading}
+          disabled={!stripe || somethingLoading}
           onClick={createNewSubscription}
-          endIcon={loading && <CircularProgress size={20} />}
+          endIcon={somethingLoading && <CircularProgress size={20} />}
         >
           Subscribe
         </Button>
