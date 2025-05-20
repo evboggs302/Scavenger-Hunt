@@ -4,12 +4,11 @@ import { throwServerError } from "../../utils/apolloErrorHandlers";
 import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
 import { deprovisionNumber } from "../../utils/twilioActions/deprovisionNumber";
 import { createStripeChargePerHunt } from "../../utils/stripeActions/charges/createStripeChargePerHunt";
-import { AccountModel } from "../../models/accounts";
 
 export const markHuntComplete: MutationResolvers["markHuntComplete"] = async (
   _parent: unknown,
   { id },
-  _,
+  { accounts },
   { operation: { name } }
 ) => {
   try {
@@ -29,18 +28,7 @@ export const markHuntComplete: MutationResolvers["markHuntComplete"] = async (
       { is_active: false, marked_complete: true, twilio_number: "" }
     ).exec();
 
-    const account = await AccountModel.findOne({
-      user: hunt.created_by,
-    }).exec();
-
-    if (!account) {
-      return throwServerError({
-        location: name?.value,
-        message: "Unable to find the specified account.",
-      });
-    }
-
-    const charge = await createStripeChargePerHunt(account, hunt);
+    const charge = await createStripeChargePerHunt(accounts, hunt);
 
     return charge.status === "succeeded";
   } catch {

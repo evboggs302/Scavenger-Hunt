@@ -1,0 +1,5 @@
+query FetchSubscriptionProduct {
+  subscription: fetchSubscriptionProduct {
+    ...SubscriptionProduct
+  }
+}

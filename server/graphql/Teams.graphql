@@ -1,9 +1,9 @@
-type Query {
+extend type Query {
   getTeamsByHuntId(h_id: ID!): [Team]!
   getTeam(id: ID!): Team!
 }
 
-type Mutation {
+extend type Mutation {
   createSingleTeam(input: CreateSingleTeamInput!): Team!
   createMultipleTeams(input: CreateMultipleTeamsInput!): [Team]!
   updateTeam(input: UpdateTeamInput!): Team!

@@ -1,8 +1,8 @@
-type Query {
+extend type Query {
   getCluesByHuntId(id: String!): [CluePayload]!
 }
 
-type Mutation {
+extend type Mutation {
   createMultipleClues(input: CreateMultipleCluesInput!): [CluePayload!]!
   createSingleClue(input: CreateSingleClueInput!): [CluePayload!]!
   updateClueDescription(input: UpdateClueDescriptionInput!): CluePayload!

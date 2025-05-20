@@ -15,13 +15,13 @@ import { deleteCustomerVendorAccounts } from "./deleteCustomerVendorAccounts";
 export const deleteUser: MutationResolvers["deleteUser"] = async (
   _parent: unknown,
   _args,
-  { user: { _id: user_id } },
+  { user: { _id: user_id }, accounts },
   { operation: { name } }
 ) => {
   try {
     const _id = createBsonObjectId(user_id);
 
-    // confirm there are no active hunts
+    // CONFIRM THERE ARE NO ACTIVE HUNTS
     const activeHunt = await HuntModel.findOne({
       created_by: _id,
       is_active: true,
@@ -33,6 +33,8 @@ export const deleteUser: MutationResolvers["deleteUser"] = async (
         location: name?.value,
       });
     }
+
+    // CONFIRM NO OUTSTANDING INVOICES
 
     const allHuntIDsForUser = await HuntModel.find<{ _id: typeof _id }>(
       { created_by: _id },
@@ -68,7 +70,7 @@ export const deleteUser: MutationResolvers["deleteUser"] = async (
     await TokenModel.deleteMany({ issuedToUser: _id }).exec();
 
     // DELETE THE ACCOUNTS ASSOCIATED WITH THE USER
-    await deleteCustomerVendorAccounts(_id);
+    await deleteCustomerVendorAccounts(accounts);
 
     // DELETE THE USER
     const { deletedCount } = await UserModel.deleteOne({ _id }).exec();

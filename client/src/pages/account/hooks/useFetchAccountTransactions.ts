@@ -9,6 +9,7 @@ export const useFetchAccountTransactions = () => {
 
   const { data, loading } = useQuery(FetchAccountTransactionsDocument, {
     fetchPolicy: "cache-and-network",
+    pollInterval: 60_000,
   });
 
   useEffect(() => {

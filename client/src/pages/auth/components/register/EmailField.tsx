@@ -3,7 +3,7 @@ import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
 import TextField from "@mui/material/TextField";
 import { RegisterSchema } from "../../hooks/useRegisterResolver";
 
-export const UsernameField = () => {
+export const EmailField = () => {
   const { field, fieldState } = useController<RegisterSchema, "email">({
     name: "email",
     defaultValue: "",

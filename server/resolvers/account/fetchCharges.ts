@@ -1,24 +1,15 @@
 import { QueryResolvers } from "generated/graphql";
 import { throwResolutionError } from "../../utils/apolloErrorHandlers";
-import { AccountModel } from "../../models/accounts";
-import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
 import { fetchStripeCharges } from "../../utils/stripeActions/charges/fetchStripeCharges";
 
 export const fetchCharges: QueryResolvers["fetchStripeCharges"] = async (
   _parent: unknown,
   _args,
-  { user },
+  { accounts },
   { operation: { name } }
 ) => {
   try {
-    const user_id = createBsonObjectId(user._id);
-    const account = await AccountModel.findOne({ user: user_id }).exec();
-
-    if (!account) {
-      throw new Error("No account found.");
-    }
-
-    const charges = await fetchStripeCharges(account.stripe_customer_id);
+    const charges = await fetchStripeCharges(accounts.stripe_customer_id);
 
     return charges.map((charge) => {
       const paymentIntent =
@@ -29,6 +20,7 @@ export const fetchCharges: QueryResolvers["fetchStripeCharges"] = async (
       return {
         __typename: "StripeCharge",
         id: charge.id,
+        date: charge.created,
         status: charge.status,
         amount: charge.amount,
         description: charge.description,

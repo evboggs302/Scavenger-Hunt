@@ -68,6 +68,21 @@ export type CreateSingleTeamInput = {
   members: Array<InputMaybe<Scalars['String']['input']>>;
 };
 
+export type CreateSubscriptionPayload = {
+  __typename: 'CreateSubscriptionPayload';
+  clientSecret: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+};
+
+export type CustomerSubscription = StripeSubscription & {
+  __typename: 'CustomerSubscription';
+  amount: Scalars['Int']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  priceId: Scalars['String']['output'];
+  status: Scalars['String']['output'];
+};
+
 export type DeleteTeamInput = {
   team_id: Scalars['ID']['input'];
 };
@@ -101,10 +116,9 @@ export type Mutation = {
   createHunt: Hunt;
   createMultipleClues: Array<CluePayload>;
   createMultipleTeams: Array<Maybe<Team>>;
-  createPaymentIntent: Scalars['String']['output'];
   createSingleClue: Array<CluePayload>;
   createSingleTeam: Team;
-  createSubscription: StripeSubscription;
+  createSubscription: CreateSubscriptionPayload;
   deleteAllCluesByHuntId: Scalars['Boolean']['output'];
   deleteAllResponsesByHunt: Scalars['Boolean']['output'];
   deleteAllResponsesByTeam: Scalars['Boolean']['output'];
@@ -118,6 +132,7 @@ export type Mutation = {
   markHuntComplete: Scalars['Boolean']['output'];
   markResponseCorrect: Scalars['Boolean']['output'];
   registerUser: AuthPayload;
+  resubscribe: CustomerSubscription;
   sendHint: Scalars['Boolean']['output'];
   updateClueDescription: CluePayload;
   updateClueOrder: Array<Maybe<CluePayload>>;
@@ -262,9 +277,10 @@ export type Query = {
   __typename: 'Query';
   deleteAllHuntsByUser: Scalars['Boolean']['output'];
   emailExists: Scalars['Boolean']['output'];
+  fetchCustomerSubscription?: Maybe<CustomerSubscription>;
   fetchStripeCharges: Array<Maybe<StripeCharge>>;
   fetchStripePaymentMethod?: Maybe<PaymentMethod>;
-  fetchStripeSubscription: StripeSubscription;
+  fetchSubscriptionProduct: SubscriptionProduct;
   getCluesByHuntId: Array<Maybe<CluePayload>>;
   getHunt: Hunt;
   getHuntsByUserId: Array<Maybe<Hunt>>;
@@ -354,6 +370,7 @@ export type SingleTeam = {
 export type StripeCharge = {
   __typename: 'StripeCharge';
   amount: Scalars['Int']['output'];
+  date: Scalars['Int']['output'];
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   paymentCard: PaymentCard;
@@ -367,13 +384,10 @@ export type StripePaymentIntent = {
 };
 
 export type StripeSubscription = {
-  __typename: 'StripeSubscription';
-  clientSecret?: Maybe<Scalars['String']['output']>;
+  amount: Scalars['Int']['output'];
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   priceId: Scalars['String']['output'];
-  productId: Scalars['String']['output'];
-  status: Scalars['String']['output'];
 };
 
 export type Subscription = {
@@ -384,6 +398,14 @@ export type Subscription = {
 
 export type SubscriptionResponseReceivedArgs = {
   hunt_id: Scalars['ID']['input'];
+};
+
+export type SubscriptionProduct = StripeSubscription & {
+  __typename: 'SubscriptionProduct';
+  amount: Scalars['Int']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  priceId: Scalars['String']['output'];
 };
 
 export type Team = {
@@ -505,6 +527,10 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 ) => TResult | Promise<TResult>;
 
 
+/** Mapping of interface types */
+export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> = ResolversObject<{
+  StripeSubscription: ( CustomerSubscription ) | ( SubscriptionProduct );
+}>;
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
@@ -519,6 +545,8 @@ export type ResolversTypes = ResolversObject<{
   CreateMultipleTeamsInput: CreateMultipleTeamsInput;
   CreateSingleClueInput: CreateSingleClueInput;
   CreateSingleTeamInput: CreateSingleTeamInput;
+  CreateSubscriptionPayload: ResolverTypeWrapper<CreateSubscriptionPayload>;
+  CustomerSubscription: ResolverTypeWrapper<CustomerSubscription>;
   DeleteTeamInput: DeleteTeamInput;
   Hunt: ResolverTypeWrapper<Hunt>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
@@ -534,8 +562,9 @@ export type ResolversTypes = ResolversObject<{
   SingleTeam: SingleTeam;
   StripeCharge: ResolverTypeWrapper<StripeCharge>;
   StripePaymentIntent: ResolverTypeWrapper<StripePaymentIntent>;
-  StripeSubscription: ResolverTypeWrapper<StripeSubscription>;
+  StripeSubscription: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['StripeSubscription']>;
   Subscription: ResolverTypeWrapper<{}>;
+  SubscriptionProduct: ResolverTypeWrapper<SubscriptionProduct>;
   Team: ResolverTypeWrapper<Team>;
   UpdateClueDescriptionInput: UpdateClueDescriptionInput;
   UpdateClueOrderInput: UpdateClueOrderInput;
@@ -558,6 +587,8 @@ export type ResolversParentTypes = ResolversObject<{
   CreateMultipleTeamsInput: CreateMultipleTeamsInput;
   CreateSingleClueInput: CreateSingleClueInput;
   CreateSingleTeamInput: CreateSingleTeamInput;
+  CreateSubscriptionPayload: CreateSubscriptionPayload;
+  CustomerSubscription: CustomerSubscription;
   DeleteTeamInput: DeleteTeamInput;
   Hunt: Hunt;
   Float: Scalars['Float']['output'];
@@ -573,8 +604,9 @@ export type ResolversParentTypes = ResolversObject<{
   SingleTeam: SingleTeam;
   StripeCharge: StripeCharge;
   StripePaymentIntent: StripePaymentIntent;
-  StripeSubscription: StripeSubscription;
+  StripeSubscription: ResolversInterfaceTypes<ResolversParentTypes>['StripeSubscription'];
   Subscription: {};
+  SubscriptionProduct: SubscriptionProduct;
   Team: Team;
   UpdateClueDescriptionInput: UpdateClueDescriptionInput;
   UpdateClueOrderInput: UpdateClueOrderInput;
@@ -646,6 +678,21 @@ export type CluePayloadResolvers<ContextType = ApolloServerContext, ParentType e
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type CreateSubscriptionPayloadResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['CreateSubscriptionPayload'] = ResolversParentTypes['CreateSubscriptionPayload']> = ResolversObject<{
+  clientSecret?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type CustomerSubscriptionResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['CustomerSubscription'] = ResolversParentTypes['CustomerSubscription']> = ResolversObject<{
+  amount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  priceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type HuntResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['Hunt'] = ResolversParentTypes['Hunt']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   balance_usd?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
@@ -669,10 +716,9 @@ export type MutationResolvers<ContextType = ApolloServerContext, ParentType exte
   createHunt?: Resolver<ResolversTypes['Hunt'], ParentType, ContextType, RequireFields<MutationCreateHuntArgs, 'input'>>;
   createMultipleClues?: Resolver<Array<ResolversTypes['CluePayload']>, ParentType, ContextType, RequireFields<MutationCreateMultipleCluesArgs, 'input'>>;
   createMultipleTeams?: Resolver<Array<Maybe<ResolversTypes['Team']>>, ParentType, ContextType, RequireFields<MutationCreateMultipleTeamsArgs, 'input'>>;
-  createPaymentIntent?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createSingleClue?: Resolver<Array<ResolversTypes['CluePayload']>, ParentType, ContextType, RequireFields<MutationCreateSingleClueArgs, 'input'>>;
   createSingleTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<MutationCreateSingleTeamArgs, 'input'>>;
-  createSubscription?: Resolver<ResolversTypes['StripeSubscription'], ParentType, ContextType, RequireFields<MutationCreateSubscriptionArgs, 'payment_method_id'>>;
+  createSubscription?: Resolver<ResolversTypes['CreateSubscriptionPayload'], ParentType, ContextType, RequireFields<MutationCreateSubscriptionArgs, 'payment_method_id'>>;
   deleteAllCluesByHuntId?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteAllCluesByHuntIdArgs, 'hunt_id'>>;
   deleteAllResponsesByHunt?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteAllResponsesByHuntArgs, 'id'>>;
   deleteAllResponsesByTeam?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteAllResponsesByTeamArgs, 'id'>>;
@@ -686,6 +732,7 @@ export type MutationResolvers<ContextType = ApolloServerContext, ParentType exte
   markHuntComplete?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationMarkHuntCompleteArgs, 'id'>>;
   markResponseCorrect?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationMarkResponseCorrectArgs, 'id'>>;
   registerUser?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationRegisterUserArgs, 'input'>>;
+  resubscribe?: Resolver<ResolversTypes['CustomerSubscription'], ParentType, ContextType>;
   sendHint?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendHintArgs, 'input'>>;
   updateClueDescription?: Resolver<ResolversTypes['CluePayload'], ParentType, ContextType, RequireFields<MutationUpdateClueDescriptionArgs, 'input'>>;
   updateClueOrder?: Resolver<Array<Maybe<ResolversTypes['CluePayload']>>, ParentType, ContextType, RequireFields<MutationUpdateClueOrderArgs, 'input'>>;
@@ -709,9 +756,10 @@ export type PaymentMethodResolvers<ContextType = ApolloServerContext, ParentType
 export type QueryResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   deleteAllHuntsByUser?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   emailExists?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryEmailExistsArgs, 'email'>>;
+  fetchCustomerSubscription?: Resolver<Maybe<ResolversTypes['CustomerSubscription']>, ParentType, ContextType>;
   fetchStripeCharges?: Resolver<Array<Maybe<ResolversTypes['StripeCharge']>>, ParentType, ContextType>;
   fetchStripePaymentMethod?: Resolver<Maybe<ResolversTypes['PaymentMethod']>, ParentType, ContextType>;
-  fetchStripeSubscription?: Resolver<ResolversTypes['StripeSubscription'], ParentType, ContextType>;
+  fetchSubscriptionProduct?: Resolver<ResolversTypes['SubscriptionProduct'], ParentType, ContextType>;
   getCluesByHuntId?: Resolver<Array<Maybe<ResolversTypes['CluePayload']>>, ParentType, ContextType, RequireFields<QueryGetCluesByHuntIdArgs, 'id'>>;
   getHunt?: Resolver<ResolversTypes['Hunt'], ParentType, ContextType, RequireFields<QueryGetHuntArgs, 'id'>>;
   getHuntsByUserId?: Resolver<Array<Maybe<ResolversTypes['Hunt']>>, ParentType, ContextType>;
@@ -744,6 +792,7 @@ export type ResponsesByHuntResolvers<ContextType = ApolloServerContext, ParentTy
 
 export type StripeChargeResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['StripeCharge'] = ResolversParentTypes['StripeCharge']> = ResolversObject<{
   amount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  date?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   paymentCard?: Resolver<ResolversTypes['PaymentCard'], ParentType, ContextType>;
@@ -758,17 +807,23 @@ export type StripePaymentIntentResolvers<ContextType = ApolloServerContext, Pare
 }>;
 
 export type StripeSubscriptionResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['StripeSubscription'] = ResolversParentTypes['StripeSubscription']> = ResolversObject<{
-  clientSecret?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'CustomerSubscription' | 'SubscriptionProduct', ParentType, ContextType>;
+  amount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   priceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  productId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type SubscriptionResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
   responseReceived?: SubscriptionResolver<Maybe<ResolversTypes['ResponsePayload']>, "responseReceived", ParentType, ContextType, RequireFields<SubscriptionResponseReceivedArgs, 'hunt_id'>>;
+}>;
+
+export type SubscriptionProductResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['SubscriptionProduct'] = ResolversParentTypes['SubscriptionProduct']> = ResolversObject<{
+  amount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  priceId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type TeamResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['Team'] = ResolversParentTypes['Team']> = ResolversObject<{
@@ -795,6 +850,8 @@ export type UserPayloadResolvers<ContextType = ApolloServerContext, ParentType e
 export type Resolvers<ContextType = ApolloServerContext> = ResolversObject<{
   AuthPayload?: AuthPayloadResolvers<ContextType>;
   CluePayload?: CluePayloadResolvers<ContextType>;
+  CreateSubscriptionPayload?: CreateSubscriptionPayloadResolvers<ContextType>;
+  CustomerSubscription?: CustomerSubscriptionResolvers<ContextType>;
   Hunt?: HuntResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   PaymentCard?: PaymentCardResolvers<ContextType>;
@@ -806,6 +863,7 @@ export type Resolvers<ContextType = ApolloServerContext> = ResolversObject<{
   StripePaymentIntent?: StripePaymentIntentResolvers<ContextType>;
   StripeSubscription?: StripeSubscriptionResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
+  SubscriptionProduct?: SubscriptionProductResolvers<ContextType>;
   Team?: TeamResolvers<ContextType>;
   UserPayload?: UserPayloadResolvers<ContextType>;
 }>;
@@ -829,7 +887,12 @@ import { ObjectId } from 'mongodb';
         }
       }
       const result: PossibleTypesResultData = {
-  "possibleTypes": {}
+  "possibleTypes": {
+    "StripeSubscription": [
+      "CustomerSubscription",
+      "SubscriptionProduct"
+    ]
+  }
 };
       export default result;
     

@@ -1,4 +1,3 @@
-import { StripeSubscription } from "@generated/graphql";
 import { TextTableCell } from "@lib/components/Table/TextTableCell";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
@@ -8,15 +7,42 @@ import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import Typography from "@mui/material/Typography";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import { SubscribeForm } from "./SubscribeForm";
+import { useFetchAccountTransactions } from "@pages/account/hooks/useFetchAccountTransactions";
+import { useCancelSubscription } from "../hooks/useCancelSubscription";
+import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
 
-type SubscriptionInfoProps = { subscription?: StripeSubscription };
+export const SubscriptionInfo = () => {
+  const { subscription, subscriptStatus } = useFetchAccountTransactions();
+  const [cancelSubscription, { loading }] = useCancelSubscription();
 
-export const SubscriptionInfo = ({ subscription }: SubscriptionInfoProps) => {
   return (
-    <Box sx={{ marginBottom: 2 }}>
-      <h4>Subscription</h4>
+    <Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          margin: "10px auto",
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography variant="h5">Subscription</Typography>
+        {subscriptStatus === "active" && (
+          <Button
+            disabled={loading}
+            onClick={cancelSubscription}
+            startIcon={loading && <CircularProgress size={20} />}
+          >
+            Cancel subscription
+          </Button>
+        )}
+        {subscriptStatus !== "active" && <SubscribeForm />}
+      </Box>
       <TableContainer component={Paper} sx={{ width: "100%" }}>
         <Table aria-label="subscription details table">
           <TableHead>

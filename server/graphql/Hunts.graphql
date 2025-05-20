@@ -1,10 +1,10 @@
-type Query {
+extend type Query {
   getHuntsByUserId: [Hunt]!
   getHunt(id: ID!): Hunt!
   deleteAllHuntsByUser: Boolean!
 }
 
-type Mutation {
+extend type Mutation {
   createHunt(input: CreateHuntInput!): Hunt!
   activateHunt(id: ID!): Boolean!
   updateHunt(input: UpdateHuntInput!): Hunt!

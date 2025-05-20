@@ -1,0 +1,19 @@
+fragment SubscriptionProduct on SubscriptionProduct {
+  id
+  description
+  priceId
+  amount
+}
+
+fragment CustomerSubscription on CustomerSubscription {
+  id
+  description
+  priceId
+  amount
+  status
+}
+
+fragment CreateSubscriptionPayload on CreateSubscriptionPayload {
+  id
+  clientSecret
+}

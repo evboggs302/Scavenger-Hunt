@@ -1,9 +1,9 @@
-type Query {
+extend type Query {
   userNameExists(user_name: String!): Boolean!
   emailExists(email: String!): Boolean!
 }
 
-type Mutation {
+extend type Mutation {
   registerUser(input: AddUserInput!): AuthPayload!
   login(input: LoginInput!): AuthPayload!
   logout: Boolean!
