@@ -1,5 +1,6 @@
 fragment StripeCharge on StripeCharge {
   id
+  date
   status
   amount
   description

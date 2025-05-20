@@ -1,5 +1,5 @@
 mutation CreateSubscription($paymentMethodId: String!) {
-  subscription: createSubscription(payment_method_id: $paymentMethodId) {
-    ...StripeSubscription
+  result: createSubscription(payment_method_id: $paymentMethodId) {
+    ...CreateSubscriptionPayload
   }
 }

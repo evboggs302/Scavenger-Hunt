@@ -1,14 +1,9 @@
 import { stripeInstance } from "../../stripeInstance";
-import { throwResolutionError } from "../../apolloErrorHandlers";
+import { fetchStripeSubscription } from "./fetchStripeSubscription";
 
-export const deleteStripeSubscription = async (subscriptionId: string) => {
-  try {
-    return await stripeInstance.subscriptions.cancel(subscriptionId);
-  } catch (err) {
-    return throwResolutionError({
-      location: "deleteStripeSubscription",
-      message: "Unable to delete Stripe subscription.",
-      err,
-    });
-  }
+// CHECK FOR UNPAID INVOICES
+export const deleteStripeSubscription = async (customerId: string) => {
+  const sub = await fetchStripeSubscription(customerId);
+
+  return await stripeInstance.subscriptions.cancel(sub.id);
 };

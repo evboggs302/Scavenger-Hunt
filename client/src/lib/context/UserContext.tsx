@@ -30,7 +30,7 @@ export const UserQryContextProvider = ({ children }: PropsWithChildren) => {
   }, [navigate]);
 
   const result = useQuery(GetUserFromTokenDocument, {
-    pollInterval: 10_000,
+    pollInterval: 30_000,
     onError: onErrorCallback,
   });
 

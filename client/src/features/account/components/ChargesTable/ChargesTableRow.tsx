@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { StripeCharge } from "@generated/graphql";
 import TableCell from "@mui/material/TableCell";
 import { formatCentsToDollars } from "@features/account/model/formatCentsToDollars";
@@ -9,7 +10,7 @@ type ChargesTableRowProps = {
 };
 
 export const ChargesTableRow = ({ charge }: ChargesTableRowProps) => {
-  const { description, amount, paymentCard, status } = charge;
+  const { date, description, amount, paymentCard, status } = charge;
   return (
     <>
       <TableCell>
@@ -19,6 +20,7 @@ export const ChargesTableRow = ({ charge }: ChargesTableRowProps) => {
           <ReportIcon color="error" />
         )}
       </TableCell>
+      <TableCell>{dayjs.unix(+date).format("LL")}</TableCell>
       <TableCell>{description}</TableCell>
       <TableCell>{formatCentsToDollars(amount)}</TableCell>
       <TableCell>{paymentCard.brand?.toUpperCase()}</TableCell>

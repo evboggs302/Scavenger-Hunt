@@ -1,6 +1,9 @@
 import { useCallback, useMemo } from "react";
 import { useMutation } from "@apollo/client";
-import { CreateSubscriptionDocument } from "@generated/graphql";
+import {
+  CreateSubscriptionDocument,
+  FetchAccountTransactionsDocument,
+} from "@generated/graphql";
 import { useToast } from "@lib/hooks/useToast";
 
 export const useCreateSubscription = () => {
@@ -13,6 +16,7 @@ export const useCreateSubscription = () => {
         variables: {
           paymentMethodId,
         },
+        refetchQueries: [FetchAccountTransactionsDocument],
         onError: () =>
           toast({
             variant: "error",

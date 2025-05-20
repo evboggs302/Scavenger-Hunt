@@ -5,6 +5,7 @@ export const ChargesTableHeader = () => {
   return (
     <TableRow style={{ background: "black" }}>
       <TextTableCell>Status</TextTableCell>
+      <TextTableCell>Date</TextTableCell>
       <TextTableCell sx={{ maxWidth: 220 }}>Description</TextTableCell>
       <TextTableCell>Amount</TextTableCell>
       <TextTableCell>Payment Brand</TextTableCell>

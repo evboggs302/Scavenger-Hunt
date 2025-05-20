@@ -1,6 +1,6 @@
 query FetchAccountTransactions {
-  subscription: fetchStripeSubscription {
-    ...StripeSubscription
+  subscription: fetchCustomerSubscription {
+    ...CustomerSubscription
   }
   charges: fetchStripeCharges {
     ...StripeCharge

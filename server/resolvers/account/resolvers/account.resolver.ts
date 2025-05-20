@@ -1,18 +1,23 @@
 import { Resolvers } from "generated/graphql";
 import { createSubscription } from "../createSubscription";
-import { fetchSubscription } from "../fetchSubscription";
+import { fetchCustomerSubscription } from "../fetchCustomerSubscription";
 import { fetchCharges } from "../fetchCharges";
 import { fetchPaymentMethod } from "../fetchPaymentMethod";
+import { fetchSubscriptionProduct } from "../fetchSubscriptionProduct";
+import { resubscribe } from "../resubscribe";
+import { cancelSubscription } from "../cancelSubscription";
 
 const resolver: Resolvers = {
   Mutation: {
     createSubscription,
+    resubscribe,
+    cancelSubscription,
   },
   Query: {
-    fetchStripeSubscription: fetchSubscription,
+    fetchCustomerSubscription,
+    fetchSubscriptionProduct,
     fetchStripeCharges: fetchCharges,
     fetchStripePaymentMethod: fetchPaymentMethod,
-    // fetchStripePaymentIntents:
   },
 };
 

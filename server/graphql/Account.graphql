@@ -1,26 +1,46 @@
-type Query {
-  fetchStripeSubscription: StripeSubscription!
+extend type Query {
+  fetchCustomerSubscription: CustomerSubscription
+  fetchSubscriptionProduct: SubscriptionProduct!
   fetchStripeCharges: [StripeCharge]!
   fetchStripePaymentMethod: PaymentMethod
 }
 
-type Mutation {
-  createPaymentIntent: String!
-  createSubscription(payment_method_id: String!): StripeSubscription!
+extend type Mutation {
+  createSubscription(payment_method_id: String!): CreateSubscriptionPayload!
+  resubscribe: CustomerSubscription!
   cancelSubscription: Boolean!
 }
 
-type StripeSubscription {
+interface StripeSubscription {
   id: String!
   description: String
   priceId: String!
-  productId: String!
+  amount: Int!
+}
+
+type SubscriptionProduct implements StripeSubscription {
+  id: String!
+  description: String
+  priceId: String!
+  amount: Int!
+}
+
+type CustomerSubscription implements StripeSubscription {
+  id: String!
+  description: String
+  priceId: String!
+  amount: Int!
   status: String!
-  clientSecret: String
+}
+
+type CreateSubscriptionPayload {
+  id: String!
+  clientSecret: String!
 }
 
 type StripeCharge {
   id: String!
+  date: String!
   status: String!
   amount: Int!
   description: String

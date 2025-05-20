@@ -1,0 +1,5 @@
+mutation Resubscribe {
+  resubscribe {
+    ...CustomerSubscription
+  }
+}

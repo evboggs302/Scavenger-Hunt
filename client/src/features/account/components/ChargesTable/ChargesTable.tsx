@@ -1,14 +1,15 @@
-import { StripeCharge } from "@generated/graphql";
 import { Table } from "@lib/components/Table/Table";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import { ChargesTableHeader } from "./ChargesTableHeader";
 import { ChargesTableRow } from "./ChargesTableRow";
+import { useFetchAccountTransactions } from "@pages/account/hooks/useFetchAccountTransactions";
 
-type Props = {
-  charges: StripeCharge[] | undefined;
-};
+export const ChargesTable = () => {
+  const { charges } = useFetchAccountTransactions();
 
-export const ChargesTable = ({ charges }: Props) => {
+  const data = charges?.filter((charge) => !!charge);
+
   return (
     <Box
       sx={{
@@ -18,7 +19,7 @@ export const ChargesTable = ({ charges }: Props) => {
         flexDirection: "column",
       }}
     >
-      <h4>Charges</h4>
+      <Typography variant="h5">Charges</Typography>
       <Box
         sx={{
           display: "flex",
@@ -27,7 +28,7 @@ export const ChargesTable = ({ charges }: Props) => {
         }}
       >
         <Table
-          data={charges}
+          data={data}
           fixedHeader={ChargesTableHeader}
           itemContent={(_index, charge) => (
             <ChargesTableRow key={charge.id} charge={charge} />

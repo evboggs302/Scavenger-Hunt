@@ -16,6 +16,7 @@ import { UsernameField } from "./UsernameField";
 import { PasswordField } from "./PasswordField";
 import { LastNameField } from "./LastNameField";
 import { SignUpAlternates } from "./SignUpAlternates";
+import { EmailField } from "./EmailField";
 
 type Inputs = RegisterSchema & {
   onSubmitError?: string;
@@ -75,10 +76,11 @@ export const SignUpCard = () => {
           </Typography>
           {onSubmitError && <TryAgainAlert message={onSubmitError.message} />}
           <form onSubmit={handleSubmit(onSubmit)}>
-            <UsernameField />
-            <PasswordField />
             <FirstNameField />
             <LastNameField />
+            <EmailField />
+            <UsernameField />
+            <PasswordField />
             <Button
               data-testid="register-submit"
               type="submit"

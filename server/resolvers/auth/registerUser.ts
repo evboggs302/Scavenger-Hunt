@@ -5,7 +5,7 @@ import { UserModel } from "../../models/users";
 import { throwResolutionError } from "../../utils/apolloErrorHandlers";
 import { createAndSaveToken } from "../../utils/jwt";
 import { createCustomerVendorAccounts } from "./createCustomerVendorAccounts";
-import { deleteCustomerVendorAccounts } from "./deleteCustomerVendorAccounts";
+import { undoCreateCustomerVendorAccounts } from "./undoCreateCustomerVendorAccounts";
 
 export const registerUser: MutationResolvers["registerUser"] = async (
   _parent: unknown,
@@ -46,7 +46,7 @@ export const registerUser: MutationResolvers["registerUser"] = async (
   const token = await createAndSaveToken(u_id);
 
   if (!token) {
-    await deleteCustomerVendorAccounts(u_id);
+    await undoCreateCustomerVendorAccounts(u_id);
     return throwResolutionError({
       location: name?.value,
       message: "Unable to find the newly saved user.",
