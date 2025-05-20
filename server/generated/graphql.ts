@@ -370,7 +370,7 @@ export type SingleTeam = {
 export type StripeCharge = {
   __typename: 'StripeCharge';
   amount: Scalars['Int']['output'];
-  date: Scalars['String']['output'];
+  date: Scalars['Int']['output'];
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   paymentCard: PaymentCard;
@@ -792,7 +792,7 @@ export type ResponsesByHuntResolvers<ContextType = ApolloServerContext, ParentTy
 
 export type StripeChargeResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['StripeCharge'] = ResolversParentTypes['StripeCharge']> = ResolversObject<{
   amount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  date?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  date?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   paymentCard?: Resolver<ResolversTypes['PaymentCard'], ParentType, ContextType>;

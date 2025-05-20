@@ -20,7 +20,7 @@ export const fetchCharges: QueryResolvers["fetchStripeCharges"] = async (
       return {
         __typename: "StripeCharge",
         id: charge.id,
-        date: `${charge.created}`,
+        date: charge.created,
         status: charge.status,
         amount: charge.amount,
         description: charge.description,

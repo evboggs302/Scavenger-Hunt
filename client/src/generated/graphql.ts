@@ -368,7 +368,7 @@ export type SingleTeam = {
 export type StripeCharge = {
   __typename: 'StripeCharge';
   amount: Scalars['Int']['output'];
-  date: Scalars['String']['output'];
+  date: Scalars['Int']['output'];
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   paymentCard: PaymentCard;
@@ -461,7 +461,7 @@ export type FullHuntFragment = { __typename: 'Hunt', _id: string, name: string, 
 
 export type ResponseFragment = { __typename: 'ResponsePayload', _id: string, clue_id: string, team_id: string, time_received: string, response_txt?: string | null, response_img?: Array<string> | null, correct?: boolean | null, hint_sent?: boolean | null };
 
-export type StripeChargeFragment = { __typename: 'StripeCharge', id: string, date: string, status: string, amount: number, description?: string | null, paymentIntent?: string | null, paymentCard: { __typename: 'PaymentCard', brand?: string | null, last4?: string | null } };
+export type StripeChargeFragment = { __typename: 'StripeCharge', id: string, date: number, status: string, amount: number, description?: string | null, paymentIntent?: string | null, paymentCard: { __typename: 'PaymentCard', brand?: string | null, last4?: string | null } };
 
 export type PaymentCardFragment = { __typename: 'PaymentCard', brand?: string | null, last4?: string | null };
 
@@ -669,7 +669,7 @@ export type RegisterUserMutation = { registerUser: { __typename: 'AuthPayload', 
 export type FetchAccountTransactionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchAccountTransactionsQuery = { subscription?: { __typename: 'CustomerSubscription', id: string, description?: string | null, priceId: string, amount: number, status: string } | null, charges: Array<{ __typename: 'StripeCharge', id: string, date: string, status: string, amount: number, description?: string | null, paymentIntent?: string | null, paymentCard: { __typename: 'PaymentCard', brand?: string | null, last4?: string | null } } | null> };
+export type FetchAccountTransactionsQuery = { subscription?: { __typename: 'CustomerSubscription', id: string, description?: string | null, priceId: string, amount: number, status: string } | null, charges: Array<{ __typename: 'StripeCharge', id: string, date: number, status: string, amount: number, description?: string | null, paymentIntent?: string | null, paymentCard: { __typename: 'PaymentCard', brand?: string | null, last4?: string | null } } | null> };
 
 export type FetchDefaultPaymentMethodQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -679,7 +679,7 @@ export type FetchDefaultPaymentMethodQuery = { defaultPaymentMethod?: { __typena
 export type FetchStripeChargesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchStripeChargesQuery = { charges: Array<{ __typename: 'StripeCharge', id: string, date: string, status: string, amount: number, description?: string | null, paymentIntent?: string | null, paymentCard: { __typename: 'PaymentCard', brand?: string | null, last4?: string | null } } | null> };
+export type FetchStripeChargesQuery = { charges: Array<{ __typename: 'StripeCharge', id: string, date: number, status: string, amount: number, description?: string | null, paymentIntent?: string | null, paymentCard: { __typename: 'PaymentCard', brand?: string | null, last4?: string | null } } | null> };
 
 export type FetchSubscriptionProductQueryVariables = Exact<{ [key: string]: never; }>;
 

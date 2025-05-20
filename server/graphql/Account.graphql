@@ -40,7 +40,7 @@ type CreateSubscriptionPayload {
 
 type StripeCharge {
   id: String!
-  date: String!
+  date: Int!
   status: String!
   amount: Int!
   description: String
