@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=development nodemon server_gql.ts",
+    "dev": "NODE_ENV=development tsx watch ./server_gql.ts",
     "start-server": "NODE_ENV=production node --experimental-modules --es-module-specifier-resolution=node ./dist/server_gql.js",
     "tsc-check": "tsc --noEmit",
     "codegen": "graphql-codegen --config codegen.ts",
@@ -11,8 +11,7 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@apollo/server": "^4.11.3",
-    "@graphql-codegen/cli": "^5.0.3",
+    "@apollo/server": "^4.12.2",
     "@graphql-tools/graphql-file-loader": "^8.0.11",
     "@graphql-tools/load": "^8.0.12",
     "@graphql-tools/load-files": "^7.0.0",
@@ -22,10 +21,10 @@
     "express": "^4.21.2",
     "express-jwt": "^8.5.1",
     "express-session": "^1.18.1",
-    "graphql": "^16.9.0",
+    "graphql": "^16.11.0",
     "graphql-mongodb-subscriptions": "^1.0.1",
     "graphql-subscriptions": "^3.0.0",
-    "graphql-ws": "^5.16.1",
+    "graphql-ws": "^6.0.5",
     "gridfs-stream": "^1.1.1",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.12.0",
@@ -35,12 +34,13 @@
     "twilio": "^5.5.2"
   },
   "devDependencies": {
-    "@graphql-codegen/fragment-matcher": "^5.0.2",
+    "@graphql-codegen/cli": "^5.0.6",
+    "@graphql-codegen/fragment-matcher": "^5.1.0",
     "@graphql-codegen/introspection": "^4.0.3",
-    "@graphql-codegen/typescript": "^4.1.2",
-    "@graphql-codegen/typescript-mongodb": "^3.0.0",
-    "@graphql-codegen/typescript-operations": "^4.4.0",
-    "@graphql-codegen/typescript-resolvers": "^4.4.1",
+    "@graphql-codegen/typescript": "^4.1.6",
+    "@graphql-codegen/typescript-mongodb": "^3.0.1",
+    "@graphql-codegen/typescript-operations": "^4.6.1",
+    "@graphql-codegen/typescript-resolvers": "^4.5.1",
     "@swc/core": "^1.4.6",
     "@types/bcryptjs": "^2.4.2",
     "@types/bson": "^4.2.0",
@@ -54,12 +54,10 @@
     "@types/supertest": "^6.0.2",
     "@vitest/coverage-v8": "^2.1.8",
     "bcryptjs": "^2.4.3",
-    "nodemon": "^3.1.0",
     "supertest": "^7.0.0",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.19.4",
     "typescript": "^5.4.2",
     "vite": "^6.2.7",
-    "vite-node": "^2.1.8",
-    "vitest": "^2.1.9"
+    "vitest": "^3.2.0"
   }
 }

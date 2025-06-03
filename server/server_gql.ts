@@ -2,18 +2,18 @@ import mongoose from "mongoose";
 import express from "express";
 import http from "http";
 import cors from "cors";
-import config from "./config";
+import config from "@/config";
 import type { ListenOptions } from "net";
-import { schemaWithResolvers } from "./schema";
+import { schemaWithResolvers } from "@/schema";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
-import { apolloServerMiddlewareOptions } from "./utils/serverSetup/apolloServerMiddlewareOptions";
-import { responseController } from "./controllers/responseController";
+import { apolloServerMiddlewareOptions } from "@utils/serverSetup/apolloServerMiddlewareOptions";
+import { responseController } from "@controllers/responseController";
 
 import { WebSocketServer } from "ws";
-import { useServer } from "graphql-ws/lib/use/ws";
-import { createSubscriptionContext } from "./utils/serverSetup/subscriptionContext";
+import { useServer } from "graphql-ws/use/ws";
+import { createSubscriptionContext } from "@utils/serverSetup/subscriptionContext";
 
 const { MONGO_URI, PORT, CLIENT_URL, SERVER_URL_GQL, SERVER_URL_SUBSCRIPTION } =
   config;

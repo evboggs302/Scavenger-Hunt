@@ -1,6 +1,6 @@
-import { twilioClient } from "../twilioClient";
-import { AccountModel } from "../../models/accounts";
-import { throwResolutionError } from "../apolloErrorHandlers";
+import { twilioClient } from "@utils/twilioClient";
+import { AccountModel } from "@models/accounts";
+import { throwResolutionError } from "@utils/apolloErrorHandlers";
 
 /**
  * @description

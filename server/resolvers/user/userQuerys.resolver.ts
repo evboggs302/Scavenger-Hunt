@@ -1,7 +1,7 @@
-import { UserModel } from "../../models/users";
-import { TokenModel } from "../../models/token_storage";
-import { Resolvers } from "../../generated/graphql";
-import { throwResolutionError } from "../../utils/apolloErrorHandlers";
+import { UserModel } from "@models/users";
+import { TokenModel } from "@models/token_storage";
+import { Resolvers } from "@generated/graphql";
+import { throwResolutionError } from "@utils/apolloErrorHandlers";
 
 const resolver: Resolvers = {
   Query: {

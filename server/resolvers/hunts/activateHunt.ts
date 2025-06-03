@@ -1,14 +1,14 @@
-import { MutationResolvers } from "generated/graphql";
-import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
-import { TeamModel } from "../../models/teams";
-import { HuntDocType, HuntModel } from "../../models/hunts";
+import { MutationResolvers } from "@generated/graphql";
+import { createBsonObjectId } from "@utils/transforms/createBsonObjectId";
+import { TeamModel } from "@models/teams";
+import { HuntDocType, HuntModel } from "@models/hunts";
 import {
   throwResolutionError,
   throwServerError,
-} from "../../utils/apolloErrorHandlers";
-import { ClueModel } from "../../models/clues";
-import { fetchNewNumber } from "../../utils/twilioActions/fetchNewNumber";
-import { twilioClient } from "../../utils/twilioClient";
+} from "@utils/apolloErrorHandlers";
+import { ClueModel } from "@models/clues";
+import { fetchNewNumber } from "@utils/twilioActions/fetchNewNumber";
+import { twilioClient } from "@utils/twilioClient";
 import { updateHuntBalance } from "../responses/updateHuntBalance";
 
 export const activateHunt: MutationResolvers["activateHunt"] = async (

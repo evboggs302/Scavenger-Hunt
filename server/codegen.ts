@@ -13,7 +13,7 @@ const config: CodegenConfig = {
         "fragment-matcher",
       ],
       config: {
-        contextType: "../@types/ApolloServerContextType#ApolloServerContext", // Path to your context type
+        contextType: "../types/ApolloServerContextType#ApolloServerContext", // Path to your context type
         dedupeFragments: true,
         preResolveTypes: true,
         nonOptionalTypename: true,

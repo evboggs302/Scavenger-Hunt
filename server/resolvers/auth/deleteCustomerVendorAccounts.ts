@@ -1,7 +1,7 @@
-import { AccountDocument, AccountModel } from "../../models/accounts";
-import { throwResolutionError } from "../../utils/apolloErrorHandlers";
-import { deleteTwilioSubAccount } from "../../utils/twilioActions/deleteTwilioSubAccount";
-import { deleteStripeCustomer } from "../../utils/stripeActions/customerManagement/deleteStripeCustomer";
+import { AccountDocument, AccountModel } from "@models/accounts";
+import { throwResolutionError } from "@utils/apolloErrorHandlers";
+import { deleteTwilioSubAccount } from "@utils/twilioActions/deleteTwilioSubAccount";
+import { deleteStripeCustomer } from "@utils/stripeActions/customerManagement/deleteStripeCustomer";
 
 export const deleteCustomerVendorAccounts = async (
   acctsDoc: AccountDocument

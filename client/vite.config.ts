@@ -28,6 +28,7 @@ export default defineConfig(({ mode }) => {
     mode === "analyze" ? visualizer({ open: true, gzipSize: true }) : undefined;
 
   return {
+    name: "client-config",
     define: {
       "process.env.CLIENT_URL": JSON.stringify(env.CLIENT_URL),
       "process.env.SERVER_URL_GQL": JSON.stringify(env.SERVER_URL_GQL),
@@ -97,11 +98,7 @@ export default defineConfig(({ mode }) => {
           compact: true,
           minifyInternalExports: true,
           manualChunks: (id, { getModuleInfo }) => {
-            if (
-              id.includes("/react-router") ||
-              id.includes("/react-router") ||
-              id.includes("/@remix")
-            ) {
+            if (id.includes("/react-router") || id.includes("/@remix")) {
               // creating a @react-router chunk. Reducing the vendor chunk size
               return "@react-router";
             }

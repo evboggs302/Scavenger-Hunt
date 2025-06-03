@@ -1,6 +1,6 @@
-import { QueryResolvers } from "generated/graphql";
-import { throwResolutionError } from "../../utils/apolloErrorHandlers";
-import { fetchStripePaymentMethod } from "../../utils/stripeActions/paymentMethod/fetchStripePaymentMethod";
+import { QueryResolvers } from "@generated/graphql";
+import { throwResolutionError } from "@utils/apolloErrorHandlers";
+import { fetchStripePaymentMethod } from "@utils/stripeActions/paymentMethod/fetchStripePaymentMethod";
 
 export const fetchPaymentMethod: QueryResolvers["fetchStripePaymentMethod"] =
   async (_parent: unknown, _args, { accounts }, { operation: { name } }) => {

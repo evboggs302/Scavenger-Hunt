@@ -1,9 +1,9 @@
-import { MutationResolvers } from "generated/graphql";
-import { HuntModel } from "../../models/hunts";
-import { throwServerError } from "../../utils/apolloErrorHandlers";
-import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
-import { deprovisionNumber } from "../../utils/twilioActions/deprovisionNumber";
-import { createStripeChargePerHunt } from "../../utils/stripeActions/charges/createStripeChargePerHunt";
+import { MutationResolvers } from "@generated/graphql";
+import { HuntModel } from "@models/hunts";
+import { throwServerError } from "@utils/apolloErrorHandlers";
+import { createBsonObjectId } from "@utils/transforms/createBsonObjectId";
+import { deprovisionNumber } from "@utils/twilioActions/deprovisionNumber";
+import { createStripeChargePerHunt } from "@utils/stripeActions/charges/createStripeChargePerHunt";
 
 export const markHuntComplete: MutationResolvers["markHuntComplete"] = async (
   _parent: unknown,

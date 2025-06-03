@@ -1,4 +1,4 @@
-import { stripeInstance } from "../../stripeInstance";
+import { stripeInstance } from "@utils/stripeInstance";
 import { fetchStripeSubscription } from "./fetchStripeSubscription";
 
 // CHECK FOR UNPAID INVOICES

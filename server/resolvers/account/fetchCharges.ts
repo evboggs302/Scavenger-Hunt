@@ -1,6 +1,6 @@
-import { QueryResolvers } from "generated/graphql";
-import { throwResolutionError } from "../../utils/apolloErrorHandlers";
-import { fetchStripeCharges } from "../../utils/stripeActions/charges/fetchStripeCharges";
+import { QueryResolvers } from "@generated/graphql";
+import { throwResolutionError } from "@utils/apolloErrorHandlers";
+import { fetchStripeCharges } from "@utils/stripeActions/charges/fetchStripeCharges";
 
 export const fetchCharges: QueryResolvers["fetchStripeCharges"] = async (
   _parent: unknown,

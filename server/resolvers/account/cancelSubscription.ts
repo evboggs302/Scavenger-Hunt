@@ -1,6 +1,6 @@
-import { MutationResolvers } from "generated/graphql";
-import { throwResolutionError } from "../../utils/apolloErrorHandlers";
-import { deleteStripeSubscription } from "../../utils/stripeActions/subscriptions/deleteStripeSubscription";
+import { MutationResolvers } from "@generated/graphql";
+import { throwResolutionError } from "@utils/apolloErrorHandlers";
+import { deleteStripeSubscription } from "@utils/stripeActions/subscriptions/deleteStripeSubscription";
 
 /**
  * @todo confirm no outstanding invoices before deleting

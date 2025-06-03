@@ -1,11 +1,11 @@
-import { TeamModel } from "../../models/teams";
-import { ResponseModel } from "../../models/responses";
-import { Resolvers, Team } from "../../generated/graphql";
-import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
+import { TeamModel } from "@models/teams";
+import { ResponseModel } from "@models/responses";
+import { Resolvers, Team } from "@generated/graphql";
+import { createBsonObjectId } from "@utils/transforms/createBsonObjectId";
 import {
   throwResolutionError,
   throwServerError,
-} from "../../utils/apolloErrorHandlers";
+} from "@utils/apolloErrorHandlers";
 
 const resolver: Resolvers = {
   Query: {

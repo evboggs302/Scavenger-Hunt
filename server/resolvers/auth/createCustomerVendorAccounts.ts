@@ -1,11 +1,11 @@
-import { deleteStripeCustomer } from "../../utils/stripeActions/customerManagement/deleteStripeCustomer";
-import { AccountModel } from "../../models/accounts";
-import { UserModel } from "../../models/users";
-import { throwResolutionError } from "../../utils/apolloErrorHandlers";
-import { createStripeCustomer } from "../../utils/stripeActions/customerManagement/createStripeCustomer";
-import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
-import { createTwilioSubAccount } from "../../utils/twilioActions/createTwilioSubAccount";
-import { deleteTwilioSubAccount } from "../../utils/twilioActions/deleteTwilioSubAccount";
+import { deleteStripeCustomer } from "@utils/stripeActions/customerManagement/deleteStripeCustomer";
+import { AccountModel } from "@models/accounts";
+import { UserModel } from "@models/users";
+import { throwResolutionError } from "@utils/apolloErrorHandlers";
+import { createStripeCustomer } from "@utils/stripeActions/customerManagement/createStripeCustomer";
+import { createBsonObjectId } from "@utils/transforms/createBsonObjectId";
+import { createTwilioSubAccount } from "@utils/twilioActions/createTwilioSubAccount";
+import { deleteTwilioSubAccount } from "@utils/twilioActions/deleteTwilioSubAccount";
 
 type CreateCustomerVendorAccountsArgs = {
   fullName: string;

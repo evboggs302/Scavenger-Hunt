@@ -1,8 +1,8 @@
-import { ClueModel } from "../../models/clues";
-import { ResponseModel } from "../../models/responses";
-import { CluePayload, Resolvers } from "../../generated/graphql";
-import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
-import { throwServerError } from "../../utils/apolloErrorHandlers";
+import { ClueModel } from "@models/clues";
+import { ResponseModel } from "@models/responses";
+import { CluePayload, Resolvers } from "@generated/graphql";
+import { createBsonObjectId } from "@utils/transforms/createBsonObjectId";
+import { throwServerError } from "@utils/apolloErrorHandlers";
 
 const resolver: Resolvers = {
   Query: {

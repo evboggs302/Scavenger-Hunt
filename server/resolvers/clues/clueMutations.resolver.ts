@@ -1,11 +1,11 @@
-import { ClueModel } from "../../models/clues";
-import { returnedItems } from "../../utils/transforms/returnedItems";
-import { Resolvers } from "../../generated/graphql";
-import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
+import { ClueModel } from "@models/clues";
+import { returnedItems } from "@utils/transforms/returnedItems";
+import { Resolvers } from "@generated/graphql";
+import { createBsonObjectId } from "@utils/transforms/createBsonObjectId";
 import {
   throwResolutionError,
   throwServerError,
-} from "../../utils/apolloErrorHandlers";
+} from "@utils/apolloErrorHandlers";
 
 const resolver: Resolvers = {
   Mutation: {

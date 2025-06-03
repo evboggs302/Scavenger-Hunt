@@ -1,5 +1,5 @@
-import { twilioClient } from "../twilioClient";
-import { throwResolutionError } from "../apolloErrorHandlers";
+import { twilioClient } from "@utils/twilioClient";
+import { throwResolutionError } from "@utils/apolloErrorHandlers";
 import { AccountInstance } from "twilio/lib/rest/api/v2010/account";
 
 export const fetchTwilioSubAccount = async (

@@ -1,6 +1,6 @@
-import config from "../../config";
-import { twilioClient } from "../twilioClient";
-import { throwResolutionError } from "../apolloErrorHandlers";
+import config from "@/config";
+import { twilioClient } from "@utils/twilioClient";
+import { throwResolutionError } from "@utils/apolloErrorHandlers";
 
 const { SERVER_TWILIO_WEBHOOK_URL } = config;
 

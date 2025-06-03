@@ -1,12 +1,12 @@
 import { compareSync } from "bcryptjs";
-import { MutationResolvers } from "generated/graphql";
-import { UserModel } from "../../models/users";
-import { AccountModel } from "../../models/accounts";
+import { MutationResolvers } from "@generated/graphql";
+import { UserModel } from "@models/users";
+import { AccountModel } from "@models/accounts";
 import {
   AuthenticationError,
   throwResolutionError,
-} from "../../utils/apolloErrorHandlers";
-import { createAndSaveToken } from "../../utils/jwt";
+} from "@utils/apolloErrorHandlers";
+import { createAndSaveToken } from "@utils/jwt";
 
 export const loginUser: MutationResolvers["login"] = async (
   _parent: unknown,

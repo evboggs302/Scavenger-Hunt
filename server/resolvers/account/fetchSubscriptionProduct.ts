@@ -1,6 +1,6 @@
-import { QueryResolvers } from "generated/graphql";
-import { fetchStripeSubscriptionProduct } from "../../utils/stripeActions/subscriptions/fetchStripeSubscriptionProduct";
-import { throwResolutionError } from "../../utils/apolloErrorHandlers";
+import { QueryResolvers } from "@generated/graphql";
+import { fetchStripeSubscriptionProduct } from "@utils/stripeActions/subscriptions/fetchStripeSubscriptionProduct";
+import { throwResolutionError } from "@utils/apolloErrorHandlers";
 
 export const fetchSubscriptionProduct: QueryResolvers["fetchSubscriptionProduct"] =
   async (_parent: unknown, _args, _ctxt, { operation: { name } }) => {

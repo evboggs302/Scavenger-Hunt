@@ -1,9 +1,9 @@
 import { hashSync } from "bcryptjs";
-import { MutationResolvers } from "generated/graphql";
-import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
-import { UserModel } from "../../models/users";
-import { throwResolutionError } from "../../utils/apolloErrorHandlers";
-import { createAndSaveToken } from "../../utils/jwt";
+import { MutationResolvers } from "@generated/graphql";
+import { createBsonObjectId } from "@utils/transforms/createBsonObjectId";
+import { UserModel } from "@models/users";
+import { throwResolutionError } from "@utils/apolloErrorHandlers";
+import { createAndSaveToken } from "@utils/jwt";
 import { createCustomerVendorAccounts } from "./createCustomerVendorAccounts";
 import { undoCreateCustomerVendorAccounts } from "./undoCreateCustomerVendorAccounts";
 

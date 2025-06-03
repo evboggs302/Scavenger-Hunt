@@ -3,7 +3,7 @@ import { TokenModel } from "../../models/token_storage";
 import { AuthenticationError } from "../apolloErrorHandlers";
 
 import type { ExpressMiddlewareOptions } from "@apollo/server/express4";
-import type { ApolloServerContext } from "../../@types/ApolloServerContextType";
+import type { ApolloServerContext } from "../../types/ApolloServerContextType";
 import type { UserPayload } from "generated/graphql";
 import type { AccountDocument } from "../../models/accounts";
 import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
