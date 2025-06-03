@@ -1,5 +1,5 @@
-import { stripeInstance } from "../../stripeInstance";
-import { throwResolutionError } from "../../apolloErrorHandlers";
+import { stripeInstance } from "@utils/stripeInstance";
+import { throwResolutionError } from "@utils/apolloErrorHandlers";
 
 export const createStripePaymentMethod = async (
   customerId: string,

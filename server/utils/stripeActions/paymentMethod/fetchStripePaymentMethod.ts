@@ -1,6 +1,6 @@
 import Stripe from "stripe";
-import { stripeInstance } from "../../stripeInstance";
-import { throwResolutionError } from "../../apolloErrorHandlers";
+import { stripeInstance } from "@utils/stripeInstance";
+import { throwResolutionError } from "@utils/apolloErrorHandlers";
 
 // Custom type for customer with expanded default payment method
 interface ExpandedCustomer extends Stripe.Customer {

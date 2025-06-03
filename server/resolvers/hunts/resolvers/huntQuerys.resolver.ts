@@ -1,13 +1,13 @@
-import { HuntModel } from "../../../models/hunts";
-import { ClueModel } from "../../../models/clues";
-import { TeamModel } from "../../../models/teams";
-import { Hunt, Resolvers } from "../../../generated/graphql";
-import { returnedItems } from "../../../utils/transforms/returnedItems";
-import { createBsonObjectId } from "../../../utils/transforms/createBsonObjectId";
+import { HuntModel } from "@models/hunts";
+import { ClueModel } from "@models/clues";
+import { TeamModel } from "@models/teams";
+import { Hunt, Resolvers } from "@generated/graphql";
+import { returnedItems } from "@utils/transforms/returnedItems";
+import { createBsonObjectId } from "@utils/transforms/createBsonObjectId";
 import {
   throwResolutionError,
   throwServerError,
-} from "../../../utils/apolloErrorHandlers";
+} from "@utils/apolloErrorHandlers";
 
 const resolver: Resolvers = {
   Query: {

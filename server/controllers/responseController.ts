@@ -1,9 +1,9 @@
-import { ResponseModel } from "../models/responses";
-import { TeamModel } from "../models/teams";
+import { ResponseModel } from "@models/responses";
+import { TeamModel } from "@models/teams";
 import { RequestHandler } from "express";
-import { createBsonObjectId } from "../utils/transforms/createBsonObjectId";
-import { createErrLog } from "../utils/eventLogHelpers";
-import { publishReceivedResponse } from "../utils/pubSub";
+import { createBsonObjectId } from "@utils/transforms/createBsonObjectId";
+import { createErrLog } from "@utils/eventLogHelpers";
+import { publishReceivedResponse } from "@utils/pubSub";
 
 export const responseController: Record<string, RequestHandler> = {
   findActiveTeamByDevice: async (req, res, next) => {

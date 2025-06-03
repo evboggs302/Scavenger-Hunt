@@ -1,9 +1,9 @@
-import { Resolvers } from "generated/graphql";
+import { Resolvers } from "@generated/graphql";
 import { registerUser } from "../registerUser";
 import { loginUser } from "../loginUser";
 import { deleteUser } from "../deleteUser";
 import { logout } from "../logout";
-import { UserModel } from "../../../models/users";
+import { UserModel } from "@models/users";
 
 const resolver: Resolvers = {
   Mutation: {

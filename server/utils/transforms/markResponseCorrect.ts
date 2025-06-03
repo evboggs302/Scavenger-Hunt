@@ -1,4 +1,4 @@
-import { ResponseModel } from "../../models/responses";
+import { ResponseModel } from "@models/responses";
 import { createBsonObjectId } from "./createBsonObjectId";
 
 type AggregateResult = {

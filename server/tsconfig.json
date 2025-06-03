@@ -3,9 +3,22 @@
   "compilerOptions": {
     "outDir": "dist",
     "baseUrl": "./",
+    "moduleResolution": "nodenext",
+    "module": "nodenext",
+    "declarationDir": "dist/@types",
     "esModuleInterop": true,
     "types": ["node"],
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["node_modules/@types"],
+    "paths": {
+      "@controllers/*": ["./controllers/*"],
+      "@generated/*": ["./generated/*"],
+      "@graphql/*": ["./graphql/*"],
+      "@models/*": ["./models/*"],
+      "@resolvers/*": ["./resolvers/*"],
+      "@types/*": ["./types/*"],
+      "@utils/*": ["./utils/*"],
+      "@/*": ["./*"]
+    }
   },
   "exclude": ["server_rest.ts"]
 }

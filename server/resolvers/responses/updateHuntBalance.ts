@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
-import { HuntModel } from "../../models/hunts";
-import { throwServerError } from "../../utils/apolloErrorHandlers";
+import { HuntModel } from "@models/hunts";
+import { throwServerError } from "@utils/apolloErrorHandlers";
 
 export const updateHuntBalance = async (
   hunt_id: Types.ObjectId,

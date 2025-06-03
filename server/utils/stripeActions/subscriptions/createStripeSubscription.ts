@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import { stripeInstance } from "../../stripeInstance";
+import { stripeInstance } from "@utils/stripeInstance";
 import { fetchStripeSubscriptionPriceObject } from "./fetchStripeSubscriptionPriceObject";
 
 export const createStripeSubscription = async (

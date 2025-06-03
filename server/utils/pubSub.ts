@@ -1,8 +1,8 @@
-import config from "../config";
+import config from "@/config";
 import { MongoClient, Db } from "mongodb";
+import { ResponsePayload } from "@generated/graphql";
 import { MongodbPubSub } from "graphql-mongodb-subscriptions";
-import { RESPONSE_RECEIVED_TOPIC } from "../resolvers/responses/resolvers/responseSubscriptions.resolver";
-import { ResponsePayload } from "generated/graphql";
+import { RESPONSE_RECEIVED_TOPIC } from "@resolvers/responses/resolvers/responseSubscriptions.resolver";
 
 /**
  * Production PubSub

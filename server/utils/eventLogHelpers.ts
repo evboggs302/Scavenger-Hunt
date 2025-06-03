@@ -1,4 +1,4 @@
-import { LogModel } from "../models/event_logs";
+import { LogModel } from "@models/event_logs";
 import { throwServerError } from "./apolloErrorHandlers";
 import { createBsonObjectId } from "./transforms/createBsonObjectId";
 

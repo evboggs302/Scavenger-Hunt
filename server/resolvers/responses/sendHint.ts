@@ -1,13 +1,13 @@
 import { Types } from "mongoose";
-import { MutationResolvers } from "generated/graphql";
-import { ResponseModel } from "../../models/responses";
-import { TeamModel } from "../../models/teams";
+import { MutationResolvers } from "@generated/graphql";
+import { ResponseModel } from "@models/responses";
+import { TeamModel } from "@models/teams";
 import {
   throwResolutionError,
   throwServerError,
-} from "../../utils/apolloErrorHandlers";
-import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
-import { twilioClient } from "../../utils/twilioClient";
+} from "@utils/apolloErrorHandlers";
+import { createBsonObjectId } from "@utils/transforms/createBsonObjectId";
+import { twilioClient } from "@utils/twilioClient";
 import { updateHuntBalance } from "./updateHuntBalance";
 
 type TeamHuntAggregate = {

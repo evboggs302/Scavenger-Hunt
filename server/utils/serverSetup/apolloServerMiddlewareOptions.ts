@@ -1,13 +1,13 @@
-import { getUserFromToken } from "../jwt";
-import { TokenModel } from "../../models/token_storage";
-import { AuthenticationError } from "../apolloErrorHandlers";
+import { getUserFromToken } from "@utils/jwt";
+import { TokenModel } from "@models/token_storage";
+import { AuthenticationError } from "@utils/apolloErrorHandlers";
 
 import type { ExpressMiddlewareOptions } from "@apollo/server/express4";
-import type { ApolloServerContext } from "../../@types/ApolloServerContextType";
-import type { UserPayload } from "generated/graphql";
-import type { AccountDocument } from "../../models/accounts";
-import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
-import { AccountModel } from "../../models/accounts";
+import type { ApolloServerContext } from "@/types/ApolloServerContextType";
+import type { UserPayload } from "@generated/graphql";
+import type { AccountDocument } from "@models/accounts";
+import { createBsonObjectId } from "@utils/transforms/createBsonObjectId";
+import { AccountModel } from "@models/accounts";
 
 export const apolloServerMiddlewareOptions: ExpressMiddlewareOptions<ApolloServerContext> =
   {

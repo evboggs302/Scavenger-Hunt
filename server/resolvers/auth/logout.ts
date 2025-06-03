@@ -1,6 +1,6 @@
-import { MutationResolvers } from "generated/graphql";
-import { TokenModel } from "../../models/token_storage";
-import { throwServerError } from "../../utils/apolloErrorHandlers";
+import { MutationResolvers } from "@generated/graphql";
+import { TokenModel } from "@models/token_storage";
+import { throwServerError } from "@utils/apolloErrorHandlers";
 
 export const logout: MutationResolvers["logout"] = async (
   _parent: unknown,

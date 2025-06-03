@@ -1,4 +1,4 @@
-import { Resolvers } from "generated/graphql";
+import { Resolvers } from "@generated/graphql";
 import { createSubscription } from "../createSubscription";
 import { fetchCustomerSubscription } from "../fetchCustomerSubscription";
 import { fetchCharges } from "../fetchCharges";

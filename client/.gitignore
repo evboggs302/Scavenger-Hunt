@@ -10,11 +10,7 @@ build-storybook.log
 storybook-static/
 
 # VITE
-build/
 .swc/
 .deadfiles/
 stats.html
 coverage/
-
-# TYPESCRIPT
-dist/

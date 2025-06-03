@@ -1,6 +1,6 @@
 import twilio from "twilio";
-import config from "../../config";
-import { throwResolutionError } from "../apolloErrorHandlers";
+import config from "@/config";
+import { throwResolutionError } from "@utils/apolloErrorHandlers";
 
 const { TWILIO_ACCT_SID, TWILIO_AUTH_TOKEN } = config;
 

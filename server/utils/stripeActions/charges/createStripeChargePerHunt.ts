@@ -1,7 +1,7 @@
-import { stripeInstance } from "../../stripeInstance";
-import { throwResolutionError } from "../../apolloErrorHandlers";
-import { HuntDocType } from "../../../models/hunts";
-import { AccountDocument } from "../../../models/accounts";
+import { stripeInstance } from "@utils/stripeInstance";
+import { throwResolutionError } from "@utils/apolloErrorHandlers";
+import { HuntDocType } from "@models/hunts";
+import { AccountDocument } from "@models/accounts";
 
 export const createStripeChargePerHunt = async (
   { stripe_customer_id }: AccountDocument,

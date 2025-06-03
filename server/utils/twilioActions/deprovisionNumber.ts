@@ -1,5 +1,5 @@
-import { throwResolutionError } from "../apolloErrorHandlers";
-import { twilioClient } from "../twilioClient";
+import { throwResolutionError } from "@utils/apolloErrorHandlers";
+import { twilioClient } from "@utils/twilioClient";
 
 /**
  * @description

@@ -1,4 +1,4 @@
-import { stripeInstance } from "../../stripeInstance";
+import { stripeInstance } from "@utils/stripeInstance";
 
 export const fetchStripeSubscription = async (customerId: string) => {
   return await stripeInstance.subscriptions

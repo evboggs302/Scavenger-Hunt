@@ -1,12 +1,12 @@
-import { MutationResolvers } from "generated/graphql";
-import { throwResolutionError } from "../../utils/apolloErrorHandlers";
-import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
-import { TokenModel } from "../../models/token_storage";
-import { UserModel } from "../../models/users";
-import { HuntModel } from "../../models/hunts";
-import { TeamModel } from "../../models/teams";
-import { ResponseModel } from "../../models/responses";
-import { ClueModel } from "../../models/clues";
+import { MutationResolvers } from "@generated/graphql";
+import { throwResolutionError } from "@utils/apolloErrorHandlers";
+import { createBsonObjectId } from "@utils/transforms/createBsonObjectId";
+import { TokenModel } from "@models/token_storage";
+import { UserModel } from "@models/users";
+import { HuntModel } from "@models/hunts";
+import { TeamModel } from "@models/teams";
+import { ResponseModel } from "@models/responses";
+import { ClueModel } from "@models/clues";
 import { deleteCustomerVendorAccounts } from "./deleteCustomerVendorAccounts";
 
 /**

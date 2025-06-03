@@ -1,7 +1,7 @@
-import { MutationResolvers } from "generated/graphql";
-import { throwResolutionError } from "../../utils/apolloErrorHandlers";
-import { createStripeSubscription } from "../../utils/stripeActions/subscriptions/createStripeSubscription";
-import { createStripePaymentMethod } from "../../utils/stripeActions/paymentMethod/createStripePaymentMethod";
+import { MutationResolvers } from "@generated/graphql";
+import { throwResolutionError } from "@utils/apolloErrorHandlers";
+import { createStripeSubscription } from "@utils/stripeActions/subscriptions/createStripeSubscription";
+import { createStripePaymentMethod } from "@utils/stripeActions/paymentMethod/createStripePaymentMethod";
 
 export const createSubscription: MutationResolvers["createSubscription"] =
   async (
