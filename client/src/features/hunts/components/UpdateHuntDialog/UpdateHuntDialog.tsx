@@ -133,7 +133,7 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
   return (
     <FormProvider {...methods}>
       <Dialog
-        open={true}
+        open
         onClose={handleClose}
         slotProps={{
           paper: {

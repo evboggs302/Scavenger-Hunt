@@ -14,7 +14,7 @@ interface ForgotPasswordProps {
 export const ForgotPassword = ({ handleClose }: ForgotPasswordProps) => {
   return (
     <Dialog
-      open={true}
+      open
       onClose={handleClose}
       slotProps={{
         paper: {

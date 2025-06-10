@@ -27,7 +27,7 @@ export const DeleteResponsesDialog = ({ handleClose }: DeleteDialogProps) => {
 
   return (
     <Dialog
-      open={true}
+      open
       slotProps={{
         paper: {
           component: "form",

@@ -93,7 +93,7 @@ export const CreateTeamsDialog = ({ handleClose }: CreateDialogProps) => {
   return (
     <FormProvider {...methods}>
       <Dialog
-        open={true}
+        open
         onClose={handleClose}
         slotProps={{
           paper: {

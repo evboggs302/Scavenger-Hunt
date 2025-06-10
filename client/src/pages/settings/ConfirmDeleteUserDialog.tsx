@@ -22,7 +22,7 @@ export const ConfirmDeleteUserDialog = ({
 
   return (
     <Dialog
-      open={true}
+      open
       fullScreen={fullScreen}
       slotProps={{
         paper: {

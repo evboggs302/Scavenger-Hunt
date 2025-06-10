@@ -27,7 +27,7 @@ export const DeleteAllTeamsDialog = ({ handleClose }: DeleteDialogProps) => {
 
   return (
     <Dialog
-      open={true}
+      open
       onClose={handleClose}
       slotProps={{
         paper: {
