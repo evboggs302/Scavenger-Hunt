@@ -135,9 +135,11 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
       <Dialog
         open={true}
         onClose={handleClose}
-        PaperProps={{
-          component: "form",
-          onSubmit: handleSubmit(onSubmit),
+        slotProps={{
+          paper: {
+            component: "form",
+            onSubmit: handleSubmit(onSubmit),
+          },
         }}
       >
         <DialogTitle data-testid="update-hunt-title">Update Hunt</DialogTitle>

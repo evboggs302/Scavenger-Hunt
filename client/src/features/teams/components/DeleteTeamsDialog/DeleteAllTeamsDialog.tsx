@@ -29,9 +29,11 @@ export const DeleteAllTeamsDialog = ({ handleClose }: DeleteDialogProps) => {
     <Dialog
       open={true}
       onClose={handleClose}
-      PaperProps={{
-        component: "form",
-        onSubmit: handleDeleteAll,
+      slotProps={{
+        paper: {
+          component: "form",
+          onSubmit: handleDeleteAll,
+        },
       }}
     >
       <DialogTitle data-testid="create-hunt-title">Delete teams</DialogTitle>

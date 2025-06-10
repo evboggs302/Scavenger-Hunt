@@ -5,7 +5,7 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import Typography from "@mui/material/Typography";
-import { CluePayload } from "@generated/graphql";
+import type { CluePayload } from "@generated/graphql";
 import { useDeleteSingleClueMutation } from "../hooks/useDeleteSingleClueMutation";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 import { EditClueDialog } from "./EditClues/EditClueDialog";
@@ -30,10 +30,8 @@ export const ClueCard = ({
   const {
     attributes,
     listeners,
-    index,
     isDragging,
     isSorting,
-    over,
     setNodeRef,
     transform,
     transition,
@@ -45,6 +43,11 @@ export const ClueCard = ({
       type: "clue",
     },
   });
+
+  const toggleDialogOpen = useCallback(
+    () => setIsEditDialogOpen((val) => !val),
+    []
+  );
 
   const handleDelete = useCallback(async () => {
     try {
@@ -68,7 +71,6 @@ export const ClueCard = ({
           position: isDragging ? "relative" : "inherit",
           zIndex: isDragging ? 1000 : 0,
         }}
-        {...listeners}
         {...attributes}
       >
         {/* <CardMedia
@@ -77,14 +79,12 @@ export const ClueCard = ({
         height="140"
         image="/static/images/cards/contemplative-reptile.jpg"
       /> */}
-        <CardContent>
+        <CardContent ref={setNodeRef} sx={{ cursor }} {...listeners}>
           <Box
-            ref={setNodeRef}
             sx={{
               width: "100%",
               display: hunt.is_active ? "none" : "flex",
               justifyContent: "flex-end",
-              cursor,
             }}
           >
             <DragIndicatorIcon />
@@ -99,10 +99,18 @@ export const ClueCard = ({
         </CardContent>
         {!hunt.is_active && (
           <CardActions sx={{ display: deleteLoading ? "none" : undefined }}>
-            <Button size="small" onClick={handleDelete}>
+            <Button
+              size="small"
+              onClick={handleDelete}
+              disabled={deleteLoading || isSorting}
+            >
               Delete
             </Button>
-            <Button size="small" onClick={() => setIsEditDialogOpen(true)}>
+            <Button
+              size="small"
+              onClick={toggleDialogOpen}
+              disabled={deleteLoading || isSorting}
+            >
               Edit
             </Button>
           </CardActions>
@@ -112,7 +120,7 @@ export const ClueCard = ({
         <EditClueDialog
           clue_id={_id}
           description={description}
-          handleClose={() => setIsEditDialogOpen(false)}
+          handleClose={toggleDialogOpen}
         />
       )}
     </>

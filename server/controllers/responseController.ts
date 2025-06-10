@@ -9,7 +9,12 @@ export const responseController: Record<string, RequestHandler> = {
   findActiveTeamByDevice: async (req, res, next) => {
     try {
       const team = await TeamModel.aggregate([
-        { $match: { device_number: req.body.From, recall_sent: false } },
+        {
+          $match: {
+            device_number: req.body.From,
+            recall_sent: false,
+          },
+        },
         {
           $lookup: {
             from: "hunts",
@@ -52,7 +57,7 @@ export const responseController: Record<string, RequestHandler> = {
   },
   saveSMS: async (req, res, next) => {
     try {
-      if (+req.body.NumMedia >= 1) return next(); // move to NEXT to save an MMS
+      if (+req.body.NumMedia >= 1) return next(); // move to NEXT to saveMMS
 
       const { team_id, clue_id, time_received, Body } = req.body;
       const t_id = createBsonObjectId(team_id);

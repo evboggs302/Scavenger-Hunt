@@ -28,9 +28,11 @@ export const DeleteResponsesDialog = ({ handleClose }: DeleteDialogProps) => {
   return (
     <Dialog
       open={true}
-      PaperProps={{
-        component: "form",
-        onSubmit: handleDeleteAll,
+      slotProps={{
+        paper: {
+          component: "form",
+          onSubmit: handleDeleteAll,
+        },
       }}
     >
       <DialogTitle data-testid="delete-responses-title">

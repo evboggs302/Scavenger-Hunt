@@ -74,7 +74,7 @@ export const EditClueDialog = ({
 
   return (
     <Dialog
-      open={true}
+      open
       onClose={handleClose}
       slotProps={{
         paper: {
