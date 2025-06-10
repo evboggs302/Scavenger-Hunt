@@ -1,21 +1,23 @@
 import { ClueCard } from "./ClueCard";
 import { useDroppable } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
-import { ClueFragment } from "@generated/graphql";
+import type { ClueFragment } from "@generated/graphql";
 import { CardList } from "@lib/components/Cards/CardList";
 import Box from "@mui/material/Box";
 import { VirtuosoGrid } from "react-virtuoso";
 
 export const ClueCardList = ({ clueList }: { clueList: ClueFragment[] }) => {
   const { setNodeRef } = useDroppable({
-    id: "droppable",
+    id: "droppable-clue-container",
     data: {
       accepts: ["clue"],
     },
   });
 
+  const clueItems = clueList.map((clue) => clue._id);
+
   return (
-    <SortableContext items={clueList.map((clu) => clu._id)}>
+    <SortableContext items={clueItems}>
       <Box
         ref={setNodeRef}
         sx={{

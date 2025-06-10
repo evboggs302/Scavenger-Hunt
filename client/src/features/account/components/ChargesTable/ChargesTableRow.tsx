@@ -1,5 +1,5 @@
-import dayjs from "dayjs";
-import { StripeCharge } from "@generated/graphql";
+import { unix } from "dayjs";
+import type { StripeCharge } from "@generated/graphql";
 import TableCell from "@mui/material/TableCell";
 import { formatCentsToDollars } from "@features/account/model/formatCentsToDollars";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
@@ -20,7 +20,7 @@ export const ChargesTableRow = ({ charge }: ChargesTableRowProps) => {
           <ReportIcon color="error" />
         )}
       </TableCell>
-      <TableCell>{dayjs.unix(date).format("LL")}</TableCell>
+      <TableCell>{unix(date).format("LL")}</TableCell>
       <TableCell>{description}</TableCell>
       <TableCell>{formatCentsToDollars(amount)}</TableCell>
       <TableCell>{paymentCard.brand?.toUpperCase()}</TableCell>

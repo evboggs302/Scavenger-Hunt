@@ -17,13 +17,12 @@ import { useUpdateClueOrderMutation } from "../hooks/useUpdateClueOrderMutation"
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { NoCardsToShowText } from "@lib/components/Cards/NoCardsToShowText";
 import { dragMeasuring } from "../utils/dragMeasuring";
-import { CluePayload } from "@generated/graphql";
+import type { CluePayload } from "@generated/graphql";
+import { CircularLoading } from "@lib/components/Loading/CircularLoading";
 
 export const CluesPage = () => {
-  const { data } = useClueContext();
-  const [items, setItems] = useState<CluePayload[]>(
-    () => data?.clues.filter((clu) => !!clu) || []
-  );
+  const { data, loading } = useClueContext();
+  const [items, setItems] = useState<CluePayload[]>([]);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const [updateOrder] = useUpdateClueOrderMutation();
 
@@ -42,24 +41,37 @@ export const CluesPage = () => {
 
   const handleOnDragEnd = async ({ over }: DragEndEvent) => {
     if (over) {
-      const overIndex = items.findIndex((clu) => clu._id === over.id);
+      const newIndex = items.findIndex((clu) => clu._id === over.id);
 
-      if (activeIndex !== overIndex) {
-        const newIndex = overIndex;
+      if (activeIndex !== newIndex) {
+        let newOrder: CluePayload[] = [];
+        setItems((itms) => {
+          newOrder = arrayMove(itms, activeIndex, newIndex).map(
+            (clu, index) => ({
+              ...clu,
+              order_number: index + 1,
+            })
+          );
 
-        setItems((itms) =>
-          arrayMove(itms, activeIndex, newIndex).map((clu, index) => ({
-            ...clu,
-            order_number: index + 1,
-          }))
-        );
+          return newOrder;
+        });
 
-        await updateOrder(items);
+        await updateOrder(newOrder);
       }
     }
 
     setActiveId(null);
   };
+
+  useEffect(() => {
+    if (data?.clues) {
+      setItems(data.clues.filter((clu) => !!clu));
+    }
+  }, [data?.clues]);
+
+  if (loading) {
+    return <CircularLoading />;
+  }
 
   return (
     <>

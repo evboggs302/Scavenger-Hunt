@@ -93,11 +93,13 @@ export const CreateTeamsDialog = ({ handleClose }: CreateDialogProps) => {
   return (
     <FormProvider {...methods}>
       <Dialog
-        open={true}
+        open
         onClose={handleClose}
-        PaperProps={{
-          component: "form",
-          onSubmit: handleSubmit(onSubmit),
+        slotProps={{
+          paper: {
+            component: "form",
+            onSubmit: handleSubmit(onSubmit),
+          },
         }}
       >
         <DialogTitle data-testid="create-team-title">{`Create ${pluralize("Team", toPluralizeTeam)}`}</DialogTitle>

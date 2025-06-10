@@ -20,18 +20,20 @@ export const DeleteAllCluesDialog = ({ handleClose }: DeleteDialogProps) => {
     try {
       await deleteAll();
       handleClose();
-    } catch (err) {
+    } catch {
       throw Error(error?.message);
     }
   }, [deleteAll, error?.message, handleClose]);
 
   return (
     <Dialog
-      open={true}
+      open
       onClose={handleClose}
-      PaperProps={{
-        component: "form",
-        onSubmit: handleDeleteAll,
+      slotProps={{
+        paper: {
+          component: "form",
+          onSubmit: handleDeleteAll,
+        },
       }}
     >
       <DialogTitle data-testid="create-hunt-title">Delete clues</DialogTitle>

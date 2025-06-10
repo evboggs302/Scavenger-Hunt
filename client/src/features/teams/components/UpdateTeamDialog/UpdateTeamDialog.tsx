@@ -67,11 +67,13 @@ export const UpdateTeamsDialog = ({
   return (
     <FormProvider {...methods}>
       <Dialog
-        open={true}
+        open
         onClose={handleClose}
-        PaperProps={{
-          component: "form",
-          onSubmit: handleSubmit(onSubmit),
+        slotProps={{
+          paper: {
+            component: "form",
+            onSubmit: handleSubmit(onSubmit),
+          },
         }}
       >
         <DialogTitle data-testid="update-team-title">Update team</DialogTitle>

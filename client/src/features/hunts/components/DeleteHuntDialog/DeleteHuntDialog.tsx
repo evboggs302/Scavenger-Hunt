@@ -28,7 +28,7 @@ export const DeleteHuntDialog = ({ handleClose }: DeleteDialogProps) => {
 
   return (
     <Dialog
-      open={true}
+      open
       slotProps={{
         paper: {
           component: "form",
