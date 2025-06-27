@@ -1,4 +1,4 @@
-import { useBlocker } from "react-router";
+import { useBlocker, useBeforeUnload } from "react-router";
 
 /**
  * @description When this hook is used, all `navigate` functions will need the "forceClose" value passed to the navigate state. Otherwise, thos blocker will fire and prevent the route from being executed.
@@ -23,7 +23,13 @@ import { useBlocker } from "react-router";
  *      },
  * })
  */
-export const useRouteBlocker = () => {
+export const useRouteBlocker = (message?: string) => {
+  useBeforeUnload((event) => {
+    event.preventDefault();
+    event.returnValue = ""; // This is necessary for some browsers to show the confirmation dialog
+    return message ?? "Are you sure you want to leave this page?";
+  });
+
   return useBlocker(({ nextLocation }) => {
     return !nextLocation.state.forceClose;
   });

@@ -15,10 +15,21 @@ import { ClueCardList } from "./ClueCardList";
 import { useClueContext } from "@lib/context/ClueContext";
 import { useUpdateClueOrderMutation } from "../hooks/useUpdateClueOrderMutation";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import { NoCardsToShowText } from "@lib/components/Cards/NoCardsToShowText";
 import { dragMeasuring } from "../utils/dragMeasuring";
 import type { CluePayload } from "@generated/graphql";
 import { CircularLoading } from "@lib/components/Loading/CircularLoading";
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import { CreateCluesButton } from "./CreateCluesButton";
+import { DeleteAllCluesButton } from "./DeleteAllCluesButton";
+
+function EmptyCluesTablePlaceholder() {
+  return (
+    <Box style={{ width: "100%", textAlign: "center", padding: "20px" }}>
+      No data to display.
+    </Box>
+  );
+}
 
 export const CluesPage = () => {
   const { data, loading } = useClueContext();
@@ -75,7 +86,12 @@ export const CluesPage = () => {
 
   return (
     <>
-      {data?.clues.length === 0 && <NoCardsToShowText type="clues" />}
+      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <CreateCluesButton />
+        <DeleteAllCluesButton />
+      </Box>
+      <Divider sx={{ margin: "10px auto" }} />
+      {data?.clues.length === 0 && <EmptyCluesTablePlaceholder />}
       {items.length > 0 && (
         <DndContext
           sensors={sensors}

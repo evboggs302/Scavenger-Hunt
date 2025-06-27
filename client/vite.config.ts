@@ -12,18 +12,19 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, "../", "");
   const clientPort = +env.CLIENT_PORT;
 
-  const autoAliasPlugin = ["development", "analyze"].includes(mode)
+  const autoAliasPlugin = ["development", "analyze", "deadfiles"].includes(mode)
     ? autoAlias()
     : undefined;
-  const deadFilePlugin =
-    mode === "analyze"
-      ? deadFile({
-          include: ["src/**"],
-          exclude: ["**/*.graphql", "**/*.(spec|test|stories).(ts|tsx)"],
-          outputDir: "./.deadfiles",
-          output: "dead-files.txt", // writes this txt file with all unused files
-        })
-      : undefined;
+
+  const deadFilePlugin = ["analyze", "deadfiles"].includes(mode)
+    ? deadFile({
+        include: ["src/**"],
+        exclude: ["**/*.graphql", "**/*.(spec|test|stories).(ts|tsx)"],
+        outputDir: ".deadfiles",
+        output: "dead-files.txt", // writes this txt file with all unused files
+      })
+    : undefined;
+
   const visualizerPlugin =
     mode === "analyze" ? visualizer({ open: true, gzipSize: true }) : undefined;
 
