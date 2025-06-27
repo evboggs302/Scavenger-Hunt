@@ -15,6 +15,7 @@ export default defineConfig(({ mode }) => {
   const autoAliasPlugin = ["development", "analyze"].includes(mode)
     ? autoAlias()
     : undefined;
+
   const deadFilePlugin =
     mode === "analyze"
       ? deadFile({
@@ -24,6 +25,7 @@ export default defineConfig(({ mode }) => {
           output: "dead-files.txt", // writes this txt file with all unused files
         })
       : undefined;
+
   const visualizerPlugin =
     mode === "analyze" ? visualizer({ open: true, gzipSize: true }) : undefined;
 

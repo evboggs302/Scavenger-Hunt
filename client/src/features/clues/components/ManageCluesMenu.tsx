@@ -3,11 +3,9 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import { Cloud, ContentCopy, EditOutlined } from "@mui/icons-material";
+import { EditOutlined } from "@mui/icons-material";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
-import { CreateCluesDialog } from "./CreateCluesDialog/CreateCluesDialog";
-import { DeleteAllCluesDialog } from "./DeleteCluesDialog/DeleteAllCluesDialog";
 
 export const ManageCluesMenu = ({
   hasItems,
@@ -26,10 +24,6 @@ export const ManageCluesMenu = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const [createDialogOpen, setCreateDialogOpen] = useState(false);
-
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   return (
     <>
@@ -54,17 +48,6 @@ export const ManageCluesMenu = ({
           },
         }}
       >
-        <MenuItem
-          onClick={() => {
-            handleClose();
-            setCreateDialogOpen(true);
-          }}
-        >
-          <ListItemIcon>
-            <ContentCopy fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Create new</ListItemText>
-        </MenuItem>
         {hasItems && (
           <MenuItem
             onClick={() => {
@@ -81,24 +64,7 @@ export const ManageCluesMenu = ({
           </MenuItem>
         )}
         <Divider />
-        <MenuItem
-          onClick={() => {
-            handleClose();
-            setDeleteDialogOpen(true);
-          }}
-        >
-          <ListItemIcon>
-            <Cloud fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Delete all</ListItemText>
-        </MenuItem>
       </Menu>
-      {createDialogOpen && (
-        <CreateCluesDialog handleClose={() => setCreateDialogOpen(false)} />
-      )}
-      {deleteDialogOpen && (
-        <DeleteAllCluesDialog handleClose={() => setDeleteDialogOpen(false)} />
-      )}
     </>
   );
 };
