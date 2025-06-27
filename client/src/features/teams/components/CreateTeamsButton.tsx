@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
-import { CreateCluesDialog } from "./CreateCluesDialog/CreateCluesDialog";
 import { CreateCardsIconButton } from "@lib/components/ManagementButtons/CreateCardsIconButton";
+import { CreateTeamsDialog } from "./CreateTeamsDialog/CreateTeamsDialog";
 
-export const CreateCluesButton = () => {
+export const CreateTeamsButton = () => {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
   const toggleDialogOpen = useCallback(() => {
@@ -12,10 +12,10 @@ export const CreateCluesButton = () => {
   return (
     <>
       <CreateCardsIconButton
-        tooltipText="Create new clues"
+        tooltipText="Create new teams"
         onClick={toggleDialogOpen}
       />
-      {createDialogOpen && <CreateCluesDialog handleClose={toggleDialogOpen} />}
+      {createDialogOpen && <CreateTeamsDialog handleClose={toggleDialogOpen} />}
     </>
   );
 };

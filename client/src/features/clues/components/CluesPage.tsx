@@ -20,7 +20,6 @@ import type { CluePayload } from "@generated/graphql";
 import { CircularLoading } from "@lib/components/Loading/CircularLoading";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
-import { ManageCluesMenu } from "./ManageCluesMenu";
 import { CreateCluesButton } from "./CreateCluesButton";
 import { DeleteAllCluesButton } from "./DeleteAllCluesButton";
 

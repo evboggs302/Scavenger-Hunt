@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
-import { DeleteAllCluesDialog } from "./DeleteCluesDialog/DeleteAllCluesDialog";
 import { DeleteCardsIconButton } from "@lib/components/ManagementButtons/DeleteCards";
+import { DeleteAllTeamsDialog } from "./DeleteTeamsDialog/DeleteAllTeamsDialog";
 
-export const DeleteAllCluesButton = () => {
+export const DeleteAllTeamsButton = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const toggleDialogOpen = useCallback(() => {
@@ -12,11 +12,11 @@ export const DeleteAllCluesButton = () => {
   return (
     <>
       <DeleteCardsIconButton
-        tooltipText="Delete all clues"
+        tooltipText="Delete all teams"
         onClick={toggleDialogOpen}
       />
       {deleteDialogOpen && (
-        <DeleteAllCluesDialog handleClose={toggleDialogOpen} />
+        <DeleteAllTeamsDialog handleClose={toggleDialogOpen} />
       )}
     </>
   );

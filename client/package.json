@@ -8,6 +8,7 @@
     "preview": "vite build && vite preview",
     "build": "vite build",
     "build:analyze": "vite build --mode analyze",
+    "build:deadfiles": "vite build --mode deadfiles",
     "test": "vitest --run",
     "test:watch": "vitest --changed",
     "test:coverage": "vitest --coverage",
