@@ -23,9 +23,11 @@ import { useBlocker, useBeforeUnload } from "react-router";
  *      },
  * })
  */
-export const useRouteBlocker = () => {
-  useBeforeUnload(() => {
-    return "Are you sure you want to leave this page?";
+export const useRouteBlocker = (message?: string) => {
+  useBeforeUnload((event) => {
+    event.preventDefault();
+    event.returnValue = ""; // This is necessary for some browsers to show the confirmation dialog
+    return message ?? "Are you sure you want to leave this page?";
   });
 
   return useBlocker(({ nextLocation }) => {
