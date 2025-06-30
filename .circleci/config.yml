@@ -53,6 +53,20 @@ jobs:
       - store_test_results:
           path: ui-test-results
 
+  tsc-check:
+    <<: *docker-node
+    working_directory: ~/scavenger-hunt
+    parallelism: 2
+    steps:
+      - <<: *git-checkout-root
+      - <<: *yarn-install
+      - run:
+          name: "CLIENT: tsc check"
+          command: yarn tsc-check-client
+      - run:
+          name: "SERVER: tsc check"
+          command: yarn tsc-check-server
+
   deploy-server-job:
     <<: *docker-node
     working_directory: ~/scavenger-hunt/server
@@ -97,6 +111,7 @@ jobs:
 workflows:
   test:
     jobs:
+      - tsc-check
       - test-ui-job
   deploy:
     when:
