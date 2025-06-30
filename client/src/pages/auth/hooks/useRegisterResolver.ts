@@ -42,7 +42,7 @@ export const useRegisterResolver = () => {
         fetchPolicy: "network-only",
       });
 
-      if (!data.userNameExists) {
+      if (data.userNameExists) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           path: ["username"],

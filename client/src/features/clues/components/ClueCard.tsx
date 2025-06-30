@@ -27,6 +27,8 @@ export const ClueCard = ({
   const [deleteClue, { loading: deleteLoading }] =
     useDeleteSingleClueMutation();
 
+  const activeHunt = !!hunt.is_active;
+
   const {
     attributes,
     listeners,
@@ -37,7 +39,7 @@ export const ClueCard = ({
     transition,
   } = useSortable({
     id: _id,
-    disabled: hunt.is_active,
+    disabled: activeHunt, // Disable sorting when hunt is active
     animateLayoutChanges: () => true,
     data: {
       type: "clue",
@@ -57,7 +59,7 @@ export const ClueCard = ({
     }
   }, [_id, deleteClue]);
 
-  const cursor = isDragging ? "grabbing" : "grab";
+  const cursor = !activeHunt ? (isDragging ? "grabbing" : "grab") : "default";
 
   return (
     <>
@@ -97,7 +99,7 @@ export const ClueCard = ({
             <i>{_id}</i>
           </Typography>
         </CardContent>
-        {!hunt.is_active && (
+        {!activeHunt && (
           <CardActions sx={{ display: deleteLoading ? "none" : undefined }}>
             <Button
               size="small"
