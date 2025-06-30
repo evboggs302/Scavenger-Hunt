@@ -37,7 +37,7 @@ yarn-install-for-production: &yarn-install-prod
       command: yarn install --prod
 
 jobs:
-  test-ui-job:
+  ui-functional-tests:
     <<: *docker-node
     working_directory: ~/scavenger-hunt/client
     parallelism: 2
@@ -53,24 +53,36 @@ jobs:
       - store_test_results:
           path: ui-test-results
 
-  tsc-check:
+  ui-e2e-tests:
     <<: *docker-node
-    working_directory: ~/scavenger-hunt
+    working_directory: ~/scavenger-hunt/client
     parallelism: 2
     steps:
       - <<: *git-checkout-root
+      - <<: *yarn-install
       - run:
-          no_output_timeout: 30m # just in case Render has a slow environment
-          command: cd client && yarn install --frozen-lockfile
-      - run:
-          name: "CLIENT: tsc check"
-          command: yarn tsc-check-client
-      - run:
-          no_output_timeout: 30m # just in case Render has a slow environment
-          command: cd server && yarn install --frozen-lockfile
-      - run:
-          name: "SERVER: tsc check"
-          command: yarn tsc-check-server
+          name: UI e2e tests
+          command: yarn playwright
+      - store_test_results:
+          path: ui-test-results
+
+  tsc-check-client:
+    <<: *docker-node
+    working_directory: ~/scavenger-hunt/client
+    parallelism: 2
+    steps:
+      - <<: *git-checkout-root
+      - <<: *yarn-install
+      - <<: *tsc-check
+
+  tsc-check-server:
+    <<: *docker-node
+    working_directory: ~/scavenger-hunt/server
+    parallelism: 2
+    steps:
+      - <<: *git-checkout-root
+      - <<: *yarn-install
+      - <<: *tsc-check
 
   deploy-server-job:
     <<: *docker-node
@@ -114,10 +126,14 @@ jobs:
           command: curl ${DEPLOY_STORYBOOK_WEBHOOK}
 
 workflows:
+  tsc-checks:
+    jobs:
+      - tsc-check-client
+      - tsc-check-server
   test:
     jobs:
-      - tsc-check
-      - test-ui-job
+      - ui-functional-tests
+      # - ui-e2e-tests
   deploy:
     when:
       equal: [<< pipeline.git.branch >>, master]
