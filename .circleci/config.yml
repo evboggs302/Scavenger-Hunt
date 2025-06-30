@@ -60,11 +60,13 @@ jobs:
     steps:
       - <<: *git-checkout-root
       - run:
+          no_output_timeout: 30m # just in case Render has a slow environment
           command: cd client && yarn install --frozen-lockfile
       - run:
           name: "CLIENT: tsc check"
           command: yarn tsc-check-client
       - run:
+          no_output_timeout: 30m # just in case Render has a slow environment
           command: cd server && yarn install --frozen-lockfile
       - run:
           name: "SERVER: tsc check"
