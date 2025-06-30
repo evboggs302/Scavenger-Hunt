@@ -59,13 +59,17 @@ jobs:
     parallelism: 2
     steps:
       - <<: *git-checkout-root
-      - <<: *yarn-install
+      - run:
+          command: cd client && yarn install --frozen-lockfile
       - run:
           name: "CLIENT: tsc check"
-          command: yarn tsc-check-client
+          command: yarn tsc-check
+      - <<: *git-checkout-root
+      - run:
+          command: cd server && yarn install --frozen-lockfile
       - run:
           name: "SERVER: tsc check"
-          command: yarn tsc-check-server
+          command: yarn tsc-check
 
   deploy-server-job:
     <<: *docker-node
