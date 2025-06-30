@@ -4,10 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "NODE_ENV=development tsx watch ./server_gql.ts",
-    "start-server": "NODE_ENV=production node --experimental-modules --es-module-specifier-resolution=node ./dist/server_gql.js",
+    "start-server": "NODE_ENV=production tsx --experimental-modules --es-module-specifier-resolution=node ./server_gql.ts",
     "tsc-check": "tsc --noEmit",
     "codegen": "graphql-codegen --config codegen.ts",
-    "compile": "rm -rf ./dist && npx tsc && cp -R node_modules ./dist/node_modules && cp -R graphql ./dist/graphql",
     "test": "vitest"
   },
   "dependencies": {
@@ -55,7 +54,7 @@
     "@vitest/coverage-v8": "^2.1.8",
     "bcryptjs": "^2.4.3",
     "supertest": "^7.0.0",
-    "tsx": "^4.19.4",
+    "tsx": "^4.20.3",
     "typescript": "^5.4.2",
     "vite": "^7.0.0",
     "vitest": "^3.2.4"

@@ -21,6 +21,11 @@ yarn-install-step: &yarn-install
     no_output_timeout: 30m # just in case Render has a slow environment
     command: yarn install --frozen-lockfile
 
+tsc-check-step: &tsc-check
+  run:
+    name: tsc check
+    command: yarn tsc-check
+
 # NOT YET USED
 yarn-install-for-production: &yarn-install-prod
   - run:
@@ -48,6 +53,25 @@ jobs:
       - store_test_results:
           path: ui-test-results
 
+  tsc-check:
+    <<: *docker-node
+    working_directory: ~/scavenger-hunt
+    parallelism: 2
+    steps:
+      - <<: *git-checkout-root
+      - run:
+          no_output_timeout: 30m # just in case Render has a slow environment
+          command: cd client && yarn install --frozen-lockfile
+      - run:
+          name: "CLIENT: tsc check"
+          command: yarn tsc-check-client
+      - run:
+          no_output_timeout: 30m # just in case Render has a slow environment
+          command: cd server && yarn install --frozen-lockfile
+      - run:
+          name: "SERVER: tsc check"
+          command: yarn tsc-check-server
+
   deploy-server-job:
     <<: *docker-node
     working_directory: ~/scavenger-hunt/server
@@ -55,12 +79,7 @@ jobs:
     steps:
       - <<: *git-checkout-root
       - <<: *yarn-install
-      - run:
-          name: Graphql codegen
-          command: yarn codegen
-      - run:
-          name: Compile TS
-          command: yarn compile
+      - <<: *tsc-check
       - run:
           name: Deploy server via webhook
           command: curl ${DEPLOY_SERVER_WEBHOOK}
@@ -72,6 +91,7 @@ jobs:
     steps:
       - <<: *git-checkout-root
       - <<: *yarn-install
+      - <<: *tsc-check
       - run:
           name: Build UI
           command: yarn build
@@ -96,6 +116,7 @@ jobs:
 workflows:
   test:
     jobs:
+      - tsc-check
       - test-ui-job
   deploy:
     when:
