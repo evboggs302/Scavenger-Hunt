@@ -60,7 +60,7 @@ export const useRegisterResolver = () => {
         fetchPolicy: "network-only",
       });
 
-      if (!emailRes.emailExists) {
+      if (emailRes.emailExists) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           path: ["email"],
