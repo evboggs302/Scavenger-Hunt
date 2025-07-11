@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { DeleteCardsIconButton } from "@lib/components/ManagementButtons/DeleteCards";
+import { DeleteCardsIconButton } from "@lib/components/ManagementButtons/DeleteCardsIconButton";
 import { DeleteAllTeamsDialog } from "./DeleteTeamsDialog/DeleteAllTeamsDialog";
 
 export const DeleteAllTeamsButton = () => {

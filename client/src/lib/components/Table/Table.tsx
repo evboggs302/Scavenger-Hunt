@@ -53,6 +53,7 @@ export const Table = <T extends Record<string, any>>({
 
   return (
     <TableVirtuoso
+      data-testid="table-virtuoso"
       style={{ height, width: "100%", overflow: "auto", ...style }}
       data={data}
       components={{

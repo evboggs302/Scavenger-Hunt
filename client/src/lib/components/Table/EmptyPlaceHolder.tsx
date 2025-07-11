@@ -12,7 +12,10 @@ export const EmptyPlaceholder: React.FC<EmptyPlaceholderProps> = ({
     <TableBody>
       <TableRow>
         <TableCell>
-          <Box style={{ width: "100%", textAlign: "center", padding: "20px" }}>
+          <Box
+            data-testid="table-empty-placeholder"
+            style={{ width: "100%", textAlign: "center", padding: "20px" }}
+          >
             {placeholderText ? placeholderText : "No data to display."}
           </Box>
         </TableCell>

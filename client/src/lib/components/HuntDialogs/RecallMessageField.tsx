@@ -23,7 +23,7 @@ export const RecallMessageField = ({
   return (
     <FieldWrapper>
       <InputLabel data-testid={`${mode}-hunt-recall-label`}>
-        Recall message{" "}
+        Recall message
         <Tooltip
           placement="right"
           title={`The message to be sent to teams at the end of your event. The default value is "You've completed your hunt."`}

@@ -12,6 +12,7 @@ export const TextTableCell: React.FC<PropsWithChildren<TextTableCellProps>> = ({
 }) => {
   return (
     <TableCell
+      data-testid="text-table-cell"
       style={{
         overflow: "hidden",
         textOverflow: "ellipsis",
