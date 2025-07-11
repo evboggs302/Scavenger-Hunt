@@ -11,6 +11,9 @@ import { createHuntMock } from "./handlers/hunts/createHuntMock";
 import { createSingleClueMock } from "./handlers/clues/createSingleClueMock";
 import { createMultipleCluesMock } from "./handlers/clues/createMultipleCluesMock";
 import { getAllResponsesByHuntMock } from "./handlers/responses/getAllResponsesByHuntMock";
+import { fetchDefaultPaymentMethodHandler } from "./handlers/accounts/fetchDefaultPaymentMethodHandler";
+import { fetchAccountTransationsHandler } from "./handlers/accounts/fetchAccountTransationsHandler";
+import { cancelSubscriptionHandler } from "./handlers/accounts/cancelSubscriptionHandler";
 
 export const mswHandlers = {
   // AUTH
@@ -18,6 +21,10 @@ export const mswHandlers = {
   logoutMock,
   registerMock,
   usernameExistsMock,
+  // ACCOUNTS
+  cancelSubscriptionHandler,
+  fetchAccountTransationsHandler,
+  fetchDefaultPaymentMethodHandler,
   // CLUES
   getOrderedCluesMock,
   createSingleClueMock,

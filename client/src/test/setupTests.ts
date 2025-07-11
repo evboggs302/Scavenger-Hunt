@@ -9,7 +9,6 @@ beforeAll(() => {
 });
 
 afterEach(() => {
-  // runs a clean after each test case (e.g. clearing jsdom)
   cleanup();
   testServer.resetHandlers();
 });

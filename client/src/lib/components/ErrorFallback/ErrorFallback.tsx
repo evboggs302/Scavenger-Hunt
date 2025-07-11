@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { FallbackProps } from "react-error-boundary";
 import { useNavigate } from "react-router";
 import Box from "@mui/material/Box";
@@ -11,24 +11,30 @@ export const ErrorFallback = ({
   resetErrorBoundary = () => location.reload(),
 }: ErrorFallbackProps) => {
   const navigate = useNavigate();
-  const canTryAgain = useRef(true);
+  const [canTryAgain, setCanTryAgain] = useState(true);
 
   const goToDashboard = () => {
     navigate("/app", { replace: true });
   };
 
   const tryAgain = useCallback(() => {
-    canTryAgain.current = false;
+    setCanTryAgain(false);
     resetErrorBoundary();
   }, [resetErrorBoundary]);
 
   return (
     <Box id="contianer">
-      <Box id="image container"></Box>
-      <Box id="message container">{message}</Box>
-      <Box id="actions container">
-        <Button onClick={goToDashboard}>Go to Dashboard</Button>
-        <Button disabled={!canTryAgain} onClick={tryAgain}>
+      <Box data-testid="fallback-image"></Box>
+      <Box data-testid="fallback-message">{message}</Box>
+      <Box data-testid="fallback-actions">
+        <Button data-testid="fallback-navigate" onClick={goToDashboard}>
+          Go to Dashboard
+        </Button>
+        <Button
+          data-testid="fallback-try-again"
+          disabled={!canTryAgain}
+          onClick={tryAgain}
+        >
           Try again
         </Button>
       </Box>

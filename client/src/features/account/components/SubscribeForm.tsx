@@ -1,5 +1,4 @@
 import { useCallback, useState } from "react";
-import { useFetchAccountTransactions } from "@pages/account/hooks/useFetchAccountTransactions";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -13,11 +12,6 @@ export const SubscribeForm: React.FC = () => {
   const toggleDialogOpen = useCallback(() => setDialogOpen((val) => !val), []);
 
   const { data: defaultPaymentResult } = useFetchPaymentMethod();
-  const { subscriptStatus } = useFetchAccountTransactions();
-
-  if (subscriptStatus === "active") {
-    return null;
-  }
 
   const hasDefaultPaymentMethod =
     !!defaultPaymentResult?.defaultPaymentMethod?.id;

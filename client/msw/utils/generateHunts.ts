@@ -15,7 +15,7 @@ export const generateHunts = (
 ): FullHunt[] => {
   const hunts: FullHunt[] = [];
   for (let i = 0; i < number; i++) {
-    const _id = hexadecimalStr();
+    const _id = i === 0 ? "mock-hunt-id" : hexadecimalStr();
     const start_date = faker.date.future().toISOString();
     const is_active = faker.datatype.boolean();
 
