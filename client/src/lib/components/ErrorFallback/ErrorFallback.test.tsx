@@ -3,7 +3,6 @@ import { renderWrapper } from "@test/renderWrapper";
 import { ErrorFallback } from "./ErrorFallback";
 
 const navigate = vi.fn();
-
 vi.mock(import("react-router"), async (importOriginal) => {
   const actual = await importOriginal();
   return {

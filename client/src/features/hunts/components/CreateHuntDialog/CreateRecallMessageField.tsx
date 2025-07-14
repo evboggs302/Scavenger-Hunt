@@ -4,7 +4,7 @@ import { RecallMessageField } from "@lib/components/HuntDialogs/RecallMessageFie
 export const CreateRecallMessageField = () => {
   const { field, fieldState } = useController({
     name: "recallMessage",
-    defaultValue: undefined,
+    defaultValue: "",
   });
 
   return (

@@ -138,11 +138,13 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
             <InputLabel required>Start date</InputLabel>
             <DatePicker
               disablePast
+              closeOnSelect
               name={startDateField.name}
               value={startDateField.value}
               onChange={onChangeStart}
               slotProps={{
                 textField: {
+                  label: startDateField.name,
                   onBlur: startDateField.onBlur,
                   error: !!startDateState.error,
                   helperText: startDateState.error
@@ -152,7 +154,6 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
                   slotProps: {
                     htmlInput: {
                       ref: startDateField.ref,
-                      "data-testid": "create-hunt-start",
                     },
                   },
                 },
@@ -168,10 +169,11 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
             }}
           >
             <Checkbox
-              data-testid="create-hunt-multiple-days"
               slotProps={{
                 input: {
                   ref: checkbox.ref,
+                  // @ts-ignore
+                  "data-testid": "create-hunt-multiple-days",
                 },
               }}
               name={checkbox.name}
@@ -195,6 +197,7 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
                 }
                 slotProps={{
                   textField: {
+                    label: "endDate",
                     onBlur: endDateField.onBlur,
                     error: !!endDateState.error,
                     helperText: endDateState.error

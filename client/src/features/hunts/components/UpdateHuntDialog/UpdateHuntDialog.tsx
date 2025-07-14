@@ -79,12 +79,10 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
   const { field: startDateField, fieldState: startDateState } = useController({
     name: "startDate",
     control,
-    // defaultValue: dayjs(hunt.start_date),
   });
   const { field: endDateField, fieldState: endDateState } = useController({
     name: "endDate",
     control,
-    // defaultValue: dayjs(hunt.end_date),
   });
   const { field: checkbox } = useController({
     name: "multipleDays",
@@ -161,6 +159,7 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
               slotProps={{
                 textField: {
                   ref: startDateField.ref,
+                  label: startDateField.name,
                   onBlur: startDateField.onBlur,
                   error: !!startDateState.error,
                   helperText: startDateState.error
@@ -185,10 +184,11 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
             }}
           >
             <Checkbox
-              data-testid="update-hunt-multiple-days"
               slotProps={{
                 input: {
                   ref: checkbox.ref,
+                  // @ts-ignore
+                  "data-testid": "update-hunt-multiple-days",
                 },
               }}
               name={checkbox.name}
@@ -213,6 +213,7 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
                 slotProps={{
                   textField: {
                     ref: endDateField.ref,
+                    label: endDateField.name,
                     onBlur: endDateField.onBlur,
                     error: !!endDateState.error,
                     helperText: endDateState.error

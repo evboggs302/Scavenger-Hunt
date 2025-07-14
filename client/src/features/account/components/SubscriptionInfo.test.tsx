@@ -5,7 +5,7 @@ import { testServer } from "@test/testServer";
 import { fetchAccountTransationsHandler_INACTIVE } from "@msw/handlers/accounts/fetchAccountTransationsHandler_INACTIVE";
 
 const mockedCancel = vi.fn();
-vi.mock("../hooks/useCancelSubscription.ts", () => {
+vi.mock("../hooks/useCancelSubscription", () => {
   return {
     useCancelSubscription: () => [mockedCancel, { loading: false }],
   };

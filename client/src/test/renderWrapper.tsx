@@ -15,22 +15,30 @@ type RenderOptions = RouteObject & { params?: Record<string, string> };
  * @param ui - The React component to render.
  * @param options - Optional route configuration and parameters.
  * @param options.params - Parameters & their values to be used in the route. All provided values will be appended to the `/mock-hunt-id` path.
- * @param options.path - The path should define parameters. All provided parameters will be appended to the `/:huntId` path.
  * @returns The rendered component.
  */
 export const renderWrapper = async (
   ui: ReactNode,
   options: RenderOptions = {}
 ) => {
-  const { params = {}, path = "", ...rest } = options;
+  const { params = {}, ...rest } = options;
 
-  const entires = `/mock-hunt-id/${Object.values(params).join("/")}`;
+  const paramsResult = Object.entries(params).reduce(
+    (acc, [paramDefinition, paramValue]) => ({
+      ...acc,
+      [paramDefinition]: paramValue || paramDefinition,
+    }),
+    {}
+  );
+
+  const path = `/:huntId/${Object.keys(paramsResult).join("/")}`;
+  const entries = `/mock-hunt-id/${Object.values(paramsResult).join("/")}`;
 
   const router = createMemoryRouter(
     [
       {
         ...rest,
-        path: `/:huntId/${path}`,
+        path,
         element: (
           <ApolloClientProvider>
             <AppMUIProviders>
@@ -47,7 +55,7 @@ export const renderWrapper = async (
       },
     ],
     {
-      initialEntries: [entires],
+      initialEntries: [entries],
       initialIndex: 0,
     }
   );
