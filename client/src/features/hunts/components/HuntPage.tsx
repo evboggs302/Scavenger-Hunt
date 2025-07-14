@@ -50,11 +50,7 @@ export const HuntPage = () => {
           width: "100%",
         }}
       >
-        <Tabs
-          value={location}
-          onChange={handleChange}
-          aria-label="lab API tabs example"
-        >
+        <Tabs value={location} onChange={handleChange} aria-label="hunt tabs">
           <Tab label="Info" value="" />
           <Tab label="Clues" value="clues" />
           <Tab label="Teams" value="teams" />

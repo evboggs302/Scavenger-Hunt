@@ -6,7 +6,7 @@ export const UpdateRecallMessageField = () => {
   const { hunt } = useHuntFragment();
   const { field, fieldState } = useController({
     name: "recallMessage",
-    defaultValue: hunt.recall_message,
+    defaultValue: hunt.recall_message || "",
   });
 
   return (

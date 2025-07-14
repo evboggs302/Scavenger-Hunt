@@ -34,12 +34,14 @@ export const RecallMessageField = ({
       <TextField
         slotProps={{
           htmlInput: {
-            ref: field.ref,
             "data-testid": `${mode}-hunt-recall-message`,
+          },
+          input: {
+            ref: field.ref,
           },
         }}
         name={field.name}
-        value={field.value}
+        value={field.value || ""}
         onBlur={field.onBlur}
         onChange={field.onChange}
         placeholder={`eg. "Make your way back to the starting location."`}
