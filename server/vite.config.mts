@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => {
     test: {
       environment: "node",
       globals: true,
-      dir: "./test/__tests__",
+      root: "./test/__tests__",
       isolate: true,
       passWithNoTests: true,
       fileParallelism: true,

@@ -37,7 +37,7 @@ yarn-install-for-production: &yarn-install-prod
       command: yarn install --prod
 
 jobs:
-  ui-functional-tests:
+  ui-unit-tests:
     <<: *docker-node
     working_directory: ~/scavenger-hunt/client
     parallelism: 2
@@ -45,13 +45,10 @@ jobs:
       - <<: *git-checkout-root
       - <<: *yarn-install
       - run:
-          name: UI functional tests
+          name: UI unit tests
           command: yarn test
-      # - run:
-      #     name: UI e2e tests
-      #     command: yarn playwright
       - store_test_results:
-          path: ui-test-results
+          path: ui-test-results/unit
 
   ui-e2e-tests:
     <<: *docker-node
@@ -64,7 +61,7 @@ jobs:
           name: UI e2e tests
           command: yarn playwright
       - store_test_results:
-          path: ui-test-results
+          path: ui-test-results/e2e
 
   tsc-check-client:
     <<: *docker-node
@@ -132,7 +129,7 @@ workflows:
       - tsc-check-server
   test:
     jobs:
-      - ui-functional-tests
+      - ui-unit-tests
       # - ui-e2e-tests
   deploy:
     when:
