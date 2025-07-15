@@ -15,6 +15,7 @@
       "@graphql/*": ["./graphql/*"],
       "@models/*": ["./models/*"],
       "@resolvers/*": ["./resolvers/*"],
+      "@test/*": ["./test/*"],
       "@types/*": ["./types/*"],
       "@utils/*": ["./utils/*"],
       "@/*": ["./*"]
