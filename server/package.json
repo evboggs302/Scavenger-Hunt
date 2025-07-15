@@ -7,7 +7,9 @@
     "start-server": "NODE_ENV=production tsx --experimental-modules --es-module-specifier-resolution=node ./server_gql.ts",
     "tsc-check": "tsc --noEmit",
     "codegen": "graphql-codegen --config codegen.ts",
-    "test": "vitest"
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage"
   },
   "dependencies": {
     "@apollo/server": "^4.12.2",
@@ -57,6 +59,7 @@
     "tsx": "^4.20.3",
     "typescript": "^5.4.2",
     "vite": "^7.0.0",
+    "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.4"
   }
 }

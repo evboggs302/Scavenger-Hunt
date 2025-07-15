@@ -1,4 +1,4 @@
-import { createBsonObjectId } from "../../utils/transforms/createBsonObjectId";
+import { createBsonObjectId } from "@utils/transforms/createBsonObjectId";
 import { Types } from "mongoose";
 
 describe("createBsonObjectId", () => {

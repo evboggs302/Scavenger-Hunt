@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+// import { Link } from "react-router";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { ApolloError } from "@apollo/client";
 import { GoogleIcon, FacebookIcon } from "@lib/components/Auth/CustomIcons";
@@ -88,14 +88,14 @@ export const SignInCard = () => {
             >
               Sign in
             </Button>
-            <Typography sx={{ textAlign: "center" }}>
+            {/* <Typography sx={{ textAlign: "center" }}>
               Don&apos;t have an account?{" "}
               <span>
                 <Link to="/register" style={{ alignSelf: "center" }}>
                   Sign up
                 </Link>
               </span>
-            </Typography>
+            </Typography> */}
           </form>
           <Divider>or</Divider>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
