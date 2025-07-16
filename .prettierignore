@@ -7,3 +7,5 @@
 **/build/**/*
 **/coverage/**/*
 client/storybook-static/**/*
+client/playwright-report/**/*
+client/test-results/**/*

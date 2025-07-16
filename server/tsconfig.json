@@ -10,14 +10,14 @@
     "types": ["node"],
     "typeRoots": ["node_modules/@types"],
     "paths": {
-      "@controllers/*": ["./controllers/*"],
-      "@generated/*": ["./generated/*"],
-      "@graphql/*": ["./graphql/*"],
-      "@models/*": ["./models/*"],
-      "@resolvers/*": ["./resolvers/*"],
-      "@test/*": ["./test/*"],
-      "@types/*": ["./types/*"],
-      "@utils/*": ["./utils/*"],
+      "@controllers/*": ["controllers/*"],
+      "@generated/*": ["generated/*"],
+      "@graphql/*": ["graphql/*"],
+      "@models/*": ["models/*"],
+      "@resolvers/*": ["resolvers/*"],
+      "@test/*": ["test/*"],
+      "@types/*": ["types/*"],
+      "@utils/*": ["utils/*"],
       "@/*": ["./*"]
     }
   },

@@ -58,8 +58,11 @@ jobs:
       - <<: *git-checkout-root
       - <<: *yarn-install
       - run:
+          name: Install Playwright
+          command: yarn playwright install
+      - run:
           name: UI e2e tests
-          command: yarn playwright
+          command: yarn e2e:lo
       - store_test_results:
           path: ui-test-results/e2e
 
@@ -130,7 +133,6 @@ workflows:
   test:
     jobs:
       - ui-unit-tests
-      # - ui-e2e-tests
   deploy:
     when:
       equal: [<< pipeline.git.branch >>, master]
@@ -140,3 +142,6 @@ workflows:
       - deploy-ui-job:
           requires:
             - deploy-server-job
+      # - ui-e2e-tests:
+      #     requires:
+      #       - deploy-ui-job

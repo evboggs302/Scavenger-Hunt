@@ -67,8 +67,11 @@ export default [
       "**/dist/**/*",
       "**/build/**/*",
       "**/generated/**/*",
+      "**/coverage/**/*",
       "client/storybook-static/**/*",
       "server/server_rest.ts",
+      "client/playwright-report/**/*",
+      "client/test-results/**/*",
     ],
   },
   {
