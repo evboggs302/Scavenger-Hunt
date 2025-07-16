@@ -9,16 +9,17 @@
     "moduleResolution": "node",
     "types": ["vite/client", "vite-plugin-svgr/client", "vitest/globals"],
     "paths": {
-      "@apolloClient/*": ["./src/apolloClient/*"],
-      "@generated/*": ["./src/generated/*"],
-      "@graphql/*": ["./src/graphql/*"],
-      "@lib/*": ["./src/lib/*"],
-      "@routes/*": ["./src/routes/*"],
-      "@features/*": ["./src/features/*"],
-      "@msw/*": ["./msw/*"],
-      "@/*": ["src/*"],
+      "@apolloClient/*": ["src/apolloClient/*"],
+      "@features/*": ["src/features/*"],
+      "@generated/*": ["src/generated/*"],
+      "@graphql/*": ["src/graphql/*"],
+      "@lib/*": ["src/lib/*"],
+      "@msw/*": ["msw/*"],
+      "@pages/*": ["src/pages/*"],
+      "@playwright/*": ["playwright/*"],
+      "@routes/*": ["src/routes/*"],
       "@test/*": ["src/test/*"],
-      "@pages/*": ["src/pages/*"]
+      "@/*": ["src/*"]
     }
   },
   "exclude": ["node_modules", "storybook-static"]

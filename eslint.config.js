@@ -69,6 +69,8 @@ export default [
       "**/generated/**/*",
       "client/storybook-static/**/*",
       "server/server_rest.ts",
+      "client/playwright-report/**/*",
+      "client/test-results/**/*",
     ],
   },
   {
