@@ -135,7 +135,6 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
           </DialogContentText>
           <CreateNameField />
           <FieldWrapper>
-            <InputLabel required>Start date</InputLabel>
             <DatePicker
               disablePast
               closeOnSelect
@@ -144,7 +143,8 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
               onChange={onChangeStart}
               slotProps={{
                 textField: {
-                  label: startDateField.name,
+                  required: true,
+                  label: "Start date",
                   onBlur: startDateField.onBlur,
                   error: !!startDateState.error,
                   helperText: startDateState.error
@@ -185,7 +185,6 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
           </Box>
           {checkbox.value === true && (
             <FieldWrapper>
-              <InputLabel required>End date</InputLabel>
               <DatePicker
                 disablePast
                 disabled={!!startDateState.error}
@@ -197,7 +196,8 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
                 }
                 slotProps={{
                   textField: {
-                    label: "endDate",
+                    required: true,
+                    label: "End date",
                     onBlur: endDateField.onBlur,
                     error: !!endDateState.error,
                     helperText: endDateState.error

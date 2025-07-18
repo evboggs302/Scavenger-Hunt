@@ -48,7 +48,7 @@ jobs:
           name: UI unit tests
           command: yarn test
       - store_test_results:
-          path: ui-test-results/unit
+          path: ui-test-results/unit-tests.json
 
   ui-e2e-tests:
     <<: *docker-node
@@ -59,12 +59,12 @@ jobs:
       - <<: *yarn-install
       - run:
           name: Install Playwright
-          command: yarn playwright install
+          command: yarn playwright install && yarn playwright install-deps
       - run:
           name: UI e2e tests
           command: yarn e2e-test
       - store_test_results:
-          path: ui-test-results/e2e
+          path: ui-test-results/playwright-results.json
 
   tsc-check-client:
     <<: *docker-node

@@ -4,10 +4,7 @@ import { FormTestWrapper } from "@test/FormTestWrapper";
 import { CreateNameField } from "./CreateNameField";
 
 describe("CreateNameField", () => {
-  const { getByText } = screen;
-
-  beforeEach(() => {});
-  afterEach(() => {});
+  const { getByRole } = screen;
 
   it("renders properly", async () => {
     await renderWrapper(
@@ -16,6 +13,6 @@ describe("CreateNameField", () => {
       </FormTestWrapper>
     );
 
-    expect(getByText("Hunt name")).toBeInTheDocument();
+    expect(getByRole("textbox", { name: "Hunt name" })).toBeInTheDocument();
   });
 });
