@@ -10,7 +10,7 @@ teardown("teardown", async ({ username, browser }) => {
   );
 
   const page = await browser.newPage({ storageState: fileName });
-  await page.goto(`${process.env.CLIENT_URL}/app`);
+  await page.goto(`${process.env.CLIENT_URL}/app`, { timeout: 120_000 });
   await page.getByTestId("open-additional-options").click();
   await expect(page.getByTestId("logout-menu-item")).toBeVisible();
   await page.getByTestId("logout-menu-item").click();

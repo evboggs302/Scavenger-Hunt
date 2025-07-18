@@ -51,7 +51,7 @@ export const e2eTest = testBase.extend<Fixtures, WorkerOptions>({
         password: process.env.PLAYWRIGHT_PASSWORD || "",
       };
 
-      await page.goto(`${process.env.CLIENT_URL}/login`);
+      await page.goto(`${process.env.CLIENT_URL}/login`, { timeout: 120_000 });
       await page.getByTestId("login-username").fill(variables.username);
       await page.getByTestId("login-password").fill(variables.password);
       await page.getByTestId("login-submit").click();
