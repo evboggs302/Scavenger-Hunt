@@ -48,7 +48,7 @@ jobs:
           name: UI unit tests
           command: yarn test
       - store_test_results:
-          path: ui-test-results/unit-tests.json
+          path: ui-test-results/
 
   ui-e2e-tests:
     <<: *docker-node
@@ -64,7 +64,7 @@ jobs:
           name: UI e2e tests
           command: yarn e2e-test
       - store_test_results:
-          path: ui-test-results/playwright-results.json
+          path: ui-test-results/
 
   tsc-check-client:
     <<: *docker-node
