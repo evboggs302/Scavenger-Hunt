@@ -99,7 +99,7 @@ describe("CreateHuntDialog", () => {
       expect(checkbox).not.toBeChecked();
 
       const today = dayjs().format("MM/DD/YYYY");
-      const startDatePicker = getByRole("textbox", { name: "startDate" });
+      const startDatePicker = getByRole("textbox", { name: "Start date" });
       expect(startDatePicker).toHaveValue(today);
     });
 
@@ -108,7 +108,7 @@ describe("CreateHuntDialog", () => {
       expect(checkbox).toBeInTheDocument();
       expect(checkbox).not.toBeChecked();
 
-      const startDatePicker = getByRole("textbox", { name: "startDate" });
+      const startDatePicker = getByRole("textbox", { name: "Start date" });
       fireEvent.input(startDatePicker, {
         target: { value: startDateFormatted },
       });
@@ -121,7 +121,7 @@ describe("CreateHuntDialog", () => {
       expect(checkbox).not.toBeChecked();
 
       const dayInPast = dayjs().subtract(2, "days").format("MM/DD/YYYY");
-      const startDatePicker = getByRole("textbox", { name: "startDate" });
+      const startDatePicker = getByRole("textbox", { name: "Start date" });
       await act(async () => {
         fireEvent.input(startDatePicker, {
           target: { value: dayInPast },
@@ -146,7 +146,7 @@ describe("CreateHuntDialog", () => {
       expect(checkbox).toBeChecked();
 
       const tomorrow = dayjs().add(1, "day").format("MM/DD/YYYY");
-      const endDatePicker = getByRole("textbox", { name: "endDate" });
+      const endDatePicker = getByRole("textbox", { name: "End date" });
       expect(endDatePicker).toBeInTheDocument();
       expect(endDatePicker).toHaveValue(tomorrow);
     });
@@ -158,7 +158,7 @@ describe("CreateHuntDialog", () => {
       fireEvent.click(checkbox);
       expect(checkbox).toBeChecked();
 
-      const endDatePicker = getByRole("textbox", { name: "endDate" });
+      const endDatePicker = getByRole("textbox", { name: "End date" });
       expect(endDatePicker).toBeInTheDocument();
       fireEvent.input(endDatePicker, { target: { value: endDateFormatted } });
       expect(endDatePicker).toHaveValue(endDateFormatted);
@@ -172,7 +172,7 @@ describe("CreateHuntDialog", () => {
       expect(checkbox).toBeChecked();
 
       const dayInPast = dayjs().subtract(1, "day").format("MM/DD/YYYY");
-      const endDatePicker = getByRole("textbox", { name: "endDate" });
+      const endDatePicker = getByRole("textbox", { name: "End date" });
       await act(async () => {
         fireEvent.input(endDatePicker, {
           target: { value: dayInPast },
@@ -244,7 +244,7 @@ describe("CreateHuntDialog", () => {
         recallInput.focus();
       });
 
-      const startDateInput = getByRole("textbox", { name: "startDate" });
+      const startDateInput = getByRole("textbox", { name: "Start date" });
       await act(async () => {
         fireEvent.input(startDateInput, {
           target: { value: startDateFormatted },
@@ -252,7 +252,7 @@ describe("CreateHuntDialog", () => {
         startDateInput.focus();
       });
 
-      const endDateInput = getByRole("textbox", { name: "endDate" });
+      const endDateInput = getByRole("textbox", { name: "End date" });
       await act(async () => {
         fireEvent.input(endDateInput, {
           target: { value: endDateFormatted },

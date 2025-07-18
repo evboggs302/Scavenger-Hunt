@@ -20,7 +20,6 @@ export const HuntNameField = ({
 }: HuntNameFieldProps) => {
   return (
     <FieldWrapper>
-      <InputLabel required>Hunt name</InputLabel>
       <TextField
         slotProps={{
           htmlInput: {
@@ -30,6 +29,7 @@ export const HuntNameField = ({
             ref: field.ref,
           },
         }}
+        label="Hunt name"
         name={field.name}
         value={field.value}
         onBlur={field.onBlur}

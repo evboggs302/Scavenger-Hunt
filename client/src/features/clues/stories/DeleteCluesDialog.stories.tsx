@@ -14,7 +14,7 @@ type Story = StoryObj<typeof Component>;
 
 export const DeleteAllCluesDialog: Story = {
   render: () => {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
 
     const handleOpen = () => setOpen(!open);
 

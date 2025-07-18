@@ -6,9 +6,6 @@ import { FormTestWrapper } from "@test/FormTestWrapper";
 describe("UpdateRecallMessageField", () => {
   const { getByText } = screen;
 
-  beforeEach(() => {});
-  afterEach(() => {});
-
   it("renders properly", async () => {
     await renderWrapper(
       <FormTestWrapper>

@@ -117,12 +117,12 @@ describe("UpdateHuntDialog", () => {
       expect(checkbox).toBeInTheDocument();
       expect(checkbox).toBeChecked();
 
-      const startDatePicker = getByRole("textbox", { name: "startDate" });
+      const startDatePicker = getByRole("textbox", { name: "Start date" });
       expect(startDatePicker).toHaveValue();
     });
 
     it("VALID - change", async () => {
-      const startDatePicker = getByRole("textbox", { name: "startDate" });
+      const startDatePicker = getByRole("textbox", { name: "Start date" });
       const originalValue = startDatePicker.getAttribute("value");
       fireEvent.input(startDatePicker, {
         target: { value: startDateFormatted },
@@ -135,14 +135,14 @@ describe("UpdateHuntDialog", () => {
       const checkbox = getByTestId("update-hunt-multiple-days");
       expect(checkbox).toBeInTheDocument();
 
-      const endDatePicker = getByRole("textbox", { name: "endDate" });
+      const endDatePicker = getByRole("textbox", { name: "End date" });
       expect(endDatePicker).toBeInTheDocument();
 
       fireEvent.click(checkbox);
       expect(checkbox).not.toBeChecked();
       expect(endDatePicker).not.toBeInTheDocument();
 
-      const startDatePicker = getByRole("textbox", { name: "startDate" });
+      const startDatePicker = getByRole("textbox", { name: "Start date" });
       const originalValue = startDatePicker.getAttribute("value");
       fireEvent.input(startDatePicker, {
         target: { value: startDateFormatted },
@@ -152,7 +152,7 @@ describe("UpdateHuntDialog", () => {
     });
 
     it("INVALID - empty", async () => {
-      const startDatePicker = getByRole("textbox", { name: "startDate" });
+      const startDatePicker = getByRole("textbox", { name: "Start date" });
       const originalValue = startDatePicker.getAttribute("value");
       await act(async () => {
         fireEvent.input(startDatePicker, {
@@ -171,7 +171,7 @@ describe("UpdateHuntDialog", () => {
 
     it("INVALID - value", async () => {
       const dayInPast = startDate.subtract(2, "years").format("MM/DD/YYYY");
-      const startDatePicker = getByRole("textbox", { name: "startDate" });
+      const startDatePicker = getByRole("textbox", { name: "Start date" });
       const originalValue = startDatePicker.getAttribute("value");
 
       await act(async () => {
@@ -192,13 +192,13 @@ describe("UpdateHuntDialog", () => {
 
   describe("End date field", () => {
     it("DEFAULT", async () => {
-      const endDatePicker = getByRole("textbox", { name: "endDate" });
+      const endDatePicker = getByRole("textbox", { name: "End date" });
       expect(endDatePicker).toBeInTheDocument();
       expect(endDatePicker).toHaveValue();
     });
 
     it("VALID", async () => {
-      const endDatePicker = getByRole("textbox", { name: "endDate" });
+      const endDatePicker = getByRole("textbox", { name: "End date" });
       expect(endDatePicker).toBeInTheDocument();
 
       const originalValue = endDatePicker.getAttribute("value");
@@ -208,7 +208,7 @@ describe("UpdateHuntDialog", () => {
     });
 
     it("INVALID - empty", async () => {
-      const endDatePicker = getByRole("textbox", { name: "endDate" });
+      const endDatePicker = getByRole("textbox", { name: "End date" });
       await act(async () => {
         fireEvent.input(endDatePicker, {
           target: { value: "" },
@@ -225,7 +225,7 @@ describe("UpdateHuntDialog", () => {
 
     it("INVALID - value", async () => {
       const dayInPast = dayjs().subtract(1, "day").format("MM/DD/YYYY");
-      const endDatePicker = getByRole("textbox", { name: "endDate" });
+      const endDatePicker = getByRole("textbox", { name: "End date" });
       await act(async () => {
         fireEvent.input(endDatePicker, {
           target: { value: dayInPast },
@@ -316,7 +316,7 @@ describe("UpdateHuntDialog", () => {
         recallInput.focus();
       });
 
-      const startDateInput = getByRole("textbox", { name: "startDate" });
+      const startDateInput = getByRole("textbox", { name: "Start date" });
       await act(async () => {
         fireEvent.input(startDateInput, {
           target: { value: startDateFormatted },
@@ -324,7 +324,7 @@ describe("UpdateHuntDialog", () => {
         startDateInput.focus();
       });
 
-      const endDateInput = getByRole("textbox", { name: "endDate" });
+      const endDateInput = getByRole("textbox", { name: "End date" });
       await act(async () => {
         fireEvent.input(endDateInput, {
           target: { value: endDateFormatted },

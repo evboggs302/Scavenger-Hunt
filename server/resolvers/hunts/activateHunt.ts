@@ -40,16 +40,6 @@ export const activateHunt: MutationResolvers["activateHunt"] = async (
         message: "Unable to find the specified hunt.",
       });
     }
-    /**
-     * UPDATE THE HUNT: twilio_number
-     */
-    await HuntModel.findOneAndUpdate(
-      { _id: hunt_id },
-      {
-        is_active: true,
-        start_date: new Date(),
-      }
-    ).exec();
 
     /**
      * FETCH AVAILABLE TWILIO NUMBER
