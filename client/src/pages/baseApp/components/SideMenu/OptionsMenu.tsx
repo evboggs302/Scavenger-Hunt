@@ -10,7 +10,7 @@ import ListItemIcon, { listItemIconClasses } from "@mui/material/ListItemIcon";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import { MenuButton } from "../MenuButton";
-import { useLogoutMutation } from "@pages/baseApp/hooks/useLogoutMutation";
+import { useLogoutMutation } from "@pages/auth/hooks/useLogoutMutation";
 import { useNavigate } from "react-router";
 
 const MenuItem = styled(MuiMenuItem)({
@@ -49,6 +49,7 @@ export const OptionsMenu = () => {
         aria-label="Open menu"
         onClick={handleClick}
         sx={{ borderColor: "transparent" }}
+        data-testid="open-additional-options"
       >
         <MoreVertRoundedIcon />
       </MenuButton>
@@ -77,6 +78,7 @@ export const OptionsMenu = () => {
         <MenuItem onClick={navigateToSettings}>Settings</MenuItem>
         <Divider />
         <MenuItem
+          data-testid="logout-menu-item"
           onClick={handleLogout}
           sx={{
             [`& .${listItemIconClasses.root}`]: {

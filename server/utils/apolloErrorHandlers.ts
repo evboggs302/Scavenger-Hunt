@@ -30,7 +30,7 @@ export const throwResolutionError = async ({
   location = "resolvers",
   message,
 }: CustomGraphQLErrorArgs) => {
-  await createErrLog({ err, location, message });
+  await createErrLog({ err: JSON.stringify(err), location, message });
   throw new GraphQLError(message, {
     extensions: {
       code: "OPERATION_RESOLUTION_FAILURE",
@@ -44,7 +44,7 @@ export const throwServerError = async ({
   location = "server",
   message,
 }: CustomGraphQLErrorArgs) => {
-  await createErrLog({ err, location, message });
+  await createErrLog({ err: JSON.stringify(err), location, message });
   throw new GraphQLError(message, {
     extensions: {
       code: "INTERNAL_SERVER_ERROR",

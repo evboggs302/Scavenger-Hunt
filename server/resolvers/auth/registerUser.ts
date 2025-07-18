@@ -35,12 +35,6 @@ export const registerUser: MutationResolvers["registerUser"] = async (
     fullName: `${first_name} ${last_name}`,
     email,
     userId: u_id.toString(),
-  }).catch((err) => {
-    return throwResolutionError({
-      location: name?.value,
-      message: "Unable to create customer vendor accounts.",
-      err,
-    });
   });
 
   const token = await createAndSaveToken(u_id);

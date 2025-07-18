@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
-import { ApolloError } from "@apollo/client/errors";
-import { useLogoutMutation } from "../hooks/useLogoutMutation";
+import { Link } from "react-router";
 import { styled } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -32,19 +30,6 @@ const Toolbar = styled(MuiToolbar)({
 
 export const AppNavbar = () => {
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
-  const [logoutUser, { loading }] = useLogoutMutation();
-
-  const onLogout = async () => {
-    try {
-      await logoutUser();
-    } catch (err) {
-      console.log(err);
-      // if (err instanceof ApolloError) {
-      // } else {
-      // }
-    }
-  };
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);

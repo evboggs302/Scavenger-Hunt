@@ -30,8 +30,8 @@ export const createCustomerVendorAccounts = async ({
   email,
   userId,
 }: CreateCustomerVendorAccountsArgs) => {
-  let stripeCustomerId: string | null = null;
-  let twilioAccountSid: string | null = null;
+  let stripeCustomerId: string = "";
+  let twilioAccountSid: string = "";
 
   const acct_id = createBsonObjectId();
   const user_id = createBsonObjectId(userId);
@@ -54,15 +54,20 @@ export const createCustomerVendorAccounts = async ({
     await AccountModel.create({
       _id: acct_id,
       user: user_id,
-      stripe_cusotmer_id: customerId,
+      stripe_customer_id: customerId,
       twilio_account_sid: account_sid,
-    }).catch((err) => {
+    }).catch(async (err) => {
+      await deleteStripeCustomer(stripeCustomerId);
+      await deleteTwilioSubAccount(twilioAccountSid);
       throw new Error(`Unable to save account info: ${err}`);
     });
 
     await UserModel.updateOne({ _id: user_id }, { account: acct_id })
       .exec()
-      .catch((err) => {
+      .catch(async (err) => {
+        await AccountModel.deleteOne({ _id: acct_id }).exec();
+        await deleteStripeCustomer(stripeCustomerId);
+        await deleteTwilioSubAccount(twilioAccountSid);
         throw new Error(`Unable to update user with account info: ${err}`);
       });
 
@@ -71,14 +76,7 @@ export const createCustomerVendorAccounts = async ({
       customerId: stripeCustomerId,
     };
   } catch (err) {
-    if (stripeCustomerId) {
-      await deleteStripeCustomer(stripeCustomerId);
-    }
-
-    if (twilioAccountSid) {
-      await deleteTwilioSubAccount(twilioAccountSid);
-    }
-
+    console.log({ err });
     return throwResolutionError({
       location: "createCustomerVendorAccounts",
       message: "Unable to create customer vendor accounts.",
