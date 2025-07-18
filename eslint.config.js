@@ -99,6 +99,7 @@ export default [
       "client/.deadfiles/**/*",
       "client/stats.html",
       "client/**/*.stories.{ts,tsx}",
+      "client/playwright/**/*",
     ],
   },
   {

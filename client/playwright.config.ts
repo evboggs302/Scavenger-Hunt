@@ -1,16 +1,17 @@
+import * as dotenv from "dotenv";
 import { defineConfig, devices } from "@playwright/test";
 import parseDuration from "parse-duration";
+import type { TestTypes, WorkerOptions } from "@e2e/e2eTest";
 
 /**
  * Read environment variables from file.
- * https://github.com/motdotla/dotenv
  */
-import "dotenv/config";
+dotenv.config({ path: "../.env" });
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+export default defineConfig<TestTypes, WorkerOptions>({
   testDir: "./playwright",
   /* Default timeout for test object */
   timeout: parseDuration("5m") || undefined,
@@ -30,7 +31,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
+    baseURL: `${process.env.CLIENT_URL}/app`,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on",
@@ -41,23 +42,23 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: "e2e-local",
+      name: "e2e-test",
+      teardown: "teardown",
       use: {
         baseURL: process.env.CLIENT_URL,
+        username: process.env.PLAYWRIGHT_USERNAME,
       },
     },
     {
-      name: "e2e-prod",
+      name: "e2e-no-auth",
       use: {
         baseURL: process.env.CLIENT_URL,
+        username: process.env.PLAYWRIGHT_USERNAME,
       },
     },
+    {
+      name: "teardown",
+      testMatch: /global.teardown.ts/,
+    },
   ],
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
 });

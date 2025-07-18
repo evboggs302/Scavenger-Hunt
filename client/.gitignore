@@ -3,7 +3,8 @@
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-/playwright/.auth/
+# created before e2e testing; deleted in e2e cleanup
+/playwright/.auth/ 
 
 # STORYBOOK
 build-storybook.log
