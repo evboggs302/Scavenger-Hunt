@@ -2,6 +2,12 @@ import type { LoginUserMutationVariables } from "@generated/graphql";
 import { test as testBase, expect } from "@playwright/test";
 import fs from "fs";
 import path from "path";
+import { HomePage } from "./pageObjects/HomePage";
+import { AccountPage } from "./pageObjects/AccountPage";
+import { HuntInfoPage } from "./pageObjects/HuntInfo";
+import { HuntCluesPage } from "./pageObjects/HuntCluesPage";
+import { HuntTeamsPage } from "./pageObjects/HuntTeamsPage";
+import { HuntResponsesPage } from "./pageObjects/HuntResponsesPage";
 
 export type TestTypes = {
   defaultValue: string;
@@ -9,6 +15,12 @@ export type TestTypes = {
 
 type Fixtures = {
   addAnnotations: void;
+  HomePage: HomePage;
+  AccountPage: AccountPage;
+  InfoPage: HuntInfoPage;
+  CluesPage: HuntCluesPage;
+  TeamsPage: HuntTeamsPage;
+  ResponsesPage: HuntResponsesPage;
 };
 
 export type WorkerOptions = {
@@ -20,22 +32,19 @@ export * from "@playwright/test";
 export const e2eTest = testBase.extend<Fixtures, WorkerOptions>({
   username: [
     process.env.PLAYWRIGHT_USERNAME || "",
-    { option: false, scope: "worker" },
+    { option: true, scope: "worker" },
   ],
 
   storageState: [
-    async ({ workerStorageState }, use) => {
-      await use(workerStorageState);
-    },
+    ({ workerStorageState }, use) => use(workerStorageState),
     { scope: "test" },
   ],
+
   workerStorageState: [
     async ({ username, browser }, use) => {
-      // Use parallelIndex as a unique identifier for each worker.
-      const id = e2eTest.info().parallelIndex;
       const fileName = path.resolve(
         e2eTest.info().project.testDir,
-        `.auth/${username}-${id}.json`
+        `.auth/${username}.json`
       );
 
       if (fs.existsSync(fileName)) {
@@ -72,12 +81,48 @@ export const e2eTest = testBase.extend<Fixtures, WorkerOptions>({
     { scope: "worker" },
   ],
 
+  HomePage: async ({ page }, use) => {
+    const selectedPage = new HomePage(page);
+    await use(selectedPage);
+  },
+
+  AccountPage: async ({ page }, use) => {
+    const selectedPage = new AccountPage(page);
+    await use(selectedPage);
+  },
+
+  InfoPage: async ({ page }, use) => {
+    const selectedPage = new HuntInfoPage(page);
+    await use(selectedPage);
+  },
+
+  CluesPage: async ({ page }, use) => {
+    const selectedPage = new HuntCluesPage(page);
+    await use(selectedPage);
+  },
+
+  TeamsPage: async ({ page }, use) => {
+    const selectedPage = new HuntTeamsPage(page);
+    await use(selectedPage);
+  },
+
+  ResponsesPage: async ({ page }, use) => {
+    const selectedPage = new HuntResponsesPage(page);
+    await use(selectedPage);
+  },
+
   addAnnotations: [
-    async ({ username }, use) => {
+    async ({ baseURL, username }, use) => {
+      e2eTest.info().annotations.push({
+        type: "baseURL",
+        description: baseURL,
+      });
+
       e2eTest.info().annotations.push({
         type: "username",
         description: username,
       });
+
       await use();
     },
     { scope: "test", auto: true },

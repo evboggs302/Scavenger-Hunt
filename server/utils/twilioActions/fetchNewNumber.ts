@@ -10,17 +10,23 @@ const { SERVER_TWILIO_WEBHOOK_URL } = config;
  * @link https://www.twilio.com/docs/phone-numbers/api/availablephonenumber-mobile-resource
  * @link https://www.twilio.com/docs/phone-numbers/api/incomingphonenumber-resource#update-an-incomingphonenumber-resource
  */
-export const fetchNewNumber = async (hunt_id: string): Promise<string> => {
+export const fetchNewNumber = async (
+  accountSid: string,
+  hunt_id: string
+): Promise<string> => {
   try {
-    const number = await twilioClient.availablePhoneNumbers("US").mobile.list({
-      limit: 1,
-      smsEnabled: true,
-      mmsEnabled: true,
-      voiceEnabled: false,
-      excludeAllAddressRequired: true,
-      excludeLocalAddressRequired: true,
-      excludeForeignAddressRequired: true,
-    });
+    const number = await twilioClient.api
+      .accounts(accountSid)
+      .availablePhoneNumbers("US")
+      .mobile.list({
+        limit: 1,
+        smsEnabled: true,
+        mmsEnabled: true,
+        voiceEnabled: false,
+        excludeAllAddressRequired: true,
+        excludeLocalAddressRequired: true,
+        excludeForeignAddressRequired: true,
+      });
 
     if (!number[0]) {
       throw new Error();

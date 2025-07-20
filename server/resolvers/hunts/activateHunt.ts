@@ -14,7 +14,7 @@ import { updateHuntBalance } from "../responses/updateHuntBalance";
 export const activateHunt: MutationResolvers["activateHunt"] = async (
   _parent: unknown,
   { id },
-  _ctxt,
+  { accounts: { twilio_account_sid } },
   { operation: { name } }
 ) => {
   let hunt: HuntDocType | null = null;
@@ -44,7 +44,10 @@ export const activateHunt: MutationResolvers["activateHunt"] = async (
     /**
      * FETCH AVAILABLE TWILIO NUMBER
      */
-    const twilioNumber = await fetchNewNumber(hunt_id.toString());
+    const twilioNumber = await fetchNewNumber(
+      twilio_account_sid,
+      hunt_id.toString()
+    );
 
     /**
      * UPDATE THE HUNT: twilio_number
