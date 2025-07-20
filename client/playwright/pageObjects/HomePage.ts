@@ -1,12 +1,10 @@
-import { Locator, Page } from "@e2e/e2eTest";
+import { Page } from "@e2e/e2eTest";
 
 export class HomePage {
   readonly page: Page;
-  readonly getStartedLink: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.getStartedLink = page.locator("a", { hasText: "Get started" });
   }
 
   async goto() {
