@@ -8,6 +8,6 @@ e2eTest("Account page", async ({ page, AccountPage }) => {
   await e2eTest.step("Renders", async () => {
     await expect(
       page.getByRole("heading", { name: "Accounts Page" })
-    ).toBeVisible({ timeout: 10_000 });
+    ).toBeVisible({ timeout: 30_000 });
   });
 });

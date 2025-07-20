@@ -7,7 +7,13 @@ export const TemplateComponent = () => {
     actions: { setName, setAttributes },
   } = useTemplateContext();
 
-  return <></>;
+  return (
+    <div id={_id} style={attributes} onChange={() => setAttributes}>
+      <div onClick={() => setName}>{userName}</div>
+      <div>{firstName}</div>
+      <div>{lastName}</div>
+    </div>
+  );
 };
 
 export const TemplateWrapper = () => {
