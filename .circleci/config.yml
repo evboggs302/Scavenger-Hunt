@@ -62,9 +62,6 @@ jobs:
     steps:
       - <<: *git-checkout-root
       - <<: *yarn-install
-      # - run:
-      #     name: Install Playwright
-      #     command: yarn playwright install && yarn playwright install-deps
       - run:
           name: UI e2e tests
           command: yarn e2e-test

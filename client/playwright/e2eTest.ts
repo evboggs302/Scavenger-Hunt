@@ -65,9 +65,7 @@ export const e2eTest = testBase.extend<Fixtures, WorkerOptions>({
       await page.getByTestId("login-password").fill(variables.password);
       await page.getByTestId("login-submit").click();
 
-      await page.waitForURL(`${process.env.CLIENT_URL}/app`, {
-        timeout: 120_000,
-      });
+      await page.waitForURL(`${process.env.CLIENT_URL}/app`);
       // Alternatively, you can wait until the page reaches a state where all cookies are set.
       await expect(
         page.getByRole("button", { name: "New hunt" })
