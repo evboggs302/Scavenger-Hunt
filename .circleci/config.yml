@@ -7,11 +7,6 @@
 
 version: 2.1
 
-executors:
-  pw-noble-development:
-    docker:
-      - image: mcr.microsoft.com/playwright:v1.54.0-noble
-
 docker-node: &docker-node
   docker:
     - image: cimg/node:22.13.0
@@ -56,12 +51,15 @@ jobs:
           path: ui-test-results/
 
   ui-e2e-tests:
-    executor: pw-noble-development
+    <<: *docker-node
     working_directory: ~/scavenger-hunt/client
     parallelism: 2
     steps:
       - <<: *git-checkout-root
       - <<: *yarn-install
+      - run:
+          name: Install Playwright
+          command: yarn playwright install && yarn playwright install-deps
       - run:
           name: UI e2e tests
           command: yarn e2e-test
