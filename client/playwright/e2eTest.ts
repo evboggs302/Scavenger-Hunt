@@ -65,10 +65,9 @@ export const e2eTest = testBase.extend<Fixtures, WorkerOptions>({
       await page.getByTestId("login-password").fill(variables.password);
       await page.getByTestId("login-submit").click();
 
-      await page.waitForURL(`${process.env.CLIENT_URL}/app`, {
-        timeout: 120_000,
-      });
-      // Alternatively, you can wait until the page reaches a state where all cookies are set.
+      // The login flow sets localStorage state in the process and redirects.
+      // Wait for the final URL to ensure that the localStorage values are actually set.
+      await page.waitForURL(`${process.env.CLIENT_URL}/app`);
       await expect(
         page.getByRole("button", { name: "New hunt" })
       ).toBeVisible();
