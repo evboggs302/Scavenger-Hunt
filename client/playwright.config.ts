@@ -8,6 +8,8 @@ import type { TestTypes, WorkerOptions } from "@e2e/e2eTest";
  */
 dotenv.config({ path: "../.env" });
 
+const baseURL = `${process.env.CLIENT_URL}`;
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -31,7 +33,7 @@ export default defineConfig<TestTypes, WorkerOptions>({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: `${process.env.CLIENT_URL}/app`,
+    baseURL,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on",
@@ -45,15 +47,14 @@ export default defineConfig<TestTypes, WorkerOptions>({
       name: "e2e-test",
       teardown: "teardown",
       use: {
-        baseURL: process.env.CLIENT_URL,
+        baseURL,
         username: process.env.PLAYWRIGHT_USERNAME,
       },
     },
     {
       name: "e2e-no-auth",
       use: {
-        baseURL: process.env.CLIENT_URL,
-        username: process.env.PLAYWRIGHT_USERNAME,
+        baseURL,
       },
     },
     {

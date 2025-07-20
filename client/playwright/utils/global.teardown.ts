@@ -3,10 +3,10 @@ import fs from "fs";
 import path from "path";
 
 teardown("teardown", async ({ username, browser }) => {
-  const id = teardown.info().parallelIndex;
+  console.log("Teardown started...");
   const fileName = path.resolve(
     teardown.info().project.testDir,
-    `.auth/${username}-${id}.json`
+    `.auth/${username}.json`
   );
 
   const page = await browser.newPage({ storageState: fileName });

@@ -61,6 +61,7 @@ export const MenuContent = () => {
       <List dense>
         <ListItem disablePadding sx={{ display: "block" }}>
           <ListItemButton
+            data-testid="home-menu-button"
             selected={location.pathname === "default"}
             onClick={navigateHome}
           >
