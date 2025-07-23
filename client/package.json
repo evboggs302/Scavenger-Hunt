@@ -13,6 +13,7 @@
     "codegen": "graphql-codegen --config codegen.ts",
     "compile": "rm -rf ./dist && npx tsc && cp -R node_modules ./dist/node_modules && cp -R src/graphql ./dist/src/graphql",
     "e2e-test": "playwright test --project=e2e-test",
+    "e2e-test-new": "playwright test --project=e2e-test-new",
     "storybook": "storybook dev -p 6006",
     "test": "vitest --run",
     "test:watch": "vitest --changed",

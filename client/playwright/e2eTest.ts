@@ -1,38 +1,75 @@
-import type { LoginUserMutationVariables } from "@generated/graphql";
+import type {
+  HuntFragment,
+  LoginUserMutationVariables,
+} from "@generated/graphql";
 import { test as testBase, expect } from "@playwright/test";
 import fs from "fs";
 import path from "path";
 import { HomePage } from "./pageObjects/HomePage";
 import { AccountPage } from "./pageObjects/AccountPage";
-import { HuntInfoPage } from "./pageObjects/HuntInfo";
+import { HuntInfoPage } from "./pageObjects/HuntInfoPage";
 import { HuntCluesPage } from "./pageObjects/HuntCluesPage";
 import { HuntTeamsPage } from "./pageObjects/HuntTeamsPage";
 import { HuntResponsesPage } from "./pageObjects/HuntResponsesPage";
+import { createTempHunt } from "./utils/createTempHunt";
+import { deleteTempHunt } from "./utils/deleteTempHunt";
+import { fetchHuntById } from "./utils/fetchHuntById";
 
 export type TestTypes = {
   defaultValue: string;
 };
 
-type Fixtures = {
-  addAnnotations: void;
+type TestFixtures = {
   HomePage: HomePage;
   AccountPage: AccountPage;
   InfoPage: HuntInfoPage;
   CluesPage: HuntCluesPage;
   TeamsPage: HuntTeamsPage;
   ResponsesPage: HuntResponsesPage;
+  addAnnotations: void;
+};
+
+type WorkerFixtures = {
+  hunt: HuntFragment;
 };
 
 export type WorkerOptions = {
   username: string;
+  huntId?: string;
   workerStorageState: string;
 };
 
 export * from "@playwright/test";
-export const e2eTest = testBase.extend<Fixtures, WorkerOptions>({
+export const e2eTest = testBase.extend<
+  TestFixtures,
+  WorkerFixtures & WorkerOptions
+>({
   username: [
     process.env.PLAYWRIGHT_USERNAME || "",
     { option: true, scope: "worker" },
+  ],
+
+  huntId: [undefined, { option: true, scope: "worker" }],
+
+  hunt: [
+    async ({ huntId, workerStorageState }, use) => {
+      if (huntId !== undefined) {
+        // If a huntId is provided, fetch the hunt by ID.
+        const hunt = await fetchHuntById(workerStorageState, huntId);
+        await use(hunt);
+      } else if (e2eTest.info().project.name !== "teardown") {
+        // If no huntId is provided, create a temporary hunt.
+        // If the worker is running the teardown project, skip hunt creation.
+        const hunt = await createTempHunt(workerStorageState);
+        await use(hunt);
+
+        // Automatically delete the temporary hunt after the worker finishes.
+        await deleteTempHunt(workerStorageState, hunt._id);
+      } else {
+        await use({} as HuntFragment);
+      }
+    },
+    { scope: "worker" },
   ],
 
   storageState: [
@@ -74,7 +111,6 @@ export const e2eTest = testBase.extend<Fixtures, WorkerOptions>({
 
       await page.context().storageState({ path: fileName });
       await page.close();
-
       await use(fileName);
     },
     { scope: "worker" },
@@ -90,28 +126,28 @@ export const e2eTest = testBase.extend<Fixtures, WorkerOptions>({
     await use(selectedPage);
   },
 
-  InfoPage: async ({ page }, use) => {
-    const selectedPage = new HuntInfoPage(page);
+  InfoPage: async ({ page, hunt }, use) => {
+    const selectedPage = new HuntInfoPage(page, hunt);
     await use(selectedPage);
   },
 
-  CluesPage: async ({ page }, use) => {
-    const selectedPage = new HuntCluesPage(page);
+  CluesPage: async ({ page, hunt }, use) => {
+    const selectedPage = new HuntCluesPage(page, hunt._id);
     await use(selectedPage);
   },
 
-  TeamsPage: async ({ page }, use) => {
-    const selectedPage = new HuntTeamsPage(page);
+  TeamsPage: async ({ page, hunt }, use) => {
+    const selectedPage = new HuntTeamsPage(page, hunt._id);
     await use(selectedPage);
   },
 
-  ResponsesPage: async ({ page }, use) => {
-    const selectedPage = new HuntResponsesPage(page);
+  ResponsesPage: async ({ page, hunt }, use) => {
+    const selectedPage = new HuntResponsesPage(page, hunt._id);
     await use(selectedPage);
   },
 
   addAnnotations: [
-    async ({ baseURL, username }, use) => {
+    async ({ baseURL, username, huntId, hunt }, use) => {
       e2eTest.info().annotations.push({
         type: "baseURL",
         description: baseURL,
@@ -120,6 +156,16 @@ export const e2eTest = testBase.extend<Fixtures, WorkerOptions>({
       e2eTest.info().annotations.push({
         type: "username",
         description: username,
+      });
+
+      e2eTest.info().annotations.push({
+        type: "huntId",
+        description: huntId,
+      });
+
+      e2eTest.info().annotations.push({
+        type: "Hunt._id",
+        description: hunt._id,
       });
 
       await use();

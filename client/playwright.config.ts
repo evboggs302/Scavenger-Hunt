@@ -34,6 +34,7 @@ export default defineConfig<TestTypes, WorkerOptions>({
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL,
+    username: process.env.PLAYWRIGHT_USERNAME,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on",
@@ -47,15 +48,12 @@ export default defineConfig<TestTypes, WorkerOptions>({
       name: "e2e-test",
       teardown: "teardown",
       use: {
-        baseURL,
-        username: process.env.PLAYWRIGHT_USERNAME,
+        huntId: "687bb01ae9ae2fdfe9514689",
       },
     },
     {
-      name: "e2e-no-auth",
-      use: {
-        baseURL,
-      },
+      name: "e2e-test-new",
+      teardown: "teardown",
     },
     {
       name: "teardown",

@@ -1,0 +1,66 @@
+import {
+  e2eTest,
+  // expect
+} from "@e2e/e2eTest";
+
+e2eTest(
+  "Hunt Clues page",
+  async ({
+    // page,
+    // HomePage,
+    CluesPage,
+  }) => {
+    await e2eTest.step("Navigate to existing hunt", async () => {
+      await CluesPage.goto();
+    });
+
+    //   await e2eTest.step("Default render info", async () => {
+    //     await expect(page.getByRole("tablist")).toBeVisible();
+    //     await expect(page.getByRole("table")).toBeVisible();
+    //     await expect(
+    //       page.getByRole("cell", { name: "Permanent Hunt" })
+    //     ).toBeVisible();
+    //   });
+
+    //   await e2eTest.step("Dialog opens", async () => {
+    //     await InfoPage.openEditDialog();
+    //     await expect(page.getByTestId("update-hunt-title")).toBeVisible();
+    //   });
+
+    //   await e2eTest.step("Change values", async () => {
+    //     const newValues = {
+    //       name: newName,
+    //       startDate,
+    //       endDate,
+    //       recallMessage: "Updated recall message",
+    //       multipleDays: true,
+    //     };
+
+    //     await InfoPage.setHuntValues(newValues);
+
+    //     await expect(page.getByLabel("Hunt Name")).toHaveValue(newName);
+    //     await expect(page.getByLabel("Start Date")).toHaveValue(startDate);
+    //     await expect(page.getByLabel("End Date")).toHaveValue(endDate);
+    //     await expect(page.getByTestId("update-hunt-recall-message")).toHaveValue(
+    //       "Updated recall message"
+    //     );
+    //   });
+
+    //   await e2eTest.step("Save change", async () => {
+    //     await InfoPage.dialog.getByRole("button", { name: "Update hunt" }).click();
+
+    //     await expect(InfoPage.dialog).not.toBeVisible();
+    //   });
+
+    //   await e2eTest.step("Verify change", async () => {
+    //     await expect(page.getByRole("cell", { name: newName })).toBeVisible();
+    //   });
+
+    //   await e2eTest.step("Reset info", async () => {
+    //     await InfoPage.resetInfo();
+    //     await expect(
+    //       page.getByRole("cell", { name: "Permanent Hunt" })
+    //     ).toBeVisible();
+    //   });
+  }
+);

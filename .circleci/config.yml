@@ -61,8 +61,11 @@ jobs:
           name: Install Playwright
           command: yarn playwright install && yarn playwright install-deps
       - run:
-          name: UI e2e tests
+          name: UI e2e tests - Existing Hunt
           command: yarn e2e-test
+      - run:
+          name: UI e2e tests - New Hunt
+          command: yarn e2e-test-new
       - store_test_results:
           path: ui-test-results/
 

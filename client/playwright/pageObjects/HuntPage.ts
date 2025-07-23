@@ -6,17 +6,14 @@ export class HuntPage {
   readonly page: Page;
   readonly huntId: string;
 
-  constructor(page: Page) {
-    const splitURL = page.url().split("/");
-    const indexOfHuntId = splitURL.indexOf("app") + 1;
-
+  constructor(page: Page, huntId: string) {
     this.page = page;
-    this.huntId = splitURL[indexOfHuntId];
+    this.huntId = huntId;
   }
 
   async gotoContentPage(to: GoToArg = "") {
     const destination = `/app/hunt/${this.huntId}${to}`;
     await this.page.goto(destination);
-    await this.page.waitForURL(/\destination/);
+    await this.page.waitForLoadState("networkidle");
   }
 }
