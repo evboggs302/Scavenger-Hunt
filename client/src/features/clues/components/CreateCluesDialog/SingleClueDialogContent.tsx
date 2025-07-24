@@ -17,7 +17,7 @@ export const SingleClueDialogContent = () => {
         multiline
         slotProps={{
           htmlInput: {
-            "data-testid": "create-clue-description",
+            "data-testid": "create-description-0",
             maxLength: 256,
           },
           input: {

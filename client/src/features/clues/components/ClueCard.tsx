@@ -74,6 +74,7 @@ export const ClueCard = ({
           zIndex: isDragging ? 1000 : 0,
         }}
         {...attributes}
+        data-testid="clue-card"
       >
         {/* <CardMedia
         component="img"
@@ -81,7 +82,12 @@ export const ClueCard = ({
         height="140"
         image="/static/images/cards/contemplative-reptile.jpg"
       /> */}
-        <CardContent ref={setNodeRef} sx={{ cursor }} {...listeners}>
+        <CardContent
+          data-testid="clue-card-draggable"
+          ref={setNodeRef}
+          sx={{ cursor }}
+          {...listeners}
+        >
           <Box
             sx={{
               width: "100%",

@@ -23,7 +23,7 @@ export const SingleTeamDialogContent = () => {
           multiline
           slotProps={{
             htmlInput: {
-              "data-testid": "create-team-members",
+              "data-testid": "create-team-members-0",
             },
             input: {
               ref: membersField.ref,
@@ -46,7 +46,7 @@ export const SingleTeamDialogContent = () => {
         <TextField
           slotProps={{
             htmlInput: {
-              "data-testid": "create-team-device-number",
+              "data-testid": "create-team-device-number-0",
             },
             input: {
               ref: deviceNumber.ref,

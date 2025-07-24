@@ -37,6 +37,7 @@ export const Table = <T extends Record<string, any>>({
   itemContent,
   style,
   tableComponents,
+  ...props
 }: TableProps<T>) => {
   if (!data || (data && !data.length)) {
     fixedHeader = undefined;
@@ -63,6 +64,7 @@ export const Table = <T extends Record<string, any>>({
       }}
       fixedHeaderContent={fixedHeader}
       itemContent={itemContent}
+      {...props}
     />
   );
 };
