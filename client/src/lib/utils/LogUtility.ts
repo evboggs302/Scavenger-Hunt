@@ -1,3 +1,5 @@
+import * as Sentry from "@sentry/react";
+
 export class LogUtility {
   static log(...args: any[]) {}
 
@@ -5,5 +7,14 @@ export class LogUtility {
 
   static breadcrumb(...args: any[]) {}
 
-  static error(...args: any[]) {}
+  static error(error: unknown) {
+    Sentry.captureException(error);
+
+    if (error instanceof Error) {
+      console.error(error.message);
+      if (error.stack) {
+        console.error(error.stack);
+      }
+    }
+  }
 }

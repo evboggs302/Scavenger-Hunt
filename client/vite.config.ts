@@ -31,6 +31,7 @@ export default defineConfig(({ mode }) => {
   return {
     name: "client-config",
     define: {
+      "process.env.SENTRY_DSN": JSON.stringify(env.SENTRY_DSN),
       "process.env.CLIENT_URL": JSON.stringify(env.CLIENT_URL),
       "process.env.SERVER_URL_GQL": JSON.stringify(env.SERVER_URL_GQL),
       "process.env.SERVER_URL_SUBSCRIPTION": JSON.stringify(

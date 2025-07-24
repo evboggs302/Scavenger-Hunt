@@ -1,12 +1,14 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FallbackProps } from "react-error-boundary";
 import { useNavigate } from "react-router";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import { LogUtility } from "@lib/utils/LogUtility";
 
 type ErrorFallbackProps = FallbackProps & { message?: string };
 
 export const ErrorFallback = ({
+  error,
   message = "There was a problem. Please try again later.",
   resetErrorBoundary = () => location.reload(),
 }: ErrorFallbackProps) => {
@@ -16,6 +18,10 @@ export const ErrorFallback = ({
   const goToDashboard = () => {
     navigate("/app", { replace: true });
   };
+
+  useEffect(() => {
+    LogUtility.error(error);
+  }, [error]);
 
   const tryAgain = useCallback(() => {
     setCanTryAgain(false);
