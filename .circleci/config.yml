@@ -126,12 +126,10 @@ jobs:
           command: curl ${DEPLOY_STORYBOOK_WEBHOOK}
 
 workflows:
-  tsc-checks:
+  pr-checks:
     jobs:
       - tsc-check-client
       - tsc-check-server
-  test:
-    jobs:
       - ui-unit-tests
   deploy:
     when:
@@ -142,6 +140,13 @@ workflows:
       - deploy-ui-job:
           requires:
             - deploy-server-job
-      - ui-e2e-tests:
-          requires:
-            - deploy-ui-job
+  nightly:
+    triggers:
+      - schedule:
+          cron: "30 0 1,15 * *" # At 00:30 on day-of-month 1 and 15.
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - ui-e2e-tests
