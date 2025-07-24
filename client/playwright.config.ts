@@ -17,6 +17,10 @@ export default defineConfig<TestTypes, WorkerOptions>({
   testDir: "./playwright",
   /* Default timeout for test object */
   timeout: parseDuration("5m") || undefined,
+  /* Maximum time one assertion can run for */
+  expect: {
+    timeout: 10_000,
+  },
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -40,19 +44,14 @@ export default defineConfig<TestTypes, WorkerOptions>({
     trace: "on",
     video: "retain-on-failure",
     ...devices["Desktop Chrome"],
+    /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
+    actionTimeout: 2_000,
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
       name: "e2e-test",
-      teardown: "teardown",
-      use: {
-        huntId: "687bb01ae9ae2fdfe9514689",
-      },
-    },
-    {
-      name: "e2e-test-new",
       teardown: "teardown",
     },
     {

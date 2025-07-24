@@ -31,7 +31,7 @@ export const MultiDescriptionField = ({
         multiline
         slotProps={{
           htmlInput: {
-            "data-testid": `multi-clue-description`,
+            "data-testid": `create-description-${index}`,
             maxLength: 256,
           },
           input: {

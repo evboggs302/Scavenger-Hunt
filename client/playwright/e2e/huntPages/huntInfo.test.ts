@@ -3,13 +3,15 @@ import { createFakeDates } from "@e2e/utils/createFakeDates";
 import { faker } from "@faker-js/faker";
 
 e2eTest("Hunt info page: UPDATE hunt", async ({ page, InfoPage, hunt }) => {
-  await e2eTest.step("Navigate to existing hunt", async () => {
+  await e2eTest.step("Navigate to hunt INFO", async () => {
     await InfoPage.goto();
   });
 
   await e2eTest.step("Default render info", async () => {
     await expect(page.getByRole("tablist")).toBeVisible();
-    await expect(page.getByRole("table")).toBeVisible();
+    await expect(
+      page.getByRole("table", { name: "hunt details table" })
+    ).toBeVisible({ timeout: 10_000 });
     await expect(page.getByRole("cell", { name: hunt.name })).toBeVisible();
   });
 

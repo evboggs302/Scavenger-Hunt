@@ -23,13 +23,16 @@ import Divider from "@mui/material/Divider";
 import { CreateCluesButton } from "./CreateCluesButton";
 import { DeleteAllCluesButton } from "./DeleteAllCluesButton";
 
-function EmptyCluesTablePlaceholder() {
+const EmptyCluesTablePlaceholder = () => {
   return (
-    <Box style={{ width: "100%", textAlign: "center", padding: "20px" }}>
+    <Box
+      data-testid="empty-clues-table-placeholder"
+      style={{ width: "100%", textAlign: "center", padding: "20px" }}
+    >
       No data to display.
     </Box>
   );
-}
+};
 
 export const CluesPage = () => {
   const { data, loading } = useClueContext();

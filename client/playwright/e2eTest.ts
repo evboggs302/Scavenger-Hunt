@@ -13,7 +13,6 @@ import { HuntTeamsPage } from "./pageObjects/HuntTeamsPage";
 import { HuntResponsesPage } from "./pageObjects/HuntResponsesPage";
 import { createTempHunt } from "./utils/createTempHunt";
 import { deleteTempHunt } from "./utils/deleteTempHunt";
-import { fetchHuntById } from "./utils/fetchHuntById";
 
 export type TestTypes = {
   defaultValue: string;
@@ -35,7 +34,6 @@ type WorkerFixtures = {
 
 export type WorkerOptions = {
   username: string;
-  huntId?: string;
   workerStorageState: string;
 };
 
@@ -49,24 +47,18 @@ export const e2eTest = testBase.extend<
     { option: true, scope: "worker" },
   ],
 
-  huntId: [undefined, { option: true, scope: "worker" }],
-
   hunt: [
-    async ({ huntId, workerStorageState }, use) => {
-      if (huntId !== undefined) {
-        // If a huntId is provided, fetch the hunt by ID.
-        const hunt = await fetchHuntById(workerStorageState, huntId);
-        await use(hunt);
-      } else if (e2eTest.info().project.name !== "teardown") {
-        // If no huntId is provided, create a temporary hunt.
+    async ({ workerStorageState }, use) => {
+      if (e2eTest.info().project.name === "teardown") {
         // If the worker is running the teardown project, skip hunt creation.
+        await use({} as HuntFragment);
+      } else {
+        // If not running teardown, create a temporary hunt.
         const hunt = await createTempHunt(workerStorageState);
         await use(hunt);
 
         // Automatically delete the temporary hunt after the worker finishes.
         await deleteTempHunt(workerStorageState, hunt._id);
-      } else {
-        await use({} as HuntFragment);
       }
     },
     { scope: "worker" },
@@ -147,7 +139,7 @@ export const e2eTest = testBase.extend<
   },
 
   addAnnotations: [
-    async ({ baseURL, username, huntId, hunt }, use) => {
+    async ({ baseURL, username, hunt }, use) => {
       e2eTest.info().annotations.push({
         type: "baseURL",
         description: baseURL,
@@ -156,11 +148,6 @@ export const e2eTest = testBase.extend<
       e2eTest.info().annotations.push({
         type: "username",
         description: username,
-      });
-
-      e2eTest.info().annotations.push({
-        type: "huntId",
-        description: huntId,
       });
 
       e2eTest.info().annotations.push({
