@@ -1,4 +1,4 @@
-import { Locator, Page, expect } from "@e2e/e2eTest";
+import { Locator, Page } from "@e2e/e2eTest";
 import { HuntPage } from "./HuntPage";
 import { faker } from "@faker-js/faker";
 
@@ -31,7 +31,7 @@ export class HuntCluesPage extends HuntPage {
   }
 
   async assertClueCount(expectedCount: number) {
-    await expect(this.page.getByTestId("clue-card")).toHaveCount(expectedCount);
+    await this.assertCount(this.page.getByTestId("clue-card"), expectedCount);
   }
 
   async openCreateDialog() {

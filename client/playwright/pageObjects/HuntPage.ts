@@ -1,4 +1,4 @@
-import { Page } from "@e2e/e2eTest";
+import { type Locator, type Page, expect } from "@e2e/e2eTest";
 
 type GoToArg = "" | "/clues" | "/responses" | "/teams";
 
@@ -15,5 +15,9 @@ export class HuntPage {
     const destination = `/app/hunt/${this.huntId}${to}`;
     await this.page.goto(destination);
     await this.page.waitForLoadState("networkidle");
+  }
+
+  async assertCount(locator: Locator, expectedCount: number) {
+    await expect(locator).toHaveCount(expectedCount);
   }
 }

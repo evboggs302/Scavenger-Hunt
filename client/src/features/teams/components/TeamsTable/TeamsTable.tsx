@@ -20,6 +20,7 @@ export const TeamsTable = () => {
     >
       <Table
         data={filteredTeams}
+        data-testid="teams-table"
         fixedHeader={TeamsTableHeader}
         emptyPlaceholderText="No teams created yet."
         itemContent={(_index, team) => (

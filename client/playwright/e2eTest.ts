@@ -151,7 +151,7 @@ export const e2eTest = testBase.extend<
       });
 
       e2eTest.info().annotations.push({
-        type: "Hunt._id",
+        type: "huntId",
         description: hunt._id,
       });
 
