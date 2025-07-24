@@ -96,7 +96,9 @@ export const e2eTest = testBase.extend<
 
       // The login flow sets localStorage state in the process and redirects.
       // Wait for the final URL to ensure that the localStorage values are actually set.
-      await page.waitForURL(`${process.env.CLIENT_URL}/app`);
+      await page.waitForURL(`${process.env.CLIENT_URL}/app`, {
+        timeout: process.env.CI ? 120_000 : 60_000,
+      });
       await expect(
         page.getByRole("button", { name: "New hunt" })
       ).toBeVisible();

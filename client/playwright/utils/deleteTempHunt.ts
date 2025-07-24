@@ -7,6 +7,7 @@ export const deleteTempHunt = async (filePath: string, huntId: string) => {
   )?.value;
 
   const response = await context.post(`${process.env.SERVER_URL_GQL}`, {
+    timeout: process.env.CI ? 120_000 : 30_000,
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": `${process.env.CLIENT_URL}`,
