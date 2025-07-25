@@ -26,16 +26,6 @@ tsc-check-step: &tsc-check
     name: tsc check
     command: yarn tsc-check
 
-# NOT YET USED
-yarn-install-for-production: &yarn-install-prod
-  - run:
-      name: remove node_modules
-      command: rm -rf /node_modules
-  - run:
-      name: yarn install --prod
-      no_output_timeout: 30m # just in case Render has a slow environment
-      command: yarn install --prod
-
 jobs:
   ui-unit-tests:
     <<: *docker-node
@@ -140,13 +130,15 @@ workflows:
       - deploy-ui-job:
           requires:
             - deploy-server-job
-  nightly:
-    triggers:
-      - schedule:
-          cron: "30 0 1,15 * *" # At 00:30 on day-of-month 1 and 15.
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - ui-e2e-tests
+# Need to change the auth method between CircleCI and GitHub
+# https://circleci.com/docs/migrate-scheduled-workflows-to-scheduled-pipelines/#use-project-settings
+# cron-weekly:
+#   triggers:
+#     - schedule:
+#         cron: "30 0 * * mon"
+#         filters:
+#           branches:
+#             only:
+#               - master
+#   jobs:
+#     - ui-e2e-tests

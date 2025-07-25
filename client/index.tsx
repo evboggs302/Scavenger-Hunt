@@ -9,11 +9,11 @@ Sentry.init({
   dsn: process.env.SENTRY_DSN,
   environment: window.location.hostname,
   beforeSend(event) {
-    if (window.location.hostname === "localhost") {
-      // Don't send events in development
-      return null;
+    if (process.env.PROD) {
+      // Only send events from prod env
+      return event;
     }
-    return event;
+    return null;
   },
 });
 
