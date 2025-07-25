@@ -130,7 +130,7 @@ workflows:
       - deploy-ui-job:
           requires:
             - deploy-server-job
-  cron:
+  weekly:
     triggers:
       - schedule:
           cron: "30 0 * * mon"
