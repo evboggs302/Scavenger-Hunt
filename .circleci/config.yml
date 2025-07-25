@@ -130,13 +130,15 @@ workflows:
       - deploy-ui-job:
           requires:
             - deploy-server-job
-  weekly:
-    triggers:
-      - schedule:
-          cron: "30 0 * * mon"
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - ui-e2e-tests
+# Need to change the auth method between CircleCI and GitHub
+# https://circleci.com/docs/migrate-scheduled-workflows-to-scheduled-pipelines/#use-project-settings
+# cron-weekly:
+#   triggers:
+#     - schedule:
+#         cron: "30 0 * * mon"
+#         filters:
+#           branches:
+#             only:
+#               - master
+#   jobs:
+#     - ui-e2e-tests
