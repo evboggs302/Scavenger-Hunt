@@ -133,7 +133,7 @@ workflows:
   cron:
     triggers:
       - schedule:
-          cron: "30 0 * * mon" # At 00:30 every Monday.
+          cron: "30 0 * * mon"
           filters:
             branches:
               only:
