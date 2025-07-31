@@ -1,4 +1,4 @@
-import { FieldValues, useFormContext, useWatch } from "react-hook-form";
+import { type FieldValues, useFormContext, useWatch } from "react-hook-form";
 
 export const useFormValues = <T extends FieldValues = FieldValues>() => {
   const { getValues } = useFormContext<T>();

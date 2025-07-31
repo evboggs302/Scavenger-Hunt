@@ -1,7 +1,7 @@
-import { MouseEvent, useState } from "react";
+import { type MouseEvent, useState } from "react";
 import { useController } from "react-hook-form";
 import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
-import { LoginSchema } from "@pages/auth/hooks/useLoginResolver";
+import type { LoginSchema } from "@pages/auth/hooks/useLoginResolver";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { VisibilityOff, Visibility } from "@mui/icons-material";

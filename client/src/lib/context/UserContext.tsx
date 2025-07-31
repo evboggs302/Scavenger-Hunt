@@ -1,15 +1,15 @@
 import {
   createContext,
-  PropsWithChildren,
+  type PropsWithChildren,
   useCallback,
   useContext,
 } from "react";
 import {
   GetUserFromTokenDocument,
-  GetUserFromTokenQuery,
-  GetUserFromTokenQueryVariables,
+  type GetUserFromTokenQuery,
+  type GetUserFromTokenQueryVariables,
 } from "@generated/graphql";
-import { QueryResult, useQuery } from "@apollo/client";
+import { type QueryResult, useQuery } from "@apollo/client";
 import { useNavigate } from "react-router";
 
 export type UserContextValue = QueryResult<

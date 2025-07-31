@@ -1,4 +1,4 @@
-import { RefObject, useLayoutEffect, useState } from "react";
+import { type RefObject, useLayoutEffect, useState } from "react";
 
 /**
  * @param ref The `ref` assigned to the element

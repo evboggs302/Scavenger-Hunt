@@ -1,6 +1,6 @@
 import { useController } from "react-hook-form";
 import TextField from "@mui/material/TextField";
-import { LoginSchema } from "@pages/auth/hooks/useLoginResolver";
+import type { LoginSchema } from "@pages/auth/hooks/useLoginResolver";
 
 export const UsernameField = () => {
   const { field, fieldState } = useController<LoginSchema, "username">({

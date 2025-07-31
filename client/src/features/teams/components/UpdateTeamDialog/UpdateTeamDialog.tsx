@@ -2,16 +2,17 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import { FormProvider, type SubmitHandler, useForm } from "react-hook-form";
 import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 import { useUpdateTeamMutation } from "@features/teams/hooks/useUpdateTeamMutation";
-import { SingleTeamDialogContent } from "../CreateTeamsDialog/SingleTeamDialogContent";
+import { TeamDialogContent } from "./TeamDialogContent";
 import { UpdateTeamDialogActions } from "./UpdateTeamDialogActions";
 import {
-  UpdateTeamFormSchemaType,
+  type UpdateTeamFormSchemaType,
   useUpdateTeamResolver,
 } from "@features/teams/hooks/useUpdateTeamResolver";
-import { Team } from "@generated/graphql";
+import type { Team } from "@generated/graphql";
+import { LogUtility } from "@lib/utils/LogUtility";
 
 type UpdateDialogProps = {
   team_id: string;
@@ -54,14 +55,18 @@ export const UpdateTeamsDialog = ({
     clearErrors("onSubmitError");
     await trigger();
 
-    await updateTeam({
-      team_id,
-      members: team.members.split(",").map((s) => s.trim()),
-      device_number: team.device_number,
-    });
+    try {
+      await updateTeam({
+        team_id,
+        members: team.members.split(",").map((s) => s.trim()),
+        device_number: team.device_number,
+      });
 
-    handleClose();
-    reset();
+      handleClose();
+      reset();
+    } catch (error) {
+      LogUtility.error(error);
+    }
   };
 
   return (
@@ -82,7 +87,7 @@ export const UpdateTeamsDialog = ({
           <DialogContentText>
             Please provide the new information for the team.
           </DialogContentText>
-          <SingleTeamDialogContent />
+          <TeamDialogContent />
         </DialogContent>
         <UpdateTeamDialogActions
           defaultValue={team}

@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 import Box from "@mui/material/Box";
 
 export const ManagementButtonsContainer = ({ children }: PropsWithChildren) => {

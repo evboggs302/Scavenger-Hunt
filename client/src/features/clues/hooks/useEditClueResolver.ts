@@ -7,27 +7,16 @@ const ClueDescriptionString = z
   .trim()
   .min(3, { message: "A minimum of 3 characters is required." });
 
-const schemaSingle = z.object({
-  isMulti: z.literal(false),
+const EditCLueFormSchema = z.object({
   description: ClueDescriptionString,
 });
 
-const schemaMultiple = z.object({
-  isMulti: z.literal(true),
-  cluesList: z.array(ClueDescriptionString),
-});
-
-const CluesFormSchema = z.discriminatedUnion("isMulti", [
-  schemaSingle,
-  schemaMultiple,
-]);
-
-export type CluesFormState = z.infer<typeof CluesFormSchema> & {
+export type EditClueFormState = z.infer<typeof EditCLueFormSchema> & {
   onSubmitError?: string;
 };
 
-export const useCluesResolver = () => {
-  const resolver = zodResolver(CluesFormSchema);
+export const useEditClueResolver = () => {
+  const resolver = zodResolver(EditCLueFormSchema);
 
   return useMemo((): [typeof resolver] => [resolver], [resolver]);
 };

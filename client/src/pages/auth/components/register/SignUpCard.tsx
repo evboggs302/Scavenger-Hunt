@@ -3,10 +3,10 @@ import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import { useRegisterMutation } from "@pages/auth/hooks/useRegisterMutation";
 import {
-  RegisterSchema,
+  type RegisterSchema,
   useRegisterResolver,
 } from "@pages/auth/hooks/useRegisterResolver";
-import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import { FormProvider, type SubmitHandler, useForm } from "react-hook-form";
 import { ApolloError } from "@apollo/client";
 import { CircularProgress } from "@mui/material";
 import { AuthCardContainer, AuthCard } from "../authLayout";

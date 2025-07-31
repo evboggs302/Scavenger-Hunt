@@ -1,4 +1,4 @@
-import { ContextActions } from "./contextActions";
+import type { ContextActions } from "./contextActions";
 
 export type TemplateState = {
   _id: string;

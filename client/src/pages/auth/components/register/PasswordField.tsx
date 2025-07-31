@@ -1,7 +1,7 @@
-import { MouseEvent, useState } from "react";
+import { type MouseEvent, useState } from "react";
 import { useController } from "react-hook-form";
 import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
-import { RegisterSchema } from "../../hooks/useRegisterResolver";
+import type { RegisterSchema } from "../../hooks/useRegisterResolver";
 import TextField from "@mui/material/TextField";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { InputAdornment, IconButton } from "@mui/material";

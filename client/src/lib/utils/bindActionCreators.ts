@@ -1,4 +1,4 @@
-import { Dispatch } from "react";
+import type { Dispatch } from "react";
 
 const bindAction = <A extends Actions.ReducerAction>(
   creator: Actions.ReducerActionCreator<A>,

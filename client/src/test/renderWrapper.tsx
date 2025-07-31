@@ -1,6 +1,10 @@
 import type { ReactNode } from "react";
 import { render, waitFor } from "@testing-library/react";
-import { createMemoryRouter, RouteObject, RouterProvider } from "react-router";
+import {
+  createMemoryRouter,
+  type RouteObject,
+  RouterProvider,
+} from "react-router";
 import { AppMUIProviders } from "@lib/context/AppMUIProviders";
 import { ClueQryContextProvider } from "@lib/context/ClueContext";
 import { HuntQryContextProvider } from "@lib/context/HuntContext";

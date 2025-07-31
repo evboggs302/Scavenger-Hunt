@@ -3,7 +3,7 @@ import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
 import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
 
-export const SingleTeamDialogContent = () => {
+export const TeamDialogContent = () => {
   const { field: membersField, fieldState: membersState } = useController({
     name: "team.members",
     defaultValue: "",
@@ -25,14 +25,8 @@ export const SingleTeamDialogContent = () => {
             htmlInput: {
               "data-testid": "create-team-members-0",
             },
-            input: {
-              ref: membersField.ref,
-            },
           }}
-          name={membersField.name}
-          value={membersField.value}
-          onBlur={membersField.onBlur}
-          onChange={membersField.onChange}
+          {...membersField}
           placeholder={`ie. 'Johnny, Sarah, Adam, Brittney'`}
           error={!!membersState.error}
           helperText={membersState.error ? membersState.error.message : null}
@@ -48,14 +42,8 @@ export const SingleTeamDialogContent = () => {
             htmlInput: {
               "data-testid": "create-team-device-number-0",
             },
-            input: {
-              ref: deviceNumber.ref,
-            },
           }}
-          name={deviceNumber.name}
-          value={deviceNumber.value}
-          onBlur={deviceNumber.onBlur}
-          onChange={deviceNumber.onChange}
+          {...deviceNumber}
           placeholder={`ie. +1-234-555-5678 or 2105551234`}
           error={!!deviceNumberState.error}
           helperText={

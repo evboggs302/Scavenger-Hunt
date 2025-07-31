@@ -5,7 +5,7 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
-import { ResponsePayload } from "@generated/graphql";
+import type { ResponsePayload } from "@generated/graphql";
 import { useMarkResponseCorrectMutation } from "../hooks/useMarkResponseCorrectMutation";
 import { useClueContext } from "@lib/context/ClueContext";
 import { useHuntContext } from "@lib/context/HuntContext";

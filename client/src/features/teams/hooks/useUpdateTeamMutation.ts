@@ -3,7 +3,7 @@ import { useMutation } from "@apollo/client";
 import {
   GetHuntDocument,
   UpdateTeamDocument,
-  UpdateTeamInput,
+  type UpdateTeamInput,
 } from "@generated/graphql";
 import { useToast } from "@lib/hooks/useToast";
 

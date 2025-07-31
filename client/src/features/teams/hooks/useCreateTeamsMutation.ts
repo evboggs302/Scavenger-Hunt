@@ -6,11 +6,11 @@ import {
 } from "@generated/graphql";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 import { useToast } from "@lib/hooks/useToast";
-import { CreateTeamsFormSchemaType } from "./useTeamsResolver";
+import { CreateTeamsFormSchemaType } from "./useCreateTeamsResolver";
 
-type RequiredFormState = CreateTeamsFormSchemaType & { isMulti: true };
+type RequiredFormState = CreateTeamsFormSchemaType;
 
-export const useCreateMultipleTeamsMutation = () => {
+export const useCreateTeamsMutation = () => {
   const { hunt } = useHuntFragment();
   const [toast] = useToast();
 

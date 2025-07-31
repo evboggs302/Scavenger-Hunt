@@ -2,7 +2,7 @@ import { useController } from "react-hook-form";
 import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
 import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
-import { UpdateTeamFormSchemaType } from "@features/teams/hooks/useUpdateTeamResolver";
+import type { UpdateTeamFormSchemaType } from "@features/teams/hooks/useUpdateTeamResolver";
 
 export const UpdateTeamDialogContent = () => {
   const { field: membersField, fieldState: membersState } =

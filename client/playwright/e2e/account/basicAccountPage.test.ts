@@ -1,6 +1,6 @@
 import { e2eTest, expect } from "@e2e/e2eTest";
 
-e2eTest("Account page", async ({ page, AccountPage }) => {
+e2eTest("Basic account page", async ({ page, AccountPage }) => {
   await e2eTest.step("Navigate to", async () => {
     await AccountPage.goto();
   });

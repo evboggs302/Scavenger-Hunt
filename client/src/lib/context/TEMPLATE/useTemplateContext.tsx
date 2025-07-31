@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import {
   TemplateContext,
-  TemplateContextValue,
+  type TemplateContextValue,
 } from "./useCreateTemplateContext";
 
 export const useTemplateContext = (): TemplateContextValue => {

@@ -6,12 +6,12 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import { useCreateHuntMutation } from "../../hooks/useCreateHuntMutation";
 import {
-  CreateHuntFormSchema,
+  type CreateHuntFormSchema,
   useCreateHuntResolver,
 } from "./useCreateHuntResolver";
 import {
   FormProvider,
-  SubmitHandler,
+  type SubmitHandler,
   useController,
   useForm,
 } from "react-hook-form";
@@ -22,7 +22,7 @@ import InputLabel from "@mui/material/InputLabel";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs, { Dayjs } from "dayjs";
 import Checkbox from "@mui/material/Checkbox";
-import {
+import type {
   DateValidationError,
   PickerChangeHandlerContext,
 } from "@mui/x-date-pickers/models";

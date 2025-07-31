@@ -7,12 +7,12 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import { useUpdateHuntMutation } from "../../hooks/useUpdateHuntMutation";
 import {
-  UpdateHuntFormSchema,
+  type UpdateHuntFormSchema,
   useUpdateHuntResolver,
 } from "./useUpdateHuntResolver";
 import {
   FormProvider,
-  SubmitHandler,
+  type SubmitHandler,
   useController,
   useForm,
 } from "react-hook-form";

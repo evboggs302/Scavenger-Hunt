@@ -1,25 +1,25 @@
 import { useCallback, useEffect } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
-import { useScrollShadow } from "@lib/hooks/useScrollShadow";
 import Box from "@mui/material/Box";
+import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
+import { ClueDescriptionField } from "./ClueDescriptionField";
+import { useScrollShadow } from "@lib/hooks/useScrollShadow";
 import Button from "@mui/material/Button";
-import { MultiTeamsFields } from "./MultiTeamsFields";
 
-export const MultipleTeamsDialogContent = () => {
+export const CreateCluesDialogContent = () => {
   const { ref } = useScrollShadow();
   const {
     setFocus,
-    formState: { isSubmitting, isValid },
+    formState: { isValid, isSubmitting },
   } = useFormContext();
 
   const { fields, append, remove } = useFieldArray({
-    name: "teams",
+    name: "cluesList",
   });
 
   const addAnother = useCallback(() => {
-    append({ members: "", device_number: "" });
-    setFocus(`teams[${fields.length + 1}]`, { shouldSelect: true });
+    append("");
+    setFocus(`cluesList[${fields.length}]`, { shouldSelect: true });
   }, [append, fields.length, setFocus]);
 
   useEffect(() => {
@@ -28,19 +28,23 @@ export const MultipleTeamsDialogContent = () => {
     }
   }, [addAnother, fields]);
 
+  const hasMultiple = fields ? fields.length > 1 : false;
+
   return (
     <FieldWrapper>
-      <Box ref={ref} sx={{ maxHeight: "320px", overflowY: "auto" }}>
+      <Box ref={ref} sx={{ maxHeight: "300px", overflowY: "auto" }}>
         {fields.map(({ id }, index) => (
-          <MultiTeamsFields
+          <ClueDescriptionField
             key={id}
+            fieldId={id}
             index={index}
-            remove={() => remove(index)}
+            hasMultiple={hasMultiple}
+            remove={remove}
           />
         ))}
       </Box>
       <Button disabled={!isValid || isSubmitting} onClick={addAnother}>
-        Add another team
+        Add another clue
       </Button>
     </FieldWrapper>
   );

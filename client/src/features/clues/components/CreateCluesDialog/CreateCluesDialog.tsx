@@ -1,30 +1,19 @@
 import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
-import InputLabel from "@mui/material/InputLabel";
-import Switch from "@mui/material/Switch";
-import {
-  FormProvider,
-  SubmitHandler,
-  useController,
-  useForm,
-} from "react-hook-form";
-import pluralize from "pluralize";
+import { FormProvider, type SubmitHandler, useForm } from "react-hook-form";
 import { ApolloError } from "@apollo/client/errors";
 import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 import {
-  CluesFormState,
+  type CluesFormState,
   useCluesResolver,
-} from "@features/clues/hooks/useCluesResolver";
-import { useCreateSingleClueMutation } from "@features/clues/hooks/useCreateSingleClueMutation";
-import { useCreateMultipleCluesMutation } from "@features/clues/hooks/useCreateMultipleCluesMutation";
-import { SingleClueDialogContent } from "./SingleClueDialogContent";
-import { MultipleCluesDialogContent } from "./MultipleClues/MultipleCluesDialogContent";
+} from "@features/clues/hooks/useCreateCluesResolver";
+import { useCreateCluesMutation } from "@features/clues/hooks/useCreateCluesMutation";
+import { CreateCluesDialogContent } from "./CreateCluesDialogContent";
+import { CluesDialogTitle } from "./CluesDialogTitle";
+import { CluesDialogSubtitle } from "./CluesDialogSubtitle";
 
 type CreateDialogProps = {
   handleClose: () => void;
@@ -32,9 +21,7 @@ type CreateDialogProps = {
 
 export const CreateCluesDialog = ({ handleClose }: CreateDialogProps) => {
   const [resolver] = useCluesResolver();
-  const [createSingle, singleClueResult] = useCreateSingleClueMutation();
-  const [createMultiple, mutlipleCluesResult] =
-    useCreateMultipleCluesMutation();
+  const [createClues, { loading }] = useCreateCluesMutation();
 
   const methods = useForm<CluesFormState>({
     mode: "onTouched",
@@ -43,7 +30,6 @@ export const CreateCluesDialog = ({ handleClose }: CreateDialogProps) => {
 
   const {
     reset,
-    control,
     trigger,
     setError,
     clearErrors,
@@ -54,22 +40,12 @@ export const CreateCluesDialog = ({ handleClose }: CreateDialogProps) => {
     },
   } = methods;
 
-  const { field: toggleSwitch } = useController({
-    name: "isMulti",
-    control,
-    defaultValue: false,
-  });
-
   const onSubmit: SubmitHandler<CluesFormState> = async (formData) => {
     clearErrors("onSubmitError");
     await trigger();
 
     try {
-      if (formData.isMulti) {
-        await createMultiple(formData.cluesList);
-      } else {
-        await createSingle(formData.description);
-      }
+      await createClues(formData.cluesList);
       handleClose();
     } catch (err) {
       reset();
@@ -84,9 +60,6 @@ export const CreateCluesDialog = ({ handleClose }: CreateDialogProps) => {
     }
   };
 
-  const loading = singleClueResult.loading || mutlipleCluesResult.loading;
-  const toPluralizeClue = +!toggleSwitch.value;
-
   return (
     <FormProvider {...methods}>
       <Dialog
@@ -99,38 +72,11 @@ export const CreateCluesDialog = ({ handleClose }: CreateDialogProps) => {
           },
         }}
       >
-        <DialogTitle data-testid="create-hunt-title">{`Create ${pluralize("Clue", toPluralizeClue)}`}</DialogTitle>
+        <CluesDialogTitle />
         <DialogContent>
           {onSubmitError && <TryAgainAlert message={onSubmitError.message} />}
-          <DialogContentText>
-            {`To create ${!toggleSwitch.value ? `a` : ""} new ${pluralize("clue", toPluralizeClue)}, please provide the below information.`}
-            <br />
-            <i>Required fields are marked.</i>
-          </DialogContentText>
-          <Box
-            sx={{
-              margin: "14px auto",
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Switch
-              data-testid="create-clues-switch"
-              slotProps={{
-                input: {
-                  ref: toggleSwitch.ref,
-                },
-              }}
-              name={toggleSwitch.name}
-              value={toggleSwitch.value}
-              onBlur={toggleSwitch.onBlur}
-              onChange={toggleSwitch.onChange}
-            />
-            <InputLabel>Creating multiple clues</InputLabel>
-          </Box>
-          {toggleSwitch.value === false && <SingleClueDialogContent />}
-          {toggleSwitch.value === true && <MultipleCluesDialogContent />}
+          <CluesDialogSubtitle />
+          <CreateCluesDialogContent />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

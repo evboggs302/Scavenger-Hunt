@@ -2,26 +2,9 @@ import { e2eTest, expect } from "@e2e/e2eTest";
 import { createFakeDates } from "@e2e/utils/createFakeDates";
 import { faker } from "@faker-js/faker";
 
-e2eTest("Hunt info page: UPDATE hunt", async ({ page, InfoPage, hunt }) => {
-  await e2eTest.step("Navigate to hunt INFO", async () => {
-    await InfoPage.goto();
-  });
-
-  await e2eTest.step("Default render info", async () => {
-    await expect(page.getByRole("tablist")).toBeVisible();
-    await expect(
-      page.getByRole("table", { name: "hunt details table" })
-    ).toBeVisible({ timeout: 10_000 });
-    await expect(page.getByRole("cell", { name: hunt.name })).toBeVisible();
-  });
-
+e2eTest("Modify hunt info page", async ({ page, InfoPage, hunt }) => {
   const newName = faker.lorem.words(3);
   const { startDate, endDate } = createFakeDates();
-
-  await e2eTest.step("Dialog opens", async () => {
-    await InfoPage.openEditDialog();
-    await expect(page.getByTestId("update-hunt-title")).toBeVisible();
-  });
 
   const newValues = {
     name: newName,
@@ -30,6 +13,15 @@ e2eTest("Hunt info page: UPDATE hunt", async ({ page, InfoPage, hunt }) => {
     recallMessage: "Updated recall message",
     multipleDays: true,
   };
+
+  await e2eTest.step("Navigate to", async () => {
+    await InfoPage.goto();
+  });
+
+  await e2eTest.step("Dialog opens", async () => {
+    await InfoPage.openEditDialog();
+    await expect(page.getByTestId("update-hunt-title")).toBeVisible();
+  });
 
   await e2eTest.step("Change values", async () => {
     await InfoPage.setHuntValues(newValues);

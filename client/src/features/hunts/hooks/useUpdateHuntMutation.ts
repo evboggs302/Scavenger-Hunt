@@ -2,7 +2,7 @@ import { useCallback, useMemo } from "react";
 import { useMutation } from "@apollo/client";
 import { GetHuntDocument, UpdateHuntDocument } from "@generated/graphql";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
-import { UpdateHuntFormState } from "../components/UpdateHuntDialog/UpdateHuntDialog";
+import type { UpdateHuntFormState } from "../components/UpdateHuntDialog/UpdateHuntDialog";
 import { useToast } from "@lib/hooks/useToast";
 
 export const useUpdateHuntMutation = () => {

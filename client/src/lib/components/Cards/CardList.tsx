@@ -1,4 +1,4 @@
-import { ComponentPropsWithRef, forwardRef } from "react";
+import { type ComponentPropsWithRef, forwardRef } from "react";
 import styled from "styled-components";
 
 const StyledCardList = styled.div`

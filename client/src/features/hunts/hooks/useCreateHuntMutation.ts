@@ -5,7 +5,7 @@ import {
   GetHuntsByUserIdDocument,
 } from "@generated/graphql";
 import { useNavigate } from "react-router";
-import { CreateHuntFormState } from "../components/CreateHuntDialog/CreateHuntDialog";
+import type { CreateHuntFormState } from "../components/CreateHuntDialog/CreateHuntDialog";
 import { useToast } from "@lib/hooks/useToast";
 
 export const useCreateHuntMutation = () => {

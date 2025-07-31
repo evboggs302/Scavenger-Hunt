@@ -1,25 +1,32 @@
-import { useController } from "react-hook-form";
+import { useCallback } from "react";
+import { useController, type UseFieldArrayRemove } from "react-hook-form";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 type MultiDescriptionFieldProps = {
+  fieldId: string;
+  hasMultiple: boolean;
   index: number;
-  remove: () => void;
+  remove: UseFieldArrayRemove;
 };
 
-export const MultiDescriptionField = ({
+export const ClueDescriptionField = ({
+  fieldId,
+  hasMultiple,
   index,
   remove,
 }: MultiDescriptionFieldProps) => {
   const { field, fieldState } = useController({
     name: `cluesList[${index}]`,
-    defaultValue: "",
   });
+
+  const removeFromArray = useCallback(() => remove(index), [index, remove]);
 
   return (
     <Box
+      key={fieldId}
       sx={{
         display: "flex",
         flexDirection: "row",
@@ -34,14 +41,8 @@ export const MultiDescriptionField = ({
             "data-testid": `create-description-${index}`,
             maxLength: 256,
           },
-          input: {
-            ref: field.ref,
-          },
         }}
-        name={field.name}
-        value={field.value}
-        onBlur={field.onBlur}
-        onChange={field.onChange}
+        {...field}
         placeholder={`ie. "Who was the first President?"`}
         error={!!fieldState.error}
         helperText={fieldState.error ? fieldState.error.message : null}
@@ -49,12 +50,14 @@ export const MultiDescriptionField = ({
         fullWidth
         variant="outlined"
       />
-      <IconButton
-        onClick={remove}
-        sx={{ height: "max-content", marginLeft: "4px" }}
-      >
-        <DeleteOutlineIcon />
-      </IconButton>
+      {hasMultiple && (
+        <IconButton
+          onClick={removeFromArray}
+          sx={{ height: "max-content", marginLeft: "4px" }}
+        >
+          <DeleteOutlineIcon />
+        </IconButton>
+      )}
     </Box>
   );
 };

@@ -23,7 +23,6 @@ export const createTempHunt = async (filePath: string) => {
         start_date: startDate,
         end_date: endDate,
         recallMessage: "This is a temporary hunt",
-        multipleDays: true,
       },
       query: `
         mutation CreateHunt(
