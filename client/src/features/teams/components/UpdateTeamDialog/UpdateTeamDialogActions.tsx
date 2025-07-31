@@ -1,4 +1,4 @@
-import { UpdateTeamFormSchemaType } from "@features/teams/hooks/useUpdateTeamResolver";
+import type { UpdateTeamFormSchemaType } from "@features/teams/hooks/useUpdateTeamResolver";
 import { useFormValues } from "@lib/hooks/useFormValues";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";

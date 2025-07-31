@@ -2,7 +2,7 @@ import { useCallback, useMemo } from "react";
 import { useMutation } from "@apollo/client";
 import {
   LoginUserDocument,
-  LoginUserMutationVariables,
+  type LoginUserMutationVariables,
 } from "@generated/graphql";
 import { useNavigate } from "react-router";
 import { useTokenContext } from "@lib/context/TokenContext";

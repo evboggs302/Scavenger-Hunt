@@ -1,5 +1,5 @@
 import TableCell from "@mui/material/TableCell";
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 
 export const DateTableCell = ({ children }: PropsWithChildren) => {
   return (

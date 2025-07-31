@@ -1,7 +1,7 @@
 import { e2eTest, expect } from "@e2e/e2eTest";
 
 e2eTest("Home page", async ({ page, HomePage }) => {
-  await e2eTest.step("Navigate to home page", async () => {
+  await e2eTest.step("Navigate to", async () => {
     await HomePage.goto();
   });
 

@@ -1,25 +1,25 @@
 import { useCallback, useEffect } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import Box from "@mui/material/Box";
 import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
-import { MultiDescriptionField } from "./MultiDescriptionField";
 import { useScrollShadow } from "@lib/hooks/useScrollShadow";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import { CreateTeamFields } from "./CreateTeamFields";
 
-export const MultipleCluesDialogContent = () => {
+export const CreateTeamsDialogContent = () => {
   const { ref } = useScrollShadow();
   const {
     setFocus,
-    formState: { isValid, isSubmitting },
+    formState: { isSubmitting, isValid },
   } = useFormContext();
 
   const { fields, append, remove } = useFieldArray({
-    name: "cluesList",
+    name: "teams",
   });
 
   const addAnother = useCallback(() => {
-    append("");
-    setFocus(`cluesList[${fields.length}]`, { shouldSelect: true });
+    append({ members: "", device_number: "" });
+    setFocus(`teams[${fields.length - 1}]`, { shouldSelect: true });
   }, [append, fields.length, setFocus]);
 
   useEffect(() => {
@@ -28,19 +28,23 @@ export const MultipleCluesDialogContent = () => {
     }
   }, [addAnother, fields]);
 
+  const hasMultiple = fields ? fields.length > 1 : false;
+
   return (
     <FieldWrapper>
-      <Box ref={ref} sx={{ maxHeight: "300px", overflowY: "auto" }}>
+      <Box ref={ref} sx={{ maxHeight: "320px", overflowY: "auto" }}>
         {fields.map(({ id }, index) => (
-          <MultiDescriptionField
+          <CreateTeamFields
             key={id}
+            fieldId={id}
             index={index}
-            remove={() => remove(index)}
+            hasMultiple={hasMultiple}
+            remove={remove}
           />
         ))}
       </Box>
       <Button disabled={!isValid || isSubmitting} onClick={addAnother}>
-        Add another clue
+        Add another team
       </Button>
     </FieldWrapper>
   );

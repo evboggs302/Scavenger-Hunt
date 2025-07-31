@@ -1,5 +1,5 @@
 import { Locator, Page } from "@e2e/e2eTest";
-import { HuntPage } from "./HuntPage";
+import { HuntPage } from "./HuntPageObject";
 import { faker } from "@faker-js/faker";
 
 export class HuntTeamsPage extends HuntPage {
@@ -55,24 +55,19 @@ export class HuntTeamsPage extends HuntPage {
   async createTeams(number: number = 1, lastTeam: string[] = []) {
     await this.openCreateDialog();
 
-    if (number > 1) {
-      // check the checkbox to create multiple clues
-      await this.createDialog.getByRole("checkbox").check();
-    }
-
     for (let i = 0; i < number; i++) {
       const teamMembers =
         i === number && !!lastTeam
-          ? lastTeam
+          ? lastTeam.join(", ")
           : [
               faker.person.firstName(),
               faker.person.firstName(),
               faker.person.firstName(),
-            ];
+            ].join(", ");
 
       await this.createDialog
         .getByTestId(`create-team-members-${i}`)
-        .fill(teamMembers.join(", "));
+        .fill(teamMembers);
 
       await this.createDialog
         .getByTestId(`create-team-device-number-${i}`)

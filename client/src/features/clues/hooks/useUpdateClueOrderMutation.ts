@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { useMutation } from "@apollo/client";
 import {
-  ClueFragment,
+  type ClueFragment,
   GetOrderedCluesDocument,
   UpdateClueOrderDocument,
 } from "@generated/graphql";

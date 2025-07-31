@@ -1,17 +1,25 @@
+import { useCallback } from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { useController } from "react-hook-form";
+import { useController, type UseFieldArrayRemove } from "react-hook-form";
 import InputLabel from "@mui/material/InputLabel";
 import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
 
-type MultiTeamFieldsProps = {
+type CreateTeamFieldsProps = {
+  fieldId: string;
+  hasMultiple: boolean;
   index: number;
-  remove: () => void;
+  remove: UseFieldArrayRemove;
 };
 
-export const MultiTeamsFields = ({ index, remove }: MultiTeamFieldsProps) => {
+export const CreateTeamFields: React.FC<CreateTeamFieldsProps> = ({
+  fieldId,
+  hasMultiple,
+  index,
+  remove,
+}) => {
   const { field: membersField, fieldState: membersFieldState } = useController({
     name: `teams[${index}].members`,
     defaultValue: "",
@@ -22,8 +30,12 @@ export const MultiTeamsFields = ({ index, remove }: MultiTeamFieldsProps) => {
     defaultValue: "",
   });
 
+  const removeFromArray = useCallback(() => remove(index), [index, remove]);
+
   return (
     <Box
+      key={fieldId}
+      data-testid="team-info-container"
       sx={{
         display: "flex",
         flexDirection: "row",
@@ -42,14 +54,8 @@ export const MultiTeamsFields = ({ index, remove }: MultiTeamFieldsProps) => {
             htmlInput: {
               "data-testid": `create-team-members-${index}`,
             },
-            input: {
-              ref: membersField.ref,
-            },
           }}
-          name={membersField.name}
-          value={membersField.value}
-          onBlur={membersField.onBlur}
-          onChange={membersField.onChange}
+          {...membersField}
           placeholder={`ie. 'Johnny, Sarah, Adam, Brittney'`}
           error={!!membersFieldState.error}
           helperText={
@@ -65,14 +71,8 @@ export const MultiTeamsFields = ({ index, remove }: MultiTeamFieldsProps) => {
             htmlInput: {
               "data-testid": `create-team-device-number-${index}`,
             },
-            input: {
-              ref: deviceField.ref,
-            },
           }}
-          name={deviceField.name}
-          value={deviceField.value}
-          onBlur={deviceField.onBlur}
-          onChange={deviceField.onChange}
+          {...deviceField}
           placeholder={`ie. +1-234-555-5678 or 2105551234`}
           error={!!deviceFieldState.error}
           helperText={
@@ -83,12 +83,14 @@ export const MultiTeamsFields = ({ index, remove }: MultiTeamFieldsProps) => {
           variant="outlined"
         />
       </FieldWrapper>
-      <IconButton
-        onClick={remove}
-        sx={{ height: "max-content", marginLeft: "4px" }}
-      >
-        <DeleteOutlineIcon />
-      </IconButton>
+      {hasMultiple && (
+        <IconButton
+          onClick={removeFromArray}
+          sx={{ height: "max-content", marginLeft: "4px" }}
+        >
+          <DeleteOutlineIcon />
+        </IconButton>
+      )}
     </Box>
   );
 };

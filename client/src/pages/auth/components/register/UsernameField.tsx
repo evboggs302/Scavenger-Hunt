@@ -1,7 +1,7 @@
 import { useController } from "react-hook-form";
 import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
 import TextField from "@mui/material/TextField";
-import { RegisterSchema } from "../../hooks/useRegisterResolver";
+import type { RegisterSchema } from "../../hooks/useRegisterResolver";
 
 export const UsernameField = () => {
   const { field, fieldState } = useController<RegisterSchema, "username">({

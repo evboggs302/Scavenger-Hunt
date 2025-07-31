@@ -1,10 +1,10 @@
-import { createContext, PropsWithChildren, useContext } from "react";
+import { createContext, type PropsWithChildren, useContext } from "react";
 import {
   GetHuntDocument,
-  GetHuntQuery,
-  GetHuntQueryVariables,
+  type GetHuntQuery,
+  type GetHuntQueryVariables,
 } from "@generated/graphql";
-import { QueryResult, useQuery } from "@apollo/client";
+import { type QueryResult, useQuery } from "@apollo/client";
 import { useParams } from "react-router";
 
 export type HuntContextValue = QueryResult<GetHuntQuery, GetHuntQueryVariables>;

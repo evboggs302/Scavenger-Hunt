@@ -1,4 +1,4 @@
-import { Navigate, RouteObject } from "react-router";
+import { Navigate, type RouteObject } from "react-router";
 
 /**
  * @required The nearest parent route must have an index route or content to render

@@ -7,7 +7,7 @@ import {
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 import { useToast } from "@lib/hooks/useToast";
 
-export const useCreateMultipleCluesMutation = () => {
+export const useCreateCluesMutation = () => {
   const { hunt } = useHuntFragment();
   const [toast] = useToast();
 

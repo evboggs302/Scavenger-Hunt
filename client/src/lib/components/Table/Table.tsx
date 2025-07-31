@@ -1,6 +1,6 @@
 import { forwardRef, memo } from "react";
 import { clamp } from "ramda";
-import { TableVirtuoso, TableVirtuosoProps } from "react-virtuoso";
+import { TableVirtuoso, type TableVirtuosoProps } from "react-virtuoso";
 import MuiTable from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";

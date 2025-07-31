@@ -1,9 +1,9 @@
-import { createContext, PropsWithChildren, useContext } from "react";
-import { QueryResult, useQuery } from "@apollo/client";
+import { createContext, type PropsWithChildren, useContext } from "react";
+import { type QueryResult, useQuery } from "@apollo/client";
 import {
   GetOrderedCluesDocument,
-  GetOrderedCluesQuery,
-  GetOrderedCluesQueryVariables,
+  type GetOrderedCluesQuery,
+  type GetOrderedCluesQueryVariables,
 } from "@generated/graphql";
 import { useHuntFragment } from "../hooks/useHuntFragment";
 

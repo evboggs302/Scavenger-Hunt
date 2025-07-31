@@ -3,7 +3,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Tooltip from "@mui/material/Tooltip";
 import TextField from "@mui/material/TextField";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
-import {
+import type {
   ControllerFieldState,
   ControllerRenderProps,
   FieldValues,

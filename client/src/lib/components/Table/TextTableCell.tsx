@@ -1,5 +1,5 @@
-import { CSSProperties, PropsWithChildren } from "react";
-import TableCell, { TableCellProps } from "@mui/material/TableCell";
+import type { CSSProperties, PropsWithChildren } from "react";
+import TableCell, { type TableCellProps } from "@mui/material/TableCell";
 
 interface TextTableCellProps extends TableCellProps {
   style?: CSSProperties;

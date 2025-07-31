@@ -51,7 +51,12 @@ export default defineConfig<TestTypes, WorkerOptions>({
   /* Configure projects for major browsers */
   projects: [
     {
+      name: "startup",
+      testMatch: /global.startup.ts/,
+    },
+    {
       name: "e2e-test",
+      dependencies: ["startup"],
       teardown: "teardown",
     },
     {

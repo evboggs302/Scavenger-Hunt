@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { FallbackProps } from "react-error-boundary";
+import type { FallbackProps } from "react-error-boundary";
 import { useNavigate } from "react-router";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";

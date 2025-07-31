@@ -10,12 +10,12 @@ import { useUpdateClueDescriptionMutation } from "@features/clues/hooks/useUpdat
 import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
-import {
-  CluesFormState,
-  useCluesResolver,
-} from "@features/clues/hooks/useCluesResolver";
-import { SubmitHandler, useController, useForm } from "react-hook-form";
+import { type SubmitHandler, useController, useForm } from "react-hook-form";
 import Box from "@mui/material/Box";
+import {
+  type EditClueFormState,
+  useEditClueResolver,
+} from "@features/clues/hooks/useEditClueResolver";
 
 type DeleteDialogProps = {
   clue_id: string;
@@ -28,14 +28,13 @@ export const EditClueDialog = ({
   description,
   handleClose,
 }: DeleteDialogProps) => {
-  const [resolver] = useCluesResolver();
+  const [resolver] = useEditClueResolver();
   const [updateClue, { error, loading }] = useUpdateClueDescriptionMutation();
 
-  const methods = useForm<CluesFormState>({
+  const methods = useForm<EditClueFormState>({
     mode: "onTouched",
     resolver,
     defaultValues: {
-      isMulti: false,
       description,
     },
   });
@@ -56,17 +55,13 @@ export const EditClueDialog = ({
 
   const isSaveDisabled = !isValid || loading || field.value === description;
 
-  const onSubmit: SubmitHandler<CluesFormState> = async (formData) => {
+  const onSubmit: SubmitHandler<EditClueFormState> = async (formData) => {
     clearErrors("onSubmitError");
     await trigger();
 
     try {
-      if (!formData.isMulti) {
-        await updateClue({ clue_id, description: formData.description });
-        handleClose();
-      } else {
-        throw new Error("Multiple clues are not supported.");
-      }
+      await updateClue({ clue_id, description: formData.description });
+      handleClose();
     } catch {
       reset();
     }

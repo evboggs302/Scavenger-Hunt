@@ -1,5 +1,5 @@
 import { ManagementButtonsContainer } from "@lib/components/ManagementButtons/ManagementButtonsContainer";
-import { useHuntFragment } from "../../../lib/hooks/useHuntFragment";
+import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 import { ActiveHuntResponsesList } from "./Lists/ActiveHuntResponsesList";
 import { InactiveHuntResponsesList } from "./Lists/InactiveHuntResponsesList";
 import { DeleteResponsesButton } from "./DeleteResponses/DeleteResponsesButton";

@@ -1,5 +1,5 @@
 import { toStringEnum } from "@lib/utils/toStringEnum";
-import { TemplateState } from "./contextReducer";
+import type { TemplateState } from "./contextReducer";
 
 export const CONTEXT_ACTION_TYPES = toStringEnum([
   "SET_NAME",

@@ -1,4 +1,4 @@
-import { useSnackbar, VariantType } from "notistack";
+import { useSnackbar, type VariantType } from "notistack";
 import { useCallback, useId } from "react";
 
 type UseToastProps = {

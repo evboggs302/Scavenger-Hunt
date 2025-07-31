@@ -1,5 +1,5 @@
 import { Locator, Page } from "@e2e/e2eTest";
-import { HuntPage } from "./HuntPage";
+import { HuntPage } from "./HuntPageObject";
 import { HuntFragment } from "@generated/graphql";
 import dayjs from "dayjs";
 

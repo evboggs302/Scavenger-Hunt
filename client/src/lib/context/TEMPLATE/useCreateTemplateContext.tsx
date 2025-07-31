@@ -1,5 +1,5 @@
 import { createContext, useMemo, useReducer } from "react";
-import { contextReducer, TemplateState } from "./contextReducer";
+import { contextReducer, type TemplateState } from "./contextReducer";
 import { contextActions } from "./contextActions";
 import { bindActionCreators } from "@lib/utils/bindActionCreators";
 

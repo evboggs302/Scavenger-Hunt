@@ -8,9 +8,9 @@ import path from "path";
 import { HomePage } from "./pageObjects/HomePage";
 import { AccountPage } from "./pageObjects/AccountPage";
 import { HuntInfoPage } from "./pageObjects/HuntInfoPage";
-import { HuntCluesPage } from "./pageObjects/HuntCluesPage";
+import { HuntCluesPage } from "./pageObjects/CluesPage";
 import { HuntTeamsPage } from "./pageObjects/HuntTeamsPage";
-import { HuntResponsesPage } from "./pageObjects/HuntResponsesPage";
+import { HuntResponsesPage } from "./pageObjects/ResponsesPage";
 import { createTempHunt } from "./utils/createTempHunt";
 import { deleteTempHunt } from "./utils/deleteTempHunt";
 

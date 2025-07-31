@@ -1,4 +1,4 @@
-import { SyntheticEvent, useCallback } from "react";
+import { type SyntheticEvent, useCallback } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import Tabs from "@mui/material/Tabs";
 import Box from "@mui/material/Box";

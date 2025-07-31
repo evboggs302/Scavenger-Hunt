@@ -3,10 +3,6 @@ import { useMemo } from "react";
 import validator from "validator";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-const BaseSchema = z.object({
-  isMulti: z.boolean().default(false),
-});
-
 const TeamZodObj = z.object({
   members: z
     .string()
@@ -20,30 +16,15 @@ const TeamZodObj = z.object({
     ),
 });
 
-const schemaSingle = BaseSchema.merge(
-  z.object({
-    isMulti: z.literal(false),
-    team: TeamZodObj,
-  })
-);
-
-const schemaMultiple = BaseSchema.merge(
-  z.object({
-    isMulti: z.literal(true),
-    teams: z.array(TeamZodObj),
-  })
-);
-
-const CreateTeamsFormSchema = z.discriminatedUnion("isMulti", [
-  schemaSingle,
-  schemaMultiple,
-]);
+const CreateTeamsFormSchema = z.object({
+  teams: z.array(TeamZodObj),
+});
 
 export type CreateTeamsFormSchemaType = z.infer<
   typeof CreateTeamsFormSchema
 > & { onSubmitError?: string };
 
-export const useTeamsResolver = () => {
+export const useCreateTeamsResolver = () => {
   const resolver = zodResolver(CreateTeamsFormSchema);
 
   return useMemo((): [typeof resolver] => [resolver], [resolver]);

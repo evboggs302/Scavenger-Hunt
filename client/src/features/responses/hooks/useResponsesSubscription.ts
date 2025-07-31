@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { ApolloError, useSubscription } from "@apollo/client";
 import {
-  ResponsePayload,
+  type ResponsePayload,
   ResponseReceivedDocument,
-  ResponseReceivedSubscription,
+  type ResponseReceivedSubscription,
 } from "@generated/graphql";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 
