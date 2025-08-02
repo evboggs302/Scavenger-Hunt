@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "clean": "rm -rf ./dist",
+    "build": "yarn clean && tsc && tsc-alias",
     "dev": "NODE_ENV=development tsx watch ./server_gql.ts",
-    "start-server": "NODE_ENV=production tsx --experimental-modules --es-module-specifier-resolution=node ./server_gql.ts",
+    "start-server": "NODE_ENV=production node --experimental-modules --es-module-specifier-resolution=node dist/server_gql.js",
     "tsc-check": "tsc --noEmit",
     "codegen": "graphql-codegen --config codegen.ts",
     "test": "vitest",
@@ -57,9 +59,9 @@
     "@vitest/coverage-v8": "^2.1.8",
     "bcryptjs": "^2.4.3",
     "supertest": "^7.0.0",
+    "tsc-alias": "^1.8.16",
     "tsx": "^4.20.3",
     "typescript": "^5.4.2",
-    "vite": "^7.0.0",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.4"
   }

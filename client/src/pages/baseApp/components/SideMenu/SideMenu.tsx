@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import { styled } from "@mui/material/styles";
 import Avatar from "@mui/material/Avatar";
 import MuiDrawer, { drawerClasses } from "@mui/material/Drawer";
@@ -8,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import { MenuContent } from "./MenuContent";
 import { OptionsMenu } from "./OptionsMenu";
 import { useUserContext } from "@lib/context/UserContext";
+import { JourneyForgeIcon } from "@lib/components/Icons/JourneyForgeIcon";
 
 const drawerWidth = 240;
 
@@ -24,6 +26,9 @@ const Drawer = styled(MuiDrawer)({
 
 export const SideMenu = () => {
   const { data } = useUserContext();
+  const navigate = useNavigate();
+  const navigateHome = () => navigate("/app");
+
   return (
     <Drawer
       variant="permanent"
@@ -35,13 +40,14 @@ export const SideMenu = () => {
       }}
     >
       <Box
+        onClick={navigateHome}
         sx={{
           display: "flex",
           mt: "calc(var(--template-frame-height, 0px) + 4px)",
           p: 1.5,
         }}
       >
-        {/* <SelectContent /> <-- INSERT WEBSITE NAME HERE --> */}
+        <JourneyForgeIcon hoverEffect />
       </Box>
       <Divider />
       <MenuContent />

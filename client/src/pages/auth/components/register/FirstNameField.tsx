@@ -13,18 +13,12 @@ export const FirstNameField = () => {
     <FieldWrapper>
       <TextField
         required
+        {...field}
         slotProps={{
           htmlInput: {
             "data-testid": "register-firstname",
           },
-          input: {
-            ref: field.ref,
-          },
         }}
-        name={field.name}
-        value={field.value}
-        onBlur={field.onBlur}
-        onChange={field.onChange}
         label="First name"
         placeholder="Enter your first name"
         error={!!fieldState.error}

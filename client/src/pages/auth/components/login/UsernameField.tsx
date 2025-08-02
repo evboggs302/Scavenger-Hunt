@@ -11,18 +11,12 @@ export const UsernameField = () => {
   return (
     <TextField
       required
+      {...field}
       slotProps={{
         htmlInput: {
           "data-testid": "login-username",
         },
-        input: {
-          ref: field.ref,
-        },
       }}
-      name={field.name}
-      value={field.value}
-      onBlur={field.onBlur}
-      onChange={field.onChange}
       label="Username"
       placeholder="your@email.com"
       error={!!fieldState.error}

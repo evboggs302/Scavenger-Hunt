@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import { useResponseCount } from "@features/responses/hooks/useResponseCount";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
-import { HuntManagementButtons } from "./HuntManagementButtons";
+import { HuntManagementButtons } from "@features/hunts/components/HuntManagementButtons";
 
 export const HuntPage = () => {
   const navigate = useNavigate();

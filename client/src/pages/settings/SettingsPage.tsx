@@ -21,8 +21,7 @@ export const SettingsPage = () => {
         <h1>Settings</h1>
         <p>Settings page content goes here.</p>
         <p>More settings can be added here.</p>
-        <p>Settings page content goes here.</p>
-        <p>More settings can be added here.</p>
+        <p>Enable AI offering here!</p>
         <Button variant="contained" color="primary">
           Save settings
         </Button>
