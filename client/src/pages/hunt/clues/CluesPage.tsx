@@ -11,17 +11,17 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { restrictToWindowEdges } from "@dnd-kit/modifiers";
-import { ClueCardList } from "./ClueCardList";
+import { ClueCardList } from "@features/clues/components/ClueCardList";
 import { useClueContext } from "@lib/context/ClueContext";
-import { useUpdateClueOrderMutation } from "../hooks/useUpdateClueOrderMutation";
+import { useUpdateClueOrderMutation } from "@features/clues/hooks/useUpdateClueOrderMutation";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import { dragMeasuring } from "../utils/dragMeasuring";
+import { dragMeasuring } from "./utils/dragMeasuring";
 import type { CluePayload } from "@generated/graphql";
 import { CircularLoading } from "@lib/components/Loading/CircularLoading";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
-import { CreateCluesButton } from "./CreateCluesButton";
-import { DeleteAllCluesButton } from "./DeleteAllCluesButton";
+import { CreateCluesButton } from "@features/clues/components/CreateCluesButton";
+import { DeleteAllCluesButton } from "@features/clues/components/DeleteAllCluesButton";
 
 const EmptyCluesTablePlaceholder = () => {
   return (

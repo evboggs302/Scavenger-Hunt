@@ -14,6 +14,7 @@ import { getAllResponsesByHuntMock } from "./handlers/responses/getAllResponsesB
 import { fetchDefaultPaymentMethodHandler } from "./handlers/accounts/fetchDefaultPaymentMethodHandler";
 import { fetchAccountTransationsHandler } from "./handlers/accounts/fetchAccountTransationsHandler";
 import { cancelSubscriptionHandler } from "./handlers/accounts/cancelSubscriptionHandler";
+import { getResultsMock } from "./handlers/results/getResultsMock";
 
 export const mswHandlers = {
   // AUTH
@@ -21,23 +22,25 @@ export const mswHandlers = {
   logoutMock,
   registerMock,
   usernameExistsMock,
+  // USER
+  getUserFromTokenMock,
   // ACCOUNTS
   cancelSubscriptionHandler,
   fetchAccountTransationsHandler,
   fetchDefaultPaymentMethodHandler,
-  // CLUES
-  getOrderedCluesMock,
-  createSingleClueMock,
-  createMultipleCluesMock,
   // HUNTS
   getHuntMock,
   createHuntMock,
   getHuntsBuyUserIdMock,
+  // CLUES
+  getOrderedCluesMock,
+  createSingleClueMock,
+  createMultipleCluesMock,
   // RESPONSES
   getResponseCountMock,
   getAllResponsesByHuntMock,
-  // USER
-  getUserFromTokenMock,
+  // RESULTS
+  getResultsMock,
 };
 
 export const mswHandlersList = Object.values(mswHandlers);

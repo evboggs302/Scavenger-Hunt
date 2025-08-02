@@ -1,5 +1,5 @@
-import { AuthOutlet } from "@pages/auth/components/AuthOutlet";
-import { SignInCard } from "@pages/auth/components/login/SignInCard";
+import { AuthOutlet } from "@pages/auth/AuthOutlet";
+import { SignInCard } from "@pages/auth/SignInCard";
 import { catchallRouteToParent } from "./catchAllRoutes/catchallRouteToParent";
 
 export const LoginRouteObject = {

@@ -1,0 +1,4 @@
+fragment Results on Results {
+  avg_response_time
+  rejection_ratio
+}

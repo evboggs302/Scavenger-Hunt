@@ -15,7 +15,7 @@ import TableBody from "@mui/material/TableBody";
 import DoneIcon from "@mui/icons-material/Done";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { ResponsesPreview } from "./ResponsesPreview";
-import { UpdateHuntButton } from "../UpdateHuntDialog/UpdateHuntButton";
+import { UpdateHuntButton } from "@features/hunts/components/UpdateHuntDialog/UpdateHuntButton";
 import { CircularLoading } from "@lib/components/Loading/CircularLoading";
 import { DateTableCell } from "@lib/components/Table/DateTableCell";
 

@@ -1,10 +1,11 @@
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from "@lib/components/ErrorFallback/ErrorFallback";
 import { HuntPage } from "@pages/hunt/HuntPage";
-import { HuntDetails } from "@features/hunts/components/HuntDetails/HuntDetails";
-import { TeamsPage } from "@features/teams/components/TeamsPage";
-import { CluesPage } from "@features/clues/components/CluesPage";
-import { ResponsesPage } from "@features/responses/components/ResponsesPage";
+import { HuntDetails } from "@pages/hunt/info/HuntDetails";
+import { TeamsPage } from "@pages/hunt/teams/TeamsPage";
+import { CluesPage } from "@pages/hunt/clues/CluesPage";
+import { ResponsesPage } from "@pages/hunt/responses/ResponsesPage";
+import { ResultsPage } from "@pages/hunt/results/ResultsPage";
 import { catchallRouteToParent } from "./catchAllRoutes/catchallRouteToParent";
 import { HuntQryContextProvider } from "@lib/context/HuntContext";
 import { ClueQryContextProvider } from "@lib/context/ClueContext";
@@ -44,21 +45,6 @@ export const HuntDashboardRouteObject = {
       ),
     },
     {
-      path: "teams",
-      element: (
-        <ErrorBoundary
-          fallbackRender={(fallbackProps) => (
-            <ErrorFallback
-              {...fallbackProps}
-              message="There was a problem rendering the teams page."
-            />
-          )}
-        >
-          <TeamsPage />
-        </ErrorBoundary>
-      ),
-    },
-    {
       path: "clues",
       element: (
         <ErrorBoundary
@@ -74,6 +60,21 @@ export const HuntDashboardRouteObject = {
       ),
     },
     {
+      path: "teams",
+      element: (
+        <ErrorBoundary
+          fallbackRender={(fallbackProps) => (
+            <ErrorFallback
+              {...fallbackProps}
+              message="There was a problem rendering the teams page."
+            />
+          )}
+        >
+          <TeamsPage />
+        </ErrorBoundary>
+      ),
+    },
+    {
       path: "responses",
       element: (
         <ErrorBoundary
@@ -85,6 +86,21 @@ export const HuntDashboardRouteObject = {
           )}
         >
           <ResponsesPage />
+        </ErrorBoundary>
+      ),
+    },
+    {
+      path: "results",
+      element: (
+        <ErrorBoundary
+          fallbackRender={(fallbackProps) => (
+            <ErrorFallback
+              {...fallbackProps}
+              message="There was a problem rendering the results page."
+            />
+          )}
+        >
+          <ResultsPage />
         </ErrorBoundary>
       ),
     },

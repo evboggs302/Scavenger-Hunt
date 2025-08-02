@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
 import { MenuContent } from "./MenuContent";
-import { useLogoutMutation } from "@pages/auth/hooks/useLogoutMutation";
+import { useLogoutMutation } from "@features/auth/hooks/useLogoutMutation";
 import { useUserContext } from "@lib/context/UserContext";
 import { CreateHuntButton } from "@features/hunts/components/CreateHuntDialog/CreateHuntButton";
 

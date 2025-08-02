@@ -1,22 +1,22 @@
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
-import { useRegisterMutation } from "@pages/auth/hooks/useRegisterMutation";
+import { useRegisterMutation } from "@features/auth/hooks/useRegisterMutation";
 import {
   type RegisterSchema,
   useRegisterResolver,
-} from "@pages/auth/hooks/useRegisterResolver";
+} from "@features/auth/hooks/useRegisterResolver";
 import { FormProvider, type SubmitHandler, useForm } from "react-hook-form";
 import { ApolloError } from "@apollo/client";
 import { CircularProgress } from "@mui/material";
-import { AuthCardContainer, AuthCard } from "../authLayout";
+import { AuthCardContainer, AuthCard } from "./authLayout";
 import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
-import { FirstNameField } from "./FirstNameField";
-import { UsernameField } from "./UsernameField";
-import { PasswordField } from "./PasswordField";
-import { LastNameField } from "./LastNameField";
-import { SignUpAlternates } from "./SignUpAlternates";
-import { EmailField } from "./EmailField";
+import { FirstNameField } from "@features/auth/components/register/FirstNameField";
+import { UsernameField } from "@features/auth/components/register/UsernameField";
+import { PasswordField } from "@features/auth/components/register/PasswordField";
+import { LastNameField } from "@features/auth/components/register/LastNameField";
+import { SignUpAlternates } from "@features/auth/components/register/SignUpAlternates";
+import { EmailField } from "@features/auth/components/register/EmailField";
 
 type Inputs = RegisterSchema & {
   onSubmitError?: string;

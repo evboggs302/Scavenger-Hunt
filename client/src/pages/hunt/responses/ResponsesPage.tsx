@@ -1,8 +1,8 @@
 import { ManagementButtonsContainer } from "@lib/components/ManagementButtons/ManagementButtonsContainer";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
-import { ActiveHuntResponsesList } from "./Lists/ActiveHuntResponsesList";
-import { InactiveHuntResponsesList } from "./Lists/InactiveHuntResponsesList";
-import { DeleteResponsesButton } from "./DeleteResponses/DeleteResponsesButton";
+import { ActiveHuntResponsesList } from "@features/responses/components/Lists/ActiveHuntResponsesList";
+import { InactiveHuntResponsesList } from "@features/responses/components/Lists/InactiveHuntResponsesList";
+import { DeleteResponsesButton } from "@features/responses/components/DeleteResponses/DeleteResponsesButton";
 
 export const ResponsesPage = () => {
   const { hunt } = useHuntFragment();
