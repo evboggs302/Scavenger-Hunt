@@ -26,10 +26,7 @@ export const PasswordField = () => {
     <FieldWrapper>
       <TextField
         required
-        name={field.name}
-        value={field.value}
-        onBlur={field.onBlur}
-        onChange={field.onChange}
+        {...field}
         label="Password"
         placeholder="••••••••••••"
         error={!!fieldState.error}
@@ -40,7 +37,6 @@ export const PasswordField = () => {
         type={showPassword ? "text" : "password"}
         slotProps={{
           htmlInput: {
-            ref: field.ref,
             "data-testid": "register-password",
           },
           input: {

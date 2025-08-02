@@ -1,6 +1,6 @@
 import { FormProvider, type SubmitHandler, useForm } from "react-hook-form";
 import { ApolloError } from "@apollo/client";
-import { GoogleIcon, FacebookIcon } from "@lib/components/Auth/CustomIcons";
+import { GoogleIcon, FacebookIcon } from "@lib/components/Icons/CustomIcons";
 import { useLoginMutation } from "@pages/auth/hooks/useLoginMutation";
 import {
   type LoginSchema,

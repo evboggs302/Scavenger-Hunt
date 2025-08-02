@@ -1,4 +1,4 @@
-import { FacebookIcon, GoogleIcon } from "@lib/components/Auth/CustomIcons";
+import { FacebookIcon, GoogleIcon } from "@lib/components/Icons/CustomIcons";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";

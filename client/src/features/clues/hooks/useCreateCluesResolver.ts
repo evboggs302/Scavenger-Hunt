@@ -2,10 +2,11 @@ import { z } from "zod";
 import { useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-const ClueDescriptionString = z
+export const ClueDescriptionString = z
   .string({ message: "A valid description is required." })
   .trim()
-  .min(3, { message: "A minimum of 3 characters is required." });
+  .min(3, { message: "A minimum of 3 characters is required." })
+  .max(160, { message: "A maximum of 160 characters is supported." });
 
 const CluesFormSchema = z.object({
   cluesList: z.array(ClueDescriptionString),

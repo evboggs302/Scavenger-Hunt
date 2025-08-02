@@ -13,16 +13,12 @@ export const UsernameField = () => {
     <FieldWrapper>
       <TextField
         required
+        {...field}
         slotProps={{
           htmlInput: {
-            ref: field.ref,
             "data-testid": "register-username",
           },
         }}
-        name={field.name}
-        value={field.value}
-        onBlur={field.onBlur}
-        onChange={field.onChange}
         label="Username"
         placeholder="bob123"
         error={!!fieldState.error}

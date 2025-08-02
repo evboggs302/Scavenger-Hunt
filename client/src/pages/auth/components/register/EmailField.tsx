@@ -13,18 +13,12 @@ export const EmailField = () => {
     <FieldWrapper>
       <TextField
         required
+        {...field}
         slotProps={{
           htmlInput: {
             "data-testid": "register-email",
           },
-          input: {
-            ref: field.ref,
-          },
         }}
-        name={field.name}
-        value={field.value}
-        onBlur={field.onBlur}
-        onChange={field.onChange}
         label="Email"
         placeholder="your@email.com"
         error={!!fieldState.error}

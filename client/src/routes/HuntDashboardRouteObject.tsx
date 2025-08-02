@@ -1,6 +1,6 @@
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from "@lib/components/ErrorFallback/ErrorFallback";
-import { HuntPage } from "@features/hunts/components/HuntPage";
+import { HuntPage } from "@pages/hunt/HuntPage";
 import { HuntDetails } from "@features/hunts/components/HuntDetails/HuntDetails";
 import { TeamsPage } from "@features/teams/components/TeamsPage";
 import { CluesPage } from "@features/clues/components/CluesPage";
