@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { TeamsPage as Component } from "../components/TeamsPage";
+import { CluesPage as Component } from "../CluesPage";
 
 const meta: Meta<typeof Component> = {
-  title: "Pages/Teams Page",
+  title: "Pages/Clues Page",
   component: Component,
   tags: ["autodocs"],
 };
@@ -10,4 +10,4 @@ export default meta;
 
 type Story = StoryObj<typeof Component>;
 
-export const TeamsPage: Story = {};
+export const CluesPage: Story = {};

@@ -1,8 +1,8 @@
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
-import { CreateTeamsButton } from "./CreateTeamsButton";
-import { DeleteAllTeamsButton } from "./DeleteAllTeamsButton";
-import { TeamsTable } from "./TeamsTable/TeamsTable";
+import { CreateTeamsButton } from "@features/teams/components/CreateTeamsButton";
+import { DeleteAllTeamsButton } from "@features/teams/components/DeleteAllTeamsButton";
+import { TeamsTable } from "@features/teams/components/TeamsTable/TeamsTable";
 
 export const TeamsPage = () => {
   return (

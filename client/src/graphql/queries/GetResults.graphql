@@ -1,0 +1,5 @@
+query GetReuslts($huntId: ID!, $filters: [ResultsFilters!]) {
+  results: getResults(hunt_id: $huntId, filters: $filters) {
+    ...Results
+  }
+}

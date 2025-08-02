@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within, expect } from "@storybook/test";
-import { SignUpCard } from "@pages/auth/components/register/SignUpCard";
+import { SignUpCard } from "../SignUpCard";
 
 const meta: Meta<typeof SignUpCard> = {
   title: "Pages/Auth/Regsiter",
@@ -21,7 +21,7 @@ export const SignUp: Story = {
     );
   },
   play: async (props) => {
-    const { args, canvasElement, step } = props;
+    const { canvasElement, step } = props;
     const { getByTestId } = within(canvasElement);
     expect(getByTestId("register-title")).toBeInTheDocument();
 

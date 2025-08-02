@@ -1,0 +1,30 @@
+extend type Query {
+  getResults(hunt_id: ID!, filters: [ResultsFilters!]): Results! # defaults to results from hunt
+}
+
+enum FilterSource {
+  TEAM
+  CLUE
+}
+
+input ResultsFilters {
+  source: FilterSource!
+  value: String!
+}
+
+type Results {
+  avg_response_time: Int! # average time between time sent and next response
+  rejection_ratio: Int! # average number of times a response is received until one is marked "correct"
+}
+
+extend type Team {
+  results: Results
+}
+
+extend type CluePayload {
+  results: Results
+}
+
+extend type Hunt {
+  results: Results
+}

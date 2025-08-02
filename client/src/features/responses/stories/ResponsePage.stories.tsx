@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { ResponsesPage as Component } from "../components/ResponsesPage";
+import { ResponsesPage as Component } from "../../../pages/hunt/responses/ResponsesPage";
 import { mswHandlers } from "@msw/mswHandlers";
 import { HttpResponse, graphql } from "msw";
 import { GetHuntDocument } from "@generated/graphql";

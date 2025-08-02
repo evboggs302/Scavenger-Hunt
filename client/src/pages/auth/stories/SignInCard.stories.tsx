@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { userEvent, within, expect } from "@storybook/test";
-import { SignInCard } from "@pages/auth/components/login/SignInCard";
+import { SignInCard } from "../SignInCard";
 
 const meta: Meta<typeof SignInCard> = {
   title: "Pages/Auth/Login",

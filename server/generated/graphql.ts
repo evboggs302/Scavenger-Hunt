@@ -38,6 +38,7 @@ export type CluePayload = {
   hunt_id: Scalars['ID']['output'];
   order_number: Scalars['Int']['output'];
   responses?: Maybe<Array<Maybe<ResponsePayload>>>;
+  results?: Maybe<Results>;
 };
 
 export type CreateHuntInput = {
@@ -87,6 +88,11 @@ export type DeleteTeamInput = {
   team_id: Scalars['ID']['input'];
 };
 
+export enum FilterSource {
+  Clue = 'CLUE',
+  Team = 'TEAM'
+}
+
 export type Hunt = {
   __typename: 'Hunt';
   _id: Scalars['ID']['output'];
@@ -99,6 +105,7 @@ export type Hunt = {
   marked_complete: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
   recall_message: Scalars['String']['output'];
+  results?: Maybe<Results>;
   start_date: Scalars['String']['output'];
   teams?: Maybe<Array<Team>>;
   twilio_number: Scalars['String']['output'];
@@ -287,6 +294,7 @@ export type Query = {
   getResponsesByClue: Array<Maybe<ResponsePayload>>;
   getResponsesByHunt: ResponsesByHunt;
   getResponsesByTeam: Array<Maybe<ResponsePayload>>;
+  getResults: Results;
   getTeam: Team;
   getTeamsByHuntId: Array<Maybe<Team>>;
   getUserFromToken: UserPayload;
@@ -324,6 +332,12 @@ export type QueryGetResponsesByTeamArgs = {
 };
 
 
+export type QueryGetResultsArgs = {
+  filters?: InputMaybe<Array<ResultsFilters>>;
+  hunt_id: Scalars['ID']['input'];
+};
+
+
 export type QueryGetTeamArgs = {
   id: Scalars['ID']['input'];
 };
@@ -354,6 +368,17 @@ export type ResponsesByHunt = {
   __typename: 'ResponsesByHunt';
   count: Scalars['Int']['output'];
   responses?: Maybe<Array<Maybe<ResponsePayload>>>;
+};
+
+export type Results = {
+  __typename: 'Results';
+  avg_response_time: Scalars['Int']['output'];
+  rejection_ratio: Scalars['Int']['output'];
+};
+
+export type ResultsFilters = {
+  source: FilterSource;
+  value: Scalars['String']['input'];
 };
 
 export type SendHintInput = {
@@ -417,6 +442,7 @@ export type Team = {
   members: Array<Scalars['String']['output']>;
   recall_sent: Scalars['Boolean']['output'];
   responses?: Maybe<Array<ResponsePayload>>;
+  results?: Maybe<Results>;
 };
 
 export type UpdateClueDescriptionInput = {
@@ -548,6 +574,7 @@ export type ResolversTypes = ResolversObject<{
   CreateSubscriptionPayload: ResolverTypeWrapper<CreateSubscriptionPayload>;
   CustomerSubscription: ResolverTypeWrapper<CustomerSubscription>;
   DeleteTeamInput: DeleteTeamInput;
+  FilterSource: FilterSource;
   Hunt: ResolverTypeWrapper<Hunt>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
@@ -558,6 +585,8 @@ export type ResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>;
   ResponsePayload: ResolverTypeWrapper<ResponsePayload>;
   ResponsesByHunt: ResolverTypeWrapper<ResponsesByHunt>;
+  Results: ResolverTypeWrapper<Results>;
+  ResultsFilters: ResultsFilters;
   SendHintInput: SendHintInput;
   SingleTeam: SingleTeam;
   StripeCharge: ResolverTypeWrapper<StripeCharge>;
@@ -600,6 +629,8 @@ export type ResolversParentTypes = ResolversObject<{
   Query: {};
   ResponsePayload: ResponsePayload;
   ResponsesByHunt: ResponsesByHunt;
+  Results: Results;
+  ResultsFilters: ResultsFilters;
   SendHintInput: SendHintInput;
   SingleTeam: SingleTeam;
   StripeCharge: StripeCharge;
@@ -675,6 +706,7 @@ export type CluePayloadResolvers<ContextType = ApolloServerContext, ParentType e
   hunt_id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   order_number?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   responses?: Resolver<Maybe<Array<Maybe<ResolversTypes['ResponsePayload']>>>, ParentType, ContextType>;
+  results?: Resolver<Maybe<ResolversTypes['Results']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -704,6 +736,7 @@ export type HuntResolvers<ContextType = ApolloServerContext, ParentType extends 
   marked_complete?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   recall_message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  results?: Resolver<Maybe<ResolversTypes['Results']>, ParentType, ContextType>;
   start_date?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   teams?: Resolver<Maybe<Array<ResolversTypes['Team']>>, ParentType, ContextType>;
   twilio_number?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -766,6 +799,7 @@ export type QueryResolvers<ContextType = ApolloServerContext, ParentType extends
   getResponsesByClue?: Resolver<Array<Maybe<ResolversTypes['ResponsePayload']>>, ParentType, ContextType, RequireFields<QueryGetResponsesByClueArgs, 'id'>>;
   getResponsesByHunt?: Resolver<ResolversTypes['ResponsesByHunt'], ParentType, ContextType, RequireFields<QueryGetResponsesByHuntArgs, 'id'>>;
   getResponsesByTeam?: Resolver<Array<Maybe<ResolversTypes['ResponsePayload']>>, ParentType, ContextType, RequireFields<QueryGetResponsesByTeamArgs, 'id'>>;
+  getResults?: Resolver<ResolversTypes['Results'], ParentType, ContextType, RequireFields<QueryGetResultsArgs, 'hunt_id'>>;
   getTeam?: Resolver<ResolversTypes['Team'], ParentType, ContextType, RequireFields<QueryGetTeamArgs, 'id'>>;
   getTeamsByHuntId?: Resolver<Array<Maybe<ResolversTypes['Team']>>, ParentType, ContextType, RequireFields<QueryGetTeamsByHuntIdArgs, 'h_id'>>;
   getUserFromToken?: Resolver<ResolversTypes['UserPayload'], ParentType, ContextType>;
@@ -787,6 +821,12 @@ export type ResponsePayloadResolvers<ContextType = ApolloServerContext, ParentTy
 export type ResponsesByHuntResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['ResponsesByHunt'] = ResolversParentTypes['ResponsesByHunt']> = ResolversObject<{
   count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   responses?: Resolver<Maybe<Array<Maybe<ResolversTypes['ResponsePayload']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ResultsResolvers<ContextType = ApolloServerContext, ParentType extends ResolversParentTypes['Results'] = ResolversParentTypes['Results']> = ResolversObject<{
+  avg_response_time?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  rejection_ratio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -834,6 +874,7 @@ export type TeamResolvers<ContextType = ApolloServerContext, ParentType extends 
   members?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   recall_sent?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   responses?: Resolver<Maybe<Array<ResolversTypes['ResponsePayload']>>, ParentType, ContextType>;
+  results?: Resolver<Maybe<ResolversTypes['Results']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -859,6 +900,7 @@ export type Resolvers<ContextType = ApolloServerContext> = ResolversObject<{
   Query?: QueryResolvers<ContextType>;
   ResponsePayload?: ResponsePayloadResolvers<ContextType>;
   ResponsesByHunt?: ResponsesByHuntResolvers<ContextType>;
+  Results?: ResultsResolvers<ContextType>;
   StripeCharge?: StripeChargeResolvers<ContextType>;
   StripePaymentIntent?: StripePaymentIntentResolvers<ContextType>;
   StripeSubscription?: StripeSubscriptionResolvers<ContextType>;

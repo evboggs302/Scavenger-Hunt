@@ -6,6 +6,7 @@ import Tab from "@mui/material/Tab";
 import { useResponseCount } from "@features/responses/hooks/useResponseCount";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 import { HuntManagementButtons } from "@features/hunts/components/HuntManagementButtons";
+import { ResultsTab } from "./results/ResultsTab";
 
 export const HuntPage = () => {
   const navigate = useNavigate();
@@ -17,15 +18,28 @@ export const HuntPage = () => {
   } = useResponseCount();
   const { hunt } = useHuntFragment();
 
-  let location: "" | "clues" | "teams" | "responses";
-  if (pathname.includes("clues")) {
-    location = "clues";
-  } else if (pathname.includes("teams")) {
-    location = "teams";
-  } else if (pathname.includes("responses")) {
-    location = "responses";
-  } else {
-    location = "";
+  let location: "" | "clues" | "teams" | "responses" | "results";
+  switch (true) {
+    case pathname.includes("clues"): {
+      location = "clues";
+      break;
+    }
+    case pathname.includes("teams"): {
+      location = "teams";
+      break;
+    }
+    case pathname.includes("responses"): {
+      location = "responses";
+      break;
+    }
+    case pathname.includes("results"): {
+      location = "results";
+      break;
+    }
+    default: {
+      location = "";
+      break;
+    }
   }
 
   const handleChange = useCallback(
@@ -59,6 +73,7 @@ export const HuntPage = () => {
             value="responses"
             disabled={isResponseTabDisabled}
           />
+          <ResultsTab />
         </Tabs>
         <HuntManagementButtons />
       </Box>

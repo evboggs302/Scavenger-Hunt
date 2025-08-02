@@ -1,15 +1,15 @@
 import { FormProvider, type SubmitHandler, useForm } from "react-hook-form";
 import { ApolloError } from "@apollo/client";
 import { GoogleIcon, FacebookIcon } from "@lib/components/Icons/CustomIcons";
-import { useLoginMutation } from "@pages/auth/hooks/useLoginMutation";
+import { useLoginMutation } from "@features/auth/hooks/useLoginMutation";
 import {
   type LoginSchema,
   useLoginResolver,
-} from "@pages/auth/hooks/useLoginResolver";
-import { AuthCardContainer, AuthCard } from "../authLayout";
+} from "@features/auth/hooks/useLoginResolver";
+import { AuthCardContainer, AuthCard } from "./authLayout";
 import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
-import { UsernameField } from "./UsernameField";
-import { PasswordField } from "./PaswordField";
+import { UsernameField } from "@features/auth/components/login/UsernameField";
+import { PasswordField } from "@features/auth/components/login/PaswordField";
 
 // import { Link } from "react-router";
 import Box from "@mui/material/Box";
