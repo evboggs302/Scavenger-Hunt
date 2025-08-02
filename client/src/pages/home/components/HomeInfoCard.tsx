@@ -16,6 +16,7 @@ export const HomeInfoCard: React.FC<HomeInfoCardProps> = ({
 }) => {
   return (
     <Card
+      data-testid="home-info-card"
       sx={{
         maxWidth: "95%",
         minWidth: 350,

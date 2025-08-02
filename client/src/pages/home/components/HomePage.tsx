@@ -38,6 +38,7 @@ const cardContents: HomeInfoCardProps[] = [
 export const HomePage = () => {
   return (
     <Box
+      data-testid="home-page-container"
       sx={{
         borderBottom: 1,
         borderColor: "divider",
