@@ -151,9 +151,9 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
               name={startDateField.name}
               value={startDateField.value}
               onChange={onChangeStart}
+              inputRef={startDateField.ref}
               slotProps={{
                 textField: {
-                  ref: startDateField.ref,
                   label: "Start date",
                   onBlur: startDateField.onBlur,
                   error: !!startDateState.error,
@@ -161,10 +161,8 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
                     ? startDateState.error.message
                     : null,
                   color: startDateState.error ? "error" : "primary",
-                  slotProps: {
-                    htmlInput: {
-                      "data-testid": "update-hunt-start",
-                    },
+                  inputProps: {
+                    "data-testid": "update-hunt-start",
                   },
                 },
               }}
@@ -201,9 +199,9 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
                 shouldDisableDate={(date) =>
                   date.isBefore(startDateField.value)
                 }
+                inputRef={endDateField.ref}
                 slotProps={{
                   textField: {
-                    ref: endDateField.ref,
                     label: "End date",
                     onBlur: endDateField.onBlur,
                     error: !!endDateState.error,
@@ -211,10 +209,8 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
                       ? endDateState.error.message
                       : null,
                     color: endDateState.error ? "error" : "primary",
-                    slotProps: {
-                      htmlInput: {
-                        "data-testid": "update-hunt-end",
-                      },
+                    inputProps: {
+                      "data-testid": "update-hunt-end",
                     },
                   },
                 }}

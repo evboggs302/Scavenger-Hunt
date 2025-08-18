@@ -4,11 +4,11 @@ import { renderWrapper } from "@test/renderWrapper";
 import { FormTestWrapper } from "@test/FormTestWrapper";
 
 describe("Table", () => {
-  const { getAllByTestId, getByTestId } = screen;
+  const { getByTestId } = screen;
 
   it("should render without data", async () => {
     await renderWrapper(
-      <FormTestWrapper>
+      <FormTestWrapper formValues={{ clueFilter: [], teamFilter: [] }}>
         <ResultsTable />
       </FormTestWrapper>
     );

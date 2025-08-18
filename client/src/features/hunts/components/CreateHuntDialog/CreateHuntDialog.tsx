@@ -137,6 +137,7 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
               name={startDateField.name}
               value={startDateField.value}
               onChange={onChangeStart}
+              inputRef={startDateField.ref}
               slotProps={{
                 textField: {
                   required: true,
@@ -147,10 +148,8 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
                     ? startDateState.error.message
                     : null,
                   color: startDateState.error ? "error" : "primary",
-                  slotProps: {
-                    htmlInput: {
-                      ref: startDateField.ref,
-                    },
+                  inputProps: {
+                    "data-testid": "create-hunt-start",
                   },
                 },
               }}
@@ -172,6 +171,7 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
                 },
               }}
               {...checkbox}
+              checked={checkbox.value}
             />
             <InputLabel>This hunt spans multiple days.</InputLabel>
           </Box>
@@ -186,6 +186,7 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
                 shouldDisableDate={(date) =>
                   date.isBefore(startDateField.value)
                 }
+                inputRef={endDateField.ref}
                 slotProps={{
                   textField: {
                     required: true,
@@ -196,11 +197,8 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
                       ? endDateState.error.message
                       : null,
                     color: endDateState.error ? "error" : "primary",
-                    slotProps: {
-                      htmlInput: {
-                        ref: endDateField.ref,
-                        "data-testid": "create-hunt-end",
-                      },
+                    inputProps: {
+                      "data-testid": "create-hunt-end",
                     },
                   },
                 }}
