@@ -28,8 +28,8 @@ describe("HuntPage", () => {
   it("default tab (info)", async () => {
     await renderWrapper(<HuntPage />);
 
-    const infoTab = getByRole("tab", { name: "Info" });
-    expect(infoTab.getAttribute("aria-selected")).toBe("true");
+    const tab = getByRole("tab", { name: "Info" });
+    expect(tab.getAttribute("aria-selected")).toBe("true");
   });
 
   it("clues tab selected", async () => {
@@ -39,8 +39,8 @@ describe("HuntPage", () => {
       },
     });
 
-    const cluesTab = getByRole("tab", { name: "Clues" });
-    expect(cluesTab.getAttribute("aria-selected")).toBe("true");
+    const tab = getByRole("tab", { name: "Clues" });
+    expect(tab.getAttribute("aria-selected")).toBe("true");
   });
 
   it("teams tab", async () => {
@@ -50,8 +50,8 @@ describe("HuntPage", () => {
       },
     });
 
-    const teamsTab = getByRole("tab", { name: "Teams" });
-    expect(teamsTab.getAttribute("aria-selected")).toBe("true");
+    const tab = getByRole("tab", { name: "Teams" });
+    expect(tab.getAttribute("aria-selected")).toBe("true");
   });
 
   it("responses tab", async () => {
@@ -61,8 +61,19 @@ describe("HuntPage", () => {
       },
     });
 
-    const responsesTab = getByRole("tab", { name: "Responses" });
-    expect(responsesTab.getAttribute("aria-selected")).toBe("true");
+    const tab = getByRole("tab", { name: "Responses" });
+    expect(tab.getAttribute("aria-selected")).toBe("true");
+  });
+
+  it("results tab", async () => {
+    await renderWrapper(<HuntPage />, {
+      params: {
+        results: "",
+      },
+    });
+
+    const tab = getByRole("tab", { name: "Results" });
+    expect(tab.getAttribute("aria-selected")).toBe("true");
   });
 
   describe("Navigation clicks fire", () => {
@@ -73,33 +84,41 @@ describe("HuntPage", () => {
         },
       });
 
-      const infoTab = getByRole("tab", { name: "Info" });
-      fireEvent.click(infoTab);
+      const tab = getByRole("tab", { name: "Info" });
+      fireEvent.click(tab);
       expect(navigate).toHaveBeenCalledWith("", { relative: "path" });
     });
 
     it("Clues tab clicked", async () => {
       await renderWrapper(<HuntPage />);
 
-      const cluesTab = getByRole("tab", { name: "Clues" });
-      fireEvent.click(cluesTab);
+      const tab = getByRole("tab", { name: "Clues" });
+      fireEvent.click(tab);
       expect(navigate).toHaveBeenCalledWith("clues", { relative: "path" });
     });
 
     it("Teams tab clicked", async () => {
       await renderWrapper(<HuntPage />);
 
-      const teamsTab = getByRole("tab", { name: "Teams" });
-      fireEvent.click(teamsTab);
+      const tab = getByRole("tab", { name: "Teams" });
+      fireEvent.click(tab);
       expect(navigate).toHaveBeenCalledWith("teams", { relative: "path" });
     });
 
     it("Responses tab clicked", async () => {
       await renderWrapper(<HuntPage />);
 
-      const responsesTab = getByRole("tab", { name: "Responses" });
-      fireEvent.click(responsesTab);
+      const tab = getByRole("tab", { name: "Responses" });
+      fireEvent.click(tab);
       expect(navigate).toHaveBeenCalledWith("responses", { relative: "path" });
+    });
+
+    it("Results tab clicked", async () => {
+      await renderWrapper(<HuntPage />);
+
+      const tab = getByRole("tab", { name: "Results" });
+      fireEvent.click(tab);
+      expect(navigate).toHaveBeenCalledWith("results", { relative: "path" });
     });
   });
 });

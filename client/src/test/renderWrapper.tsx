@@ -11,7 +11,6 @@ import { HuntQryContextProvider } from "@lib/context/HuntContext";
 import { TokenContextProvider } from "@lib/context/TokenContext";
 import { UserQryContextProvider } from "@lib/context/UserContext";
 import { ApolloClientProvider } from "@apolloClient/apolloClient";
-import { FiltersContextProvider } from "@features/results/context/FiltersContextProvider";
 
 type RenderOptions = RouteObject & { params?: Record<string, string> };
 
@@ -50,9 +49,7 @@ export const renderWrapper = async (
               <TokenContextProvider>
                 <UserQryContextProvider>
                   <HuntQryContextProvider>
-                    <ClueQryContextProvider>
-                      <FiltersContextProvider>{ui}</FiltersContextProvider>
-                    </ClueQryContextProvider>
+                    <ClueQryContextProvider>{ui}</ClueQryContextProvider>
                   </HuntQryContextProvider>
                 </UserQryContextProvider>
               </TokenContextProvider>

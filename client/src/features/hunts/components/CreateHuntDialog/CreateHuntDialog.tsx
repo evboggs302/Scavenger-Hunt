@@ -4,7 +4,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import { useCreateHuntMutation } from "../../hooks/useCreateHuntMutation";
+import { useCreateHuntMutation } from "@features/hunts/hooks/useCreateHuntMutation";
 import {
   type CreateHuntFormSchema,
   useCreateHuntResolver,
@@ -26,10 +26,10 @@ import type {
   DateValidationError,
   PickerChangeHandlerContext,
 } from "@mui/x-date-pickers/models";
-import { CreateNameField } from "./CreateNameField";
-import { CreateRecallMessageField } from "./CreateRecallMessageField";
 import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
+import { HuntNameField } from "@lib/components/HuntDialogs/HuntNameField";
+import { RecallMessageField } from "@lib/components/HuntDialogs/RecallMessageField";
 
 type CreateDialogProps = {
   handleClose: () => void;
@@ -40,15 +40,11 @@ type CustomStartDateOnChange = (
   context: PickerChangeHandlerContext<DateValidationError>
 ) => void;
 
-export type CreateHuntFormState = CreateHuntFormSchema & {
-  onSubmitError?: string;
-};
-
 export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
   const [createHunt, { loading }] = useCreateHuntMutation();
   const [resolver] = useCreateHuntResolver();
 
-  const methods = useForm<CreateHuntFormState>({
+  const methods = useForm<CreateHuntFormSchema>({
     mode: "onTouched",
     resolver,
   });
@@ -91,7 +87,7 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
     endDateField.onChange(val?.add(1, "day"));
   };
 
-  const onSubmit: SubmitHandler<CreateHuntFormState> = async (formData) => {
+  const onSubmit: SubmitHandler<CreateHuntFormSchema> = async (formData) => {
     clearErrors("onSubmitError");
     await trigger();
 
@@ -133,7 +129,7 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
             <br />
             <i>Required fields are marked.</i>
           </DialogContentText>
-          <CreateNameField />
+          <HuntNameField mode="create" />
           <FieldWrapper>
             <DatePicker
               disablePast
@@ -171,15 +167,11 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
             <Checkbox
               slotProps={{
                 input: {
-                  ref: checkbox.ref,
                   // @ts-ignore
                   "data-testid": "create-hunt-multiple-days",
                 },
               }}
-              name={checkbox.name}
-              checked={checkbox.value}
-              onBlur={checkbox.onBlur}
-              onChange={checkbox.onChange}
+              {...checkbox}
             />
             <InputLabel>This hunt spans multiple days.</InputLabel>
           </Box>
@@ -215,7 +207,7 @@ export const CreateHuntDialog = ({ handleClose }: CreateDialogProps) => {
               />
             </FieldWrapper>
           )}
-          <CreateRecallMessageField />
+          <RecallMessageField mode="create" />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

@@ -3,8 +3,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  createMultipleClues(input: CreateMultipleCluesInput!): [CluePayload!]!
-  createSingleClue(input: CreateSingleClueInput!): [CluePayload!]!
+  createClues(input: CreateCluesInput!): [CluePayload!]!
   updateClueDescription(input: UpdateClueDescriptionInput!): CluePayload!
   updateClueOrder(input: UpdateClueOrderInput!): [CluePayload]!
   deleteClueById(clue_id: ID!): Boolean!
@@ -19,14 +18,9 @@ type CluePayload {
   responses: [ResponsePayload]
 }
 
-input CreateMultipleCluesInput {
+input CreateCluesInput {
   h_id: String!
   cluesList: [String!]!
-}
-
-input CreateSingleClueInput {
-  h_id: String!
-  description: String!
 }
 
 input UpdateClueDescriptionInput {

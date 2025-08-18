@@ -2,7 +2,6 @@ import { faker } from "@faker-js/faker";
 import { CluePayload, ResponsePayload } from "@generated/graphql";
 import { generateResponses } from "./generateResponses";
 import { hexadecimalStr } from "./createHexadecimal";
-import { generateResults } from "./generateResults";
 
 type FullClue = Required<CluePayload> & {
   responses: ResponsePayload[];
@@ -29,7 +28,7 @@ export const generateClues = (
         _id,
         teams[faker.number.int(teams.length - 1)]
       ),
-      results: generateResults(),
+      analytics: null,
     });
   }
 

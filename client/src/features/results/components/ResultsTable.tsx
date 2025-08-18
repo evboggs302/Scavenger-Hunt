@@ -8,5 +8,7 @@ type ResultsTableProps = {
 export const ResultsTable: React.FC<ResultsTableProps> = ({ prop }) => {
   const { data, loading } = useGetFilteredResults();
 
+  console.log(data);
+
   return <Table emptyPlaceholderText="No results to display yet." />;
 };

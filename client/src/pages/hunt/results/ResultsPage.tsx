@@ -1,14 +1,14 @@
 import Divider from "@mui/material/Divider";
 import { ResultsFilters } from "@features/results/components/ResultsFilters";
 import { ResultsTable } from "@features/results/components/ResultsTable";
-import { FiltersContextProvider } from "@features/results/context/FiltersContextProvider";
+import { ResultsFilterFormProvider } from "@features/results/context/ResultsFilterFormProvider";
 
 export const ResultsPage = () => {
   return (
-    <FiltersContextProvider>
+    <ResultsFilterFormProvider>
       <ResultsFilters />
       <Divider sx={{ margin: "10px auto" }} />
       <ResultsTable />
-    </FiltersContextProvider>
+    </ResultsFilterFormProvider>
   );
 };

@@ -4,10 +4,7 @@ import validator from "validator";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const TeamZodObj = z.object({
-  members: z
-    .string()
-    .min(3, "Must have at least 3 characters")
-    .transform((str) => str.split(",").map((s) => s.trim())),
+  members: z.string().min(3, "Must have at least 3 characters"),
   device_number: z
     .string()
     .refine(
@@ -18,11 +15,10 @@ const TeamZodObj = z.object({
 
 const CreateTeamsFormSchema = z.object({
   teams: z.array(TeamZodObj),
+  onSubmitError: z.string().optional(),
 });
 
-export type CreateTeamsFormSchemaType = z.infer<
-  typeof CreateTeamsFormSchema
-> & { onSubmitError?: string };
+export type CreateTeamsFormSchemaType = z.infer<typeof CreateTeamsFormSchema>;
 
 export const useCreateTeamsResolver = () => {
   const resolver = zodResolver(CreateTeamsFormSchema);

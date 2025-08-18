@@ -73,7 +73,7 @@ export const HuntPage = () => {
             value="responses"
             disabled={isResponseTabDisabled}
           />
-          <ResultsTab />
+          <ResultsTab label="Results" value="results" />
         </Tabs>
         <HuntManagementButtons />
       </Box>

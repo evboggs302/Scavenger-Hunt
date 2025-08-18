@@ -95,14 +95,8 @@ export const EditClueDialog = ({
                 "data-testid": "update-clue-description",
                 maxLength: 256,
               },
-              input: {
-                ref: field.ref,
-              },
             }}
-            name={field.name}
-            value={field.value}
-            onBlur={field.onBlur}
-            onChange={field.onChange}
+            {...field}
             placeholder={`ie. "Who was the first President?"`}
             error={!!fieldState.error}
             helperText={fieldState.error ? fieldState.error.message : null}

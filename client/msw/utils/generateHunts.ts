@@ -3,7 +3,6 @@ import { faker } from "@faker-js/faker";
 import { generateTeams } from "./generateTeams";
 import { hexadecimalStr } from "./createHexadecimal";
 import { generateClues } from "./generateClues";
-import { generateResults } from "./generateResults";
 
 type FullHunt = Required<Hunt> & {
   teams: Team[];
@@ -38,7 +37,7 @@ export const generateHunts = (
       twilio_number: faker.phone.number(),
       teams,
       clues: generateClues(5, _id, teamIds),
-      results: generateResults(),
+      analytics: null,
     });
   }
 

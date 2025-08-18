@@ -1,4 +1,14 @@
-fragment Results on Results {
-  avg_response_time
-  rejection_ratio
+fragment Results on Hunt {
+  ...Hunt
+  teams {
+    ...Team
+  }
+  clues {
+    ...Clue
+  }
+  analytics {
+    total_responses
+    avg_response_time
+    rejection_ratio
+  }
 }

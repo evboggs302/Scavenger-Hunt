@@ -1,12 +1,17 @@
 import { screen } from "@testing-library/react";
 import { ResultsTable } from "./ResultsTable";
 import { renderWrapper } from "@test/renderWrapper";
+import { FormTestWrapper } from "@test/FormTestWrapper";
 
 describe("Table", () => {
   const { getAllByTestId, getByTestId } = screen;
 
   it("should render without data", async () => {
-    await renderWrapper(<ResultsTable />);
+    await renderWrapper(
+      <FormTestWrapper>
+        <ResultsTable />
+      </FormTestWrapper>
+    );
 
     expect(getByTestId("table-virtuoso")).toBeInTheDocument();
     expect(getByTestId("table-empty-placeholder")).toHaveTextContent(

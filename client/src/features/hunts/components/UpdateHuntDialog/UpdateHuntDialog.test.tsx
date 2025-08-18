@@ -1,12 +1,13 @@
 import { renderWrapper } from "@test/renderWrapper";
 import { act } from "@testing-library/react";
 import { fireEvent, screen, waitFor } from "@testing-library/dom";
-import { UpdateHuntDialog, UpdateHuntFormState } from "./UpdateHuntDialog";
+import { UpdateHuntDialog } from "./UpdateHuntDialog";
 import { useUpdateHuntMutation } from "../../hooks/useUpdateHuntMutation";
 import dayjs, { Dayjs } from "dayjs";
-import { ApolloClient } from "@apollo/client";
+import type { ApolloClient } from "@apollo/client";
+import type { UpdateHuntFormSchema } from "./useUpdateHuntResolver";
 
-const mockedCreate = vi.fn<(args: UpdateHuntFormState) => Promise<void>>();
+const mockedCreate = vi.fn<(args: UpdateHuntFormSchema) => Promise<void>>();
 vi.mock("../../hooks/useUpdateHuntMutation");
 
 const mockedCreateResponse = {
@@ -71,7 +72,9 @@ describe("UpdateHuntDialog", () => {
       expect(input).toBeInTheDocument();
 
       const originalValue = input.getAttribute("value");
-      fireEvent.input(input, { target: { value: huntName } });
+      await act(async () => {
+        fireEvent.input(input, { target: { value: huntName } });
+      });
       expect(input).not.toHaveValue(originalValue);
       expect(input).toHaveValue(huntName);
     });
@@ -124,8 +127,10 @@ describe("UpdateHuntDialog", () => {
     it("VALID - change", async () => {
       const startDatePicker = getByRole("textbox", { name: "Start date" });
       const originalValue = startDatePicker.getAttribute("value");
-      fireEvent.input(startDatePicker, {
-        target: { value: startDateFormatted },
+      await act(async () => {
+        fireEvent.input(startDatePicker, {
+          target: { value: startDateFormatted },
+        });
       });
       expect(startDatePicker).not.toHaveValue(originalValue);
       expect(startDatePicker).toHaveValue(startDateFormatted);
@@ -138,14 +143,18 @@ describe("UpdateHuntDialog", () => {
       const endDatePicker = getByRole("textbox", { name: "End date" });
       expect(endDatePicker).toBeInTheDocument();
 
-      fireEvent.click(checkbox);
+      await act(async () => {
+        fireEvent.click(checkbox);
+      });
       expect(checkbox).not.toBeChecked();
       expect(endDatePicker).not.toBeInTheDocument();
 
       const startDatePicker = getByRole("textbox", { name: "Start date" });
       const originalValue = startDatePicker.getAttribute("value");
-      fireEvent.input(startDatePicker, {
-        target: { value: startDateFormatted },
+      await act(async () => {
+        fireEvent.input(startDatePicker, {
+          target: { value: startDateFormatted },
+        });
       });
       expect(startDatePicker).not.toHaveValue(originalValue);
       expect(startDatePicker).toHaveValue(startDateFormatted);
@@ -202,7 +211,9 @@ describe("UpdateHuntDialog", () => {
       expect(endDatePicker).toBeInTheDocument();
 
       const originalValue = endDatePicker.getAttribute("value");
-      fireEvent.input(endDatePicker, { target: { value: endDateFormatted } });
+      await act(async () => {
+        fireEvent.input(endDatePicker, { target: { value: endDateFormatted } });
+      });
       expect(endDatePicker).not.toHaveValue(originalValue);
       expect(endDatePicker).toHaveValue(endDateFormatted);
     });
@@ -253,7 +264,9 @@ describe("UpdateHuntDialog", () => {
       expect(input).toBeInTheDocument();
 
       const originalValue = input.getAttribute("value");
-      fireEvent.input(input, { target: { value: recallMsg } });
+      await act(async () => {
+        fireEvent.input(input, { target: { value: recallMsg } });
+      });
       expect(input).not.toHaveValue(originalValue);
       expect(input).toHaveValue(recallMsg);
     });
@@ -262,8 +275,8 @@ describe("UpdateHuntDialog", () => {
       const input = getByTestId("update-hunt-recall-message");
       expect(input).toBeInTheDocument();
 
-      fireEvent.input(input, { target: { value: "" } });
       await act(async () => {
+        fireEvent.input(input, { target: { value: "" } });
         input.focus();
       });
       expect(input).toHaveFocus();
@@ -281,8 +294,8 @@ describe("UpdateHuntDialog", () => {
       const input = getByTestId("update-hunt-recall-message");
       expect(input).toBeInTheDocument();
 
-      fireEvent.input(input, { target: { value: 123 } });
       await act(async () => {
+        fireEvent.input(input, { target: { value: 123 } });
         input.focus();
       });
       expect(input).toHaveFocus();
@@ -338,7 +351,9 @@ describe("UpdateHuntDialog", () => {
       const confirmBtn = getByRole("button", { name: "Update Hunt" });
       expect(confirmBtn).not.toBeDisabled();
 
-      fireEvent.submit(confirmBtn);
+      await act(async () => {
+        fireEvent.submit(confirmBtn);
+      });
       await waitFor(() => {
         expect(mockedCreate).toHaveBeenCalled();
         expect(handleCloseMock).toBeCalledTimes(1);

@@ -17,7 +17,7 @@ export const createSingleClueMock = graphql.mutation(
             _id,
             hunt_id: input.h_id,
             order_number: 3,
-            description: input.description,
+            description: "Description #3",
           },
         ],
       },

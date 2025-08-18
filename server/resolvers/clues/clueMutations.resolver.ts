@@ -9,7 +9,7 @@ import {
 
 const resolver: Resolvers = {
   Mutation: {
-    createMultipleClues: async (
+    createClues: async (
       _parent: unknown,
       { input: { cluesList, h_id } },
       _ctxt,
@@ -48,39 +48,6 @@ const resolver: Resolvers = {
         return clues.map((clue) => clue.transformWithTypename());
       } catch (err) {
         return throwServerError({
-          message: "Unable to create clues at this time.",
-          location: name?.value,
-          err,
-        });
-      }
-    },
-    createSingleClue: async (
-      _parent: unknown,
-      { input: { description, h_id } },
-      _ctxt,
-      { operation: { name } }
-    ) => {
-      try {
-        const hunt_id = createBsonObjectId(h_id);
-
-        const lastClue = await ClueModel.find({ hunt_id })
-          .sort({ order_number: -1 }) // descending order
-          .limit(1) // only the first item (ie. the last clue)
-          .exec();
-
-        await ClueModel.create({
-          hunt_id,
-          order_number: lastClue[0]?.order_number + 1 || 1,
-          description,
-        });
-
-        const allClues = await ClueModel.find({ hunt_id })
-          .sort({ order_number: 1 })
-          .exec();
-
-        return allClues.map((clu) => clu.transformWithTypename());
-      } catch (err) {
-        return throwResolutionError({
           message: "Unable to create clues at this time.",
           location: name?.value,
           err,

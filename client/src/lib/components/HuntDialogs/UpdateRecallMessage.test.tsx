@@ -1,7 +1,7 @@
 import { renderWrapper } from "@test/renderWrapper";
 import { screen } from "@testing-library/dom";
-import { UpdateRecallMessageField } from "./UpdateRecallMessageField";
 import { FormTestWrapper } from "@test/FormTestWrapper";
+import { RecallMessageField } from "@lib/components/HuntDialogs/RecallMessageField";
 
 describe("UpdateRecallMessageField", () => {
   const { getByText } = screen;
@@ -9,7 +9,7 @@ describe("UpdateRecallMessageField", () => {
   it("renders properly", async () => {
     await renderWrapper(
       <FormTestWrapper>
-        <UpdateRecallMessageField />
+        <RecallMessageField mode="update" />
       </FormTestWrapper>
     );
 

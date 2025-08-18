@@ -1,12 +1,13 @@
 import { renderWrapper } from "@test/renderWrapper";
 import { act } from "@testing-library/react";
 import { fireEvent, screen, waitFor } from "@testing-library/dom";
-import { CreateHuntDialog, CreateHuntFormState } from "./CreateHuntDialog";
+import { CreateHuntDialog } from "./CreateHuntDialog";
 import { useCreateHuntMutation } from "../../hooks/useCreateHuntMutation";
 import dayjs, { Dayjs } from "dayjs";
-import { ApolloClient } from "@apollo/client";
+import type { ApolloClient } from "@apollo/client";
+import type { CreateHuntFormSchema } from "./useCreateHuntResolver";
 
-const mockedCreate = vi.fn<(args: CreateHuntFormState) => Promise<void>>();
+const mockedCreate = vi.fn<(args: CreateHuntFormSchema) => Promise<void>>();
 vi.mock("../../hooks/useCreateHuntMutation");
 
 const mockedCreateResponse = {

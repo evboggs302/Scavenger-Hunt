@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/dom";
 import { renderWrapper } from "@test/renderWrapper";
 import { FormTestWrapper } from "@test/FormTestWrapper";
-import { CreateRecallMessageField } from "./CreateRecallMessageField";
+import { RecallMessageField } from "./RecallMessageField";
 
 describe("CreateRecallMessageField", () => {
   const { getByText } = screen;
@@ -12,7 +12,7 @@ describe("CreateRecallMessageField", () => {
   it("renders properly", async () => {
     await renderWrapper(
       <FormTestWrapper>
-        <CreateRecallMessageField />
+        <RecallMessageField mode="create" />
       </FormTestWrapper>
     );
 

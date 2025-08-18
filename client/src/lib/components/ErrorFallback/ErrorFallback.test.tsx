@@ -1,4 +1,4 @@
-import { fireEvent, screen } from "@testing-library/react";
+import { act, fireEvent, screen } from "@testing-library/react";
 import { renderWrapper } from "@test/renderWrapper";
 import { ErrorFallback } from "./ErrorFallback";
 
@@ -58,7 +58,9 @@ describe("ErrorFallback", async () => {
     );
 
     const button = getByTestId("fallback-navigate");
-    fireEvent.click(button);
+    await act(async () => {
+      fireEvent.click(button);
+    });
 
     expect(navigate).toHaveBeenCalledWith("/app", {
       replace: true,
@@ -71,7 +73,9 @@ describe("ErrorFallback", async () => {
     );
 
     const button = getByTestId("fallback-try-again");
-    fireEvent.click(button);
+    await act(async () => {
+      fireEvent.click(button);
+    });
 
     expect(mockResetErrorBoundary).toHaveBeenCalledTimes(1);
   });
@@ -82,7 +86,9 @@ describe("ErrorFallback", async () => {
     );
 
     const button = getByTestId("fallback-try-again");
-    fireEvent.click(button);
+    await act(async () => {
+      fireEvent.click(button);
+    });
 
     expect(button).toBeDisabled();
   });

@@ -14,7 +14,7 @@ import { getAllResponsesByHuntMock } from "./handlers/responses/getAllResponsesB
 import { fetchDefaultPaymentMethodHandler } from "./handlers/accounts/fetchDefaultPaymentMethodHandler";
 import { fetchAccountTransationsHandler } from "./handlers/accounts/fetchAccountTransationsHandler";
 import { cancelSubscriptionHandler } from "./handlers/accounts/cancelSubscriptionHandler";
-import { getResultsMock } from "./handlers/results/getResultsMock";
+import { getHuntResultsMock } from "./handlers/results/getHuntResultsMock";
 
 export const mswHandlers = {
   // AUTH
@@ -40,7 +40,7 @@ export const mswHandlers = {
   getResponseCountMock,
   getAllResponsesByHuntMock,
   // RESULTS
-  getResultsMock,
+  getHuntResultsMock,
 };
 
 export const mswHandlersList = Object.values(mswHandlers);

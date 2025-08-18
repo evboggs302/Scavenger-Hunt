@@ -1,5 +1,5 @@
-mutation CreateSingleClue($input: CreateSingleClueInput!) {
-  clues: createSingleClue(input: $input) {
+mutation CreateSingleClue($input: CreateCluesInput!) {
+  clues: createClues(input: $input) {
     ...Clue
   }
 }

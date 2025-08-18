@@ -21,7 +21,7 @@ export const bindActionCreators = <
     const actionCreator = creators[key];
     if (typeof actionCreator === "function") {
       // @ts-ignore
-      boundCreators[key] = bindAction(creators, dispatch);
+      boundCreators[key] = bindAction(actionCreator, dispatch);
     }
   }
 

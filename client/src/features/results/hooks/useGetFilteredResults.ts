@@ -1,20 +1,28 @@
 import { useQuery } from "@apollo/client";
-import { GetReusltsDocument } from "@generated/graphql";
+import { FilterSource, GetReusltsDocument } from "@generated/graphql";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
-import { useFiltersContext } from "../context/useFiltersContext";
+import { useFiltersFormValues } from "./useFiltersFormValues";
 
 export const useGetFilteredResults = () => {
   const { hunt } = useHuntFragment();
-  const {
-    state: { clueFilter, teamFilter },
-  } = useFiltersContext();
+  const { clueFilter, teamFilter } = useFiltersFormValues();
 
-  const result = useQuery(GetReusltsDocument, {
+  const clues = clueFilter.map((clu) => ({
+    source: FilterSource.Clue,
+    value: clu,
+  }));
+
+  const teams = teamFilter.map((clu) => ({
+    source: FilterSource.Clue,
+    value: clu,
+  }));
+
+  const results = useQuery(GetReusltsDocument, {
     variables: {
       huntId: hunt._id || "",
-      filters: [clueFilter, teamFilter].filter((fltr) => fltr !== undefined),
+      filters: [...clues, ...teams],
     },
   });
 
-  return result;
+  return results;
 };

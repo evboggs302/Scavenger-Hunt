@@ -1,23 +1,20 @@
 import { FieldWrapper } from "../Form/FieldWrapper";
-import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
-import type {
-  ControllerRenderProps,
-  FieldValues,
-  ControllerFieldState,
-} from "react-hook-form";
+import { useController } from "react-hook-form";
+import { useHuntFragment } from "@lib/hooks/useHuntFragment";
+import type { BaseHuntFormSchema } from "@lib/model/baseHuntSchema";
 
 type HuntNameFieldProps = {
-  field: ControllerRenderProps<FieldValues, "name">;
-  fieldState: ControllerFieldState;
   mode: "create" | "update";
 };
 
-export const HuntNameField = ({
-  field,
-  fieldState,
-  mode,
-}: HuntNameFieldProps) => {
+export const HuntNameField = ({ mode }: HuntNameFieldProps) => {
+  const { hunt } = useHuntFragment();
+  const { field, fieldState } = useController<BaseHuntFormSchema, "name">({
+    name: "name",
+    defaultValue: mode === "create" ? "" : hunt.name || "",
+  });
+
   return (
     <FieldWrapper>
       <TextField
@@ -25,15 +22,9 @@ export const HuntNameField = ({
           htmlInput: {
             "data-testid": `${mode}-hunt-name`,
           },
-          input: {
-            ref: field.ref,
-          },
         }}
         label="Hunt name"
-        name={field.name}
-        value={field.value}
-        onBlur={field.onBlur}
-        onChange={field.onChange}
+        {...field}
         placeholder={`"Smith family reunion 2020"`}
         error={!!fieldState.error}
         helperText={fieldState.error ? fieldState.error.message : null}
