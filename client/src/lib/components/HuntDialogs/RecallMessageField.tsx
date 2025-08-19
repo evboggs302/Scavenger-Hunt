@@ -3,23 +3,23 @@ import InputLabel from "@mui/material/InputLabel";
 import Tooltip from "@mui/material/Tooltip";
 import TextField from "@mui/material/TextField";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
-import type {
-  ControllerFieldState,
-  ControllerRenderProps,
-  FieldValues,
-} from "react-hook-form";
+import { useController, useFormContext } from "react-hook-form";
+import { useHuntFragment } from "@lib/hooks/useHuntFragment";
+import type { BaseHuntFormSchema } from "@lib/model/baseHuntSchema";
 
 type RecallMessageFieldProps = {
-  field: ControllerRenderProps<FieldValues, "recallMessage">;
-  fieldState: ControllerFieldState;
   mode: "create" | "update";
 };
 
-export const RecallMessageField = ({
-  field,
-  fieldState,
-  mode,
-}: RecallMessageFieldProps) => {
+export const RecallMessageField = ({ mode }: RecallMessageFieldProps) => {
+  const { hunt } = useHuntFragment();
+  const { control } = useFormContext<BaseHuntFormSchema>();
+  const { field, fieldState } = useController({
+    name: "recallMessage",
+    control,
+    defaultValue: mode === "create" ? "" : hunt.recall_message || "",
+  });
+
   return (
     <FieldWrapper>
       <InputLabel data-testid={`${mode}-hunt-recall-label`}>
@@ -36,14 +36,8 @@ export const RecallMessageField = ({
           htmlInput: {
             "data-testid": `${mode}-hunt-recall-message`,
           },
-          input: {
-            ref: field.ref,
-          },
         }}
-        name={field.name}
-        value={field.value || ""}
-        onBlur={field.onBlur}
-        onChange={field.onChange}
+        {...field}
         placeholder={`eg. "Make your way back to the starting location."`}
         error={!!fieldState.error}
         helperText={fieldState.error ? fieldState.error.message : null}

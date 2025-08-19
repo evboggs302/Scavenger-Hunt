@@ -5,7 +5,7 @@ import {
   GetHuntsByUserIdDocument,
 } from "@generated/graphql";
 import { useNavigate } from "react-router";
-import type { CreateHuntFormState } from "../components/CreateHuntDialog/CreateHuntDialog";
+import type { CreateHuntFormSchema } from "../components/CreateHuntDialog/useCreateHuntResolver";
 import { useToast } from "@lib/hooks/useToast";
 
 export const useCreateHuntMutation = () => {
@@ -14,7 +14,7 @@ export const useCreateHuntMutation = () => {
   const [createHunt, result] = useMutation(CreateHuntDocument);
 
   const handleCreateHunt = useCallback(
-    async (formData: CreateHuntFormState) => {
+    async (formData: CreateHuntFormSchema) => {
       await createHunt({
         variables: {
           name: formData.name,

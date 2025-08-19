@@ -6,9 +6,7 @@ import {
 } from "@generated/graphql";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
 import { useToast } from "@lib/hooks/useToast";
-import { CreateTeamsFormSchemaType } from "./useCreateTeamsResolver";
-
-type RequiredFormState = CreateTeamsFormSchemaType;
+import type { CreateTeamsFormSchemaType } from "./useCreateTeamsResolver";
 
 export const useCreateTeamsMutation = () => {
   const { hunt } = useHuntFragment();
@@ -27,7 +25,7 @@ export const useCreateTeamsMutation = () => {
   );
 
   const handleCreateMultipleTeams = useCallback(
-    async ({ teams }: RequiredFormState) => {
+    async ({ teams }: CreateTeamsFormSchemaType) => {
       await createMultipleTeams({
         variables: {
           input: {

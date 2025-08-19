@@ -1,9 +1,12 @@
-import Tab from "@mui/material/Tab";
+import Tab, { TabProps } from "@mui/material/Tab";
 
-type ResultsTabProps = {
+type ResultsTabProps = TabProps & {
   prop?: undefined;
 };
 
-export const ResultsTab: React.FC<ResultsTabProps> = ({ prop }) => {
-  return <Tab label="Results" value="results" disabled />;
+export const ResultsTab: React.FC<ResultsTabProps> = (props) => {
+  /**
+   * @todo add a condition for the tab to disabled
+   */
+  return <Tab label="Results" value="results" {...props} />;
 };

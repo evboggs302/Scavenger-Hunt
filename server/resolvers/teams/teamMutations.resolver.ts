@@ -1,4 +1,5 @@
 import { TeamModel } from "@models/teams";
+import type { Types } from "mongoose";
 import { Resolvers } from "@generated/graphql";
 import { returnedItems } from "@utils/transforms/returnedItems";
 import { createBsonObjectId } from "@utils/transforms/createBsonObjectId";
@@ -7,31 +8,15 @@ import {
   throwServerError,
 } from "@utils/apolloErrorHandlers";
 
+type TeamInsertType = {
+  hunt_id: Types.ObjectId;
+  members: string[];
+  device_number: string;
+};
+
 const resolver: Resolvers = {
   Mutation: {
-    createSingleTeam: async (
-      _parent: unknown,
-      { input: { hunt_id: h_id, members, device_number } },
-      _ctxt,
-      { operation: { name } }
-    ) => {
-      const hunt_id = createBsonObjectId(h_id);
-      const team = await TeamModel.create({
-        hunt_id,
-        members,
-        device_number,
-      });
-
-      if (!team) {
-        return throwResolutionError({
-          message: "Unable to find team.",
-          location: name?.value,
-        });
-      }
-
-      return team.transformWithTypename();
-    },
-    createMultipleTeams: async (
+    createTeams: async (
       _parent: unknown,
       { input: { hunt_id: h_id, teams: tms } },
       _ctxt,
@@ -39,9 +24,19 @@ const resolver: Resolvers = {
     ) => {
       try {
         const hunt_id = createBsonObjectId(h_id);
-        const mappedTeams = tms.map((tm) => ({ hunt_id, ...tm }));
 
-        await TeamModel.insertMany(mappedTeams, {
+        const reducedTeams = tms.reduce<TeamInsertType[]>((acc, singleTeam) => {
+          return [
+            ...acc,
+            {
+              ...singleTeam,
+              hunt_id,
+              members: singleTeam.members.split(",").map((val) => val.trim()),
+            },
+          ];
+        }, []);
+
+        await TeamModel.insertMany(reducedTeams, {
           includeResultMetadata: true,
         });
 

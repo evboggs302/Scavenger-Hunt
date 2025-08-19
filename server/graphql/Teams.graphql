@@ -4,8 +4,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  createSingleTeam(input: CreateSingleTeamInput!): Team!
-  createMultipleTeams(input: CreateMultipleTeamsInput!): [Team]!
+  createTeams(input: CreateTeamsInput!): [Team]!
   updateTeam(input: UpdateTeamInput!): Team!
   deleteTeam(team_id: ID!): Boolean!
   deleteAllTeamsByHuntId(hunt_id: ID!): Boolean!
@@ -22,19 +21,13 @@ type Team {
 }
 
 input SingleTeam {
-  members: [String!]
+  members: String!
   device_number: String!
 }
 
-input CreateMultipleTeamsInput {
+input CreateTeamsInput {
   hunt_id: String!
-  teams: [SingleTeam]!
-}
-
-input CreateSingleTeamInput {
-  hunt_id: String!
-  members: [String]!
-  device_number: String!
+  teams: [SingleTeam!]!
 }
 
 input UpdateTeamInput {

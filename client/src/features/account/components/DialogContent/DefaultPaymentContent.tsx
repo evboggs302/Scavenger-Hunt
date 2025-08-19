@@ -1,5 +1,4 @@
 import { useCallback, useState } from "react";
-import { useStripe } from "@stripe/react-stripe-js";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
@@ -9,7 +8,6 @@ import DialogContentText from "@mui/material/DialogContentText";
 import InputLabel from "@mui/material/InputLabel";
 import Typography from "@mui/material/Typography";
 import DialogActions from "@mui/material/DialogActions";
-import { useCreateSubscription } from "@features/account/hooks/useCreateSubscription";
 import { useFetchPaymentMethod } from "@features/account/hooks/useFetchPaymentMethod";
 import { CircularLoading } from "@lib/components/Loading/CircularLoading";
 import { useResubscribe } from "@features/account/hooks/useResubscribe";

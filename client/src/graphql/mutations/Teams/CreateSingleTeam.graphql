@@ -1,5 +1,5 @@
-mutation CreateSingleTeam($input: CreateSingleTeamInput!) {
-  team: createSingleTeam(input: $input) {
+mutation CreateSingleTeam($input: CreateTeamsInput!) {
+  team: createTeams(input: $input) {
     ...Team
   }
 }

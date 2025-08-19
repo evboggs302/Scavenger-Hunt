@@ -1,5 +1,5 @@
 extend type Query {
-  getResults(hunt_id: ID!, filters: [ResultsFilters!]): Results! # defaults to results from hunt
+  getResults(hunt_id: ID!, filters: [ResultsFilters!]): Hunt! # defaults to results from hunt
 }
 
 enum FilterSource {
@@ -12,19 +12,20 @@ input ResultsFilters {
   value: String!
 }
 
-type Results {
+type Analytics {
+  total_responses: Int! # total number of responses for the provided filter
   avg_response_time: Int! # average time between time sent and next response
   rejection_ratio: Int! # average number of times a response is received until one is marked "correct"
 }
 
 extend type Team {
-  results: Results
+  analytics: Analytics
 }
 
 extend type CluePayload {
-  results: Results
+  analytics: Analytics
 }
 
 extend type Hunt {
-  results: Results
+  analytics: Analytics
 }

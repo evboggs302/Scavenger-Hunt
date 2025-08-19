@@ -27,11 +27,11 @@ import {
   DateValidationError,
   PickerChangeHandlerContext,
 } from "@mui/x-date-pickers/models";
-import { UpdateNameField } from "./UpdateNameField";
-import { UpdateRecallMessageField } from "./UpdateRecallMessageField";
 import { TryAgainAlert } from "@lib/components/Alerts/TryAgainAlert";
 import { FieldWrapper } from "@lib/components/Form/FieldWrapper";
 import { useHuntFragment } from "@lib/hooks/useHuntFragment";
+import { RecallMessageField } from "@lib/components/HuntDialogs/RecallMessageField";
+import { HuntNameField } from "@lib/components/HuntDialogs/HuntNameField";
 
 type UpdateDialogProps = {
   handleClose: () => void;
@@ -42,16 +42,12 @@ type CustomStartDateOnChange = (
   context: PickerChangeHandlerContext<DateValidationError>
 ) => void;
 
-export type UpdateHuntFormState = UpdateHuntFormSchema & {
-  onSubmitError?: string;
-};
-
 export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
   const { hunt } = useHuntFragment();
   const [updateHunt, { loading }] = useUpdateHuntMutation();
   const [resolver] = useUpdateHuntResolver();
 
-  const methods = useForm<UpdateHuntFormState>({
+  const methods = useForm<UpdateHuntFormSchema>({
     mode: "all",
     resolver,
     defaultValues: {
@@ -108,7 +104,7 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
     endDateField.onChange(val?.add(1, "day"));
   };
 
-  const onSubmit: SubmitHandler<UpdateHuntFormState> = async (formData) => {
+  const onSubmit: SubmitHandler<UpdateHuntFormSchema> = async (formData) => {
     clearErrors("onSubmitError");
     await trigger();
 
@@ -148,16 +144,16 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
             <br />
             <i>Required fields are marked.</i>
           </DialogContentText>
-          <UpdateNameField />
+          <HuntNameField mode="update" />
           <FieldWrapper>
             <DatePicker
               disablePast
               name={startDateField.name}
               value={startDateField.value}
               onChange={onChangeStart}
+              inputRef={startDateField.ref}
               slotProps={{
                 textField: {
-                  ref: startDateField.ref,
                   label: "Start date",
                   onBlur: startDateField.onBlur,
                   error: !!startDateState.error,
@@ -165,10 +161,8 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
                     ? startDateState.error.message
                     : null,
                   color: startDateState.error ? "error" : "primary",
-                  slotProps: {
-                    htmlInput: {
-                      "data-testid": "update-hunt-start",
-                    },
+                  inputProps: {
+                    "data-testid": "update-hunt-start",
                   },
                 },
               }}
@@ -185,15 +179,12 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
             <Checkbox
               slotProps={{
                 input: {
-                  ref: checkbox.ref,
                   // @ts-ignore
                   "data-testid": "update-hunt-multiple-days",
                 },
               }}
-              name={checkbox.name}
+              {...checkbox}
               checked={checkbox.value}
-              onBlur={checkbox.onBlur}
-              onChange={checkbox.onChange}
             />
             <InputLabel>This hunt spans multiple days.</InputLabel>
           </Box>
@@ -208,9 +199,9 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
                 shouldDisableDate={(date) =>
                   date.isBefore(startDateField.value)
                 }
+                inputRef={endDateField.ref}
                 slotProps={{
                   textField: {
-                    ref: endDateField.ref,
                     label: "End date",
                     onBlur: endDateField.onBlur,
                     error: !!endDateState.error,
@@ -218,17 +209,15 @@ export const UpdateHuntDialog = ({ handleClose }: UpdateDialogProps) => {
                       ? endDateState.error.message
                       : null,
                     color: endDateState.error ? "error" : "primary",
-                    slotProps: {
-                      htmlInput: {
-                        "data-testid": "update-hunt-end",
-                      },
+                    inputProps: {
+                      "data-testid": "update-hunt-end",
                     },
                   },
                 }}
               />
             </FieldWrapper>
           )}
-          <UpdateRecallMessageField />
+          <RecallMessageField mode="update" />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

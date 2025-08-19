@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/dom";
 import { renderWrapper } from "@test/renderWrapper";
 import { FormTestWrapper } from "@test/FormTestWrapper";
-import { CreateNameField } from "./CreateNameField";
+import { HuntNameField } from "@lib/components/HuntDialogs/HuntNameField";
 
 describe("CreateNameField", () => {
   const { getByRole } = screen;
@@ -9,7 +9,7 @@ describe("CreateNameField", () => {
   it("renders properly", async () => {
     await renderWrapper(
       <FormTestWrapper>
-        <CreateNameField />
+        <HuntNameField mode="create" />
       </FormTestWrapper>
     );
 
