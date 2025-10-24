@@ -89,7 +89,7 @@
     "jsdom": "^26.0.0",
     "msw": "^2.7.3",
     "msw-storybook-addon": "^2.0.4",
-    "playwright": "^1.54.1",
+    "playwright": "^1.55.1",
     "react-docgen": "^7.1.0",
     "rollup-plugin-visualizer": "^5.12.0",
     "storybook": "^8.5.0",
